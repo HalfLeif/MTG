@@ -554,3 +554,24 @@ TEST(PlayTurnSimple) {
     Fail("Expected 2 points, but found " + std::to_string(points));
   }
 }
+
+TEST(PlayTurnNotEnoughMana) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::White));
+
+  // Has one spell in library. Will draw one. Not enough mana to play it.
+  player.library.spells.push_back(MakeSpell("BB", 1, "Foo"));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+
+  double points = PlayTurn(lib, &player);
+  if (!player.battlefield.spells.empty()) {
+    Fail("Expected no spells to be played but found " +
+         player.battlefield.spells.front().name);
+  }
+  // Gets minus one point if cannot play a spell.
+  if (static_cast<int>(points) != -1) {
+    Fail("Expected -1 points, but found " + std::to_string(points));
+  }
+}
