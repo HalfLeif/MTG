@@ -8,11 +8,6 @@
 #include "mana.h"
 #include "test.h"
 
-class Library;
-
-// TODO: Remove this singleton behavior.
-const Library &GetFormat();
-
 enum class Experiment : int {
   always, // always included.
   base,

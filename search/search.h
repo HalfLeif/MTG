@@ -66,14 +66,11 @@ void PrintParamResult(const std::vector<ParamResult> best_result,
 }
 
 // Brute force search
-Param BruteForce(int turns) {
+Param BruteForce(const Library &lib, int turns) {
   constexpr int kGames = 10;
-  // constexpr int kGames = 500;
-  // float best_score = -1.0f;
-  // Param best_param;
   std::vector<ParamResult> best_result;
 
-  const int exp_lands = TotalLands(GetFormat().GetDeckSize());
+  const int exp_lands = TotalLands(lib.GetDeckSize());
 
   // TODO: use library to count experiments.
   for (Experiment experiment : {Experiment::base, Experiment::exp}) {
@@ -84,13 +81,14 @@ Param BruteForce(int turns) {
            secondary + ternary <= std::ceil(exp_lands * 2.0 / 3); ++ternary) {
         srand(51);
         Param param = {
+            .lib = &lib,
             .experiment = experiment,
             .secondary = secondary,
             .ternary = ternary,
-            .deck_size = GetFormat().GetDeckSize(),
+            .deck_size = lib.GetDeckSize(),
         };
         Deck deck = TournamentDeck(param);
-        float score = AverageScore(deck, SimpleStrategy, turns, kGames);
+        float score = AverageScore(lib, deck, SimpleStrategy, turns, kGames);
 
         std::cout << param << "  -> score: " << score << "\n";
 
@@ -98,17 +96,11 @@ Param BruteForce(int turns) {
             .score = score,
             .param = param,
         });
-        // if (best_result.empty() || score > best_result.back().score) {
-        // best_score = score;
-        // best_param = param;
-        // std::cout << "New optimal " << best_param << " score: " << score
-        //           << "\n";
-        // }
-        if (GetFormat().TernaryColor() == Color::Colorless) {
+        if (lib.TernaryColor() == Color::Colorless) {
           break;
         }
       }
-      if (GetFormat().SecondaryColor() == Color::Colorless) {
+      if (lib.SecondaryColor() == Color::Colorless) {
         break;
       }
     }
@@ -120,17 +112,18 @@ Param BruteForce(int turns) {
   return best_result.back().param;
 }
 
-std::vector<Param> GoodParams() {
+std::vector<Param> GoodParams(const Library &lib) {
   std::vector<Param> solutions;
   for (Experiment exp : {Experiment::base, Experiment::exp}) {
     for (int a = 0; a <= 5; ++a) {
       for (int b = 0; b <= 5; ++b) {
         INFO << a << " " << b << "\n";
         solutions.push_back(Param{
+            .lib = &lib,
             .experiment = exp,
             .secondary = a,
             .ternary = b,
-            .deck_size = GetFormat().GetDeckSize(),
+            .deck_size = lib.GetDeckSize(),
         });
       }
     }
@@ -144,47 +137,38 @@ std::vector<Param> GoodParams() {
   return solutions;
 }
 
-Param CompareParams() {
+Param CompareParams(const Library &lib) {
   constexpr int kGames = 100;
   // constexpr int kGames = 450;
   // constexpr int kGames = 1000;
   // constexpr int kGames = 2000;
   constexpr int kStart = 6;
-  // constexpr int kEnd = 8;
-  // constexpr int kStart = 7;
   constexpr int kEnd = 10;
-  auto params = GoodParams();
+  auto params = GoodParams(lib);
   std::vector<ParamResult> best_result;
-  // float best_score = -1.0f;
-  // const Param *optimal = nullptr;
   for (const Param &param : params) {
     srand(42);
     Deck deck = TournamentDeck(param);
     float score = 0.0f;
     for (int turns = kStart; turns <= kEnd; ++turns) {
       INFO << "- Run " << param << "kStart";
-      score += AverageScore(deck, SimpleStrategy, turns, kGames);
+      score += AverageScore(lib, deck, SimpleStrategy, turns, kGames);
       INFO << score << "\n";
     }
     std::cout << param << " score: " << score << "\n";
-    // if (best_result.empty() || score > best_result.back().score) {
     best_result.push_back({
         .score = score,
         .param = param,
     });
-    // if (score > best_score) {
-    //   best_score = score;
-    //   optimal = &param;
-    // }
-    // }
   }
 
-  // Compare against dummy deck.
-  Deck dummy = TestDeck();
+  // Compare against a dummy deck as baseline.
+  Library test_lib = TestLibrary();
+  Deck dummy = TournamentDeck(test_lib, Experiment::base, 6);
   float dummy_score = 0.0f;
   srand(42);
   for (int turns = kStart; turns <= kEnd; ++turns) {
-    dummy_score += AverageScore(dummy, SimpleStrategy, turns, kGames);
+    dummy_score += AverageScore(lib, dummy, SimpleStrategy, turns, kGames);
   }
   std::cout << "Dummy score: " << dummy_score << "\n";
 

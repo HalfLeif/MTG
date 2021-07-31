@@ -49,17 +49,18 @@ void TapLand(const Land &land, ManaCost &mana_pool) {
   }
 }
 
-bool IsColorStarved(const ManaCost &mana_pool) {
-  if (FindWithDefault(mana_pool, GetFormat().PrimaryColor(), 0) < 1) {
+bool IsColorStarved(const Library &lib, const ManaCost &mana_pool) {
+  if (FindWithDefault(mana_pool, lib.PrimaryColor(), 0) < 1) {
     return true;
   }
-  if (FindWithDefault(mana_pool, GetFormat().SecondaryColor(), 0) < 1) {
+  if (FindWithDefault(mana_pool, lib.SecondaryColor(), 0) < 1) {
     return true;
   }
   return false;
 }
 
-void ProduceMana(const Deck &battlefield, ManaCost *mana_pool) {
+void ProduceMana(const Library &lib, const Deck &battlefield,
+                 ManaCost *mana_pool) {
   auto &lands = battlefield.lands;
   int shores = 0;
   for (int i = 0; i < lands.size(); ++i) {
@@ -79,7 +80,7 @@ void ProduceMana(const Deck &battlefield, ManaCost *mana_pool) {
   TapManaCreatures(battlefield, mana_pool);
 
   for (int i = 0; i < shores; ++i) {
-    if (IsColorStarved(*mana_pool)) {
+    if (IsColorStarved(lib, *mana_pool)) {
       // Either 1. Add colorless mana, OR
       ++(*mana_pool)[Color::Colorless];
       ++(*mana_pool)[Color::Total];
@@ -90,8 +91,8 @@ void ProduceMana(const Deck &battlefield, ManaCost *mana_pool) {
   }
 }
 
-void ProduceMana(Player *player, TurnState *state) {
-  return ProduceMana(player->battlefield, &state->mana_pool);
+void ProduceMana(const Library &lib, Player *player, TurnState *state) {
+  return ProduceMana(lib, player->battlefield, &state->mana_pool);
 }
 
 // Idea for color optimization: accumulate grey mana debt! Must be paid before
@@ -340,14 +341,14 @@ double PlayLand(Player *player, TurnState *state) {
 }
 
 // Returns #points.
-double PlayTurn(Player *player) {
+double PlayTurn(const Library &lib, Player *player) {
   TurnState state;
 
   // Upkeep
   DrawOne(player);
   INFO << "Hand " << player->hand << "\n";
   AggregateCosts(player->hand, &state.agg_spell_cost);
-  ProduceMana(player, &state);
+  ProduceMana(lib, player, &state);
 
   // Main phase
   double bonus = PlayLand(player, &state);
@@ -378,9 +379,9 @@ bool SimpleStrategy(const Deck &hand, int n) {
   return false;
 }
 
-void BottomOne(Player *player) {
+void BottomOne(const Library &lib, Player *player) {
   ManaCost hand_pool;
-  ProduceMana(player->hand, &hand_pool);
+  ProduceMana(lib, player->hand, &hand_pool);
   ManaCost hand_cost;
   AggregateCosts(player->hand, &hand_cost);
 
@@ -420,12 +421,12 @@ void BottomOne(Player *player) {
 }
 
 // First Mulligan, n==1. Second mulligan, n==2.
-void DrawMulligan(Player *player, const int n) {
+void DrawMulligan(const Library &lib, Player *player, const int n) {
   // DrawN(player, 7 - n);
   // TODO: actually draw 7 and return 1 spell of choice...
   DrawN(player, 7);
   for (int i = 0; i < n; ++i) {
-    BottomOne(player);
+    BottomOne(lib, player);
     if (player->hand.Size() + i + 1 != 7) {
       ERROR << "After mulligan " << n << ", incorrect hand size "
             << player->hand.Size() << " !\n";
@@ -433,7 +434,8 @@ void DrawMulligan(Player *player, const int n) {
   }
 }
 
-Player StartingHand(const Deck &deck, const MulliganStrategy &strategy) {
+Player StartingHand(const Library &lib, const Deck &deck,
+                    const MulliganStrategy &strategy) {
   Player player;
   player.library = deck;
   DrawN(&player, 7);
@@ -442,7 +444,7 @@ Player StartingHand(const Deck &deck, const MulliganStrategy &strategy) {
     INFO << "Mulligan!\n";
     player = Player();
     player.library = deck;
-    DrawMulligan(&player, i);
+    DrawMulligan(lib, &player, i);
   }
 
   return player;
@@ -456,30 +458,29 @@ int BoardPoints(const Player &player) {
   return sum;
 }
 
-double PlayGame(const Deck &deck, const MulliganStrategy &strategy, int turns) {
+double PlayGame(const Library &lib, const Deck &deck,
+                const MulliganStrategy &strategy, int turns) {
   INFO << "-- Game start ------------- \n";
   float score = 0.0f;
 
-  Player player = StartingHand(deck, strategy);
+  Player player = StartingHand(lib, deck, strategy);
 
   for (int turn = 0; turn < turns; ++turn) {
     INFO << "-- Begin turn " << (turn + 1) << " ------------- \n";
-    // score += BoardPoints(player);
-    score += PlayTurn(&player);
-    // score += (PlayTurn(&player) / (turn + 1));
+    score += PlayTurn(lib, &player);
     // std::cout << "Score at turn " << (turn + 1) << ": " << score << "\n";
   }
   return score;
 }
 
-float AverageScore(const Deck &deck, const MulliganStrategy &strategy,
-                   int turns, int games) {
+float AverageScore(const Library &lib, const Deck &deck,
+                   const MulliganStrategy &strategy, int turns, int games) {
   // constexpr int kNumGames = 100;
   // constexpr int kNumGames = 2000;
   // constexpr int kNumGames = 5000;
   float score = 0.0f;
   for (int i = 0; i < games; ++i) {
-    score += PlayGame(deck, strategy, turns);
+    score += PlayGame(lib, deck, strategy, turns);
   }
   return score / games;
 }

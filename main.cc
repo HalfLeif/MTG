@@ -15,7 +15,7 @@
 #include "decks/thb.h"
 #include "search/task.h"
 
-const Library &GetFormat() {
+const Library &GetMainLib() {
   // return kELD;
   // return kM20;
   return kTHB;
@@ -25,15 +25,13 @@ const Library &GetFormat() {
 const bool DEBUG_ON = false;
 
 int main(int argc, char *argv[]) {
-  // TEST(blah);
+  INFO << "Running tests...\n";
   TestRegistration::Singleton().RunTests();
   INFO << "Started program...\n";
   srand(4);
-  // StepTwo();
-  // StepThree();
-  // StepFour();
-  // RunBruteForceSearch();
-  CompareParams(); // <-- THIS
-  // CompareStrategies();
+
+  const Library lib = GetMainLib();
+  // RunBruteForceSearch(lib);
+  CompareParams(lib);
   return 0;
 }

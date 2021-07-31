@@ -4,6 +4,7 @@
 #include "library.h"
 
 struct Param {
+  const Library *lib;
   Experiment experiment = Experiment::base;
   int secondary = 0;
   int ternary = 0;
@@ -16,29 +17,29 @@ std::ostream &operator<<(std::ostream &stream, const Param &param) {
   // non-basic lands!
   const int primary_lands =
       TotalLands(param.deck_size) - param.secondary - param.ternary;
-  stream << "  " << GetFormat().PrimaryColor() << "=" << primary_lands << "^";
+  stream << "  " << param.lib->PrimaryColor() << "=" << primary_lands << "^";
   if (param.secondary > 0) {
-    stream << "  " << GetFormat().SecondaryColor() << "=" << param.secondary;
+    stream << "  " << param.lib->SecondaryColor() << "=" << param.secondary;
   }
   if (param.ternary > 0) {
-    stream << "  " << GetFormat().TernaryColor() << "=" << param.ternary;
+    stream << "  " << param.lib->TernaryColor() << "=" << param.ternary;
   }
   return stream;
 }
 
 void FillLands(const Param &param, Deck *deck) {
-  AddN(deck->lands, param.secondary, BasicLand(GetFormat().SecondaryColor()));
-  AddN(deck->lands, param.ternary, BasicLand(GetFormat().TernaryColor()));
+  AddN(deck->lands, param.secondary, BasicLand(param.lib->SecondaryColor()));
+  AddN(deck->lands, param.ternary, BasicLand(param.lib->TernaryColor()));
 
   int total = deck->lands.size() + deck->spells.size();
   int expected = TotalCards(param.deck_size);
   if (total < expected) {
-    AddN(deck->lands, expected - total, BasicLand(GetFormat().PrimaryColor()));
+    AddN(deck->lands, expected - total, BasicLand(param.lib->PrimaryColor()));
   }
 }
 
 Deck TournamentDeck(const Param &param) {
-  Deck deck = GetFormat().MakeDeck(param.experiment);
+  Deck deck = param.lib->MakeDeck(param.experiment);
   if (deck.spells.size() != TotalSpells(param.deck_size)) {
     ERROR << "Deck spells: " << deck.spells.size() << " for " << param << "\n";
   }
@@ -50,21 +51,22 @@ Deck TournamentDeck(const Param &param) {
   return deck;
 }
 
-Deck TournamentDeck(Experiment experiment, int secondary, int ternary = 0) {
-  return TournamentDeck(
-      {.experiment = experiment, .secondary = secondary, .ternary = ternary});
+Deck TournamentDeck(const Library &lib, Experiment experiment, int secondary,
+                    int ternary = 0) {
+  return TournamentDeck({.lib = &lib,
+                         .experiment = experiment,
+                         .secondary = secondary,
+                         .ternary = ternary});
 }
 
-Deck TestDeck() {
-  Deck deck;
-  AddN(deck.spells, 10, MakeSpell("1B"));
-  AddN(deck.spells, 10, MakeSpell("1W"));
-  deck.spells.push_back(MakeSpell("WB"));
-  deck.spells.push_back(MakeSpell("1BB"));
-  deck.spells.push_back(MakeSpell("3BB"));
-
-  AddN(deck.lands, 8, BasicLand(Color::White));
-  AddN(deck.lands, 8, BasicLand(Color::Black));
-  AddN(deck.lands, 1, FetchLand());
-  return deck;
+Library TestLibrary() {
+  auto builder = Library::Builder();
+  for (int i = 0; i < 10; ++i) {
+    builder.AddSpell(MakeSpell("1B"));
+    builder.AddSpell(MakeSpell("1W"));
+  }
+  builder.AddSpell(MakeSpell("WB"));
+  builder.AddSpell(MakeSpell("1BB"));
+  builder.AddSpell(MakeSpell("3BB"));
+  return builder.Build();
 }
