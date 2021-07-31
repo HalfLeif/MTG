@@ -1,6 +1,7 @@
 #pragma once
 
 #include "deck.h"
+#include "mana.h"
 
 int DrawFromPlayedSpell(const Spell &spell, const Player &player) {
   if (spell.name == "Thief") {
@@ -21,29 +22,24 @@ int DrawFromPlayedSpell(const Spell &spell, const Player &player) {
   return 0;
 }
 
-int PointsFromPlayedSpell(const Spell &spell, const Player &player) {
+double PointsFromPlayedSpell(const Spell &spell, const Player &player) {
+  double points = TotalCost(spell.cost);
   if (spell.name == "Caryatid") {
-    return -1;
+    points += -1;
+  } else if (spell.name == "BronzehideLion") {
+    points += 1;
+  } else if (spell.name == "Fenlurker") {
+    points += 1;
+  } else if (spell.name == "WishingWell") {
+    points += 1; // scry 2
+  } else if (spell.name == "Trebuchet") {
+    points += 1;
+  } else if (spell.name == "FireWheeler") {
+    points += 1;
+  } else if (spell.name == "NicolBolas") {
+    points += 1;
   }
-  if (spell.name == "BronzehideLion") {
-    return 1;
-  }
-  if (spell.name == "Fenlurker") {
-    return 1;
-  }
-  if (spell.name == "WishingWell") {
-    return 1; // scry 2
-  }
-  if (spell.name == "Trebuchet") {
-    return 1;
-  }
-  if (spell.name == "FireWheeler") {
-    return 2;
-  }
-  if (spell.name == "NicolBolas") {
-    return 2;
-  }
-  return 0;
+  return points;
 }
 
 double PointsFromPlayedLand(const Land &land, const Player &player) {

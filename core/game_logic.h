@@ -124,72 +124,58 @@ void PayCost(const ManaCost &spell_cost, ManaCost *mana_pool) {
 }
 
 // Returns number of points from playing this spell.
-int PlaySpell(int i, Player *player, TurnState *state) {
+double PlaySpell(int i, Player *player, TurnState *state) {
   PayCost(player->hand.spells[i].cost, &state->mana_pool);
-  Spell *spell = MoveSpell(i, player->hand, player->battlefield);
-  if (spell) {
+  const Spell *spell = MoveSpell(i, player->hand, player->battlefield);
+  if (spell != nullptr) {
     INFO << "Played " << *spell << "\n";
     DrawN(player, DrawFromPlayedSpell(*spell, *player));
     return PointsFromPlayedSpell(*spell, *player);
-  } else {
-    INFO << "Could not play any spell!\n";
   }
+  ERROR << "Attempted to play a spell that doesn't exist!\n";
   return 0;
 }
 
-// Returns points from playing this spell.
-int PlayBestSpell(Player *player, TurnState *state) {
-  // TODO refine this algorithm more. For now, merely attempts to play the
-  // most expensive spell available.
-  // Instead should optimize by points of playing spell, rather than looking at
-  // mana cost.
-  // Should also use spell ability as tie breaker...
+// Returns index to spell in hand of best spell to play.
+int FindBestSpell(const Player &player, const TurnState &state) {
+  const std::vector<Spell> &spells = player.hand.spells;
 
-  int pool_size = TotalCost(state->mana_pool);
-  auto &spells = player->hand.spells;
-
-  int best_affordable_priority = -1;
   int best_affordable_spell = -1;
-  int best_affordable_cost = 0;
+  int best_affordable_priority = -1;
+  double highest_points = 0;
+
   for (int i = 0; i < spells.size(); ++i) {
-    if (best_affordable_cost == pool_size) {
-      // Has already found optimal play.
-      break;
-    }
-    int spell_cost = TotalCost(spells[i].cost);
-    if (spell_cost > pool_size) {
+    if (!IsAffordable(spells[i].cost, state.mana_pool)) {
       continue;
     }
-    if (!IsAffordable(spells[i].cost, state->mana_pool)) {
-      continue;
-    }
-    if (spells[i].priority == 0 && player->battlefield.spells.size() < 1) {
+    if (spells[i].priority == 0 && player.battlefield.spells.empty()) {
       // Cannot play secondary spells if there are no creatures!
       continue;
     }
     if (spells[i].priority < best_affordable_priority) {
       continue;
     }
-    if (spell_cost > best_affordable_cost) {
+    const double spell_points = PointsFromPlayedSpell(spells[i], player);
+    if (spell_points > highest_points) {
       best_affordable_spell = i;
-      best_affordable_cost = spell_cost;
+      highest_points = spell_points;
       best_affordable_priority = spells[i].priority;
     }
   }
-  int points = best_affordable_cost;
-  if (best_affordable_spell >= 0) {
-    points += PlaySpell(best_affordable_spell, player, state);
-  }
-  return points;
+  return best_affordable_spell;
 }
 
-int PlaySpells(Player *player, TurnState *state) {
-  int sum = 0;
-  for (int addition = -1; addition != 0;) {
-    addition = PlayBestSpell(player, state);
-    sum += addition;
+double PlaySpells(Player *player, TurnState *state) {
+  double points = 0;
+  while (true) {
+    const int spell_i = FindBestSpell(*player, *state);
+    if (spell_i < 0) {
+      break;
+    } else {
+      points += PlaySpell(spell_i, player, state);
+    }
   }
-  return sum;
+  return points;
 }
 
 const Spell *FindBestAbility(const Player &player, const TurnState &state) {
