@@ -26,11 +26,6 @@ void StepThree() {
   std::cout << "Game score: " << score << "\n";
 }
 
-void RunBruteForceSearch(const Library &lib) {
-  // Search for the optimal land distribution!
-  BruteForce(lib, 10);
-}
-
 void CompareStrategies() {
   Library lib = TestLibrary();
   Deck deck = TournamentDeck(lib, Experiment::base, 6);

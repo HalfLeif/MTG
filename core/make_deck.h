@@ -17,7 +17,7 @@ std::ostream &operator<<(std::ostream &stream, const Param &param) {
   // non-basic lands!
   const int primary_lands =
       TotalLands(param.deck_size) - param.secondary - param.ternary;
-  stream << "  " << param.lib->PrimaryColor() << "=" << primary_lands << "^";
+  stream << "  " << param.lib->PrimaryColor() << "=" << primary_lands;
   if (param.secondary > 0) {
     stream << "  " << param.lib->SecondaryColor() << "=" << param.secondary;
   }

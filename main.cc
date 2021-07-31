@@ -10,6 +10,7 @@
 #include "core/library.h"
 #include "core/test.h"
 #include "decks/bolas.h"
+#include "decks/dnd.h"
 #include "decks/eld.h"
 #include "decks/m20.h"
 #include "decks/thb.h"
@@ -18,8 +19,9 @@
 const Library &GetMainLib() {
   // return kELD;
   // return kM20;
-  return kTHB;
+  // return kTHB;
   // return kBolas;
+  return kDND;
 }
 
 const bool DEBUG_ON = false;
@@ -31,7 +33,7 @@ int main(int argc, char *argv[]) {
   srand(4);
 
   const Library &lib = GetMainLib();
-  // RunBruteForceSearch(lib);
   CompareParams(lib);
+
   return 0;
 }

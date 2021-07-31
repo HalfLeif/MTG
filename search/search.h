@@ -122,74 +122,49 @@ double RunParam(const Library &lib, const Param &param, int games) {
   return score;
 }
 
-// Brute force search
-Param BruteForce(const Library &lib, int turns) {
-  constexpr int kGames = 20;
-  std::vector<ParamResult> best_result;
-
-  const int exp_lands = TotalLands(lib.GetDeckSize());
-
-  // TODO: use library to count experiments.
-  for (Experiment experiment : {Experiment::base, Experiment::exp}) {
-    std::cout << "\n";
-    for (int secondary = 0; secondary <= std::ceil(exp_lands / 2.0);
-         ++secondary) {
-      for (int ternary = 0;
-           secondary + ternary <= std::ceil(exp_lands * 2.0 / 3); ++ternary) {
-        srand(51);
-        Param param = {
-            .lib = &lib,
-            .experiment = experiment,
-            .secondary = secondary,
-            .ternary = ternary,
-            .deck_size = lib.GetDeckSize(),
-        };
-        float score = RunParam(lib, param, kGames);
-
-        std::cout << param << "  -> score: " << score << "\n";
-
-        best_result.push_back({
-            .score = score,
-            .param = param,
-        });
-        if (lib.TernaryColor() == Color::Colorless) {
-          break;
-        }
-      }
-      if (lib.SecondaryColor() == Color::Colorless) {
-        break;
-      }
-    }
-  }
-  std::sort(best_result.begin(), best_result.end());
-  PrintParamResult(best_result);
-  // std::cout << "Best score: " << best_score << "\n";
-  // std::cout << "Optimal " << best_param << "\n";
-  return best_result.back().param;
-}
-
+// Attempts to populate good parameters based on the Library format.
 std::vector<Param> GoodParams(const Library &lib) {
+  const int total_lands = TotalLands(lib.GetDeckSize());
+
   std::vector<Param> solutions;
-  for (Experiment exp : {Experiment::base, Experiment::exp}) {
-    for (int a = 0; a <= 5; ++a) {
-      for (int b = 0; b <= 5; ++b) {
-        INFO << a << " " << b << "\n";
+  for (Experiment exp : lib.ActiveExperiments()) {
+    int wanted_lands = total_lands - lib.NumLandsPresent(exp);
+
+    int max_ternary_lands = 1 + wanted_lands / 3;
+    if (lib.TernaryColor() == Color::Colorless) {
+      max_ternary_lands = 0;
+    }
+    wanted_lands -= max_ternary_lands;
+    int max_secondary_lands = 1 + wanted_lands / 2;
+    if (lib.SecondaryColor() == Color::Colorless) {
+      max_secondary_lands = 0;
+    }
+
+    for (int secondary = 0; secondary <= max_secondary_lands; ++secondary) {
+      for (int ternary = 0; ternary <= max_ternary_lands; ++ternary) {
+        INFO << secondary << " " << ternary << "\n";
         solutions.push_back(Param{
             .lib = &lib,
             .experiment = exp,
-            .secondary = a,
-            .ternary = b,
+            .secondary = secondary,
+            .ternary = ternary,
             .deck_size = lib.GetDeckSize(),
         });
       }
     }
-    // solutions.push_back(MakeParam(exp, 5));
-    // solutions.push_back(MakeParam(exp, 6));
-    // solutions.push_back(MakeParam(exp, 7));
-    // solutions.push_back(MakeParam(exp, 8));
-    // solutions.push_back(MakeParam(exp, 9));
   }
 
+  return solutions;
+}
+
+std::vector<Param> ManualParams(const Library &lib) {
+  // Can be tweaked for a detailed run of best params.
+  std::vector<Param> solutions;
+  for (Experiment exp : lib.ActiveExperiments()) {
+    solutions.push_back({.lib = &lib, .experiment = exp, .secondary = 7});
+    solutions.push_back({.lib = &lib, .experiment = exp, .secondary = 8});
+    solutions.push_back({.lib = &lib, .experiment = exp, .secondary = 9});
+  }
   return solutions;
 }
 
@@ -199,7 +174,7 @@ Param CompareParams(const Library &lib) {
   // constexpr int kGames = 1000;
   // constexpr int kGames = 2000;
 
-  auto params = GoodParams(lib);
+  std::vector<Param> params = GoodParams(lib);
   std::vector<ParamResult> best_result;
   for (const Param &param : params) {
     double score = RunParam(lib, param, kGames);

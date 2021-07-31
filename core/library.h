@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <set>
 #include <vector>
 
 #include "collection.h"
@@ -73,6 +74,35 @@ public:
   }
 
   DeckSize GetDeckSize() const { return expected_size_; };
+
+  int NumLandsPresent(Experiment exp_id) const {
+    int count = 0;
+    for (const auto &[land, experiment] : lands_) {
+      if (experiment == exp_id || experiment == Experiment::always) {
+        ++count;
+      }
+    }
+    return count;
+  }
+
+  std::set<Experiment> ActiveExperiments() const {
+    std::set<Experiment> active;
+    for (const auto &[_, experiment] : lands_) {
+      if (experiment != Experiment::always) {
+        active.insert(experiment);
+      }
+    }
+    for (const auto &[_, experiment] : spells_) {
+      if (experiment != Experiment::always) {
+        active.insert(experiment);
+      }
+    }
+    if (active.empty()) {
+      // If no active experiments, should return a single value to iterate on.
+      active.insert(Experiment::always);
+    }
+    return active;
+  }
 
   // Returns the maximum number of alterantives this Library supports.
   // Note: this is actually broken now...
