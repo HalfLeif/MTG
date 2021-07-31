@@ -84,6 +84,7 @@ struct Land {
       // Always true if is same type.
       return true;
     }
+    return true;
   }
 };
 
@@ -137,6 +138,8 @@ int TotalCards(DeckSize deck_size) {
   case DeckSize::constructed:
     return 60;
   }
+  ERROR << "Unknown DeckSize: " << static_cast<int>(deck_size);
+  return -1;
 }
 
 int TotalLands(DeckSize deck_size) {
@@ -146,6 +149,8 @@ int TotalLands(DeckSize deck_size) {
   case DeckSize::constructed:
     return 24;
   }
+  ERROR << "Unknown DeckSize: " << static_cast<int>(deck_size);
+  return -1;
 }
 
 int TotalSpells(DeckSize deck_size) {
@@ -259,6 +264,8 @@ std::string ToString(Color color) {
   case Color::Colorless:
     return "C";
   }
+  ERROR << "Unknown color: " << static_cast<int>(color);
+  return "?";
 }
 
 std::ostream &operator<<(std::ostream &stream, Color color) {
@@ -295,6 +302,8 @@ std::string ToString(const Land &land) {
   case LandType::shore:
     return "Shore";
   }
+  ERROR << "Unknown LandType: " << static_cast<int>(land.type);
+  return "LAND?";
 }
 
 std::ostream &operator<<(std::ostream &stream, const Land &land) {

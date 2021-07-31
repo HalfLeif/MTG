@@ -10,7 +10,7 @@ mkdir -p "${BIN}"
 
 echo " "
 echo -e "${GREEN}Re-compiling...${NC}"
-clang++ -std=c++17 -Werror  main.cc -o "${BIN}/mtg.out"
+g++ -std=c++17 -Werror  main.cc -o "${BIN}/mtg.out"
 
 echo -e "${GREEN}Running!${NC}"
 "${BIN}/mtg.out"

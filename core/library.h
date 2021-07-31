@@ -104,7 +104,8 @@ private:
     for (const auto &[color, amount] : mana) {
       colors.emplace_back(amount, color);
     }
-    std::sort(colors.begin(), colors.end(), std::greater());
+    std::sort(colors.begin(), colors.end(),
+              std::greater<std::pair<int, Color>>());
     return MapFn<std::pair<int, Color>, Color>(
         colors, [](const auto &pair) { return pair.second; });
   }
