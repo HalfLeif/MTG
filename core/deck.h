@@ -2,21 +2,16 @@
 
 #include "land.h"
 #include "mana.h"
+#include "spell.h"
 
-struct Card {
-  ManaCost cost;
-  int priority = 0;
-  std::string name = "";
-};
-
-Predicate<Card> IsCardName(const char *name) {
-  return [name](const Card &card) { return card.name == name; };
+Predicate<Spell> IsSpellName(const char *name) {
+  return [name](const Spell &spell) { return spell.name == name; };
 }
 
 struct Deck {
-  std::vector<Card> cards;
+  std::vector<Spell> spells;
   std::vector<Land> lands;
-  size_t Size() { return cards.size() + lands.size(); }
+  size_t Size() { return spells.size() + lands.size(); }
 };
 
 struct Player {
@@ -26,12 +21,12 @@ struct Player {
   Deck graveyard;
 };
 
-Land *MoveLand(int card, Deck &from, Deck &to) {
-  return MoveItem<Land>(card, from.lands, to.lands);
+Land *MoveLand(int i, Deck &from, Deck &to) {
+  return MoveItem<Land>(i, from.lands, to.lands);
 }
 
-Card *MoveCard(int card, Deck &from, Deck &to) {
-  return MoveItem<Card>(card, from.cards, to.cards);
+Spell *MoveSpell(int i, Deck &from, Deck &to) {
+  return MoveItem<Spell>(i, from.spells, to.spells);
 }
 
 enum class DeckSize : int {
@@ -65,49 +60,12 @@ int TotalSpells(DeckSize deck_size) {
   return TotalCards(deck_size) - TotalLands(deck_size);
 }
 
-bool IsCorpseKnight(const Card &card) { return card.name == "CorpseKnight"; }
-
-Card MakeCard(std::string mana, int priority = 1, std::string name = "") {
-  Card card;
-  card.priority = priority;
-  card.name = name;
-  for (char c : mana) {
-    if (c >= '0' && c <= '9') {
-      char amount = c - '0';
-      card.cost[Color::Total] += amount;
-    } else if (c == 'W') {
-      ++card.cost[Color::White];
-      ++card.cost[Color::Total];
-    } else if (c == 'B') {
-      ++card.cost[Color::Black];
-      ++card.cost[Color::Total];
-    } else if (c == 'R') {
-      ++card.cost[Color::Red];
-      ++card.cost[Color::Total];
-    } else if (c == 'U') {
-      ++card.cost[Color::Blue];
-      ++card.cost[Color::Total];
-    } else if (c == 'G') {
-      ++card.cost[Color::Green];
-      ++card.cost[Color::Total];
-    } else {
-      ERROR << "Unrecognized char when parsing mana: " << c << " (" << int(c)
-            << ")\n";
-    }
-  }
-  return card;
-}
-
-std::ostream &operator<<(std::ostream &stream, const Card &card) {
-  return stream << "Card " << card.cost << " " << card.name;
-}
-
 std::ostream &operator<<(std::ostream &stream, const Deck &deck) {
   stream << "Deck\n";
-  stream << "Cards: " << deck.cards.size() << "\n";
+  stream << "Spells: " << deck.spells.size() << "\n";
   stream << "Lands: " << deck.lands.size() << "\n";
-  for (const Card &card : deck.cards) {
-    stream << "  " << card << "\n";
+  for (const Spell &spell : deck.spells) {
+    stream << "  " << spell << "\n";
   }
   for (const Land &land : deck.lands) {
     stream << "  " << land << "\n";

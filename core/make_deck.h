@@ -30,7 +30,7 @@ void FillLands(const Param &param, Deck *deck) {
   AddN(deck->lands, param.secondary, BasicLand(GetFormat().SecondaryColor()));
   AddN(deck->lands, param.ternary, BasicLand(GetFormat().TernaryColor()));
 
-  int total = deck->lands.size() + deck->cards.size();
+  int total = deck->lands.size() + deck->spells.size();
   int expected = TotalCards(param.deck_size);
   if (total < expected) {
     AddN(deck->lands, expected - total, BasicLand(GetFormat().PrimaryColor()));
@@ -38,9 +38,9 @@ void FillLands(const Param &param, Deck *deck) {
 }
 
 Deck TournamentDeck(const Param &param) {
-  Deck deck = GetFormat().TournamentCards(param.experiment);
-  if (deck.cards.size() != TotalSpells(param.deck_size)) {
-    ERROR << "Deck cards: " << deck.cards.size() << " for " << param << "\n";
+  Deck deck = GetFormat().MakeDeck(param.experiment);
+  if (deck.spells.size() != TotalSpells(param.deck_size)) {
+    ERROR << "Deck spells: " << deck.spells.size() << " for " << param << "\n";
   }
 
   FillLands(param, &deck);
@@ -57,11 +57,11 @@ Deck TournamentDeck(Experiment experiment, int secondary, int ternary = 0) {
 
 Deck TestDeck() {
   Deck deck;
-  AddN(deck.cards, 10, MakeCard("1B"));
-  AddN(deck.cards, 10, MakeCard("1W"));
-  deck.cards.push_back(MakeCard("WB"));
-  deck.cards.push_back(MakeCard("1BB"));
-  deck.cards.push_back(MakeCard("3BB"));
+  AddN(deck.spells, 10, MakeSpell("1B"));
+  AddN(deck.spells, 10, MakeSpell("1W"));
+  deck.spells.push_back(MakeSpell("WB"));
+  deck.spells.push_back(MakeSpell("1BB"));
+  deck.spells.push_back(MakeSpell("3BB"));
 
   AddN(deck.lands, 8, BasicLand(Color::White));
   AddN(deck.lands, 8, BasicLand(Color::Black));

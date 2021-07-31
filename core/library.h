@@ -35,16 +35,12 @@ std::ostream &operator<<(std::ostream &stream, const Experiment &experiment) {
 
 class Library {
 public:
-  Deck TournamentCards(Experiment experiment_id) const {
-    return MakeDeck(experiment_id);
-  }
-
   Deck MakeDeck(Experiment wanted_experiment_id) const {
     Deck deck;
-    for (const auto &[card, experiment_id] : cards_) {
+    for (const auto &[spell, experiment_id] : spells_) {
       if (experiment_id == Experiment::always ||
           experiment_id == wanted_experiment_id) {
-        deck.cards.push_back(card);
+        deck.spells.push_back(spell);
       }
     }
     for (const auto &[land, experiment_id] : lands_) {
@@ -97,8 +93,8 @@ public:
       expected_size_ = DeckSize::constructed;
       return *this;
     }
-    Builder &AddCard(Card c, Experiment experiment_id = Experiment::always) {
-      cards_.emplace_back(c, experiment_id);
+    Builder &AddSpell(Spell c, Experiment experiment_id = Experiment::always) {
+      spells_.emplace_back(c, experiment_id);
       return *this;
     }
     Builder &AddLand(Land c, Experiment experiment_id = Experiment::always) {
@@ -106,18 +102,18 @@ public:
       return *this;
     }
     Library Build() {
-      return Library(std::move(cards_), std::move(lands_), expected_size_);
+      return Library(std::move(spells_), std::move(lands_), expected_size_);
     }
 
   private:
     DeckSize expected_size_ = DeckSize::limited;
-    std::vector<std::pair<Card, Experiment>> cards_;
+    std::vector<std::pair<Spell, Experiment>> spells_;
     std::vector<std::pair<Land, Experiment>> lands_;
   };
 
 private:
-  static void SumColorMana(const Card &card, ManaCost &mana) {
-    for (const auto &[color, amount] : card.cost) {
+  static void SumColorMana(const Spell &spell, ManaCost &mana) {
+    for (const auto &[color, amount] : spell.cost) {
       if (color != Color::Colorless && color != Color::Total) {
         mana[color] += amount;
       }
@@ -135,16 +131,16 @@ private:
         colors, [](const auto &pair) { return pair.second; });
   }
 
-  Library(std::vector<std::pair<Card, Experiment>> cards,
+  Library(std::vector<std::pair<Spell, Experiment>> spells,
           std::vector<std::pair<Land, Experiment>> lands,
           DeckSize expected_size)
-      : cards_(cards), lands_(lands), expected_size_(expected_size) {
+      : spells_(spells), lands_(lands), expected_size_(expected_size) {
     ManaCost mana;
-    for (const auto &[card, experiment_id] : cards_) {
+    for (const auto &[spell, experiment_id] : spells_) {
       if (experiment_id != Experiment::always) {
         active_experiments_.insert(experiment_id);
       }
-      SumColorMana(card, mana);
+      SumColorMana(spell, mana);
     }
     colors_ = SortColorsByMana(mana);
 
@@ -157,7 +153,7 @@ private:
 
   DeckSize expected_size_;
   std::set<Experiment> active_experiments_;
-  std::vector<std::pair<Card, Experiment>> cards_;
+  std::vector<std::pair<Spell, Experiment>> spells_;
   std::vector<std::pair<Land, Experiment>> lands_;
   std::vector<Color> colors_;
 };
@@ -166,8 +162,8 @@ private:
 
 TEST(LibraryHasSingleColorTest) {
   Library lib = Library::Builder()
-                    .AddCard(MakeCard("RRR", 1, "Clockwork"))
-                    .AddCard(MakeCard("4R", 1, "SearingBarrage"))
+                    .AddSpell(MakeSpell("RRR", 1, "Clockwork"))
+                    .AddSpell(MakeSpell("4R", 1, "SearingBarrage"))
                     .Build();
   const std::vector<Color> &colors = lib.Colors();
   if (colors.size() != 1) {
@@ -182,11 +178,11 @@ TEST(LibraryHasSingleColorTest) {
 
 TEST(LibraryHasThreeColorsTest) {
   Library lib = Library::Builder()
-                    .AddCard(MakeCard("U", 1, "Well"))
-                    .AddCard(MakeCard("RRR", 1, "Clockwork"))
-                    .AddCard(MakeCard("4R", 1, "SearingBarrage"))
-                    .AddCard(MakeCard("4U", 1, "UnexplainedVision"))
-                    .AddCard(MakeCard("9W", 1, "Angel"))
+                    .AddSpell(MakeSpell("U", 1, "Well"))
+                    .AddSpell(MakeSpell("RRR", 1, "Clockwork"))
+                    .AddSpell(MakeSpell("4R", 1, "SearingBarrage"))
+                    .AddSpell(MakeSpell("4U", 1, "UnexplainedVision"))
+                    .AddSpell(MakeSpell("9W", 1, "Angel"))
                     .Build();
   const std::vector<Color> &colors = lib.Colors();
   if (colors.size() != 3) {

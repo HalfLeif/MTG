@@ -5,7 +5,7 @@
 #include "search.h"
 
 void StepOne() {
-  Card card = MakeCard("3WBWB");
+  Spell card = MakeSpell("3WBWB");
   INFO << card;
 }
 

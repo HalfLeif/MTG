@@ -6,27 +6,27 @@
 
 struct TurnState {
   ManaCost mana_pool;
-  ManaCost agg_card_cost;
+  ManaCost agg_spell_cost;
 };
 
 void DrawOne(Player *player) {
   auto &lib = player->library;
-  int total_cards = lib.cards.size() + lib.lands.size();
-  if (total_cards <= 0) {
-    ERROR << "Cannot draw card because the library is empty!\n";
+  int total_spells = lib.spells.size() + lib.lands.size();
+  if (total_spells <= 0) {
+    ERROR << "Cannot draw spell because the library is empty!\n";
     return;
   }
-  int picked = rand() % total_cards;
+  int picked = rand() % total_spells;
   // INFO << "Rand pick " << picked << "\n";
-  if (picked >= lib.cards.size()) {
+  if (picked >= lib.spells.size()) {
     // Picked a land
-    picked -= lib.cards.size();
+    picked -= lib.spells.size();
     Land *land = MoveLand(picked, player->library, player->hand);
     INFO << "Drew " << *land << "\n";
   } else {
     // Picked a non-land
-    Card *card = MoveCard(picked, player->library, player->hand);
-    INFO << "Drew " << *card << "\n";
+    Spell *spell = MoveSpell(picked, player->library, player->hand);
+    INFO << "Drew " << *spell << "\n";
   }
 }
 
@@ -96,9 +96,9 @@ void ProduceMana(Player *player, TurnState *state) {
 
 // Idea for color optimization: accumulate grey mana debt! Must be paid before
 // end of turn.
-bool IsAffordable(const Card &card, const ManaCost &mana_pool) {
+bool IsAffordable(const Spell &spell, const ManaCost &mana_pool) {
   // Loop checks for both Colors, as well as Total mana cost.
-  for (const auto &pair : card.cost) {
+  for (const auto &pair : spell.cost) {
     Color color = pair.first;
     int cost_amount = pair.second;
     if (FindWithDefault(mana_pool, color, 0) < cost_amount) {
@@ -108,8 +108,8 @@ bool IsAffordable(const Card &card, const ManaCost &mana_pool) {
   return true;
 }
 
-void PayCost(const Card &card, ManaCost *mana_pool) {
-  for (const auto &pair : card.cost) {
+void PayCost(const Spell &spell, ManaCost *mana_pool) {
+  for (const auto &pair : spell.cost) {
     Color color = pair.first;
     int cost_amount = pair.second;
     int &pool_amount = (*mana_pool)[color];
@@ -121,84 +121,84 @@ void PayCost(const Card &card, ManaCost *mana_pool) {
   }
 }
 
-// Returns number of points from playing this card.
-int PlayCard(int i, Player *player, TurnState *state) {
-  PayCost(player->hand.cards[i], &state->mana_pool);
-  Card *card = MoveCard(i, player->hand, player->battlefield);
-  if (card) {
-    INFO << "Played " << *card << "\n";
-    DrawN(player, DrawFromPlayedCard(*card, *player));
-    return PointsFromPlayedCard(*card, *player);
+// Returns number of points from playing this spell.
+int PlaySpell(int i, Player *player, TurnState *state) {
+  PayCost(player->hand.spells[i], &state->mana_pool);
+  Spell *spell = MoveSpell(i, player->hand, player->battlefield);
+  if (spell) {
+    INFO << "Played " << *spell << "\n";
+    DrawN(player, DrawFromPlayedSpell(*spell, *player));
+    return PointsFromPlayedSpell(*spell, *player);
   } else {
-    INFO << "Could not play any card!\n";
+    INFO << "Could not play any spell!\n";
   }
   return 0;
 }
 
-// Returns points from playing this card.
-int PlayBestCard(Player *player, TurnState *state) {
+// Returns points from playing this spell.
+int PlayBestSpell(Player *player, TurnState *state) {
   // TODO refine this algorithm more. For now, merely attempts to play the
-  // most expensive card available. Instead could use Dynamic Programming to
+  // most expensive spell available. Instead could use Dynamic Programming to
   // find best solution.
 
   int pool_size = TotalCost(state->mana_pool);
-  auto &cards = player->hand.cards;
+  auto &spells = player->hand.spells;
 
   int best_affordable_priority = -1;
-  int best_affordable_card = -1;
+  int best_affordable_spell = -1;
   int best_affordable_cost = 0;
-  for (int i = 0; i < cards.size(); ++i) {
+  for (int i = 0; i < spells.size(); ++i) {
     if (best_affordable_cost == pool_size) {
       // Has already found optimal play.
       break;
     }
-    int card_cost = TotalCost(cards[i].cost);
-    if (card_cost > pool_size) {
+    int spell_cost = TotalCost(spells[i].cost);
+    if (spell_cost > pool_size) {
       continue;
     }
-    if (!IsAffordable(cards[i], state->mana_pool)) {
+    if (!IsAffordable(spells[i], state->mana_pool)) {
       continue;
     }
-    if (cards[i].priority == 0 && player->battlefield.cards.size() < 1) {
+    if (spells[i].priority == 0 && player->battlefield.spells.size() < 1) {
       // Cannot play secondary spells if there are no creatures!
       continue;
     }
-    if (cards[i].priority < best_affordable_priority) {
+    if (spells[i].priority < best_affordable_priority) {
       continue;
     }
-    if (card_cost > best_affordable_cost) {
-      best_affordable_card = i;
-      best_affordable_cost = card_cost;
-      best_affordable_priority = cards[i].priority;
+    if (spell_cost > best_affordable_cost) {
+      best_affordable_spell = i;
+      best_affordable_cost = spell_cost;
+      best_affordable_priority = spells[i].priority;
     }
   }
   int points = best_affordable_cost;
-  if (best_affordable_card >= 0) {
-    points += PlayCard(best_affordable_card, player, state);
+  if (best_affordable_spell >= 0) {
+    points += PlaySpell(best_affordable_spell, player, state);
   }
   return points;
 }
 
-int PlayCards(Player *player, TurnState *state) {
+int PlaySpells(Player *player, TurnState *state) {
   int sum = 0;
   for (int addition = -1; addition != 0;) {
-    addition = PlayBestCard(player, state);
+    addition = PlayBestSpell(player, state);
     sum += addition;
   }
   return sum;
 }
 
 void AggregateCosts(const Deck &hand, ManaCost *aggregate) {
-  for (const Card &card : hand.cards) {
-    (*aggregate) += card.cost;
+  for (const Spell &spell : hand.spells) {
+    (*aggregate) += spell.cost;
   }
 }
 
-std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_card_cost,
+std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_spell_cost,
                                                const ManaCost &mana_pool) {
   std::vector<std::pair<float, Color>> scores;
   std::vector<Color> covered;
-  for (const auto &pair : agg_card_cost) {
+  for (const auto &pair : agg_spell_cost) {
     Color color = pair.first;
     float demand = pair.second;
     covered.push_back(color);
@@ -223,11 +223,11 @@ std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_card_cost,
 
 // First color is most important to add.
 std::vector<Color> ManaNeeds(const Player &player,
-                             const ManaCost &agg_card_cost,
+                             const ManaCost &agg_spell_cost,
                              const ManaCost &mana_pool) {
   std::vector<Color> priorities;
   // ManaPreference(player, mana_pool, &priorities);
-  for (const auto &pair : SortNeeds(agg_card_cost, mana_pool)) {
+  for (const auto &pair : SortNeeds(agg_spell_cost, mana_pool)) {
     priorities.push_back(pair.second);
   }
   return priorities;
@@ -235,7 +235,7 @@ std::vector<Color> ManaNeeds(const Player &player,
 
 // First color is most important to add.
 std::vector<Color> ManaNeeds(const Player &player, const TurnState &state) {
-  return ManaNeeds(player, state.agg_card_cost, state.mana_pool);
+  return ManaNeeds(player, state.agg_spell_cost, state.mana_pool);
 }
 
 int MaxPointsLand(const Player &player) {
@@ -292,7 +292,7 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
   return 0;
 }
 
-// Returns points from played cards.
+// Returns points from played spells.
 double PlayLand(Player *player, TurnState *state) {
   const auto &lands = player->hand.lands;
   if (lands.empty()) {
@@ -346,18 +346,18 @@ double PlayTurn(Player *player) {
   // Upkeep
   DrawOne(player);
   INFO << "Hand " << player->hand << "\n";
-  AggregateCosts(player->hand, &state.agg_card_cost);
+  AggregateCosts(player->hand, &state.agg_spell_cost);
   ProduceMana(player, &state);
 
   // Main phase
   double bonus = PlayLand(player, &state);
   INFO << "Mana " << state.mana_pool << "\n";
-  int cards = PlayCards(player, &state);
-  if (cards == 0) {
-    // If could not play any cards, then minus one point.
-    cards = -1;
+  int spells = PlaySpells(player, &state);
+  if (spells == 0) {
+    // If could not play any spells, then minus one point.
+    spells = -1;
   }
-  return bonus + cards;
+  return bonus + spells;
 }
 
 // Returns true or false, depending on hand, and number of mulligans in the
@@ -386,7 +386,7 @@ void BottomOne(Player *player) {
 
   auto needs = SortNeeds(hand_cost, hand_pool);
 
-  if (player->hand.lands.size() > player->hand.cards.size()) {
+  if (player->hand.lands.size() > player->hand.spells.size()) {
     // Bottom a land.
     // NOTE: doesn't have logic for fetch lands... or other lands...
     Color least_wanted = needs.back().second;
@@ -405,24 +405,24 @@ void BottomOne(Player *player) {
     }
     MoveLand(worst_land, player->hand, player->library);
   } else {
-    const auto &cards = player->hand.cards;
-    int worst_card = 0;
+    const auto &spells = player->hand.spells;
+    int worst_spell = 0;
     int least_priority = 100;
-    for (int i = 0; i < cards.size(); ++i) {
-      if (!IsAffordable(cards[i], hand_pool) &&
-          cards[i].priority <= least_priority) {
-        worst_card = i;
-        least_priority = cards[i].priority;
+    for (int i = 0; i < spells.size(); ++i) {
+      if (!IsAffordable(spells[i], hand_pool) &&
+          spells[i].priority <= least_priority) {
+        worst_spell = i;
+        least_priority = spells[i].priority;
       }
     }
-    MoveCard(worst_card, player->hand, player->library);
+    MoveSpell(worst_spell, player->hand, player->library);
   }
 }
 
 // First Mulligan, n==1. Second mulligan, n==2.
 void DrawMulligan(Player *player, const int n) {
   // DrawN(player, 7 - n);
-  // TODO: actually draw 7 and return 1 card of choice...
+  // TODO: actually draw 7 and return 1 spell of choice...
   DrawN(player, 7);
   for (int i = 0; i < n; ++i) {
     BottomOne(player);
@@ -450,8 +450,8 @@ Player StartingHand(const Deck &deck, const MulliganStrategy &strategy) {
 
 int BoardPoints(const Player &player) {
   int sum = 0;
-  for (const Card &card : player.battlefield.cards) {
-    sum += TotalCost(card.cost);
+  for (const Spell &spell : player.battlefield.spells) {
+    sum += TotalCost(spell.cost);
   }
   return sum;
 }

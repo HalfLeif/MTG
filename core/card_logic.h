@@ -2,53 +2,53 @@
 
 #include "deck.h"
 
-int DrawFromPlayedCard(const Card &card, const Player &player) {
-  if (card.name == "Thief") {
+int DrawFromPlayedSpell(const Spell &spell, const Player &player) {
+  if (spell.name == "Thief") {
     return 1;
   }
-  if (card.name == "Clockwork") {
+  if (spell.name == "Clockwork") {
     return 1;
   }
-  if (card.name == "LochDragon") {
+  if (spell.name == "LochDragon") {
     return 1;
   }
-  if (card.name == "SageOfTheFalls") {
+  if (spell.name == "SageOfTheFalls") {
     return 1;
   }
-  if (card.name == "UnexplainedVision") {
+  if (spell.name == "UnexplainedVision") {
     return 3;
   }
   return 0;
 }
 
-int PointsFromPlayedCard(const Card &card, const Player &player) {
-  if (card.name == "Caryatid") {
+int PointsFromPlayedSpell(const Spell &spell, const Player &player) {
+  if (spell.name == "Caryatid") {
     return -1;
   }
-  if (card.name == "BronzehideLion") {
+  if (spell.name == "BronzehideLion") {
     return 1;
   }
-  if (card.name == "Fenlurker") {
+  if (spell.name == "Fenlurker") {
     return 1;
   }
-  if (card.name == "WishingWell") {
+  if (spell.name == "WishingWell") {
     return 1; // scry 2
   }
-  if (card.name == "Trebuchet") {
+  if (spell.name == "Trebuchet") {
     return 1;
   }
-  if (card.name == "FireWheeler") {
+  if (spell.name == "FireWheeler") {
     return 2;
   }
-  if (card.name == "NicolBolas") {
+  if (spell.name == "NicolBolas") {
     return 2;
   }
   return 0;
 }
 
 double PointsFromPlayedLand(const Land &land, const Player &player) {
-  if (IsSwamp(land) &&
-      Contains<Card>(player.battlefield.cards, IsCardName("DreadPresence"))) {
+  if (IsSwamp(land) && Contains<Spell>(player.battlefield.spells,
+                                       IsSpellName("DreadPresence"))) {
     INFO << "Played Swamp with DreadPresence in play!\n";
     return 2;
   }
@@ -56,12 +56,12 @@ double PointsFromPlayedLand(const Land &land, const Player &player) {
 }
 
 void TapManaCreatures(const Deck &battlefield, ManaCost *mana_pool) {
-  for (const Card &card : battlefield.cards) {
-    if (card.name == "Caryatid") {
+  for (const Spell &spell : battlefield.spells) {
+    if (spell.name == "Caryatid") {
       AddUniversalColor(mana_pool);
       ++(*mana_pool)[Color::Total];
     }
-    if (card.name == "SolRing") {
+    if (spell.name == "SolRing") {
       // 2 gray mana, no color.
       (*mana_pool)[Color::Total] += 2;
     }
