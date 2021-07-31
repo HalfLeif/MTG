@@ -24,8 +24,8 @@ public:
     }
 
   protected:
-    void Fail(const char *msg = nullptr) {
-      if (msg != nullptr) {
+    void Fail(std::string msg = "") {
+      if (!msg.empty()) {
         ERROR << test_name_ << " failed with error " << msg << "\n";
       }
       success_ = false;
