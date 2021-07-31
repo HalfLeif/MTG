@@ -17,8 +17,8 @@
 #include "search/task.h"
 
 // const Format &GetFormat() { return kELD; }
-const Format &GetFormat() { return kM20; }
-// const Format &GetFormat() { return THB::Instance(); }
+// const Format &GetFormat() { return kM20; }
+const Format &GetFormat() { return kTHB; }
 // const Format &GetFormat() { return kBolas; }
 
 const bool DEBUG_ON = false;

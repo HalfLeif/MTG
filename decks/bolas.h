@@ -99,5 +99,3 @@ inline Library kBolas =
 
         // .AddCard(MakeCard("BBRR", 1, "FireWheeler"), Experiment::exp)
         .Build();
-
-// TODO add tap lands...
