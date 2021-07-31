@@ -98,9 +98,9 @@ void ProduceMana(const Library &lib, Player *player, TurnState *state) {
 
 // Idea for color optimization: accumulate grey mana debt! Must be paid before
 // end of turn.
-bool IsAffordable(const Spell &spell, const ManaCost &mana_pool) {
+bool IsAffordable(const ManaCost &spell_cost, const ManaCost &mana_pool) {
   // Loop checks for both Colors, as well as Total mana cost.
-  for (const auto &pair : spell.cost) {
+  for (const auto &pair : spell_cost) {
     Color color = pair.first;
     int cost_amount = pair.second;
     if (FindWithDefault(mana_pool, color, 0) < cost_amount) {
@@ -110,8 +110,8 @@ bool IsAffordable(const Spell &spell, const ManaCost &mana_pool) {
   return true;
 }
 
-void PayCost(const Spell &spell, ManaCost *mana_pool) {
-  for (const auto &pair : spell.cost) {
+void PayCost(const ManaCost &spell_cost, ManaCost *mana_pool) {
+  for (const auto &pair : spell_cost) {
     Color color = pair.first;
     int cost_amount = pair.second;
     int &pool_amount = (*mana_pool)[color];
@@ -125,7 +125,7 @@ void PayCost(const Spell &spell, ManaCost *mana_pool) {
 
 // Returns number of points from playing this spell.
 int PlaySpell(int i, Player *player, TurnState *state) {
-  PayCost(player->hand.spells[i], &state->mana_pool);
+  PayCost(player->hand.spells[i].cost, &state->mana_pool);
   Spell *spell = MoveSpell(i, player->hand, player->battlefield);
   if (spell) {
     INFO << "Played " << *spell << "\n";
@@ -140,8 +140,10 @@ int PlaySpell(int i, Player *player, TurnState *state) {
 // Returns points from playing this spell.
 int PlayBestSpell(Player *player, TurnState *state) {
   // TODO refine this algorithm more. For now, merely attempts to play the
-  // most expensive spell available. Instead could use Dynamic Programming to
-  // find best solution.
+  // most expensive spell available.
+  // Instead should optimize by points of playing spell, rather than looking at
+  // mana cost.
+  // Should also use spell ability as tie breaker...
 
   int pool_size = TotalCost(state->mana_pool);
   auto &spells = player->hand.spells;
@@ -158,7 +160,7 @@ int PlayBestSpell(Player *player, TurnState *state) {
     if (spell_cost > pool_size) {
       continue;
     }
-    if (!IsAffordable(spells[i], state->mana_pool)) {
+    if (!IsAffordable(spells[i].cost, state->mana_pool)) {
       continue;
     }
     if (spells[i].priority == 0 && player->battlefield.spells.size() < 1) {
@@ -190,9 +192,45 @@ int PlaySpells(Player *player, TurnState *state) {
   return sum;
 }
 
-void AggregateCosts(const Deck &hand, ManaCost *aggregate) {
-  for (const Spell &spell : hand.spells) {
+const Spell *FindBestAbility(const Player &player, const TurnState &state) {
+  double highest_affordable_cost = 0;
+  const Spell *best_ability = nullptr;
+  for (const Spell &perm : player.battlefield.spells) {
+    if (perm.ability.empty()) {
+      continue;
+    }
+    if (!IsAffordable(perm.ability, state.mana_pool)) {
+      continue;
+    }
+    if (int ability_cost = TotalCost(perm.ability);
+        ability_cost > highest_affordable_cost) {
+      highest_affordable_cost = ability_cost;
+      best_ability = &perm;
+    }
+  }
+  return best_ability;
+}
+
+double PlayAbilities(Player *player, TurnState *state) {
+  double points = 0;
+  while (true) {
+    const Spell *ability = FindBestAbility(*player, *state);
+    if (ability == nullptr) {
+      break;
+    } else {
+      PayCost(ability->ability, &state->mana_pool);
+      points += TotalCost(ability->ability) / 3.0;
+    }
+  }
+  return points;
+}
+
+void AggregateCosts(const Player &player, ManaCost *aggregate) {
+  for (const Spell &spell : player.hand.spells) {
     (*aggregate) += spell.cost;
+  }
+  for (const Spell &spell : player.battlefield.spells) {
+    (*aggregate) += spell.ability;
   }
 }
 
@@ -342,23 +380,25 @@ double PlayLand(Player *player, TurnState *state) {
 
 // Returns #points.
 double PlayTurn(const Library &lib, Player *player) {
+  double points = 0;
   TurnState state;
 
   // Upkeep
   DrawOne(player);
   INFO << "Hand " << player->hand << "\n";
-  AggregateCosts(player->hand, &state.agg_spell_cost);
+  AggregateCosts(*player, &state.agg_spell_cost);
   ProduceMana(lib, player, &state);
 
   // Main phase
-  double bonus = PlayLand(player, &state);
+  points += PlayLand(player, &state);
   INFO << "Mana " << state.mana_pool << "\n";
-  int spells = PlaySpells(player, &state);
-  if (spells == 0) {
-    // If could not play any spells, then minus one point.
-    spells = -1;
+  points += PlaySpells(player, &state);
+  points += PlayAbilities(player, &state);
+  if (points <= 0) {
+    // If could not do anything useful, then minus one point.
+    points = -1;
   }
-  return bonus + spells;
+  return points;
 }
 
 // Returns true or false, depending on hand, and number of mulligans in the
@@ -383,7 +423,7 @@ void BottomOne(const Library &lib, Player *player) {
   ManaCost hand_pool;
   ProduceMana(lib, player->hand, &hand_pool);
   ManaCost hand_cost;
-  AggregateCosts(player->hand, &hand_cost);
+  AggregateCosts(*player, &hand_cost);
 
   auto needs = SortNeeds(hand_cost, hand_pool);
 
@@ -410,7 +450,7 @@ void BottomOne(const Library &lib, Player *player) {
     int worst_spell = 0;
     int least_priority = 100;
     for (int i = 0; i < spells.size(); ++i) {
-      if (!IsAffordable(spells[i], hand_pool) &&
+      if (!IsAffordable(spells[i].cost, hand_pool) &&
           spells[i].priority <= least_priority) {
         worst_spell = i;
         least_priority = spells[i].priority;
@@ -516,7 +556,7 @@ TEST(ChoseLandSimpleNeed) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
   TurnState state;
-  AggregateCosts(player.hand, &state.agg_spell_cost);
+  AggregateCosts(player, &state.agg_spell_cost);
   ProduceMana(lib, &player, &state);
 
   if (std::string mana = ToString(state.agg_spell_cost); mana != "BBB4") {
@@ -572,6 +612,30 @@ TEST(PlayTurnNotEnoughMana) {
   }
   // Gets minus one point if cannot play a spell.
   if (static_cast<int>(points) != -1) {
+    Fail("Expected -1 points, but found " + std::to_string(points));
+  }
+}
+
+TEST(PlayAbilities) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  // Has one ability in battlefield.
+  player.battlefield.spells.push_back(
+      MakeSpell("B", 1, "Foo").AddAbility("B2"));
+
+  // Will draw a land. Will have 6 mana afterwards.
+  player.library.lands.push_back(BasicLand(Color::Black));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+
+  double points = PlayTurn(lib, &player);
+  // Gets 6/3 = 2 points for playing the same ability twice.
+  if (static_cast<int>(points) != 2) {
     Fail("Expected -1 points, but found " + std::to_string(points));
   }
 }
