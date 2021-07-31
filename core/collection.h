@@ -21,6 +21,14 @@ bool Contains(const std::vector<T> &vec, const Predicate<T> &pred) {
   return Find<T>(vec, pred) >= 0;
 }
 
+template <typename K, typename V, typename M>
+V FindWithDefault(const M &map, const K &key, V default_value) {
+  auto it = map.find(key);
+  if (it != map.end())
+    return it->second;
+  return default_value;
+}
+
 template <typename T> void AddN(std::vector<T> &vec, size_t n, T value) {
   vec.insert(vec.end(), n, value);
 }

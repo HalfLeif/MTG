@@ -1,19 +1,7 @@
 #pragma once
 
-#include "../core/data.h"
-
-// TODO: make Params dynamic:
-// Color primary_color;
-// std::vector<std::tuple<int, Color>> secondary_lands;
-// std::vector<std::tuple<bool, std::string>> other_bool_params;
-// std::vector<std::tuple<int, int, std::string>> other_int_params;
-
-// TODO: make Search dynamic based on one dynamic Param instance.
-// E.g. primary_color: White, secondary_lands: {{0, Black},{0, Green}}
-// struct NewParam {
-//   int experiment;
-//   std::vector<std::pair<Color, int>> added_lands;
-// };
+#include "deck.h"
+#include "format.h"
 
 struct Param {
   Experiment experiment = Experiment::base;

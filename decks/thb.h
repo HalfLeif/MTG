@@ -1,13 +1,6 @@
 #pragma once
 
-#include "../core/data.h"
-
-Land Shore() {
-  return {
-      .type = LandType::shore,
-      .color = Color::Colorless,
-  };
-}
+#include "../core/format.h"
 
 class THB : public Format {
 public:

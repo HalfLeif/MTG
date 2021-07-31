@@ -2,7 +2,7 @@
 
 #include "card_logic.h"
 #include "collection.h"
-#include "data.h"
+#include "format.h"
 
 void DrawOne(Player *player) {
   auto &lib = player->library;

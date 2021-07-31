@@ -3,9 +3,9 @@
 #include <cmath>
 #include <map>
 
-#include "../core/data.h"
+#include "../core/format.h"
 #include "../core/game_logic.h"
-#include "deck.h"
+#include "../core/make_deck.h"
 
 void SlowInsertCount(std::vector<std::pair<Land, int>> &counts,
                      const Land &land) {

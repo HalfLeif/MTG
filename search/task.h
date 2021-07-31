@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../core/data.h"
+#include "../core/deck.h"
 #include "../core/game_logic.h"
-#include "deck.h"
 #include "search.h"
 
 void StepOne() {

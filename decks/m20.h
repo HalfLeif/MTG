@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/data.h"
+#include "../core/format.h"
 
 class M20 : public Format {
 public:

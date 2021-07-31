@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/data.h"
+#include "../core/format.h"
 
 class ELD : public Format {
 public:
