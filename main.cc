@@ -32,6 +32,6 @@ int main(int argc, char *argv[]) {
 
   const Library &lib = GetMainLib();
   // RunBruteForceSearch(lib);
-  CompareParams(lib);
+  // CompareParams(lib);
   return 0;
 }

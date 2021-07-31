@@ -533,3 +533,24 @@ TEST(ChoseLandSimpleNeed) {
     Fail("Expected to pick B, instead picked land " + std::to_string(i));
   }
 }
+
+TEST(PlayTurnSimple) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  // Has one spell in library. Will draw one. Then must play that one.
+  player.library.spells.push_back(MakeSpell("BB", 1, "Foo"));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+
+  double points = PlayTurn(lib, &player);
+  if (player.battlefield.spells.empty() ||
+      player.battlefield.spells.front().name != "Foo") {
+    Fail("Expected Spell to be played");
+  }
+  if (static_cast<int>(points) != 2) {
+    Fail("Expected 2 points, but found " + std::to_string(points));
+  }
+}
