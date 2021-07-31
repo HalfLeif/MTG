@@ -16,8 +16,8 @@
 #include "decks/thb.h"
 #include "search/task.h"
 
-const Format &GetFormat() { return kELD; }
-// const Format &GetFormat() { return M20::Instance(); }
+// const Format &GetFormat() { return kELD; }
+const Format &GetFormat() { return kM20; }
 // const Format &GetFormat() { return THB::Instance(); }
 // const Format &GetFormat() { return kBolas; }
 

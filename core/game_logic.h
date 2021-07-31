@@ -221,7 +221,7 @@ std::vector<Color> ManaNeeds(const Player &player,
                              const ManaCost &agg_card_cost,
                              const ManaCost &mana_pool) {
   std::vector<Color> priorities;
-  GetFormat().ManaPreference(player, mana_pool, &priorities);
+  // ManaPreference(player, mana_pool, &priorities);
   for (const auto &pair : SortNeeds(agg_card_cost, mana_pool)) {
     priorities.push_back(pair.second);
   }
@@ -233,9 +233,26 @@ std::vector<Color> ManaNeeds(const Player &player, const TurnState &state) {
   return ManaNeeds(player, state.agg_card_cost, state.mana_pool);
 }
 
+int MaxPointsLand(const Player &player) {
+  int max_land = -1;
+  double max_points = 0;
+  int iter = 0;
+  for (const Land &land : player.hand.lands) {
+    if (double points = PointsFromPlayedLand(land, player);
+        points > max_points) {
+      max_land = iter;
+    }
+    ++iter;
+  }
+  return max_land;
+}
+
 // Chooses which land to play. If plays fetch land, choose the color needed.
-int ChooseLand(const std::vector<Color> &needs, const Deck &hand,
-               bool basic_only, TurnState *state) {
+int ChooseLand(const std::vector<Color> &needs, const Player &player,
+               const Deck &hand, bool basic_only, TurnState *state) {
+  if (const int max_land = MaxPointsLand(player); max_land >= 0) {
+    return max_land;
+  }
   if (needs.empty()) {
     // Play any land if possible... this should be a rare case.
     return 0;
@@ -279,14 +296,14 @@ double PlayLand(Player *player, TurnState *state) {
   }
 
   auto needs = ManaNeeds(*player, *state);
-  int i = ChooseLand(needs, player->hand, false, state);
+  int i = ChooseLand(needs, *player, player->hand, false, state);
   Land *played = nullptr;
 
   if (lands[i].type == LandType::fetch) {
     // Sacrifice the land, and search for another land instead.
     // The searched land cannot be tapped this turn.
     MoveLand(i, player->hand, player->graveyard);
-    int search = ChooseLand(needs, player->library, true, state);
+    int search = ChooseLand(needs, *player, player->library, true, state);
     played = MoveLand(search, player->library, player->battlefield);
     if (played) {
       INFO << "Fetched and played " << *played << "\n";

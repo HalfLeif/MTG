@@ -13,7 +13,6 @@ int DrawFromPlayedCard(const Card &card, const Player &player) {
     return 1;
   }
   if (card.name == "SageOfTheFalls") {
-    // TODO: also draw if has SageOfTheFalls and plays non-human.
     return 1;
   }
   if (card.name == "UnexplainedVision") {
@@ -49,13 +48,10 @@ int PointsFromPlayedCard(const Card &card, const Player &player) {
 
 double PointsFromPlayedLand(const Land &land, const Player &player) {
   if (IsSwamp(land) &&
-      Contains<Card>(player.battlefield.cards, IsDreadPresence)) {
+      Contains<Card>(player.battlefield.cards, IsCardName("DreadPresence"))) {
     INFO << "Played Swamp with DreadPresence in play!\n";
     return 2;
   }
-  // if (land.type == LandType::dual) {
-  //   return 0.5;
-  // }
   return 0;
 }
 

@@ -1,75 +1,42 @@
 #pragma once
 
-#include "../core/format.h"
+#include "../core/library.h"
 
-class M20 : public Format {
-public:
-  static const Format &Instance() {
-    static const auto *const kInstance = new M20;
-    return *kInstance;
-  }
+inline Library kM20 =
+    Library::Builder()
+        .SetLimited()
+        .AddCard(MakeCard("B", 0, "BoneSplinters"))
 
-  void ManaPreference(const Player &player, const ManaCost &mana_pool,
-                      std::vector<Color> *priorities) const override {
-    if (Contains<Card>(player.battlefield.cards, IsDreadPresence)) {
-      // Prefer Swamps now that DreadPresence is in play!
-      priorities->push_back(Color::Black);
-    } else if ((Contains<Card>(player.hand.cards, IsDreadPresence) ||
-                Contains<Card>(player.library.cards, IsDreadPresence)) &&
-               FindWithDefault(mana_pool, Color::Black, 0) >= 2) {
-      // Prefer Plains for now, to save Swamps for DreadPresence.
-      priorities->push_back(Color::White);
-    }
-  }
+        .AddCard(MakeCard("WB", 5, "CorpseKnight"))
+        .AddCard(MakeCard("1W", 2, "AncientSword"))
+        .AddCard(MakeCard("BB", 2, "Fenlurker"))
+        .AddCard(MakeCard("1W", 0, "EternalIsolation"))
+        .AddCard(MakeCard("1W", 0, "Pacifism"))
+        .AddCard(MakeCard("1W", 0, "Instant Lifelink"))
 
-  Color PrimaryColor() const override { return Color::Black; }
-  Color SecondaryColor() const override { return Color::White; }
+        .AddCard(MakeCard("2B", 2, "Thief"))
+        .AddCard(MakeCard("2B", 2, "Thief"))
+        .AddCard(MakeCard("2B", 1, "2/2 Bird"))
+        .AddCard(MakeCard("2W", 1, "HangedExecutioner"))
+        .AddCard(MakeCard("2W", 1, "1/3 Bird"))
+        .AddCard(MakeCard("1BB", 0, "Murder"))
+        .AddCard(MakeCard("1BB", 0, "EmbodimentOfAgonies"))
 
-  Deck TournamentCards(Experiment experiment) const override {
-    Deck deck;
+        .AddCard(MakeCard("3B", 10, "DreadPresence"))
+        .AddCard(MakeCard("3W", 2, "2/3 Bird"))
+        .AddCard(MakeCard("3B", 0, "AgonizingSyphon"))
+        .AddCard(MakeCard("3B", 0, "BloodForBones"))
 
-    // Removed:
-    // AddN(deck.cards, 1, MakeCard("1W", 1, "RaiseAlarm"));
-    // AddN(deck.cards, 1, MakeCard("B", 1, "Skeleton"));
-    // AddN(deck.cards, 1, MakeCard("4", 1, "Raptor"));
-    // AddN(deck.cards, 1, MakeCard("2W", 1, "Sentry"));
+        .AddCard(MakeCard("3BB", 1, "Necromancer"))
 
-    if (experiment == Experiment::exp) {
-      AddN(deck.cards, 1, MakeCard("BB", 2, "Fenlurker"));
-      AddN(deck.cards, 1, MakeCard("1W", 0, "Instant Lifelink"));
-      AddN(deck.cards, 1, MakeCard("3BB", 0, "Scourger"));
-    } else {
-      AddN(deck.cards, 1, MakeCard("1B", 1, "Vampire"));
-      AddN(deck.cards, 1, MakeCard("2W", 0, "GauntletsOfLight"));
-      AddN(deck.cards, 1, MakeCard("4W", 0, "SquadCaptain"));
-    }
+        .AddCard(MakeCard("7", 4, "MeteorGolem"))
 
-    AddN(deck.cards, 1, MakeCard("B", 0, "BoneSplinters"));
+        .AddCard(MakeCard("BB", 2, "Fenlurker"), Experiment::exp)
+        .AddCard(MakeCard("1W", 0, "Instant Lifelink"), Experiment::exp)
+        .AddCard(MakeCard("3BB", 0, "Scourger"), Experiment::exp)
 
-    AddN(deck.cards, 1, MakeCard("WB", 5, "CorpseKnight"));
-    AddN(deck.cards, 1, MakeCard("1W", 2, "AncientSword"));
-    AddN(deck.cards, 1, MakeCard("BB", 2, "Fenlurker"));
-    AddN(deck.cards, 1, MakeCard("1W", 0, "EternalIsolation"));
-    AddN(deck.cards, 1, MakeCard("1W", 0, "Pacifism"));
-    AddN(deck.cards, 1, MakeCard("1W", 0, "Instant Lifelink"));
+        .AddCard(MakeCard("1B", 1, "Vampire"), Experiment::base)
+        .AddCard(MakeCard("2W", 0, "GauntletsOfLight"), Experiment::base)
+        .AddCard(MakeCard("4W", 0, "SquadCaptain"), Experiment::base)
 
-    AddN(deck.cards, 1, MakeCard("2B", 2, "Thief"));
-    AddN(deck.cards, 1, MakeCard("2B", 2, "Thief"));
-    AddN(deck.cards, 1, MakeCard("2B", 1, "2/2 Bird"));
-    AddN(deck.cards, 1, MakeCard("2W", 1, "HangedExecutioner"));
-    AddN(deck.cards, 1, MakeCard("2W", 1, "1/3 Bird"));
-    AddN(deck.cards, 1, MakeCard("1BB", 0, "Murder"));
-    AddN(deck.cards, 1, MakeCard("1BB", 0, "EmbodimentOfAgonies"));
-
-    AddN(deck.cards, 1, MakeCard("3B", 10, "DreadPresence"));
-    AddN(deck.cards, 1, MakeCard("3W", 2, "2/3 Bird"));
-    AddN(deck.cards, 1, MakeCard("3B", 0, "AgonizingSyphon"));
-    AddN(deck.cards, 1, MakeCard("3B", 0, "BloodForBones"));
-
-    AddN(deck.cards, 1, MakeCard("3BB", 1, "Necromancer"));
-
-    AddN(deck.cards, 1, MakeCard("7", 4, "MeteorGolem"));
-
-    return deck;
-  }
-};
+        .Build();

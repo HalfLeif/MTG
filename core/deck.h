@@ -9,6 +9,10 @@ struct Card {
   std::string name = "";
 };
 
+Predicate<Card> IsCardName(const char *name) {
+  return [name](const Card &card) { return card.name == name; };
+}
+
 struct Deck {
   std::vector<Card> cards;
   std::vector<Land> lands;
@@ -55,7 +59,6 @@ int TotalSpells(DeckSize deck_size) {
 }
 
 bool IsCorpseKnight(const Card &card) { return card.name == "CorpseKnight"; }
-bool IsDreadPresence(const Card &card) { return card.name == "DreadPresence"; }
 
 Card MakeCard(std::string mana, int priority = 1, std::string name = "") {
   Card card;

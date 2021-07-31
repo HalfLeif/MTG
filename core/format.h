@@ -42,9 +42,6 @@ public:
   virtual Color SecondaryColor() const = 0;
   virtual Color TernaryColor() const { return Color::Colorless; };
   virtual DeckSize GetDeckSize() const { return DeckSize::limited; };
-
-  virtual void ManaPreference(const Player &player, const ManaCost &mana_pool,
-                              std::vector<Color> *priorities) const {}
 };
 
 const Format &GetFormat();

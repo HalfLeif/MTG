@@ -40,26 +40,3 @@ inline Library kELD =
         .AddCard(MakeCard("4U", 1, "UnexplainedVision"), Experiment::base)
 
         .Build();
-
-// class ELD : public Format {
-// public:
-//   static const Format &Instance() {
-//     static const auto *const kInstance = new ELD;
-//     return *kInstance;
-//   }
-//
-//   Color PrimaryColor() const override { return Color::Red; }
-//   Color SecondaryColor() const override { return Color::Blue; }
-//
-//   Deck TournamentCards(Experiment experiment) const override {
-//     Deck deck;
-//
-//     if (experiment == Experiment::exp) { // Adamant
-//
-//     } else {
-//     }
-//
-//     return deck;
-//   }
-// }
-// ;
