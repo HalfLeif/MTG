@@ -65,8 +65,11 @@ struct ParamResult {
 void PrintParamResult(const std::vector<ParamResult> best_result,
                       int results = 10) {
   std::cout << "\n";
-  for (int i = best_result.size() - results; i < best_result.size() && i >= 0;
-       ++i) {
+  if (best_result.size() < results) {
+    // Can happen if very few results.
+    results = best_result.size();
+  }
+  for (int i = best_result.size() - results; i < best_result.size(); ++i) {
     const auto &param = best_result[i].param;
     Deck deck = TournamentDeck(param);
 
@@ -174,6 +177,7 @@ Param CompareParams(const Library &lib) {
   // constexpr int kGames = 1000;
   // constexpr int kGames = 2000;
 
+  // std::vector<Param> params = ManualParams(lib);
   std::vector<Param> params = GoodParams(lib);
   std::vector<ParamResult> best_result;
   for (const Param &param : params) {
@@ -192,7 +196,6 @@ Param CompareParams(const Library &lib) {
 
   std::sort(best_result.begin(), best_result.end());
   PrintParamResult(best_result);
-  // std::cout << "Best score: " << best_score << "\n";
-  // std::cout << "Optimal " << *optimal << "\n";
+
   return best_result.back().param;
 }
