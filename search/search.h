@@ -1,11 +1,22 @@
 #pragma once
 
+#include <chrono>
 #include <cmath>
 #include <map>
+#include <thread>
 
 #include "../core/game_logic.h"
 #include "../core/library.h"
 #include "../core/make_deck.h"
+
+double AverageScore(const Library &lib, const Deck &deck,
+                    const MulliganStrategy &strategy, int turns, int games) {
+  double score = 0;
+  for (int i = 0; i < games; ++i) {
+    score += PlayGame(lib, deck, strategy, turns);
+  }
+  return score / games;
+}
 
 void SlowInsertCount(std::vector<std::pair<Land, int>> &counts,
                      const Land &land) {
@@ -65,9 +76,55 @@ void PrintParamResult(const std::vector<ParamResult> best_result,
   }
 }
 
+double RunParam(const Library &lib, const Param &param, int games) {
+  srand(42);
+  // std::chrono::steady_clock::time_point begin =
+  //     std::chrono::steady_clock::now();
+
+  constexpr int kStart = 6;
+  constexpr int kEnd = 10;
+
+  struct Instance {
+    int turns = 0;
+    double score = 0;
+  };
+
+  std::vector<Instance> instances;
+  for (int turns = kStart; turns <= kEnd; ++turns) {
+    instances.push_back({.turns = turns});
+  }
+
+  Deck deck = TournamentDeck(param);
+  std::vector<std::thread> threads;
+  for (Instance &instance : instances) {
+    threads.emplace_back([&]() {
+      instance.score =
+          AverageScore(lib, deck, SimpleStrategy, instance.turns, games);
+    });
+  }
+
+  for (std::thread &thread : threads) {
+    thread.join();
+  }
+  double score = 0;
+  for (const Instance &instance : instances) {
+    score += instance.score;
+  }
+
+  // std::chrono::steady_clock::time_point end =
+  //     std::chrono::steady_clock::now();
+  // std::cout << "Run Par = "
+  //      << std::chrono::duration_cast<std::chrono::milliseconds>(end -
+  //      begin)
+  //             .count()
+  //      << "[ms]" << std::endl;
+
+  return score;
+}
+
 // Brute force search
 Param BruteForce(const Library &lib, int turns) {
-  constexpr int kGames = 10;
+  constexpr int kGames = 20;
   std::vector<ParamResult> best_result;
 
   const int exp_lands = TotalLands(lib.GetDeckSize());
@@ -87,8 +144,7 @@ Param BruteForce(const Library &lib, int turns) {
             .ternary = ternary,
             .deck_size = lib.GetDeckSize(),
         };
-        Deck deck = TournamentDeck(param);
-        float score = AverageScore(lib, deck, SimpleStrategy, turns, kGames);
+        float score = RunParam(lib, param, kGames);
 
         std::cout << param << "  -> score: " << score << "\n";
 
@@ -138,23 +194,15 @@ std::vector<Param> GoodParams(const Library &lib) {
 }
 
 Param CompareParams(const Library &lib) {
-  constexpr int kGames = 100;
-  // constexpr int kGames = 450;
+  // constexpr int kGames = 100;
+  constexpr int kGames = 450;
   // constexpr int kGames = 1000;
   // constexpr int kGames = 2000;
-  constexpr int kStart = 6;
-  constexpr int kEnd = 10;
+
   auto params = GoodParams(lib);
   std::vector<ParamResult> best_result;
   for (const Param &param : params) {
-    srand(42);
-    Deck deck = TournamentDeck(param);
-    float score = 0.0f;
-    for (int turns = kStart; turns <= kEnd; ++turns) {
-      INFO << "- Run " << param << "kStart";
-      score += AverageScore(lib, deck, SimpleStrategy, turns, kGames);
-      INFO << score << "\n";
-    }
+    double score = RunParam(lib, param, kGames);
     std::cout << param << " score: " << score << "\n";
     best_result.push_back({
         .score = score,
@@ -164,12 +212,7 @@ Param CompareParams(const Library &lib) {
 
   // Compare against a dummy deck as baseline.
   Library test_lib = TestLibrary();
-  Deck dummy = TournamentDeck(test_lib, Experiment::base, 6);
-  float dummy_score = 0.0f;
-  srand(42);
-  for (int turns = kStart; turns <= kEnd; ++turns) {
-    dummy_score += AverageScore(lib, dummy, SimpleStrategy, turns, kGames);
-  }
+  float dummy_score = RunParam(test_lib, {.lib = &test_lib}, kGames);
   std::cout << "Dummy score: " << dummy_score << "\n";
 
   std::sort(best_result.begin(), best_result.end());

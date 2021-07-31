@@ -499,18 +499,6 @@ double PlayGame(const Library &lib, const Deck &deck,
   return score;
 }
 
-float AverageScore(const Library &lib, const Deck &deck,
-                   const MulliganStrategy &strategy, int turns, int games) {
-  // constexpr int kNumGames = 100;
-  // constexpr int kNumGames = 2000;
-  // constexpr int kNumGames = 5000;
-  float score = 0.0f;
-  for (int i = 0; i < games; ++i) {
-    score += PlayGame(lib, deck, strategy, turns);
-  }
-  return score / games;
-}
-
 // -----------------------------------------------------------------------------
 
 TEST(ProduceManaBasicLands) {
