@@ -3,6 +3,7 @@
 #include "card_logic.h"
 #include "collection.h"
 #include "library.h"
+#include "test.h"
 
 struct TurnState {
   ManaCost mana_pool;
@@ -227,7 +228,6 @@ std::vector<Color> ManaNeeds(const Player &player,
                              const ManaCost &agg_spell_cost,
                              const ManaCost &mana_pool) {
   std::vector<Color> priorities;
-  // ManaPreference(player, mana_pool, &priorities);
   for (const auto &pair : SortNeeds(agg_spell_cost, mana_pool)) {
     priorities.push_back(pair.second);
   }
@@ -301,7 +301,7 @@ double PlayLand(Player *player, TurnState *state) {
     return 0;
   }
 
-  auto needs = ManaNeeds(*player, *state);
+  std::vector<Color> needs = ManaNeeds(*player, *state);
   int i = ChooseLand(needs, *player, player->hand, false, state);
   Land *played = nullptr;
 
@@ -483,4 +483,53 @@ float AverageScore(const Library &lib, const Deck &deck,
     score += PlayGame(lib, deck, strategy, turns);
   }
   return score / games;
+}
+
+// -----------------------------------------------------------------------------
+
+TEST(ProduceManaBasicLands) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::White));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Red));
+
+  Library lib = Library::Builder()
+                    .AddSpell(MakeSpell("BU"))
+                    .AddSpell(MakeSpell("R"))
+                    .Build();
+  TurnState state;
+  ProduceMana(lib, &player, &state);
+
+  if (std::string mana = ToString(state.mana_pool); mana != "WBBR") {
+    Fail("Expected WBBR but found " + mana);
+  }
+}
+
+TEST(ChoseLandSimpleNeed) {
+  Player player;
+  player.hand.lands.push_back(BasicLand(Color::White));
+  player.hand.lands.push_back(BasicLand(Color::Black));
+  player.hand.spells.push_back(MakeSpell("BB"));
+  player.hand.spells.push_back(MakeSpell("B4"));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+  TurnState state;
+  AggregateCosts(player.hand, &state.agg_spell_cost);
+  ProduceMana(lib, &player, &state);
+
+  if (std::string mana = ToString(state.agg_spell_cost); mana != "BBB4") {
+    Fail("Expected BBB4 but found " + mana);
+  }
+  if (std::string mana = ToString(state.mana_pool); mana != "B") {
+    Fail("Expected B but found " + mana);
+  }
+
+  std::vector<Color> needs = ManaNeeds(player, state);
+
+  int i = ChooseLand(needs, player, player.hand, false, &state);
+  if (i != 1) {
+    Fail("Expected to pick B, instead picked land " + std::to_string(i));
+  }
 }

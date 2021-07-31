@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
   INFO << "Started program...\n";
   srand(4);
 
-  const Library lib = GetMainLib();
+  const Library &lib = GetMainLib();
   // RunBruteForceSearch(lib);
   CompareParams(lib);
   return 0;
