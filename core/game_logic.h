@@ -616,6 +616,87 @@ TEST(PlayTurnNotEnoughMana) {
   }
 }
 
+TEST(PlayBestSpell) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  player.hand.spells.push_back(MakeSpell("BB", 1, "Small"));
+  player.hand.spells.push_back(MakeSpell("B3", 1, "Big"));
+
+  // Will draw one.
+  player.library.lands.push_back(BasicLand(Color::Black));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+
+  double points = PlayTurn(lib, &player);
+  if (player.battlefield.spells.empty() ||
+      player.battlefield.spells.front().name != "Big") {
+    Fail("Expected Big Spell to be played");
+  }
+  if (static_cast<int>(points) != 4) {
+    Fail("Expected 4 points, but found " + std::to_string(points));
+  }
+}
+
+TEST(PlayBestSpellRespectPriority) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  player.hand.spells.push_back(MakeSpell("BB", 5, "Important"));
+  player.hand.spells.push_back(MakeSpell("B3", 1, "Big"));
+
+  // Will draw one.
+  player.library.lands.push_back(BasicLand(Color::Black));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+
+  double points = PlayTurn(lib, &player);
+  if (player.battlefield.spells.empty() ||
+      player.battlefield.spells.front().name != "Important") {
+    Fail("Expected Big Spell to be played");
+  }
+  if (static_cast<int>(points) != 2) {
+    Fail("Expected 2 points, but found " + std::to_string(points));
+  }
+}
+
+TEST(PlaySeveralSpells) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  player.hand.spells.push_back(MakeSpell("BB", 1, "Small"));
+  player.hand.spells.push_back(MakeSpell("BB", 1, "Small"));
+  player.hand.spells.push_back(MakeSpell("B", 1, "Tiny"));
+
+  // Will draw one land.
+  player.library.lands.push_back(BasicLand(Color::Black));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+
+  // Can play two Small spells, but not Tiny.
+  double points = PlayTurn(lib, &player);
+  if (player.battlefield.spells.empty() ||
+      player.battlefield.spells.front().name != "Small") {
+    Fail("Expected Small Spell to be played first");
+  }
+  if (player.battlefield.spells.size() < 2 ||
+      player.battlefield.spells[1].name != "Small") {
+    Fail("Expected Small Spell to be played second");
+  }
+  if (player.hand.spells.empty() || player.hand.spells.front().name != "Tiny") {
+    Fail("Expected Tiny Spell to not be played");
+  }
+  if (static_cast<int>(points) != 4) {
+    Fail("Expected 4 points, but found " + std::to_string(points));
+  }
+}
+
 TEST(PlayAbilities) {
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
