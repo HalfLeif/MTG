@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 
-#include "core/format.h"
 #include "core/library.h"
 #include "core/test.h"
 #include "decks/bolas.h"
@@ -16,10 +15,12 @@
 #include "decks/thb.h"
 #include "search/task.h"
 
-// const Format &GetFormat() { return kELD; }
-// const Format &GetFormat() { return kM20; }
-const Format &GetFormat() { return kTHB; }
-// const Format &GetFormat() { return kBolas; }
+const Library &GetFormat() {
+  // return kELD;
+  // return kM20;
+  return kTHB;
+  // return kBolas;
+}
 
 const bool DEBUG_ON = false;
 

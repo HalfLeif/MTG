@@ -3,8 +3,8 @@
 #include <cmath>
 #include <map>
 
-#include "../core/format.h"
 #include "../core/game_logic.h"
+#include "../core/library.h"
 #include "../core/make_deck.h"
 
 void SlowInsertCount(std::vector<std::pair<Land, int>> &counts,

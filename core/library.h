@@ -4,13 +4,38 @@
 #include <vector>
 
 #include "collection.h"
-#include "format.h"
+#include "deck.h"
+#include "mana.h"
 #include "test.h"
 
-// TODO: deprecate the Format class.
-class Library : public Format {
+class Library;
+
+// TODO: Remove this singleton behavior.
+const Library &GetFormat();
+
+enum class Experiment : int {
+  always, // always included.
+  base,
+  exp,
+};
+
+std::ostream &operator<<(std::ostream &stream, const Experiment &experiment) {
+  switch (experiment) {
+  case Experiment::always:
+    break;
+  case Experiment::base:
+    stream << "base";
+    break;
+  case Experiment::exp:
+    stream << "exp";
+    break;
+  }
+  return stream;
+}
+
+class Library {
 public:
-  Deck TournamentCards(Experiment experiment_id) const override {
+  Deck TournamentCards(Experiment experiment_id) const {
     return MakeDeck(experiment_id);
   }
 
@@ -33,7 +58,7 @@ public:
 
   const std::vector<Color> &Colors() const { return colors_; }
 
-  Color PrimaryColor() const override {
+  Color PrimaryColor() const {
     if (colors_.empty()) {
       ERROR << "No primary color!";
       return Color::Colorless;
@@ -41,7 +66,7 @@ public:
     return colors_.front();
   }
 
-  Color SecondaryColor() const override {
+  Color SecondaryColor() const {
     if (colors_.size() > 1) {
       return colors_[1];
     }
@@ -49,14 +74,14 @@ public:
     return Color::Colorless;
   }
 
-  Color TernaryColor() const override {
+  Color TernaryColor() const {
     if (colors_.size() > 2) {
       return colors_[2];
     }
     return Color::Colorless;
   }
 
-  DeckSize GetDeckSize() const override { return expected_size_; };
+  DeckSize GetDeckSize() const { return expected_size_; };
 
   // Returns the maximum number of alterantives this Library supports.
   // Note: this is actually broken now...

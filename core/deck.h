@@ -19,6 +19,13 @@ struct Deck {
   size_t Size() { return cards.size() + lands.size(); }
 };
 
+struct Player {
+  Deck library;
+  Deck hand;
+  Deck battlefield;
+  Deck graveyard;
+};
+
 Land *MoveLand(int card, Deck &from, Deck &to) {
   return MoveItem<Land>(card, from.lands, to.lands);
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "format.h"
+#include "deck.h"
 
 int DrawFromPlayedCard(const Card &card, const Player &player) {
   if (card.name == "Thief") {

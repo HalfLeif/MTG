@@ -2,7 +2,12 @@
 
 #include "card_logic.h"
 #include "collection.h"
-#include "format.h"
+#include "library.h"
+
+struct TurnState {
+  ManaCost mana_pool;
+  ManaCost agg_card_cost;
+};
 
 void DrawOne(Player *player) {
   auto &lib = player->library;
