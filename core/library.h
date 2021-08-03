@@ -13,6 +13,9 @@ enum class Experiment : int {
   always, // always included.
   base,
   exp,
+  exp2,
+  exp3,
+  exp4,
 };
 
 std::ostream &operator<<(std::ostream &stream, const Experiment &experiment) {
@@ -24,6 +27,15 @@ std::ostream &operator<<(std::ostream &stream, const Experiment &experiment) {
     break;
   case Experiment::exp:
     stream << "exp";
+    break;
+  case Experiment::exp2:
+    stream << "exp2";
+    break;
+  case Experiment::exp3:
+    stream << "exp3";
+    break;
+  case Experiment::exp4:
+    stream << "exp4";
     break;
   }
   return stream;
