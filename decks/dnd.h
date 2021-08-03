@@ -26,10 +26,10 @@ inline Library kDND =
         .AddSpell(MakeSpell("U3", 1, "WindSeeker"))
         .AddSpell(MakeSpell("U3", 1, "ShortcutSeeker"))
 
-        .AddSpell(MakeSpell("B4", 1, "Herald").AddAbility("B5"))
-        .AddSpell(MakeSpell("B4", 1, "Herald").AddAbility("B5"),
+        .AddSpell(MakeSpell("B4", 1, "Herald").AddAbility("B5").AddBonus(-1))
+        .AddSpell(MakeSpell("B4", 1, "Herald").AddAbility("B5").AddBonus(-1),
                   Experiment::base)
-        .AddSpell(MakeSpell("BB3", 1, "Ogre"), Experiment::base)
+        .AddSpell(MakeSpell("BB3", 1, "Ogre").AddBonus(-0.5), Experiment::base)
 
         .AddSpell(MakeSpell("5", 1, "DeckOfManyThings").AddAbility("2"))
 
@@ -38,13 +38,11 @@ inline Library kDND =
         .AddLand(DualLand(Color::Blue, Color::Black))
 
         .AddSpell(MakeSpell("U1", 0, "FrostRay"), Experiment::exp)
-        .AddSpell(MakeSpell("B4", 1, "Herald").AddAbility("B5"),
+        .AddSpell(MakeSpell("B4", 1, "Herald").AddAbility("B5").AddBonus(-1),
                   Experiment::exp)
 
         .AddSpell(MakeSpell("U1", 0, "FrostRay"), Experiment::exp2)
-        .AddSpell(MakeSpell("BB3", 1, "Ogre"), Experiment::exp2)
-        // .AddSpell(MakeSpell("U2", 0, "FrostRay"), Experiment::exp3)
-        // .AddSpell(MakeSpell("U3", 0, "FrostRay"), Experiment::exp4)
+        .AddSpell(MakeSpell("BB3", 1, "Ogre").AddBonus(-0.5), Experiment::exp2)
 
         // .AddSpell(MakeSpell("B2", 1, "Vampire"), Experiment::exp)
         // .AddSpell(MakeSpell("U", 1, "Door").AddAbility("U4"),

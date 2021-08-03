@@ -82,8 +82,8 @@ inline Library kBolas =
 
         //
         .AddSpell(MakeSpell("3BB", 1, "MassacreGirl"))
-        .AddSpell(MakeSpell("UBBBR", 4, "NicolBolas"))
-        .AddSpell(MakeSpell("UBBBR", 4, "NicolBolas"))
+        .AddSpell(MakeSpell("UBBBR", 4, "NicolBolas").AddBonus(1))
+        .AddSpell(MakeSpell("UBBBR", 4, "NicolBolas").AddBonus(1))
         .AddSpell(MakeSpell("2UBR", 0, "DarkIntimations"))
         //
         // .AddSpell(MakeSpell("3BBB", 1, "KayaBane"))
@@ -97,5 +97,6 @@ inline Library kBolas =
         // .AddSpell(MakeSpell("8", 1, "ElderDeepfiend"), Experiment::base)
         // .AddSpell(MakeSpell("5UU", 1, "ElderDeepfiend"), Experiment::base)
 
-        // .AddSpell(MakeSpell("BBRR", 1, "FireWheeler"), Experiment::exp)
+        // .AddSpell(MakeSpell("BBRR", 1, "FireWheeler").AddBonus(1),
+        // Experiment::exp)
         .Build();

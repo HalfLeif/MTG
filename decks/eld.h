@@ -7,7 +7,7 @@ inline Library kELD =
         .SetLimited()
         .AddSpell(MakeSpell("R", 1, "FerventChampion"))
         .AddSpell(MakeSpell("1", 1, "ScaldingCauldron"))
-        .AddSpell(MakeSpell("U", 1, "WishingWell"))
+        .AddSpell(MakeSpell("U", 1, "WishingWell").AddBonus(1))
 
         .AddSpell(MakeSpell("1R", 1, "RimrockKnight"))
         .AddSpell(MakeSpell("1R", 2, "Robber"))
@@ -18,7 +18,7 @@ inline Library kELD =
         .AddSpell(MakeSpell("1U", 1, "Alliance"))
 
         .AddSpell(MakeSpell("2U", 1, "QueenOfIce"))
-        .AddSpell(MakeSpell("2R", 1, "Trebuchet"))
+        .AddSpell(MakeSpell("2R", 1, "Trebuchet").AddBonus(1))
         .AddSpell(MakeSpell("2R", 3, "Pyromancer"))
         .AddSpell(MakeSpell("2R", 0, "BlowYourHouseDown"))
 

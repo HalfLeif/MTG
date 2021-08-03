@@ -123,6 +123,10 @@ void PayCost(const ManaCost &spell_cost, ManaCost *mana_pool) {
   }
 }
 
+double PointsFromSpell(const Spell &spell) {
+  return TotalCost(spell.cost) + spell.point_bonus;
+}
+
 // Returns number of points from playing this spell.
 double PlaySpell(int i, Player *player, TurnState *state) {
   PayCost(player->hand.spells[i].cost, &state->mana_pool);
@@ -130,7 +134,7 @@ double PlaySpell(int i, Player *player, TurnState *state) {
   if (spell != nullptr) {
     INFO << "Played " << *spell << "\n";
     DrawN(player, DrawFromPlayedSpell(*spell, *player));
-    return PointsFromPlayedSpell(*spell, *player);
+    return PointsFromSpell(*spell);
   }
   ERROR << "Attempted to play a spell that doesn't exist!\n";
   return 0;
@@ -155,7 +159,7 @@ int FindBestSpell(const Player &player, const TurnState &state) {
     if (spells[i].priority < best_affordable_priority) {
       continue;
     }
-    const double spell_points = PointsFromPlayedSpell(spells[i], player);
+    const double spell_points = PointsFromSpell(spells[i]);
     if (spell_points > highest_points) {
       best_affordable_spell = i;
       highest_points = spell_points;

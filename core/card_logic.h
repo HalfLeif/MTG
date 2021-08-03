@@ -22,26 +22,6 @@ int DrawFromPlayedSpell(const Spell &spell, const Player &player) {
   return 0;
 }
 
-double PointsFromPlayedSpell(const Spell &spell, const Player &player) {
-  double points = TotalCost(spell.cost);
-  if (spell.name == "Caryatid") {
-    points += -1;
-  } else if (spell.name == "BronzehideLion") {
-    points += 1;
-  } else if (spell.name == "Fenlurker") {
-    points += 1;
-  } else if (spell.name == "WishingWell") {
-    points += 1; // scry 2
-  } else if (spell.name == "Trebuchet") {
-    points += 1;
-  } else if (spell.name == "FireWheeler") {
-    points += 1;
-  } else if (spell.name == "NicolBolas") {
-    points += 1;
-  }
-  return points;
-}
-
 double PointsFromPlayedLand(const Land &land, const Player &player) {
   if (IsSwamp(land) && Contains<Spell>(player.battlefield.spells,
                                        IsSpellName("DreadPresence"))) {

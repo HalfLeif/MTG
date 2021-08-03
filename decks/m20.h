@@ -9,7 +9,7 @@ inline Library kM20 =
 
         .AddSpell(MakeSpell("WB", 5, "CorpseKnight"))
         .AddSpell(MakeSpell("1W", 2, "AncientSword"))
-        .AddSpell(MakeSpell("BB", 2, "Fenlurker"))
+        .AddSpell(MakeSpell("BB", 2, "Fenlurker").AddBonus(1))
         .AddSpell(MakeSpell("1W", 0, "EternalIsolation"))
         .AddSpell(MakeSpell("1W", 0, "Pacifism"))
         .AddSpell(MakeSpell("1W", 0, "Instant Lifelink"))

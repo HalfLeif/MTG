@@ -9,10 +9,16 @@ struct Spell {
   ManaCost cost;
   ManaCost ability;
   int priority = 0;
+  double point_bonus = 0;
   std::string name = "";
 
   Spell &AddAbility(std::string mana_cost) {
     ability = ParseMana(mana_cost);
+    return *this;
+  }
+
+  Spell &AddBonus(double bonus) {
+    point_bonus = bonus;
     return *this;
   }
 };
