@@ -288,10 +288,10 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
     return max_land;
   }
 
+  const auto &lands = hand.lands;
+  int non_basic_land = -1;
+  int wanted_double_land = -1;
   for (Color color : needs) {
-    auto &lands = hand.lands;
-    int non_basic_land = -1;
-    int wanted_double_land = -1;
     for (int i = 0; i < lands.size(); ++i) {
       if (lands[i].type == LandType::dual &&
           (lands[i].color == color || *lands[i].secondary == color)) {
