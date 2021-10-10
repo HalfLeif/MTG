@@ -1,0 +1,5 @@
+
+- give points /2 for already played creatures each turn
+- Only count until turn 7 or 8
+- Add test for choosing land when has WB land in play and has spells of W2, BR1, WW2 in hand -> should result in new land R not W.
+- Can play land after drawing if did not play land in first main

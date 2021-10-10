@@ -287,13 +287,10 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
   if (const int max_land = MaxPointsLand(player); max_land >= 0) {
     return max_land;
   }
-  if (needs.empty()) {
-    // Play any land if possible... this should be a rare case.
-    return 0;
-  }
-  int non_basic_land = -1;
-  auto &lands = hand.lands;
+
   for (Color color : needs) {
+    auto &lands = hand.lands;
+    int non_basic_land = -1;
     int wanted_double_land = -1;
     for (int i = 0; i < lands.size(); ++i) {
       if (lands[i].type == LandType::dual &&
@@ -302,9 +299,7 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
       } else if (lands[i].color == color) {
         // Found a wanted color of basic land, play that land!
         return i;
-      }
-
-      if (lands[i].type != LandType::basic) {
+      } else if (lands[i].type != LandType::basic) {
         non_basic_land = i;
       }
     }
@@ -321,7 +316,7 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
   return 0;
 }
 
-// Returns points from played spells.
+// Returns points from played lands.
 double PlayLand(Player *player, TurnState *state) {
   const auto &lands = player->hand.lands;
   if (lands.empty()) {
@@ -329,15 +324,15 @@ double PlayLand(Player *player, TurnState *state) {
     return 0;
   }
 
-  std::vector<Color> needs = ManaNeeds(*player, *state);
-  int i = ChooseLand(needs, *player, player->hand, false, state);
-  Land *played = nullptr;
+  const std::vector<Color> needs = ManaNeeds(*player, *state);
+  const int i = ChooseLand(needs, *player, player->hand, false, state);
+  const Land *played = nullptr;
 
   if (lands[i].type == LandType::fetch) {
     // Sacrifice the land, and search for another land instead.
     // The searched land cannot be tapped this turn.
     MoveLand(i, player->hand, player->graveyard);
-    int search = ChooseLand(needs, *player, player->library, true, state);
+    const int search = ChooseLand(needs, *player, player->library, true, state);
     played = MoveLand(search, player->library, player->battlefield);
     if (played) {
       INFO << "Fetched and played " << *played << "\n";
@@ -361,7 +356,7 @@ double PlayLand(Player *player, TurnState *state) {
     }
   }
 
-  if (played) {
+  if (played != nullptr) {
     return PointsFromPlayedLand(*played, *player);
   }
 
