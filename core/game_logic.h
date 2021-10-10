@@ -12,12 +12,12 @@ struct TurnState {
 
 void DrawOne(Player *player) {
   auto &lib = player->library;
-  int total_spells = lib.spells.size() + lib.lands.size();
-  if (total_spells <= 0) {
-    ERROR << "Cannot draw spell because the library is empty!\n";
+  int total_cards = lib.spells.size() + lib.lands.size();
+  if (total_cards <= 0) {
+    ERROR << "Cannot draw card because the library is empty!\n";
     return;
   }
-  int picked = rand() % total_spells;
+  int picked = rand() % total_cards;
   // INFO << "Rand pick " << picked << "\n";
   if (picked >= lib.spells.size()) {
     // Picked a land
@@ -363,10 +363,22 @@ double PlayLand(Player *player, TurnState *state) {
   return 0;
 }
 
+double PointsFromBattlefield(const Player &player) {
+  double points = 0;
+  for (const Spell &spell : player.battlefield.spells) {
+    points += 0.5 * PointsFromSpell(spell);
+  }
+  return points;
+}
+
 // Returns #points.
 double PlayTurn(const Library &lib, Player *player) {
   double points = 0;
   TurnState state;
+
+  // Get some points for previously played creatures. Needs to be calculated
+  // before playing new spells.
+  const double battlefield_advantage = PointsFromBattlefield(*player);
 
   // Upkeep
   DrawOne(player);
@@ -379,9 +391,11 @@ double PlayTurn(const Library &lib, Player *player) {
   INFO << "Mana " << state.mana_pool << "\n";
   points += PlaySpells(player, &state);
   points += PlayAbilities(player, &state);
+  points += battlefield_advantage;
   if (points <= 0) {
-    // If could not do anything useful, then minus one point.
-    points = -1;
+    // If could not do anything useful, not even attacking, then minus one
+    // point.
+    points -= 1;
   }
   return points;
 }
@@ -563,6 +577,19 @@ TEST(PlayTurnSimple) {
       player.battlefield.spells.front().name != "Foo") {
     Fail("Expected Spell to be played");
   }
+  if (static_cast<int>(points) != 2) {
+    Fail("Expected 2 points, but found " + std::to_string(points));
+  }
+}
+
+TEST(PlayTurnExistingCreature) {
+  Player player;
+  player.battlefield.spells.push_back(MakeSpell("B3", 1, "Foo"));
+  player.library.lands.push_back(BasicLand(Color::White));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("B3")).Build();
+
+  double points = PlayTurn(lib, &player);
   if (static_cast<int>(points) != 2) {
     Fail("Expected 2 points, but found " + std::to_string(points));
   }
