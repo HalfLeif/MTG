@@ -85,7 +85,7 @@ double RunParam(const Library &lib, const Param &param, int games) {
   //     std::chrono::steady_clock::now();
 
   constexpr int kStart = 6;
-  constexpr int kEnd = 10;
+  constexpr int kEnd = 8;
 
   struct Instance {
     int turns = 0;
