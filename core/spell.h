@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 
 #include "mana.h"
@@ -7,13 +8,20 @@
 
 struct Spell {
   ManaCost cost;
-  ManaCost ability;
+  std::optional<ManaCost> ability;
+  std::optional<ManaCost> onetime_ability;
+
   int priority = 0;
   double point_bonus = 0;
   std::string name = "";
 
   Spell &AddAbility(std::string mana_cost) {
     ability = ParseMana(mana_cost);
+    return *this;
+  }
+
+  Spell &AddOnetimeAbility(std::string mana_cost) {
+    onetime_ability = ParseMana(mana_cost);
     return *this;
   }
 
@@ -43,7 +51,7 @@ TEST(AbilityCost) {
   if (ToString(s.cost) != "B") {
     Fail("Expected B but got " + ToString(s.cost));
   }
-  if (ToString(s.ability) != "BB") {
-    Fail("Expected BB but got " + ToString(s.ability));
+  if (!s.ability.has_value() or ToString(*s.ability) != "BB") {
+    Fail("Expected BB but got " + ToString(*s.ability));
   }
 }

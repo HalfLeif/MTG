@@ -186,13 +186,13 @@ const Spell *FindBestAbility(const Player &player, const TurnState &state) {
   double highest_affordable_cost = 0;
   const Spell *best_ability = nullptr;
   for (const Spell &perm : player.battlefield.spells) {
-    if (perm.ability.empty()) {
+    if (!perm.ability.has_value()) {
       continue;
     }
-    if (!IsAffordable(perm.ability, state.mana_pool)) {
+    if (!IsAffordable(*perm.ability, state.mana_pool)) {
       continue;
     }
-    if (int ability_cost = TotalCost(perm.ability);
+    if (int ability_cost = TotalCost(*perm.ability);
         ability_cost > highest_affordable_cost) {
       highest_affordable_cost = ability_cost;
       best_ability = &perm;
@@ -201,15 +201,44 @@ const Spell *FindBestAbility(const Player &player, const TurnState &state) {
   return best_ability;
 }
 
+Spell *FindBestOnetimeAbility(Player &player, const TurnState &state) {
+  double highest_affordable_cost = 0;
+  Spell *best_ability = nullptr;
+  for (Spell &perm : player.battlefield.spells) {
+    if (!perm.onetime_ability.has_value()) {
+      continue;
+    }
+    if (!IsAffordable(*perm.onetime_ability, state.mana_pool)) {
+      continue;
+    }
+    if (int ability_cost = TotalCost(*perm.onetime_ability);
+        ability_cost > highest_affordable_cost) {
+      highest_affordable_cost = ability_cost;
+      best_ability = &perm;
+    }
+  }
+  return best_ability;
+}
+
+// Plays onetime abilities first, and then mana sink abilities.
 double PlayAbilities(Player *player, TurnState *state) {
   double points = 0;
-  while (true) {
-    const Spell *ability = FindBestAbility(*player, *state);
-    if (ability == nullptr) {
-      break;
-    } else {
-      PayCost(ability->ability, &state->mana_pool);
-      points += TotalCost(ability->ability) / 3.0;
+  bool found_something = true;
+  while (found_something) {
+    found_something = false;
+    if (Spell *spell = FindBestOnetimeAbility(*player, *state);
+        spell != nullptr) {
+      found_something = true;
+
+      PayCost(*spell->onetime_ability, &state->mana_pool);
+      // Can only use it once, so need to reset it to nullopt!
+      spell->onetime_ability = std::nullopt;
+      points += TotalCost(*spell->onetime_ability) / 2.0;
+    } else if (const Spell *spell = FindBestAbility(*player, *state);
+               spell != nullptr) {
+      found_something = true;
+      PayCost(*spell->ability, &state->mana_pool);
+      points += TotalCost(*spell->ability) / 3.0;
     }
   }
   return points;
@@ -221,7 +250,12 @@ void AggregateCosts(const Player &player, ManaCost *aggregate) {
     (*aggregate) += spell.cost;
   }
   for (const Spell &spell : player.battlefield.spells) {
-    (*aggregate) += spell.ability;
+    if (spell.ability.has_value()) {
+      (*aggregate) += *spell.ability;
+    }
+    if (spell.onetime_ability.has_value()) {
+      (*aggregate) += *spell.onetime_ability;
+    }
   }
 }
 
@@ -263,8 +297,13 @@ ManaCost FindMissingColors(const Player &player, const ManaCost &mana_pool) {
     }
   }
   for (const Spell &spell : player.battlefield.spells) {
-    if (FindWithDefault(spell.ability, Color::Total, 0) <= max_mana) {
-      UpdateMaxColors(missing_colors, spell.ability);
+    if (spell.ability.has_value() &&
+        FindWithDefault(*spell.ability, Color::Total, 0) <= max_mana) {
+      UpdateMaxColors(missing_colors, *spell.ability);
+    }
+    if (spell.onetime_ability.has_value() &&
+        FindWithDefault(*spell.onetime_ability, Color::Total, 0) <= max_mana) {
+      UpdateMaxColors(missing_colors, *spell.onetime_ability);
     }
   }
   for (const auto [color, amount] : mana_pool) {
@@ -772,6 +811,31 @@ TEST(PlayAbilities) {
   double points = PlayTurn(lib, &player);
   // Gets 6/3 = 2 points for playing the same ability twice.
   if (static_cast<int>(points) != 2) {
-    Fail("Expected -1 points, but found " + std::to_string(points));
+    Fail("Expected 2 points, but found " + std::to_string(points));
   }
+}
+
+TEST(PlayOnetimeAbilities) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  ERROR << "START\n";
+
+  // Has one ability in battlefield.
+  player.battlefield.spells.push_back(
+      MakeSpell("B", 1, "Foo").AddAbility("B3").AddOnetimeAbility("BB"));
+
+  // Will draw a land. Will have 5 mana afterwards.
+  player.library.lands.push_back(BasicLand(Color::Black));
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+
+  double points = PlayTurn(lib, &player);
+  // Gets 2/2 points for playing the onetime once.
+  if (static_cast<int>(points) != 1) {
+    Fail("Expected 1 points, but found " + std::to_string(points));
+  }
+  ERROR << "END\n";
 }
