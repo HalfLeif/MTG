@@ -821,7 +821,6 @@ TEST(PlayOnetimeAbilities) {
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
-  ERROR << "START\n";
 
   // Has one ability in battlefield.
   player.battlefield.spells.push_back(
@@ -837,5 +836,4 @@ TEST(PlayOnetimeAbilities) {
   if (static_cast<int>(points) != 1) {
     Fail("Expected 1 points, but found " + std::to_string(points));
   }
-  ERROR << "END\n";
 }

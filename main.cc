@@ -13,6 +13,7 @@
 #include "decks/dnd.h"
 #include "decks/eld.h"
 #include "decks/m20.h"
+#include "decks/mid.h"
 #include "decks/thb.h"
 #include "search/task.h"
 
@@ -21,7 +22,8 @@ const Library &GetMainLib() {
   // return kM20;
   // return kTHB;
   // return kBolas;
-  return kDND;
+  // return kDND;
+  return kMID;
 }
 
 const bool DEBUG_ON = false;

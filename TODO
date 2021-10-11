@@ -1,3 +1,4 @@
 
 - Can play land after drawing if did not play land in first main
 - Use string_view for parsing mana costs.
+- Support spell with mana cost X and use when appropriate.
