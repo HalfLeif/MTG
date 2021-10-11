@@ -1,4 +1,3 @@
 
-- Add test for choosing land when has WB land in play and has spells of W2, BR1, WW2 in hand -> should result in new land R not W.
 - Can play land after drawing if did not play land in first main
 - Support one-time only abilities. Is worth mana/2 instead of mana/3 but cannot be used again.

@@ -215,6 +215,7 @@ double PlayAbilities(Player *player, TurnState *state) {
   return points;
 }
 
+// Accumulates how much mana is needed for all spells in the hand.
 void AggregateCosts(const Player &player, ManaCost *aggregate) {
   for (const Spell &spell : player.hand.spells) {
     (*aggregate) += spell.cost;
@@ -251,13 +252,40 @@ std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_spell_cost,
   return scores;
 }
 
+// Returns which colors are missing for spells in the hand, and by how much.
+// Negative values means the color is already supplied.
+ManaCost FindMissingColors(const Player &player, const ManaCost &mana_pool) {
+  ManaCost missing_colors;
+  const int max_mana = 1 + FindWithDefault(mana_pool, Color::Total, 0);
+  for (const Spell &spell : player.hand.spells) {
+    if (FindWithDefault(spell.cost, Color::Total, 0) <= max_mana) {
+      UpdateMaxColors(missing_colors, spell.cost);
+    }
+  }
+  for (const Spell &spell : player.battlefield.spells) {
+    if (FindWithDefault(spell.ability, Color::Total, 0) <= max_mana) {
+      UpdateMaxColors(missing_colors, spell.ability);
+    }
+  }
+  for (const auto [color, amount] : mana_pool) {
+    missing_colors[color] -= amount;
+  }
+  missing_colors[Color::Total] = 0;
+  return missing_colors;
+}
+
 // First color is most important to add.
 std::vector<Color> ManaNeeds(const Player &player,
                              const ManaCost &agg_spell_cost,
                              const ManaCost &mana_pool) {
   std::vector<Color> priorities;
-  for (const auto &pair : SortNeeds(agg_spell_cost, mana_pool)) {
-    priorities.push_back(pair.second);
+  for (const auto [color, amount] : FindMissingColors(player, mana_pool)) {
+    if (amount > 0) {
+      priorities.push_back(color);
+    }
+  }
+  for (const auto [priority, color] : SortNeeds(agg_spell_cost, mana_pool)) {
+    priorities.push_back(color);
   }
   return priorities;
 }
@@ -558,6 +586,33 @@ TEST(ChoseLandSimpleNeed) {
   int i = ChooseLand(needs, player, player.hand, false, &state);
   if (i != 1) {
     Fail("Expected to pick B, instead picked land " + std::to_string(i));
+  }
+}
+
+TEST(PrioritizeColorThatEnablesSpell) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::White));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  player.hand.lands.push_back(BasicLand(Color::White));
+  player.hand.lands.push_back(BasicLand(Color::Red));
+
+  player.hand.spells.push_back(MakeSpell("W2"));
+  player.hand.spells.push_back(MakeSpell("BR1"));
+  player.hand.spells.push_back(MakeSpell("WW2"));
+  player.hand.spells.push_back(MakeSpell("WW3"));
+  // Has many more white spells, but should prioritize enabling BR1 before
+  // enabling WW2 because is playable same turn.
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+  TurnState state;
+  AggregateCosts(player, &state.agg_spell_cost);
+  ProduceMana(lib, &player, &state);
+
+  std::vector<Color> needs = ManaNeeds(player, state);
+  int i = ChooseLand(needs, player, player.hand, false, &state);
+  if (i != 1) {
+    Fail("Expected to pick R, instead picked land " + std::to_string(i));
   }
 }
 

@@ -38,6 +38,12 @@ void operator+=(ManaCost &lhs, const ManaCost &rhs) {
   }
 }
 
+void UpdateMaxColors(ManaCost &mana_needs, const ManaCost &spell_needs) {
+  for (const auto [color, amount] : spell_needs) {
+    mana_needs[color] = std::max(mana_needs[color], amount);
+  }
+}
+
 int TotalCost(const ManaCost &cost) {
   return FindWithDefault(cost, Color::Total, 0);
 }
