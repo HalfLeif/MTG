@@ -13,7 +13,7 @@ inline Library kMID =
 
         .AddSpell(MakeSpell("W1", 1, "CandlegroveWitch"))
         .AddSpell(MakeSpell("W1", 1, "SungoldSentinel"))
-        .AddSpell(MakeSpell("B1", 1, "GhoulishProcession"))
+        // .AddSpell(MakeSpell("B1", 1, "GhoulishProcession"), Experiment::base)
         .AddSpell(MakeSpell("B1", 1, "SlaughterSpecialist"))
         .AddSpell(MakeSpell("B1", 1, "VengefulStrangler"))
         .AddSpell(MakeSpell("R1", 0, "CatharticPyre"))
@@ -29,11 +29,12 @@ inline Library kMID =
         .AddSpell(MakeSpell("BR1", 1, "Florian").AddBonus(1))
 
         .AddSpell(MakeSpell("W3", 1, "ClarionCathar"))
+        .AddSpell(MakeSpell("W3", 1, "ClarionCathar"))
         .AddSpell(MakeSpell("W3", 1, "GavonySilversmith"))
 
         .AddSpell(MakeSpell("WW3", 1, "SigardianSavior"))
 
-        // .AddSpell(MakeSpell("B4", 1, "BigThing"), Experiment::exp)
+        // .AddSpell(MakeSpell("B6", 1, "BigThing"), Experiment::exp)
 
         .AddLand(FetchLand())
         .AddLand(FetchLand())
