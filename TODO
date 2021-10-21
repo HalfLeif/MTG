@@ -2,8 +2,14 @@
 # Functionality
 - Can play land after drawing if did not play land in first main
 - Support spell with mana cost X and use when appropriate. Reward is X-1.
+- Search for reasonable land combinations using only few iterations (25), and then refine best N of those with more iterations (200). Can do recursively for top N-1 with more iterations until stable order?
+
+# Ambitious upgrades
+- Parse draft order from html. Assign bonus points automatically according to draft order.
+- Given set of cards and draft order points, simulate and refine until produces suggestion for concrete deck. Perhaps allow diverge into best deck of various colors? For initial version, could let user pre-select which colors to use. Ideally program should help inform what colors to pick, what cards to use, number of lands and distribution of lands. There are several possible implementations, for example genetic algorithms, or keep most valuable cards and replace rest. May require simulation to be really fast in order to run in reasonable time.
 
 # Implementation
+- Measure total latency, and per iteration latency, in order to see which implementation is faster.
 - Use string_view for parsing mana costs.
 - Use std::array<int>, perhaps with thin wrapper to represent ManaCost instead of std::map.
 - Use thin wrapper (pointer type) instead of copying Spells when simulating.
