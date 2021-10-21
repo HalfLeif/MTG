@@ -24,7 +24,8 @@ inline Library kMID =
         .AddSpell(MakeSpell("WW1", 1, "Adeline"))
         .AddSpell(MakeSpell("WW1", 1, "GavonyDawnguard"))
         .AddSpell(MakeSpell("B2", 1, "MorbidOpportunist"))
-        .AddSpell(MakeSpell("BB1", 0, "BloodlineCulling").AddBonus(1))
+        .AddSpell(MakeSpell("BB1", 0, "BloodlineCulling").AddBonus(1),
+                  Experiment::base)
         .AddSpell(MakeSpell("R2", 0, "MoonragerSlash"))
         .AddSpell(MakeSpell("BR1", 1, "Florian").AddBonus(1))
 
@@ -35,6 +36,9 @@ inline Library kMID =
         .AddSpell(MakeSpell("WW3", 1, "SigardianSavior"))
 
         // .AddSpell(MakeSpell("B6", 1, "BigThing"), Experiment::exp)
+
+        // Almost identical result mana-wise, both lands and points.
+        .AddSpell(MakeSpell("W4", 1, "Birdy"), Experiment::exp)
 
         .AddLand(FetchLand())
         .AddLand(FetchLand())

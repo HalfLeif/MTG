@@ -1,4 +1,9 @@
 
+# Functionality
 - Can play land after drawing if did not play land in first main
+- Support spell with mana cost X and use when appropriate. Reward is X-1.
+
+# Implementation
 - Use string_view for parsing mana costs.
-- Support spell with mana cost X and use when appropriate.
+- Use std::array<int>, perhaps with thin wrapper to represent ManaCost instead of std::map.
+- Use thin wrapper (pointer type) instead of copying Spells when simulating.
