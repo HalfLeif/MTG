@@ -24,11 +24,14 @@ public:
     }
 
   protected:
-    void Fail(std::string msg = "") {
-      if (!msg.empty()) {
-        ERROR << test_name_ << " failed with error " << msg << "\n";
-      }
+    void Fail(std::string msg) {
+      Fail() << test_name_ << " failed with error: " << msg << "\n";
       success_ = false;
+    }
+
+    std::ostream &Fail() {
+      success_ = false;
+      return ERROR << test_name_ << "\n";
     }
 
   private:
@@ -86,5 +89,21 @@ private:
   } kTestInstance##tname;                                                      \
   inline void TestCase##tname::RunTest()
 
+#define EXPECT_EQ(a, b)                                                        \
+  {                                                                            \
+    auto aresult = (a);                                                        \
+    auto bresult = (b);                                                        \
+    if (aresult != bresult) {                                                  \
+      Fail() << "Expected " << #a << " to be equal to " << #b << " but "       \
+             << aresult << " != " << bresult << "\n";                          \
+    }                                                                          \
+  }
+
+// "Expected " + #a + " to be equal to " + #b + " but is not ...");    \
+
 // Passes by default
-TEST(SimpleTest) {}
+TEST(SimpleTest) {
+  int a = 1;
+  EXPECT_EQ(a, 1);
+  EXPECT_EQ(a + 1, 2);
+}
