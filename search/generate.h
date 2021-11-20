@@ -56,29 +56,49 @@ bool MutateCard(int order, int total, ThreadsafeRandom &rand) {
   return r < MutationRate(order, total);
 }
 
+// How many cards should be replaced depending on iteration number. Later
+// iterations replace fewer cards.
+int NumReplace(const int iteration_nr) {
+  if (iteration_nr < 5) {
+    return 10;
+  }
+  if (iteration_nr < 10) {
+    return 7;
+  }
+  if (iteration_nr < 20) {
+    return 5;
+  }
+  if (iteration_nr < 30) {
+    return 3;
+  }
+  if (iteration_nr < 45) {
+    return 2;
+  }
+  return 1;
+}
+
 std::vector<int>
 ReplaceBadCards(const std::unordered_map<int, const Contribution *>
                     &permutation_to_contributions,
-                const int total, ThreadsafeRandom &rand) {
+                const int total, const int iteration_nr,
+                ThreadsafeRandom &rand) {
   std::vector<std::pair<double, int>> scores;
   for (const auto &[index, contribution] : permutation_to_contributions) {
     scores.emplace_back(contribution->score, index);
   }
   std::sort(scores.begin(), scores.end());
 
-  // TODO: consider a stochastic choice here instead of always replacing bottom
-  // Would produce Stochastic Gradient Descent instead of norm Gradient Descent.
   // Could also consider some decay here, instead of constant number.
   std::vector<int> new_permutation;
   new_permutation.reserve(scores.size());
-  constexpr int kMinReplacePerIteration = 3;
+  const int min_replace = NumReplace(iteration_nr);
   for (const auto &[score, index] : scores) {
     int new_index = index;
     if (
         // Replace useless card
         score <= 0 ||
         // Replace up to N bad cards
-        new_permutation.size() < kMinReplacePerIteration ||
+        new_permutation.size() < min_replace ||
         // Maybe replace card randomly, higher chance for bad cards.
         MutateCard(new_permutation.size(), permutation_to_contributions.size(),
                    rand)) {
@@ -139,7 +159,7 @@ GradientDescent(const std::vector<Spell> &available_cards,
     // 4. Replace bad cards for next iteration.
     generated->permutation = std::move(permutation);
     permutation = ReplaceBadCards(permutation_to_contributions,
-                                  available_cards.size(), rand);
+                                  available_cards.size(), i, rand);
     iterations.push_back(std::move(generated));
   }
 
