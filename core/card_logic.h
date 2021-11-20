@@ -1,5 +1,6 @@
 #pragma once
 
+#include "contribution.h"
 #include "deck.h"
 #include "mana.h"
 
@@ -22,10 +23,12 @@ int DrawFromPlayedSpell(const Spell &spell, const Player &player) {
   return 0;
 }
 
-double PointsFromPlayedLand(const Land &land, const Player &player) {
+double PointsFromPlayedLand(const Land &land, const Player &player,
+                            CardContributions *contributions) {
   if (IsSwamp(land) && Contains<Spell>(player.battlefield.spells,
                                        IsSpellName("DreadPresence"))) {
     INFO << "Played Swamp with DreadPresence in play!\n";
+    AddDelta(2, "DreadPresence", contributions);
     return 2;
   }
   return 0;

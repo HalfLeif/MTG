@@ -2,6 +2,7 @@
 
 #include "card_logic.h"
 #include "collection.h"
+#include "contribution.h"
 #include "library.h"
 #include "test.h"
 
@@ -128,13 +129,16 @@ double PointsFromSpell(const Spell &spell) {
 }
 
 // Returns number of points from playing this spell.
-double PlaySpell(int i, Player *player, TurnState *state) {
+double PlaySpell(int i, Player *player, TurnState *state,
+                 CardContributions *contributions) {
   PayCost(player->hand.spells[i].cost, &state->mana_pool);
   const Spell *spell = MoveSpell(i, player->hand, player->battlefield);
   if (spell != nullptr) {
     INFO << "Played " << *spell << "\n";
     DrawN(player, DrawFromPlayedSpell(*spell, *player));
-    return PointsFromSpell(*spell);
+    double delta = PointsFromSpell(*spell);
+    AddDelta(delta, spell->name, contributions);
+    return delta;
   }
   ERROR << "Attempted to play a spell that doesn't exist!\n";
   return 0;
@@ -169,14 +173,15 @@ int FindBestSpell(const Player &player, const TurnState &state) {
   return best_affordable_spell;
 }
 
-double PlaySpells(Player *player, TurnState *state) {
+double PlaySpells(Player *player, TurnState *state,
+                  CardContributions *contributions) {
   double points = 0;
   while (true) {
     const int spell_i = FindBestSpell(*player, *state);
     if (spell_i < 0) {
       break;
     } else {
-      points += PlaySpell(spell_i, player, state);
+      points += PlaySpell(spell_i, player, state, contributions);
     }
   }
   return points;
@@ -221,7 +226,8 @@ Spell *FindBestOnetimeAbility(Player &player, const TurnState &state) {
 }
 
 // Plays onetime abilities first, and then mana sink abilities.
-double PlayAbilities(Player *player, TurnState *state) {
+double PlayAbilities(Player *player, TurnState *state,
+                     CardContributions *contributions) {
   double points = 0;
   bool found_something = true;
   while (found_something) {
@@ -233,12 +239,16 @@ double PlayAbilities(Player *player, TurnState *state) {
       PayCost(*spell->onetime_ability, &state->mana_pool);
       // Can only use it once, so need to reset it to nullopt!
       spell->onetime_ability = std::nullopt;
-      points += TotalCost(*spell->onetime_ability) / 2.0;
+      double delta = TotalCost(*spell->onetime_ability) / 2.0;
+      points += delta;
+      AddDelta(delta, spell->name, contributions);
     } else if (const Spell *spell = FindBestAbility(*player, *state);
                spell != nullptr) {
       found_something = true;
       PayCost(*spell->ability, &state->mana_pool);
-      points += TotalCost(*spell->ability) / 3.0;
+      double delta = TotalCost(*spell->ability) / 3.0;
+      points += delta;
+      AddDelta(delta, spell->name, contributions);
     }
   }
   return points;
@@ -339,7 +349,7 @@ int MaxPointsLand(const Player &player) {
   double max_points = 0;
   int iter = 0;
   for (const Land &land : player.hand.lands) {
-    if (double points = PointsFromPlayedLand(land, player);
+    if (double points = PointsFromPlayedLand(land, player, nullptr);
         points > max_points) {
       max_land = iter;
     }
@@ -384,7 +394,8 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
 }
 
 // Returns points from played lands.
-double PlayLand(Player *player, TurnState *state) {
+double PlayLand(Player *player, TurnState *state,
+                CardContributions *contributions) {
   const auto &lands = player->hand.lands;
   if (lands.empty()) {
     INFO << "No lands in hand.\n";
@@ -424,28 +435,33 @@ double PlayLand(Player *player, TurnState *state) {
   }
 
   if (played != nullptr) {
-    return PointsFromPlayedLand(*played, *player);
+    return PointsFromPlayedLand(*played, *player, contributions);
   }
 
   return 0;
 }
 
-double PointsFromBattlefield(const Player &player) {
+double PointsFromBattlefield(const Player &player,
+                             CardContributions *contributions) {
   double points = 0;
   for (const Spell &spell : player.battlefield.spells) {
-    points += 0.5 * PointsFromSpell(spell);
+    double delta = 0.5 * PointsFromSpell(spell);
+    points += delta;
+    AddDelta(delta, spell.name, contributions);
   }
   return points;
 }
 
 // Returns #points.
-double PlayTurn(const Library &lib, Player *player) {
+double PlayTurn(const Library &lib, Player *player,
+                CardContributions *contributions) {
   double points = 0;
   TurnState state;
 
   // Get some points for previously played creatures. Needs to be calculated
   // before playing new spells.
-  const double battlefield_advantage = PointsFromBattlefield(*player);
+  const double battlefield_advantage =
+      PointsFromBattlefield(*player, contributions);
 
   // Upkeep
   DrawOne(player);
@@ -454,10 +470,10 @@ double PlayTurn(const Library &lib, Player *player) {
   ProduceMana(lib, player, &state);
 
   // Main phase
-  points += PlayLand(player, &state);
+  points += PlayLand(player, &state, contributions);
   INFO << "Mana " << state.mana_pool << "\n";
-  points += PlaySpells(player, &state);
-  points += PlayAbilities(player, &state);
+  points += PlaySpells(player, &state, contributions);
+  points += PlayAbilities(player, &state, contributions);
   points += battlefield_advantage;
   if (points <= 0) {
     // If could not do anything useful, not even attacking, then minus one
@@ -565,7 +581,8 @@ int BoardPoints(const Player &player) {
 }
 
 double PlayGame(const Library &lib, const Deck &deck,
-                const MulliganStrategy &strategy, int turns) {
+                const MulliganStrategy &strategy, int turns,
+                CardContributions *contributions = nullptr) {
   INFO << "-- Game start ------------- \n";
   float score = 0.0f;
 
@@ -573,7 +590,7 @@ double PlayGame(const Library &lib, const Deck &deck,
 
   for (int turn = 0; turn < turns; ++turn) {
     INFO << "-- Begin turn " << (turn + 1) << " ------------- \n";
-    score += PlayTurn(lib, &player);
+    score += PlayTurn(lib, &player, contributions);
     // std::cout << "Score at turn " << (turn + 1) << ": " << score << "\n";
   }
   return score;
@@ -594,10 +611,7 @@ TEST(ProduceManaBasicLands) {
                     .Build();
   TurnState state;
   ProduceMana(lib, &player, &state);
-
-  if (std::string mana = ToString(state.mana_pool); mana != "WBBR") {
-    Fail("Expected WBBR but found " + mana);
-  }
+  EXPECT_EQ(ToString(state.mana_pool), "WBBR");
 }
 
 TEST(ChoseLandSimpleNeed) {
@@ -613,19 +627,11 @@ TEST(ChoseLandSimpleNeed) {
   AggregateCosts(player, &state.agg_spell_cost);
   ProduceMana(lib, &player, &state);
 
-  if (std::string mana = ToString(state.agg_spell_cost); mana != "BBB4") {
-    Fail("Expected BBB4 but found " + mana);
-  }
-  if (std::string mana = ToString(state.mana_pool); mana != "B") {
-    Fail("Expected B but found " + mana);
-  }
+  EXPECT_EQ(ToString(state.agg_spell_cost), "BBB4");
+  EXPECT_EQ(ToString(state.mana_pool), "B");
 
   std::vector<Color> needs = ManaNeeds(player, state);
-
-  int i = ChooseLand(needs, player, player.hand, false, &state);
-  if (i != 1) {
-    Fail("Expected to pick B, instead picked land " + std::to_string(i));
-  }
+  EXPECT_EQ(ChooseLand(needs, player, player.hand, false, &state), 1);
 }
 
 TEST(PrioritizeColorThatEnablesSpell) {
@@ -649,10 +655,7 @@ TEST(PrioritizeColorThatEnablesSpell) {
   ProduceMana(lib, &player, &state);
 
   std::vector<Color> needs = ManaNeeds(player, state);
-  int i = ChooseLand(needs, player, player.hand, false, &state);
-  if (i != 1) {
-    Fail("Expected to pick R, instead picked land " + std::to_string(i));
-  }
+  EXPECT_EQ(ChooseLand(needs, player, player.hand, false, &state), 1);
 }
 
 TEST(PlayTurnSimple) {
@@ -666,14 +669,14 @@ TEST(PlayTurnSimple) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
 
-  double points = PlayTurn(lib, &player);
+  CardContributions contributions;
+  double points = PlayTurn(lib, &player, &contributions);
   if (player.battlefield.spells.empty() ||
       player.battlefield.spells.front().name != "Foo") {
     Fail("Expected Spell to be played");
   }
-  if (static_cast<int>(points) != 2) {
-    Fail("Expected 2 points, but found " + std::to_string(points));
-  }
+  EXPECT_EQ(static_cast<int>(points), 2);
+  EXPECT_EQ(GetContribution("Foo", &contributions), 2);
 }
 
 TEST(PlayTurnExistingCreature) {
@@ -683,10 +686,10 @@ TEST(PlayTurnExistingCreature) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("B3")).Build();
 
-  double points = PlayTurn(lib, &player);
-  if (static_cast<int>(points) != 2) {
-    Fail("Expected 2 points, but found " + std::to_string(points));
-  }
+  CardContributions contributions;
+  double points = PlayTurn(lib, &player, &contributions);
+  EXPECT_EQ(static_cast<int>(points), 2);
+  EXPECT_EQ(GetContribution("Foo", &contributions), 2);
 }
 
 TEST(PlayTurnNotEnoughMana) {
@@ -699,15 +702,13 @@ TEST(PlayTurnNotEnoughMana) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
 
-  double points = PlayTurn(lib, &player);
+  double points = PlayTurn(lib, &player, nullptr);
   if (!player.battlefield.spells.empty()) {
     Fail("Expected no spells to be played but found " +
          player.battlefield.spells.front().name);
   }
   // Gets minus one point if cannot play a spell.
-  if (static_cast<int>(points) != -1) {
-    Fail("Expected -1 points, but found " + std::to_string(points));
-  }
+  EXPECT_EQ(static_cast<int>(points), -1);
 }
 
 TEST(PlayBestSpell) {
@@ -724,14 +725,14 @@ TEST(PlayBestSpell) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
 
-  double points = PlayTurn(lib, &player);
+  CardContributions contributions;
+  double points = PlayTurn(lib, &player, &contributions);
   if (player.battlefield.spells.empty() ||
       player.battlefield.spells.front().name != "Big") {
     Fail("Expected Big Spell to be played");
   }
-  if (static_cast<int>(points) != 4) {
-    Fail("Expected 4 points, but found " + std::to_string(points));
-  }
+  EXPECT_EQ(static_cast<int>(points), 4);
+  EXPECT_EQ(GetContribution("Big", &contributions), 4);
 }
 
 TEST(PlayBestSpellRespectPriority) {
@@ -746,16 +747,14 @@ TEST(PlayBestSpellRespectPriority) {
   // Will draw one.
   player.library.lands.push_back(BasicLand(Color::Black));
 
-  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+  Library lib = Library::Builder().AddSpell(MakeSpell("BB7")).Build();
 
-  double points = PlayTurn(lib, &player);
+  double points = PlayTurn(lib, &player, nullptr);
   if (player.battlefield.spells.empty() ||
       player.battlefield.spells.front().name != "Important") {
     Fail("Expected Big Spell to be played");
   }
-  if (static_cast<int>(points) != 2) {
-    Fail("Expected 2 points, but found " + std::to_string(points));
-  }
+  EXPECT_EQ(static_cast<int>(points), 2);
 }
 
 TEST(PlaySeveralSpells) {
@@ -774,7 +773,7 @@ TEST(PlaySeveralSpells) {
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
 
   // Can play two Small spells, but not Tiny.
-  double points = PlayTurn(lib, &player);
+  double points = PlayTurn(lib, &player, nullptr);
   if (player.battlefield.spells.empty() ||
       player.battlefield.spells.front().name != "Small") {
     Fail("Expected Small Spell to be played first");
@@ -786,9 +785,7 @@ TEST(PlaySeveralSpells) {
   if (player.hand.spells.empty() || player.hand.spells.front().name != "Tiny") {
     Fail("Expected Tiny Spell to not be played");
   }
-  if (static_cast<int>(points) != 4) {
-    Fail("Expected 4 points, but found " + std::to_string(points));
-  }
+  EXPECT_EQ(static_cast<int>(points), 4);
 }
 
 TEST(PlayAbilities) {
@@ -808,11 +805,11 @@ TEST(PlayAbilities) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
 
-  double points = PlayTurn(lib, &player);
+  CardContributions contributions;
+  double points = PlayTurn(lib, &player, &contributions);
   // Gets 6/3 = 2 points for playing the same ability twice.
-  if (static_cast<int>(points) != 2) {
-    Fail("Expected 2 points, but found " + std::to_string(points));
-  }
+  EXPECT_EQ(static_cast<int>(points), 2);
+  EXPECT_EQ(static_cast<int>(GetContribution("Foo", &contributions)), 2);
 }
 
 TEST(PlayOnetimeAbilities) {
@@ -831,9 +828,9 @@ TEST(PlayOnetimeAbilities) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
 
-  double points = PlayTurn(lib, &player);
+  CardContributions contributions;
+  double points = PlayTurn(lib, &player, &contributions);
   // Gets 2/2 points for playing the onetime once.
-  if (static_cast<int>(points) != 1) {
-    Fail("Expected 1 points, but found " + std::to_string(points));
-  }
+  EXPECT_EQ(static_cast<int>(points), 1);
+  EXPECT_EQ(static_cast<int>(GetContribution("Foo", &contributions)), 1);
 }

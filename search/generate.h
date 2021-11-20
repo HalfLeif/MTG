@@ -1,9 +1,12 @@
 #include <algorithm>
+#include <memory>
 #include <numeric>
 #include <random>
+#include <unordered_map>
 #include <vector>
 
 #include "../core/collection.h"
+#include "../core/contribution.h"
 #include "../core/debug.h"
 #include "../core/library.h"
 #include "../core/spell.h"
@@ -42,9 +45,16 @@ void GenerateDeck(const std::vector<Spell> &available_cards) {
   // Limited: 23 spells, 17 lands.
   std::vector<int> permutation =
       GeneratePermutation(available_cards.size(), 23);
-  Library lib = ApplyPermutation(available_cards, permutation);
-  // 2. Find best land distribution for small number of iterations.
-  Param param = CompareParams(lib, 15);
-  // 3. Track contributions per card.
-  double score = RunParam(lib, param, 50);
+
+  { // TODO: Loop this for several permutations...
+    std::unordered_map<int, const Contribution *> permutation_to_contributions;
+    CardContributions contributions = MakeContributionMaps(
+        available_cards, permutation, permutation_to_contributions);
+
+    Library lib = ApplyPermutation(available_cards, permutation);
+    // 2. Find best land distribution for small number of iterations.
+    Param param = CompareParams(lib, 15);
+    // 3. Track contributions per card.
+    double score = RunParam(lib, param, 50, &contributions);
+  }
 }

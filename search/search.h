@@ -5,15 +5,17 @@
 #include <map>
 #include <thread>
 
+#include "../core/contribution.h"
 #include "../core/game_logic.h"
 #include "../core/library.h"
 #include "../core/make_deck.h"
 
 double AverageScore(const Library &lib, const Deck &deck,
-                    const MulliganStrategy &strategy, int turns, int games) {
+                    const MulliganStrategy &strategy, int turns, int games,
+                    CardContributions *contributions = nullptr) {
   double score = 0;
   for (int i = 0; i < games; ++i) {
-    score += PlayGame(lib, deck, strategy, turns);
+    score += PlayGame(lib, deck, strategy, turns, contributions);
   }
   return score / games;
 }
@@ -79,7 +81,8 @@ void PrintParamResult(const std::vector<ParamResult> best_result,
   }
 }
 
-double RunParam(const Library &lib, const Param &param, int games) {
+double RunParam(const Library &lib, const Param &param, int games,
+                CardContributions *contributions = nullptr) {
   srand(42);
   // std::chrono::steady_clock::time_point begin =
   //     std::chrono::steady_clock::now();
@@ -101,8 +104,8 @@ double RunParam(const Library &lib, const Param &param, int games) {
   std::vector<std::thread> threads;
   for (Instance &instance : instances) {
     threads.emplace_back([&]() {
-      instance.score =
-          AverageScore(lib, deck, SimpleStrategy, instance.turns, games);
+      instance.score = AverageScore(lib, deck, SimpleStrategy, instance.turns,
+                                    games, contributions);
     });
   }
 
