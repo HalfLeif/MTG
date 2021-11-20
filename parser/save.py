@@ -10,7 +10,7 @@ class SemiColonDialect(csv.Dialect):
         self.lineterminator = '\n'
 
 def save_cards(cards):
-    fname = 'data/mid/out.csv'
+    fname = 'data/mid/cards.csv'
     count = 0
     with open(fname, 'w') as f:
         writer = csv.writer(f, dialect=SemiColonDialect())
