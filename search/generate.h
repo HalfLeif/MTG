@@ -17,9 +17,12 @@
 
 // Params at top in order to quickly reduce for debugging purposes.
 constexpr int kThreads = 8;
+constexpr int kDescentDepth = 65;
+
 constexpr int kFastLandSearch = 15;
-constexpr int kDescentDepth = 50;
-constexpr int kLandGames = 75;
+constexpr int kFastGames = 75;
+
+constexpr int kDeepLandSearch = 75;
 constexpr int kDeepGames = 300;
 
 std::vector<int> GeneratePermutation(const int total, const int wanted,
@@ -164,7 +167,7 @@ GradientDescent(const std::vector<Spell> &available_cards,
     std::unordered_map<int, const Contribution *> permutation_to_contributions;
     generated->contributions = MakeContributionMaps(
         available_cards, permutation, permutation_to_contributions);
-    generated->score = RunParam(*generated->lib, generated->param, 75,
+    generated->score = RunParam(*generated->lib, generated->param, kFastGames,
                                 &generated->contributions);
 
     // 4. Replace bad cards for next iteration.
@@ -198,7 +201,7 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
       generated->permutation = decks[kIter]->permutation;
       generated->lib =
           ApplyPermutation(available_cards, generated->permutation);
-      generated->param = CompareParams(*generated->lib, kLandGames, false);
+      generated->param = CompareParams(*generated->lib, kDeepLandSearch, false);
       generated->score = RunParam(*generated->lib, generated->param, kDeepGames,
                                   &generated->contributions);
 
