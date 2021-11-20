@@ -12,7 +12,7 @@
   d. (Done) Replace 3 cards, either 3 worst or using weighted random distribution
   e. (Done) Repeat from (a) until ~stable
   f. (Done) Keep track of best K decks produced
-3. Repeat from (2) a couple of times
+3. (Done) Repeat from (2) a couple of times
 4. For each of K decks, simulate (large N)
 5. Present best produced decks
 

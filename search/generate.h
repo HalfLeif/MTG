@@ -40,6 +40,22 @@ Library ApplyPermutation(const std::vector<Spell> &available_cards,
   return builder.Build();
 }
 
+// MutationRate is high for low-value cards,  and less for good cards.
+double MutationRate(int order, int total) {
+  constexpr double kMax = 0.10;
+  constexpr double kMin = 0.0;
+  const double slope = (kMin - kMax) / total;
+  return kMax + order * slope;
+}
+
+// Returns whether should mutate this card.
+bool MutateCard(int order, int total, ThreadsafeRandom &rand) {
+  // Seems like mutations don't help.
+  return false;
+  double r = rand.RandOne();
+  return r < MutationRate(order, total);
+}
+
 std::vector<int>
 ReplaceBadCards(const std::unordered_map<int, const Contribution *>
                     &permutation_to_contributions,
@@ -58,7 +74,14 @@ ReplaceBadCards(const std::unordered_map<int, const Contribution *>
   constexpr int kMinReplacePerIteration = 3;
   for (const auto &[score, index] : scores) {
     int new_index = index;
-    if (score <= 0 || new_permutation.size() < kMinReplacePerIteration) {
+    if (
+        // Replace useless card
+        score <= 0 ||
+        // Replace up to N bad cards
+        new_permutation.size() < kMinReplacePerIteration ||
+        // Maybe replace card randomly, higher chance for bad cards.
+        MutateCard(new_permutation.size(), permutation_to_contributions.size(),
+                   rand)) {
       // Choose a different card randonly.
       while (ContainsKey(permutation_to_contributions, new_index) ||
              ContainsItem(new_permutation, new_index)) {
@@ -141,4 +164,16 @@ void GenerateDeck(const std::vector<Spell> &available_cards) {
     thread.join();
   }
   AnalyzeGeneratedDecks(std::move(all_decks));
+}
+
+// -----------------------------------------------------------------------------
+
+TEST(MutationRate) {
+  double bad = MutationRate(5, 23);
+  EXPECT_LT(0.05, bad);
+  EXPECT_LT(bad, 0.10);
+
+  double good = MutationRate(20, 23);
+  EXPECT_LT(0.00, good);
+  EXPECT_LT(good, 0.04);
 }
