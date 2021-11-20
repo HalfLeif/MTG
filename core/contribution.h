@@ -53,3 +53,14 @@ double GetContribution(const std::string &name,
   }
   return 0.0;
 }
+
+void PrintContributions(const CardContributions &contributions) {
+  std::vector<std::pair<double, std::string_view>> pairs;
+  for (const auto &[name, contribution_ptr] : contributions) {
+    pairs.emplace_back(contribution_ptr->score, name);
+  }
+  std::sort(pairs.begin(), pairs.end());
+  for (const auto &[score, name] : pairs) {
+    std::cout << score << " " << name << std::endl;
+  }
+}

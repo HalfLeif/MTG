@@ -21,6 +21,16 @@ bool Contains(const std::vector<T> &vec, const Predicate<T> &pred) {
   return Find<T>(vec, pred) >= 0;
 }
 
+template <typename T>
+bool ContainsItem(const std::vector<T> &vec, const T &item) {
+  return Find<T>(vec, [&](const T &value) { return value == item; }) >= 0;
+}
+
+template <typename K, typename V>
+bool ContainsKey(const std::unordered_map<K, V> &map, const K &key) {
+  return map.find(key) != map.end();
+}
+
 template <typename K, typename V, typename M>
 V FindWithDefault(const M &map, const K &key, V default_value) {
   auto it = map.find(key);

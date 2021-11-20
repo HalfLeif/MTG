@@ -83,7 +83,6 @@ void PrintParamResult(const std::vector<ParamResult> best_result,
 
 double RunParam(const Library &lib, const Param &param, int games,
                 CardContributions *contributions = nullptr) {
-  srand(42);
   // std::chrono::steady_clock::time_point begin =
   //     std::chrono::steady_clock::now();
 
@@ -101,16 +100,10 @@ double RunParam(const Library &lib, const Param &param, int games,
   }
 
   Deck deck = TournamentDeck(param);
-  std::vector<std::thread> threads;
-  for (Instance &instance : instances) {
-    threads.emplace_back([&]() {
-      instance.score = AverageScore(lib, deck, SimpleStrategy, instance.turns,
-                                    games, contributions);
-    });
-  }
 
-  for (std::thread &thread : threads) {
-    thread.join();
+  for (Instance &instance : instances) {
+    instance.score = AverageScore(lib, deck, SimpleStrategy, instance.turns,
+                                  games, contributions);
   }
   double score = 0;
   for (const Instance &instance : instances) {
@@ -174,7 +167,7 @@ std::vector<Param> ManualParams(const Library &lib) {
   return solutions;
 }
 
-Param CompareParams(const Library &lib, int games = 450) {
+Param CompareParams(const Library &lib, int games = 450, bool print = true) {
   // constexpr int kGames = 100;
   // constexpr int kGames = 450;
   // constexpr int kGames = 1000;
@@ -185,7 +178,10 @@ Param CompareParams(const Library &lib, int games = 450) {
   std::vector<ParamResult> best_result;
   for (const Param &param : params) {
     double score = RunParam(lib, param, games);
-    std::cout << param << " score: " << score << "\n";
+    if (print) {
+      std::cout << param << " score: " << score << "\n";
+    }
+
     best_result.push_back({
         .score = score,
         .param = param,
@@ -195,10 +191,14 @@ Param CompareParams(const Library &lib, int games = 450) {
   // Compare against a dummy deck as baseline.
   Library test_lib = TestLibrary();
   float dummy_score = RunParam(test_lib, {.lib = &test_lib}, games);
-  std::cout << "Dummy score: " << dummy_score << "\n";
+  if (print) {
+    std::cout << "Dummy score: " << dummy_score << "\n";
+  }
 
   std::sort(best_result.begin(), best_result.end());
-  PrintParamResult(best_result);
+  if (print) {
+    PrintParamResult(best_result);
+  }
 
   return best_result.back().param;
 }
