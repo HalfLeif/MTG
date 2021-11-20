@@ -99,11 +99,21 @@ private:
     }                                                                          \
   }
 
-// "Expected " + #a + " to be equal to " + #b + " but is not ...");    \
+#define EXPECT_LT(a, b)                                                        \
+  {                                                                            \
+    auto aresult = (a);                                                        \
+    auto bresult = (b);                                                        \
+    if (!(aresult < bresult)) {                                                \
+      Fail() << "Expected " << #a << " to be less than " << #b << " but "      \
+             << aresult << " >= " << bresult << "\n";                          \
+    }                                                                          \
+  }
 
 // Passes by default
 TEST(SimpleTest) {
   int a = 1;
   EXPECT_EQ(a, 1);
   EXPECT_EQ(a + 1, 2);
+  EXPECT_LT(a, 5);
+  EXPECT_LT(0, a);
 }

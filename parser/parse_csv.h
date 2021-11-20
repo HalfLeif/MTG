@@ -30,9 +30,14 @@ char TypeToPriority(std::string_view type) {
   return 1;
 }
 
-double BonusFromOrder(int draft_order) {
-  // TODO compute actual bonus!
-  return 0.0;
+double BonusFromOrder(int draft_order, int spell_cost) {
+  constexpr double max_boost = 0.30;
+  constexpr double min_boost = -0.20;
+  constexpr double max_order = 260;
+
+  double relative_bonus =
+      max_boost + draft_order * (min_boost - max_boost) / max_order;
+  return relative_bonus * spell_cost;
 }
 
 Spell ParseLine(const std::string_view line) {
@@ -44,7 +49,8 @@ Spell ParseLine(const std::string_view line) {
     spell.cost = ParseMana(fields[0]);
     spell.name = fields[1];
     spell.priority = TypeToPriority(fields[2]);
-    spell.point_bonus = BonusFromOrder(std::atoi(fields[3].data()));
+    spell.point_bonus =
+        BonusFromOrder(std::atoi(fields[3].data()), spell.cost[Color::Total]);
   } else {
     ERROR << "Failed to parse '" << line << "'\n";
   }
@@ -91,4 +97,23 @@ TEST(SplitLine) {
     EXPECT_EQ(fields[2], "Instant");
     EXPECT_EQ(fields[3], "237");
   }
+}
+
+TEST(BonusFromOrder) {
+  EXPECT_EQ(BonusFromOrder(0, 1), 0.30);
+  EXPECT_EQ(BonusFromOrder(260, 1), -0.20);
+
+  double normal = BonusFromOrder(150, 1);
+  EXPECT_LT(-0.10, normal);
+  EXPECT_LT(normal, 0.10);
+}
+
+TEST(BonusFromOrderScalesWithMana) {
+  double good = BonusFromOrder(2, 4);
+  EXPECT_LT(0.2 * 4, good);
+  EXPECT_LT(good, 0.3 * 4);
+
+  double bad = BonusFromOrder(230, 4);
+  EXPECT_LT(-0.2 * 4, bad);
+  EXPECT_LT(bad, -0.1 * 4);
 }
