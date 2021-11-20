@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 #include <set>
 #include <vector>
 
@@ -140,6 +141,11 @@ public:
     }
     Library Build() {
       return Library(std::move(spells_), std::move(lands_), expected_size_);
+    }
+
+    std::unique_ptr<Library> BuildUnique() {
+      return std::unique_ptr<Library>(
+          new Library(std::move(spells_), std::move(lands_), expected_size_));
     }
 
   private:

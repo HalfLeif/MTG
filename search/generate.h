@@ -30,14 +30,15 @@ std::vector<int> GeneratePermutation(const int total, const int wanted,
   return permutation;
 }
 
-Library ApplyPermutation(const std::vector<Spell> &available_cards,
-                         const std::vector<int> &permutation) {
+std::unique_ptr<Library>
+ApplyPermutation(const std::vector<Spell> &available_cards,
+                 const std::vector<int> &permutation) {
   Library::Builder builder;
   builder.SetLimited();
   for (int index : permutation) {
     builder.AddSpell(available_cards[index]);
   }
-  return builder.Build();
+  return builder.BuildUnique();
 }
 
 // MutationRate is high for low-value cards,  and less for good cards.
@@ -115,15 +116,17 @@ ReplaceBadCards(const std::unordered_map<int, const Contribution *>
 
 struct GeneratedDeck {
   std::vector<int> permutation;
+
+  // Note: must keep lib here, since param has pointer to lib.
+  std::unique_ptr<Library> lib;
   Param param;
   double score;
   CardContributions contributions;
   int iteration_nr = 0;
 };
 
-void AnalyzeGeneratedDecks(std::vector<std::unique_ptr<GeneratedDeck>> decks) {
-  std::sort(decks.begin(), decks.end(),
-            [](const auto &a, const auto &b) { return a->score > b->score; });
+void PrintTopGeneratedDecks(
+    const std::vector<std::unique_ptr<GeneratedDeck>> &decks) {
   for (int i = 0; i < decks.size() && i < 10; ++i) {
     std::cout << decks[i]->score << " iteration " << decks[i]->iteration_nr
               << std::endl;
@@ -146,15 +149,15 @@ GradientDescent(const std::vector<Spell> &available_cards,
     generated->iteration_nr = i;
 
     // 2. Find best land distribution for small number of iterations.
-    Library lib = ApplyPermutation(available_cards, permutation);
-    generated->param = CompareParams(lib, 15, false);
+    generated->lib = ApplyPermutation(available_cards, permutation);
+    generated->param = CompareParams(*generated->lib, 15, false);
 
     // 3. Track contributions per card.
     std::unordered_map<int, const Contribution *> permutation_to_contributions;
     generated->contributions = MakeContributionMaps(
         available_cards, permutation, permutation_to_contributions);
-    generated->score =
-        RunParam(lib, generated->param, 50, &generated->contributions);
+    generated->score = RunParam(*generated->lib, generated->param, 75,
+                                &generated->contributions);
 
     // 4. Replace bad cards for next iteration.
     generated->permutation = std::move(permutation);
@@ -164,6 +167,40 @@ GradientDescent(const std::vector<Spell> &available_cards,
   }
 
   return iterations;
+}
+
+std::vector<std::unique_ptr<GeneratedDeck>>
+EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
+                  const std::vector<Spell> &available_cards) {
+  constexpr int kThreads = 8;
+  constexpr int kLandGames = 75;
+  constexpr int kGames = 300;
+  std::vector<std::thread> threads;
+  threads.reserve(kThreads);
+  std::vector<std::unique_ptr<GeneratedDeck>> re_evaluated;
+  re_evaluated.reserve(kThreads);
+  std::mutex mutex;
+  for (int i = 0; i < kThreads && i < decks.size(); ++i) {
+    threads.emplace_back([&]() {
+      auto generated = std::make_unique<GeneratedDeck>();
+      generated->iteration_nr = decks[i]->iteration_nr;
+      generated->permutation = decks[i]->permutation;
+      generated->lib =
+          ApplyPermutation(available_cards, generated->permutation);
+      generated->param = CompareParams(*generated->lib, kLandGames, false);
+      generated->score = RunParam(*generated->lib, generated->param, kGames,
+                                  &generated->contributions);
+
+      MutexLock lock(&mutex);
+      re_evaluated.push_back(std::move(generated));
+    });
+  }
+  for (std::thread &thread : threads) {
+    thread.join();
+  }
+  std::sort(re_evaluated.begin(), re_evaluated.end(),
+            [](const auto &a, const auto &b) { return a->score > b->score; });
+  return re_evaluated;
 }
 
 void GenerateDeck(const std::vector<Spell> &available_cards) {
@@ -183,7 +220,21 @@ void GenerateDeck(const std::vector<Spell> &available_cards) {
   for (std::thread &thread : threads) {
     thread.join();
   }
-  AnalyzeGeneratedDecks(std::move(all_decks));
+  std::sort(all_decks.begin(), all_decks.end(),
+            [](const auto &a, const auto &b) { return a->score > b->score; });
+  // TODO: Unique the decks, currently generates duplicates.
+  PrintTopGeneratedDecks(all_decks);
+
+  // Re-evaluate 8 best decks, to find the best one.
+  std::vector<std::unique_ptr<GeneratedDeck>> best =
+      EvaluateBestDecks(all_decks, available_cards);
+  std::cout << "\nFound the best generated decks! " << std::endl;
+  for (int i = 0; i < best.size() && i < 3; ++i) {
+    std::cout << std::endl;
+    std::cout << "Score: " << best[i]->score << std::endl;
+    std::cout << best[i]->param << std::endl;
+    PrintContributions(best[i]->contributions);
+  }
 }
 
 // -----------------------------------------------------------------------------

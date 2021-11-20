@@ -13,8 +13,8 @@
   e. (Done) Repeat from (a) until ~stable
   f. (Done) Keep track of best K decks produced
 3. (Done) Repeat from (2) a couple of times
-4. For each of K decks, simulate (large N)
-5. Present best produced decks
+4. (Done) For each of K decks, simulate (large N)
+5. (Done) Present best produced decks
 
 # Implementation
 - Measure total latency, and per iteration latency, in order to see which implementation is faster.

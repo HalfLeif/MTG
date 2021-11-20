@@ -100,7 +100,6 @@ double RunParam(const Library &lib, const Param &param, int games,
   }
 
   Deck deck = TournamentDeck(param);
-
   for (Instance &instance : instances) {
     instance.score = AverageScore(lib, deck, SimpleStrategy, instance.turns,
                                   games, contributions);
