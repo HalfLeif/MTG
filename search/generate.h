@@ -9,39 +9,42 @@
 #include "../core/spell.h"
 #include "search.h"
 
-// TODO: also update the original vector, to avoid repicking on later iterations
-Library GenerateRandomDeck(const std::vector<Spell> &available_cards) {
-  Library::Builder builder;
-
-  // Limited: 23 spells, 17 lands.
-  constexpr int num_wanted = 23;
-  builder.SetLimited();
-
-  if (num_wanted > available_cards.size()) {
+std::vector<int> GeneratePermutation(const int total, const int wanted) {
+  std::vector<int> permutation;
+  if (wanted > total) {
     ERROR << "Cannot request more cards than there are.\n";
-    return builder.Build();
+    return permutation;
   }
 
-  std::vector<int> permutation(available_cards.size());
+  permutation.resize(total);
   std::iota(permutation.begin(), permutation.end(), 0);
 
-  // TODO: maybe reuse?
+  // TODO: maybe reuse random across instances?
   std::random_device rd;
   std::mt19937 g(rd());
   std::shuffle(permutation.begin(), permutation.end(), g);
+  permutation.resize(wanted);
+  return permutation;
+}
 
-  result.reserve(num_wanted);
-  for (int i = 0; i < num_wanted; ++i) {
-    builder.AddSpell(available_cards[permutation[i]]);
+Library ApplyPermutation(const std::vector<Spell> &available_cards,
+                         const std::vector<int> &permutation) {
+  Library::Builder builder;
+  builder.SetLimited();
+  for (int index : permutation) {
+    builder.AddSpell(available_cards[index]);
   }
   return builder.Build();
 }
 
-void GenerateDeck(std::vector<Spell> available_cards) {
+void GenerateDeck(const std::vector<Spell> &available_cards) {
   // 1. Create a random starting deck.
-  Library lib = GenerateRandomDeck(available_cards);
+  // Limited: 23 spells, 17 lands.
+  std::vector<int> permutation =
+      GeneratePermutation(available_cards.size(), 23);
+  Library lib = ApplyPermutation(available_cards, permutation);
   // 2. Find best land distribution for small number of iterations.
   Param param = CompareParams(lib, 15);
   // 3. Track contributions per card.
-  // TODO
+  double score = RunParam(lib, param, 50);
 }

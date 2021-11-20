@@ -5,11 +5,10 @@
 - Search for reasonable land combinations using only few iterations (25), and then refine best N of those with more iterations (200). Can do recursively for top N-1 with more iterations until stable order?
 
 # Suggest deck
-1. Parse draft order from html. Assign bonus points automatically according to draft order.
-2. Assemble a random deck
-  a. Search for best land distribution (small N)
-  b. Simulate medium N turns
-  c. Track how much contribution each individual card does
+1. (Done) Parse draft order from html. Assign bonus points automatically according to draft order.
+2. (Done) Assemble a random deck
+  a. (Done) Search for best land distribution (small N)
+  b. Simulate medium N turns while tracking how much contribution each individual card does
   d. Replace 3 cards, either 3 worst or using weighted random distribution
   e. Repeat from (a) until ~stable
   f. Keep track of best K decks produced
