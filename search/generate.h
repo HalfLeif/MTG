@@ -12,10 +12,11 @@
 // TODO: also update the original vector, to avoid repicking on later iterations
 Library GenerateRandomDeck(const std::vector<Spell> &available_cards) {
   Library::Builder builder;
-  constexpr int num_wanted = 23; // 23 spells, 17 lands.
+
+  // Limited: 23 spells, 17 lands.
+  constexpr int num_wanted = 23;
   builder.SetLimited();
 
-  std::vector<Spell> result;
   if (num_wanted > available_cards.size()) {
     ERROR << "Cannot request more cards than there are.\n";
     return builder.Build();
@@ -42,4 +43,5 @@ void GenerateDeck(std::vector<Spell> available_cards) {
   // 2. Find best land distribution for small number of iterations.
   Param param = CompareParams(lib, 15);
   // 3. Track contributions per card.
+  // TODO
 }
