@@ -15,6 +15,13 @@
 #include "../core/spell.h"
 #include "search.h"
 
+// Params at top in order to quickly reduce for debugging purposes.
+constexpr int kThreads = 8;
+constexpr int kFastLandSearch = 15;
+constexpr int kDescentDepth = 50;
+constexpr int kLandGames = 75;
+constexpr int kDeepGames = 300;
+
 std::vector<int> GeneratePermutation(const int total, const int wanted,
                                      ThreadsafeRandom &rand) {
   std::vector<int> permutation;
@@ -133,7 +140,8 @@ void PrintTopGeneratedDecks(
   }
 }
 
-std::vector<std::unique_ptr<GeneratedDeck>>
+// Only return the best one. That way gets more diversity between best N decks.
+std::unique_ptr<GeneratedDeck>
 GradientDescent(const std::vector<Spell> &available_cards,
                 ThreadsafeRandom &rand) {
   // Keep track of best permutations.
@@ -144,13 +152,13 @@ GradientDescent(const std::vector<Spell> &available_cards,
   std::vector<int> permutation =
       GeneratePermutation(available_cards.size(), 23, rand);
 
-  for (int i = 0; i < 50; ++i) {
+  for (int i = 0; i < kDescentDepth; ++i) {
     auto generated = std::make_unique<GeneratedDeck>();
     generated->iteration_nr = i;
 
     // 2. Find best land distribution for small number of iterations.
     generated->lib = ApplyPermutation(available_cards, permutation);
-    generated->param = CompareParams(*generated->lib, 15, false);
+    generated->param = CompareParams(*generated->lib, kFastLandSearch, false);
 
     // 3. Track contributions per card.
     std::unordered_map<int, const Contribution *> permutation_to_contributions;
@@ -166,29 +174,32 @@ GradientDescent(const std::vector<Spell> &available_cards,
     iterations.push_back(std::move(generated));
   }
 
-  return iterations;
+  std::sort(iterations.begin(), iterations.end(),
+            [](const auto &a, const auto &b) { return a->score > b->score; });
+
+  return std::move(iterations[0]);
 }
 
 std::vector<std::unique_ptr<GeneratedDeck>>
 EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
                   const std::vector<Spell> &available_cards) {
-  constexpr int kThreads = 8;
-  constexpr int kLandGames = 75;
-  constexpr int kGames = 300;
   std::vector<std::thread> threads;
   threads.reserve(kThreads);
   std::vector<std::unique_ptr<GeneratedDeck>> re_evaluated;
   re_evaluated.reserve(kThreads);
   std::mutex mutex;
   for (int i = 0; i < kThreads && i < decks.size(); ++i) {
-    threads.emplace_back([&]() {
+    // Note: this const int is necessary to avoid a silly bug where i is updated
+    // for all threads!
+    const int kIter = i;
+    threads.emplace_back([&, kIter]() {
       auto generated = std::make_unique<GeneratedDeck>();
-      generated->iteration_nr = decks[i]->iteration_nr;
-      generated->permutation = decks[i]->permutation;
+      generated->iteration_nr = decks[kIter]->iteration_nr;
+      generated->permutation = decks[kIter]->permutation;
       generated->lib =
           ApplyPermutation(available_cards, generated->permutation);
       generated->param = CompareParams(*generated->lib, kLandGames, false);
-      generated->score = RunParam(*generated->lib, generated->param, kGames,
+      generated->score = RunParam(*generated->lib, generated->param, kDeepGames,
                                   &generated->contributions);
 
       MutexLock lock(&mutex);
@@ -203,18 +214,19 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
   return re_evaluated;
 }
 
-void GenerateDeck(const std::vector<Spell> &available_cards) {
+std::vector<std::unique_ptr<GeneratedDeck>>
+GenerateEarlyDecks(const std::vector<Spell> &available_cards) {
   ThreadsafeRandom rand;
   std::vector<std::unique_ptr<GeneratedDeck>> all_decks;
   std::vector<std::thread> threads;
   std::mutex mutex;
-  for (int i = 0; i < 8; ++i) {
+  for (int i = 0; i < kThreads; ++i) {
     threads.emplace_back([&]() {
-      std::vector<std::unique_ptr<GeneratedDeck>> more =
+      std::unique_ptr<GeneratedDeck> more =
           GradientDescent(available_cards, rand);
 
       MutexLock lock(&mutex);
-      std::move(more.begin(), more.end(), std::back_inserter(all_decks));
+      all_decks.push_back(std::move(more));
     });
   }
   for (std::thread &thread : threads) {
@@ -222,6 +234,13 @@ void GenerateDeck(const std::vector<Spell> &available_cards) {
   }
   std::sort(all_decks.begin(), all_decks.end(),
             [](const auto &a, const auto &b) { return a->score > b->score; });
+  return all_decks;
+}
+
+void GenerateDeck(const std::vector<Spell> &available_cards) {
+  std::vector<std::unique_ptr<GeneratedDeck>> all_decks =
+      GenerateEarlyDecks(available_cards);
+
   // TODO: Unique the decks, currently generates duplicates.
   PrintTopGeneratedDecks(all_decks);
 
