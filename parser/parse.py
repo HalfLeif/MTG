@@ -1,6 +1,6 @@
 import cardlist
 import order
-
+import save
 
 def join_cards(cards, ordinals):
     d = {}
@@ -17,7 +17,6 @@ def main():
     ordinals = order.read_order()
     join_cards(cards, ordinals)
     filtered = filter(lambda x: x.mana, cards)
-    for c in filtered:
-        print(c)
+    save.save_cards(filtered)
 
 main()

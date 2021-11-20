@@ -1,0 +1,260 @@
+mana;name;type;order
+W;Blessed Defiance;Instant;237
+W;Candletrap;Enchantment;144
+W;Chaplain of Alms;Creature;152
+W;Curse of Silence;Enchantment;264
+W;Gavony Trapper;Creature;135
+W;Hedgewitch's Mask;Artifact;261
+W;Homestead Courage;Sorcery;238
+W;Lunarch Veteran;Creature;78
+1W;Ambitious Farmhand;Creature;58
+1W;Beloved Beggar;Creature;165
+1W;Candlegrove Witch;Creature;173
+1W;Cathar Commando;Creature;183
+1W;Fateful Absence;Instant;70
+1W;Flare of Faith;Instant;236
+1W;Intrepid Adversary;Creature;11
+1W;Ritual of Hope;Instant;134
+1W;Sungold Sentinel;Creature;40
+1W;Sunset Revelry;Sorcery;170
+1W;Thraben Exorcism;Instant;254
+1W;Unruly Mob;Creature;231
+1WW;Adeline, Resplendent Cathar;Legendary Creature;30
+2W;Bereaved Survivor;Creature;112
+2W;Borrowed Time;Enchantment;41
+2W;Brutal Cathar;Creature;12
+2W;Cathar's Call;Enchantment;255
+2W;Celestus Sanctifier;Creature;248
+1WW;Gavony Dawnguard;Creature;56
+2W;Loyal Gryff;Creature;106
+2W;Mourning Patrol;Creature;147
+2W;Ritual Guardian;Creature;227
+2W;Sungold Barrage;Instant;216
+3W;Clarion Cathars;Creature;200
+3W;Duelcraft Trainer;Creature;66
+3W;Gavony Silversmith;Creature;99
+3W;Odric's Outrider;Creature;124
+3W;Search Party Captain;Creature;116
+2WW;Sigarda's Splendor;Enchantment;115
+2WWW;Enduring Angel;Creature;22
+3WW;Sigardian Savior;Creature;47
+4W;Soul-Guide Gryff;Creature;201
+6WW;Vanquish the Horde;Sorcery;29
+U;Consider;Instant;146
+U;Delver of Secrets;Creature;217
+U;Fading Hope;Instant;168
+U;Larder Zombie;Creature;142
+U;Otherworldly Gaze;Instant;252
+U;Secrets of the Key;Instant;228
+1U;Baithook Angler;Creature;113
+1U;Covetous Castaway;Creature;131
+1U;Geistwave;Instant;184
+1U;Locked in the Cemetery;Enchantment;164
+1U;Malevolent Hermit;Creature;59
+1U;Shipwreck Sifters;Creature;155
+1U;Skaab Wrangler;Creature;62
+1U;Spectral Adversary;Creature;28
+1U;Startle;Instant;125
+1U;Suspicious Stowaway;Creature;24
+1U;Triskaidekaphile;Creature;109
+1U;Unblinking Observer;Creature;202
+2U;Component Collector;Creature;239
+1UU;Dissipate;Instant;205
+2U;Falcon Abomination;Creature;100
+2U;Flip the Switch;Instant;117
+2U;Mysterious Tome;Artifact;199
+2U;Nebelgast Intruder;Creature;114
+2U;Ominous Roost;Enchantment;163
+2U;Overwhelmed Archivist;Creature;53
+2U;Patrician Geist;Creature;98
+2U;Poppet Stitcher;Creature;9
+2UU;Devious Cover-Up;Instant;240
+3U;Firmament Sage;Creature;137
+3U;Galedrifter;Creature;129
+2UU;Grafted Identity;Enchantment;19
+2UU;Memory Deluge;Instant;69
+3U;Organ Hoarder;Creature;54
+3U;Revenge of the Drowned;Instant;101
+3U;Vivisection;Sorcery;224
+4U;Curse of Surveillance;Enchantment;191
+4U;Drownyard Amalgam;Creature;211
+3UU;Lier, Disciple of the Drowned;Legendary Creature;34
+3UU;Sludge Monster;Creature;36
+4U;Stormrider Spirit;Creature;230
+4UU;Phantom Carriage;Creature;103
+B;Champion of the Perished;Creature;57
+B;Crawl from the Cellar;Sorcery;185
+B;Duress;Sorcery;256
+B;Eaten Alive;Sorcery;105
+B;Ecstatic Awakener;Creature;79
+B;Rotten Reunion;Instant;242
+1B;Bladebrand;Instant;225
+1B;Foul Play;Sorcery;43
+1B;Ghoulish Procession;Enchantment;193
+1B;Heirloom Mirror;Artifact;250
+1B;Infernal Grasp;Instant;44
+1B;Jadar, Ghoulcaller of Nephalia;Legendary Creature;50
+1B;Necrosynthesis;Enchantment;235
+1B;Novice Occultist;Creature;186
+1B;Olivia's Midnight Ambush;Instant;82
+1B;Siege Zombie;Creature;128
+1B;Slaughter Specialist;Creature;71
+1B;Tainted Adversary;Creature;10
+1B;Vampire Interloper;Creature;118
+1B;Vengeful Strangler;Creature;149
+2B;Arrogant Outlaw;Creature;229
+1BB;Bloodline Culling;Instant;39
+2B;Blood Pact;Instant;219
+2B;Covert Cutpurse;Creature;130
+2B;Curse of Leeches;Enchantment;132
+2B;Defenestrate;Instant;94
+2B;Graveyard Trespasser;Creature;37
+2B;Hobbling Zombie;Creature;171
+2B;Jerren, Corrupted Bishop;Legendary Creature;45
+1BB;Mask of Griselbrand;Legendary Artifact;73
+2B;Morbid Opportunist;Creature;48
+2B;No Way Out;Sorcery;212
+2B;Shady Traveler;Creature;181
+2B;Stromkirk Bloodthief;Creature;84
+3B;Baneblade Scoundrel;Creature;154
+3B;Bat Whisperer;Creature;241
+2BB;Gisa, Glorious Resurrector;Legendary Creature;25
+4B;Bloodtithe Collector;Creature;121
+4B;Diregraf Horde;Creature;86
+4B;Morkrut Behemoth;Creature;203
+4BB;Dreadhound;Creature;102
+4BB;Lord of the Forsaken;Creature;38
+XBB;The Meathook Massacre;Legendary Enchantment;1
+R;Falkenrath Pit Fighter;Creature;107
+R;Immolation;Enchantment;206
+R;Play with Fire;Instant;95
+R;Raze the Effigy;Instant;244
+R;Voldaren Stinger;Creature;188
+1R;Abandon the Post;Sorcery;243
+1R;Bloodthirsty Adversary;Creature;32
+1R;Cathartic Pyre;Instant;46
+1R;Curse of Shaken Faith;Enchantment;266
+1R;Falkenrath Perforator;Creature;215
+1R;Festival Crasher;Creature;110
+1R;Flame Channeler;Creature;153
+1R;Lambholt Harrier;Creature;156
+1R;Obsessive Astronomer;Creature;104
+1R;Smoldering Egg;Creature;31
+1R;Stolen Vitality;Instant;221
+1R;Thermo-Alchemist;Creature;77
+2R;Brimstone Vandal;Creature;208
+2R;Electric Revelation;Instant;213
+2R;Geistflame Reservoir;Artifact;145
+2R;Harvesttide Infiltrator;Creature;198
+2R;Moonrager's Slash;Instant;61
+2R;Neonate's Rush;Instant;166
+2R;Pack's Betrayal;Sorcery;253
+2R;Reckless Stormseeker;Creature;26
+2R;Spellrune Painter;Creature;150
+2R;Voldaren Ambusher;Creature;195
+3R;Ardent Elementalist;Creature;187
+3R;Famished Foragers;Creature;196
+3R;Fangblade Brigand;Creature;64
+3R;Moonveil Regent;Creature;16
+2RR;Sunstreak Phoenix;Creature;14
+3R;Tavern Ruffian;Creature;218
+3RR;Burn Down the House;Sorcery;8
+4R;Burn the Accursed;Instant;119
+4R;Mounted Dreadknight;Creature;220
+3RR;Purifying Dragon;Creature;160
+4R;Seize the Storm;Sorcery;72
+4R;Village Watch;Creature;209
+XR;Light Up the Night;Sorcery;20
+XR;Lunar Frenzy;Instant;126
+G;Deathbonnet Sprout;Creature;148
+G;Snarling Wolf;Creature;249
+G;Turn the Earth;Instant;247
+G;Willow Geist;Creature;192
+1G;Bramble Armor;Artifact;245
+1G;Duel for Dominance;Instant;139
+1G;Harvesttide Sentry;Creature;167
+1G;Might of the Old Ways;Instant;174
+1G;Outland Liberator;Creature;111
+1G;Pestilent Wolf;Creature;197
+1G;Plummet;Instant;257
+1G;Return to Nature;Instant;258
+1G;Tapping at the Window;Sorcery;246
+1G;Timberland Guide;Creature;189
+1GG;Augur of Autumn;Creature;17
+2G;Bird Admirer;Creature;151
+2G;Bounding Wolf;Creature;222
+2G;Briarbridge Tracker;Creature;35
+2G;Clear Shot;Instant;51
+2G;Dawnhart Mentor;Creature;87
+2G;Dryad's Revival;Sorcery;123
+2G;Eccentric Farmer;Creature;67
+2G;Hound Tamer;Creature;52
+2G;Howl of the Hunt;Enchantment;232
+2G;Path to the Festival;Sorcery;214
+2G;Primal Adversary;Creature;18
+3G;Brood Weaver;Creature;140
+3G;Dawnhart Rejuvenator;Creature;162
+2GG;Defend the Celestus;Instant;127
+2GG;Saryth, the Viper's Fang;Legendary Creature;42
+3G;Shadowbeast Sighting;Sorcery;83
+3GG;Burly Breaker;Creature;97
+4G;Candlelit Cavalry;Creature;207
+3GG;Consuming Blob;Creature;6
+4G;Tireless Hauler;Creature;182
+1GGGG;Unnatural Growth;Enchantment;91
+3GG;Wrenn and Seven;Legendary Planeswalker;2
+4GG;Rise of the Ants;Sorcery;65
+3GGG;Storm the Festival;Sorcery;159
+4GG;Tovolar's Huntmaster;Creature;3
+XG;Contortionist Troupe;Creature;96
+WU;Dennick, Pious Apprentice;Legendary Creature;21
+WU;Devoted Grafkeeper;Creature;81
+WU;Faithful Mending;Instant;172
+WU;Hallowed Respite;Sorcery;204
+2WU;Teferi, Who Slows the Sunset;Legendary Planeswalker;33
+WB;Can't Stay Away;Sorcery;210
+WB;Fleshtaker;Creature;92
+WB;Rite of Oblivion;Sorcery;85
+2WWB;Liesa, Forgotten Archangel;Legendary Creature;4
+UB;Bladestitched Skaab;Creature;55
+UB;Corpse Cobble;Instant;161
+UB;Ludevic, Necrogenius;Legendary Creature;63
+UB;Siphon Insight;Instant;158
+UR;Arcane Infusion;Instant;226
+UR;Galvanic Iteration;Instant;180
+1UR;Vadrik, Astral Archmage;Legendary Creature;75
+3UR;Storm Skreelix;Creature;120
+BR;Hungry for More;Sorcery;141
+BR;Vampire Socialite;Creature;90
+1BR;Florian, Voldaren Scion;Legendary Creature;15
+3BR;Wake to Slaughter;Sorcery;259
+BG;Ghoulcaller's Harvest;Sorcery;194
+2BG;Grizzly Ghoul;Creature;133
+3BG;Diregraf Rebirth;Sorcery;76
+XBG;Old Stickfingers;Legendary Creature;88
+RG;Kessig Naturalist;Creature;80
+RG;Unnatural Moonrise;Sorcery;169
+1RG;Dire-Strain Rampage;Sorcery;251
+1RG;Tovolar, Dire Overlord;Legendary Creature;13
+2RG;Arlinn, the Pack's Hope;Legendary Planeswalker;7
+RW;Sacred Fire;Instant;74
+1RW;Angelfire Ignition;Sorcery;23
+1RW;Rem Karolus, Stalwart Slayer;Legendary Creature;122
+1RW;Sunrise Cavalier;Creature;68
+GW;Join the Dance;Sorcery;108
+GW;Katilda, Dawnhart Prime;Legendary Creature;27
+GW;Rite of Harmony;Instant;263
+1GW;Dawnhart Wardens;Creature;93
+1GWW;Sigarda, Champion of Light;Legendary Creature;5
+GU;Rootcoil Creeper;Creature;60
+GU;Winterthorn Blessing;Sorcery;138
+1GU;Croaking Counterpart;Sorcery;143
+1GU;Slogurk, the Overslime;Legendary Creature;49
+1;Jack-o'-Lantern;Artifact;190
+1;Pithing Needle;Artifact;265
+1;Silver Bolt;Artifact;157
+2;Moonsilver Key;Artifact;262
+2;Mystic Skull;Artifact;234
+2;Stuffed Bear;Artifact;260
+3;The Celestus;Legendary Artifact;89
+4;Crossroads Candleguide;Artifact Creature;223

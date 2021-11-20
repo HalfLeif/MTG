@@ -31,6 +31,12 @@ class Card:
     def __str__(self):
         return f'Card: {self.order}. {self.mana} "{self.name}" {self.type}'
 
+    def header():
+        return ('mana', 'name', 'type', 'order')
+
+    def fields(self):
+        return (self.mana, self.name, self.type, self.order)
+
 
 def _parse_mana(field):
     mana = re.findall('symbolS-([A-Z0-9])', field)
