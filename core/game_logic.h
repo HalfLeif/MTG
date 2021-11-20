@@ -1,5 +1,7 @@
 #pragma once
 
+#include <random>
+
 #include "card_logic.h"
 #include "collection.h"
 #include "contribution.h"
@@ -556,16 +558,25 @@ void DrawMulligan(const Library &lib, Player *player, const int n) {
   }
 }
 
+Deck ShuffleDeck(const Deck &deck) {
+  Deck copy = deck;
+  std::random_device rd;
+  std::mt19937 g(rd());
+  std::shuffle(copy.spells.begin(), copy.spells.end(), g);
+  std::shuffle(copy.lands.begin(), copy.lands.end(), g);
+  return copy;
+}
+
 Player StartingHand(const Library &lib, const Deck &deck,
                     const MulliganStrategy &strategy) {
   Player player;
-  player.library = deck;
+  player.library = ShuffleDeck(deck);
   DrawN(&player, 7);
 
   for (int i = 1; i < 7 && strategy(player.hand, i); ++i) {
     INFO << "Mulligan!\n";
     player = Player();
-    player.library = deck;
+    player.library = ShuffleDeck(deck);
     DrawMulligan(lib, &player, i);
   }
 
@@ -585,7 +596,6 @@ double PlayGame(const Library &lib, const Deck &deck,
                 CardContributions *contributions = nullptr) {
   INFO << "-- Game start ------------- \n";
   float score = 0.0f;
-
   Player player = StartingHand(lib, deck, strategy);
 
   for (int turn = 0; turn < turns; ++turn) {
