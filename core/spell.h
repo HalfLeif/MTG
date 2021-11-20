@@ -11,7 +11,7 @@ struct Spell {
   std::optional<ManaCost> ability;
   std::optional<ManaCost> onetime_ability;
 
-  int priority = 0;
+  char priority = 0;
   double point_bonus = 0;
   std::string name = "";
 

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <map>
+#include <string_view>
 
 #include "collection.h"
 #include "debug.h"
@@ -48,7 +49,7 @@ int TotalCost(const ManaCost &cost) {
   return FindWithDefault(cost, Color::Total, 0);
 }
 
-ManaCost ParseMana(std::string mana) {
+ManaCost ParseMana(std::string_view mana) {
   ManaCost cost;
   for (char c : mana) {
     if (c >= '0' && c <= '9') {
@@ -69,6 +70,9 @@ ManaCost ParseMana(std::string mana) {
     } else if (c == 'G') {
       ++cost[Color::Green];
       ++cost[Color::Total];
+    } else if (c == 'X') {
+      // TODO: use actual X mana.
+      cost[Color::Total] += 2;
     } else {
       ERROR << "Unrecognized char when parsing mana: " << c << " (" << int(c)
             << ")\n";
