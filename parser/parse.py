@@ -35,6 +35,7 @@ def parse_mana(field):
     mana = re.findall('symbolS-([A-Z0-9])', field)
     return ''.join(mana)
 
+assert parse_mana('<td class="mana"><i class="symbolS symbolS-1"></i><i class="symbolS symbolS-G"></i></td>') == '1G'
 
 def parse_card(row):
     result = Card()
