@@ -254,6 +254,7 @@ void GenerateDeck(const std::vector<Spell> &available_cards) {
   for (int i = 0; i < best.size() && i < 3; ++i) {
     std::cout << std::endl;
     std::cout << "Score: " << best[i]->score << std::endl;
+    std::cout << "Iteration: " << best[i]->iteration_nr << std::endl;
     std::cout << best[i]->param << std::endl;
     PrintContributions(best[i]->contributions);
   }
