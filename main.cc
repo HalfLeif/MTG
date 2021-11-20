@@ -16,6 +16,7 @@
 #include "decks/mid.h"
 #include "decks/thb.h"
 #include "parser/parse_csv.h"
+#include "search/generate.h"
 #include "search/task.h"
 
 const Library &GetMainLib() {
@@ -35,7 +36,7 @@ int main(int argc, char *argv[]) {
   INFO << "Started program...\n";
   srand(4);
 
-  ReadCards();
+  GenerateDeck(ReadCards());
 
   // const Library &lib = GetMainLib();
   // CompareParams(lib);

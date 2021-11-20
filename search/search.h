@@ -171,9 +171,9 @@ std::vector<Param> ManualParams(const Library &lib) {
   return solutions;
 }
 
-Param CompareParams(const Library &lib) {
+Param CompareParams(const Library &lib, int games = 450) {
   // constexpr int kGames = 100;
-  constexpr int kGames = 450;
+  // constexpr int kGames = 450;
   // constexpr int kGames = 1000;
   // constexpr int kGames = 2000;
 
@@ -181,7 +181,7 @@ Param CompareParams(const Library &lib) {
   std::vector<Param> params = GoodParams(lib);
   std::vector<ParamResult> best_result;
   for (const Param &param : params) {
-    double score = RunParam(lib, param, kGames);
+    double score = RunParam(lib, param, games);
     std::cout << param << " score: " << score << "\n";
     best_result.push_back({
         .score = score,
@@ -191,7 +191,7 @@ Param CompareParams(const Library &lib) {
 
   // Compare against a dummy deck as baseline.
   Library test_lib = TestLibrary();
-  float dummy_score = RunParam(test_lib, {.lib = &test_lib}, kGames);
+  float dummy_score = RunParam(test_lib, {.lib = &test_lib}, games);
   std::cout << "Dummy score: " << dummy_score << "\n";
 
   std::sort(best_result.begin(), best_result.end());
