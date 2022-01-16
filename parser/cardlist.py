@@ -1,7 +1,7 @@
 import re
 
-def _read_card_rows():
-    with open('data/mid/cards.html') as f:
+def _read_card_rows(filename):
+    with open(filename) as f:
         table_raw = []
         start = False
         for line in f:
@@ -56,9 +56,10 @@ def _parse_card(row):
         else:
             # print(field)
             pass
+    # print(f'Parsed card {result.name}')
     return result
 
-def read_cards():
-    rows = _read_card_rows()
+def read_cards(filename):
+    rows = _read_card_rows(filename)
     cards = map(_parse_card, rows)
     return filter(lambda x: x.name, cards)

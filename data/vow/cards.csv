@@ -1,0 +1,261 @@
+mana;name;type;order
+W;Hopeful Initiate;Creature;213
+W;Ollenbock Escort;Creature;212
+W;Piercing Light;Instant;244
+W;Radiant Grace;Enchantment;248
+W;Traveling Minister;Creature;97
+W;Unholy Officiant;Creature;243
+1W;Adamant Will;Instant;215
+1W;Bride's Gown;Artifact;246
+1W;Circle of Confinement;Enchantment;88
+1W;Dawnhart Geist;Creature;245
+1W;Drogskol Infantry;Creature;102
+1W;Fierce Retribution;Instant;99
+1W;Fleeting Spirit;Creature;79
+1W;Lantern Flare;Instant;73
+1W;Nurturing Presence;Enchantment;235
+1W;Panicked Bystander;Creature;100
+1W;Parish-Blade Trainee;Creature;188
+1W;Sanctify;Sorcery;263
+1W;Thalia, Guardian of Thraben;Legendary Creature;112
+1W;Twinblade Geist;Creature;62
+1W;Valorous Stance;Instant;72
+1W;Vampire Slayer;Creature;211
+WW;Voice of the Blessed;Creature;71
+1WW;Arm the Cathars;Sorcery;247
+2W;Distracting Geist;Creature;103
+1WW;Faithbound Judge;Creature;12
+2W;Gryff Rider;Creature;146
+1WW;Katilda, Dawnhart Martyr;Legendary Creature;30
+2W;Kindly Ancestor;Creature;83
+2W;Militia Rallier;Creature;223
+2W;Resistance Squad;Creature;98
+1WW;Savior of Ollenbock;Creature;40
+2W;Sigarda's Imprisonment;Enchantment;145
+2W;Wedding Announcement;Enchantment;9
+2W;Welcoming Vampire;Creature;25
+2WW;Cemetery Protector;Creature;26
+3W;Estwald Shieldbasher;Creature;214
+3W;Gryffwing Cavalry;Creature;87
+2WW;Hallowed Haunting;Enchantment;262
+3W;Heron of Hope;Creature;132
+3W;Supernatural Rescue;Enchantment;260
+3WW;Angelic Quartermaster;Creature;74
+3WW;By Invitation Only;Sorcery;16
+4W;Heron-Blessed Geist;Creature;190
+4W;Nebelgast Beguiler;Creature;189
+4WW;Sigarda's Summons;Enchantment;261
+U;Alchemist's Retrieval;Instant;210
+U;Cobbled Lancer;Creature;196
+U;Lantern Bearer;Creature;122
+U;Wash Away;Instant;175
+1U;Cradle of Safety;Enchantment;242
+1U;Fear of Death;Enchantment;209
+1U;Jacob Hauken, Inspector;Legendary Creature;21
+1U;Lunar Rejection;Instant;111
+1U;Mischievous Catgeist;Creature;148
+1U;Patchwork Crawler;Creature;233
+1U;Selhoff Entomber;Creature;241
+1U;Serpentine Ambush;Instant;259
+1U;Soulcipher Board;Artifact;191
+1U;Steelclad Spirit;Creature;232
+1U;Stormchaser Drake;Creature;86
+1U;Wretched Throng;Creature;174
+2U;Binding Geist;Creature;113
+2U;Biolume Egg;Creature;149
+1UU;Cemetery Illuminator;Creature;35
+2U;Chill of the Grave;Instant;144
+1UU;Dreamshackle Geist;Creature;22
+2U;Geistlight Snare;Instant;208
+2U;Geralf, Visionary Stitcher;Legendary Creature;39
+2U;Inspired Idea;Sorcery;142
+2U;Stitched Assistant;Creature;141
+2U;Syphon Essence;Instant;166
+2U;Thirst for Discovery;Instant;67
+2U;Wanderlight Spirit;Creature;231
+1UU;Winged Portent;Instant;222
+2U;Witness the Future;Sorcery;221
+2UU;Consuming Tide;Sorcery;267
+2UU;Cruel Witness;Creature;143
+3U;Gutter Skulker;Creature;123
+3U;Mirrorhall Mimic;Creature;11
+3U;Necroduality;Enchantment;42
+2UU;Overcharged Amalgam;Creature;38
+3U;Repository Skaab;Creature;168
+3U;Scattered Thoughts;Instant;131
+3U;Whispering Wizard;Creature;82
+3UU;Diver Skaab;Creature;96
+3UU;Skywarp Skaab;Creature;187
+4UU;Dreadlight Monstrosity;Creature;234
+5U;Screaming Swarm;Creature;130
+5UU;Hullbreaker Horror;Creature;15
+XU;Syncopate;Instant;167
+B;Blood Fountain;Artifact;206
+B;Concealing Curtains;Creature;36
+B;Dread Fugue;Sorcery;240
+B;Gift of Fangs;Enchantment;139
+B;Persistent Specimen;Creature;205
+B;Undying Malice;Instant;204
+1B;Doomed Dissenter;Creature;140
+1B;Graf Reaver;Creature;128
+1B;Groom's Finery;Artifact;239
+1B;Mindleech Ghoul;Creature;185
+1B;Parasitic Grasp;Instant;66
+1B;Ragged Recluse;Creature;115
+1B;Restless Bloodseeker;Creature;147
+1B;Undead Butler;Creature;95
+1B;Vampire's Kiss;Sorcery;258
+1B;Voldaren Bloodcaster;Creature;27
+2B;Aim for the Head;Sorcery;207
+2B;Archghoul of Thraben;Creature;110
+2B;Catapult Fodder;Creature;120
+2B;Courier Bat;Creature;153
+2B;Demonic Bargain;Sorcery;266
+2B;Desperate Farmer;Creature;114
+2B;Dying to Serve;Enchantment;52
+2B;Falkenrath Forebear;Creature;34
+2B;Fell Stinger;Creature;51
+2B;Gluttonous Guest;Creature;138
+2B;Headless Rider;Creature;41
+1BB;Hero's Downfall;Instant;50
+1BB;Path of Peril;Sorcery;57
+2B;Pointed Discussion;Sorcery;184
+2BB;Bleed Dry;Instant;58
+3B;Bloodcrazed Socialite;Creature;129
+3B;Bloodsworn Squire;Creature;217
+2BB;Bloodvial Purveyor;Creature;13
+3B;Diregraf Scavenger;Creature;109
+2BB;Henrika Domnathi;Legendary Creature;4
+2BB;Innocent Traveler;Creature;170
+3B;Skulking Killer;Creature;220
+2BB;Sorin the Mirthless;Legendary Planeswalker;7
+3BB;Edgar's Awakening;Sorcery;186
+3BB;Rot-Tide Gargantua;Creature;137
+4B;Unhallowed Phalanx;Creature;252
+3BB;Wedding Security;Creature;165
+4BB;Cemetery Desecrator;Creature;5
+5B;Grisly Ritual;Sorcery;230
+5BB;Dreadfeast Demon;Creature;2
+5BB;Toxrill, the Corrosive;Legendary Creature;3
+R;Ancestral Anger;Sorcery;203
+R;End the Festivities;Sorcery;256
+R;Flame-Blessed Bolt;Instant;92
+R;Kessig Wolfrider;Creature;81
+R;Voldaren Epicure;Creature;181
+1R;Abrade;Instant;70
+1R;Blood Petal Celebrant;Creature;136
+1R;Cemetery Gatekeeper;Creature;94
+1R;Hungry Ridgewolf;Creature;127
+1R;Kessig Flamebreather;Creature;172
+1R;Reckless Impulse;Sorcery;105
+1R;Runebound Wolf;Creature;85
+1R;Sanguine Statuette;Artifact;152
+1R;Sure Strike;Instant;200
+1R;Voltaic Visionary;Creature;59
+1RR;Alchemist's Gambit;Sorcery;251
+2R;Alluring Suitor;Creature;60
+2R;Belligerent Guest;Creature;195
+2R;Bloody Betrayal;Sorcery;257
+2R;Blood Hypnotist;Creature;173
+1RR;Chandra, Dressed to Kill;Legendary Planeswalker;49
+2R;Curse of Hospitality;Enchantment;164
+2R;Daybreak Combatants;Creature;163
+1RR;Dominating Vampire;Creature;93
+2R;Fearful Villager;Creature;216
+2R;Honeymoon Hearse;Artifact;219
+2R;Markov Retribution;Sorcery;229
+2R;Rending Flame;Instant;56
+2R;Vampires' Vengeance;Instant;107
+2RR;Ballista Watcher;Creature;53
+3R;Change of Fortune;Sorcery;265
+3R;Creepy Puppeteer;Creature;33
+2RR;Ill-Tempered Loner;Creature;29
+3R;Into the Night;Sorcery;218
+3R;Lambholt Raconteur;Creature;169
+3R;Lightning Wolf;Creature;202
+2RR;Manaform Hellkite;Creature;8
+2RR;Stensia Uprising;Enchantment;28
+3R;Weary Prisoner;Creature;192
+4R;Falkenrath Celebrants;Creature;108
+4R;Frenzied Devils;Creature;183
+4R;Lacerate Flesh;Sorcery;182
+3RR;Volatile Arsonist;Creature;18
+4RR;Olivia's Attendants;Creature;37
+4RR;Pyre Spawn;Creature;201
+XRR;Magma Pummeler;Creature;162
+G;Ascendant Packleader;Creature;91
+G;Dig Up;Sorcery;161
+G;Massive Might;Instant;198
+G;Snarling Wolf;Creature;179
+1G;Bramble Armor;Artifact;238
+1G;Dawnhart Disciple;Creature;126
+1G;Mulch;Sorcery;193
+1G;Packsong Pup;Creature;47
+1G;Reclusive Taxidermist;Creature;65
+1G;Sporeback Wolf;Creature;160
+1G;Toxic Scorpion;Creature;178
+1G;Witch's Web;Instant;177
+2G;Apprentice Sharpshooter;Creature;135
+1GG;Cemetery Prowler;Creature;48
+2G;Crawling Infestation;Enchantment;249
+2G;Crushing Canopy;Instant;255
+2G;Hamlet Vanguard;Creature;69
+2G;Howling Moon;Enchantment;68
+2G;Nature's Embrace;Enchantment;228
+2G;Oakshade Stalker;Creature;118
+2G;Retrieve;Sorcery;227
+2G;Sheltering Boughs;Enchantment;226
+2G;Spiked Ripsaw;Artifact;150
+2G;Spore Crawler;Creature;106
+2G;Weaver of Blossoms;Creature;101
+2G;Wolf Strike;Instant;80
+3G;Cartographer's Survey;Sorcery;250
+3G;Dormant Grove;Enchantment;76
+3G;Hiveheart Shaman;Creature;32
+3G;Hookhand Mariner;Creature;116
+3G;Howlpack Piper;Creature;31
+3G;Laid to Rest;Enchantment;199
+3G;Rural Recruit;Creature;180
+3G;Sawblade Slinger;Creature;151
+3G;Splendid Reclamation;Sorcery;264
+2GG;Ulvenwald Oddity;Creature;17
+4G;Cloaked Cadet;Creature;134
+3GG;Glorious Sunrise;Enchantment;19
+4G;Infestation Expert;Creature;119
+4G;Moldgraf Millipede;Creature;194
+4GG;Avabruck Caretaker;Creature;1
+4GG;Flourishing Hunter;Creature;125
+5G;Wolfkin Outcast;Creature;75
+6G;Bramble Wurm;Creature;104
+4GGG;Cultivator Colossus;Creature;90
+WU;Dorothea, Vengeful Victim;Legendary Creature;43
+1WU;Brine Comber;Creature;61
+1WB;Kaya, Geist Hunter;Legendary Planeswalker;254
+1WB;Markov Purifier;Creature;55
+2WB;Edgar, Charmed Groom;Legendary Creature;10
+UB;Skull Skaab;Creature;77
+1UB;Runo Stromkirk;Legendary Creature;121
+1UR;Eruth, Tormented Prophet;Legendary Creature;84
+1UR;Wandering Mind;Creature;63
+BR;Bloodtithe Harvester;Creature;45
+2BR;Anje, Maid of Dishonor;Legendary Creature;14
+4BR;Olivia, Crimson Bride;Legendary Creature;24
+1BG;Old Rutstein;Legendary Creature;44
+2BG;Ancient Lumberknot;Creature;78
+2RG;Child of the Pack;Creature;54
+2RG;Halana and Alena, Partners;Legendary Creature;6
+1RW;Odric, Blood-Cursed;Legendary Creature;159
+2RW;Markov Waltzer;Creature;64
+1GW;Torens, Fist of the Angels;Legendary Creature;20
+2GW;Sigardian Paladin;Creature;89
+GU;Vilespawn Spider;Creature;133
+2GU;Grolnok, the Omnivore;Legendary Creature;46
+1;Ceremonial Knife;Artifact;225
+1;Lantern of the Lost;Artifact;253
+2;Investigator's Journal;Artifact;176
+2;Wedding Invitation;Artifact;224
+3;Blood Servitor;Artifact Creature;237
+3;Boarded Window;Artifact;171
+3;Foreboding Statue;Artifact Creature;117
+3;Honored Heirloom;Artifact;236
+5;Dollhouse of Horrors;Artifact;23

@@ -9,10 +9,10 @@ class SemiColonDialect(csv.Dialect):
         self.quotechar = '"'
         self.lineterminator = '\n'
 
-def save_cards(cards):
-    fname = 'data/mid/cards.csv'
+def save_cards(cards, filename):
+    fname = filename
     count = 0
-    with open(fname, 'w') as f:
+    with open(filename, 'w') as f:
         writer = csv.writer(f, dialect=SemiColonDialect())
         writer.writerow(cardlist.Card.header())
         for c in cards:
@@ -20,4 +20,4 @@ def save_cards(cards):
             writer.writerow(c.fields())
             count += 1
     print('')
-    print(f'Successfully wrote {count} cards to {fname}')
+    print(f'Successfully wrote {count} cards to {filename}')
