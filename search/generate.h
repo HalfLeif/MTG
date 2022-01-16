@@ -16,14 +16,21 @@
 #include "search.h"
 
 // Params at top in order to quickly reduce for debugging purposes.
+
+// Number of threads determines how many gradient descents will run in parallel.
 constexpr int kThreads = 8;
 constexpr int kDescentDepth = 65;
+constexpr int kPrintTopN = 3;
 
+// LandSearch determines how many iterations are spent to optimize the land
+// distribution for a particular deck. Games on the other hand is used to
+// specify for how many games a deck should be evaluated, using the optimal land
+// distribution.
 constexpr int kFastLandSearch = 15;
 constexpr int kFastGames = 75;
 
 constexpr int kDeepLandSearch = 75;
-constexpr int kDeepGames = 300;
+constexpr int kDeepGames = 500;
 
 std::vector<int> GeneratePermutation(const int total, const int wanted,
                                      ThreadsafeRandom &rand) {
@@ -95,7 +102,7 @@ ReplaceBadCards(const std::unordered_map<int, const Contribution *>
                 ThreadsafeRandom &rand) {
   std::vector<std::pair<double, int>> scores;
   for (const auto &[index, contribution] : permutation_to_contributions) {
-    scores.emplace_back(contribution->score, index);
+    scores.emplace_back(contribution->score / contribution->num_cards, index);
   }
   std::sort(scores.begin(), scores.end());
 
@@ -187,11 +194,11 @@ std::vector<std::unique_ptr<GeneratedDeck>>
 EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
                   const std::vector<Spell> &available_cards) {
   std::vector<std::thread> threads;
-  threads.reserve(kThreads);
+  threads.reserve(decks.size());
   std::vector<std::unique_ptr<GeneratedDeck>> re_evaluated;
-  re_evaluated.reserve(kThreads);
+  re_evaluated.reserve(decks.size());
   std::mutex mutex;
-  for (int i = 0; i < kThreads && i < decks.size(); ++i) {
+  for (int i = 0; i < decks.size(); ++i) {
     // Note: this const int is necessary to avoid a silly bug where i is updated
     // for all threads!
     const int kIter = i;
@@ -273,7 +280,7 @@ void GenerateDeck(const std::vector<Spell> &available_cards) {
   std::vector<std::unique_ptr<GeneratedDeck>> best =
       EvaluateBestDecks(all_decks, available_cards);
   std::cout << "\nFound the best generated decks! " << std::endl;
-  for (int i = 0; i < best.size() && i < 3; ++i) {
+  for (int i = 0; i < best.size() && i < kPrintTopN; ++i) {
     std::cout << std::endl;
     std::cout << "Score: " << best[i]->score << std::endl;
     std::cout << "Iteration: " << best[i]->iteration_nr << std::endl;
