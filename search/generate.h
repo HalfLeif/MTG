@@ -102,7 +102,7 @@ ReplaceBadCards(const std::unordered_map<int, const Contribution *>
                 ThreadsafeRandom &rand) {
   std::vector<std::pair<double, int>> scores;
   for (const auto &[index, contribution] : permutation_to_contributions) {
-    scores.emplace_back(GetContribution(*contribution), index);
+    scores.emplace_back(contribution->GetContribution(), index);
   }
   std::sort(scores.begin(), scores.end());
 
@@ -173,7 +173,7 @@ GradientDescent(const std::vector<Spell> &available_cards,
     // 3. Track contributions per card.
     std::unordered_map<int, const Contribution *> permutation_to_contributions;
     generated->contributions = MakeContributionMaps(
-        available_cards, permutation, permutation_to_contributions);
+        available_cards, permutation, &permutation_to_contributions);
     generated->score = RunParam(*generated->lib, generated->param, kFastGames,
                                 &generated->contributions);
 
@@ -186,7 +186,6 @@ GradientDescent(const std::vector<Spell> &available_cards,
 
   std::sort(iterations.begin(), iterations.end(),
             [](const auto &a, const auto &b) { return a->score > b->score; });
-
   return std::move(iterations[0]);
 }
 
@@ -206,6 +205,8 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
       auto generated = std::make_unique<GeneratedDeck>();
       generated->iteration_nr = decks[kIter]->iteration_nr;
       generated->permutation = decks[kIter]->permutation;
+      generated->contributions = MakeContributionMaps(
+          available_cards, generated->permutation, nullptr);
       generated->lib =
           ApplyPermutation(available_cards, generated->permutation);
       generated->param = CompareParams(*generated->lib, kDeepLandSearch, false);

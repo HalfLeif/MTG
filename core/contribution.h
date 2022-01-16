@@ -4,25 +4,64 @@
 #include <unordered_map>
 #include <vector>
 
-struct Contribution {
-  double score = 0.0;
-  int num_cards = 0;
-};
+#include "../core/debug.h"
+
+class Contribution;
+
 using CardContributions =
     std::unordered_map<std::string, std::unique_ptr<Contribution>>;
+
+class Contribution {
+public:
+  static const Contribution *InsertSpell(const Spell &spell,
+                                         CardContributions *contributions) {
+    auto [it, inserted] = contributions->try_emplace(
+        spell.name, std::unique_ptr<Contribution>(new Contribution));
+    ++it->second->num_cards_;
+    return it->second.get();
+  }
+
+  void AddDelta(double delta) { score_ += delta; }
+
+  // Returns contribution per card instance.
+  double GetContribution() const { return score_ / num_cards(); }
+
+  int num_cards() const {
+    if (num_cards_ == 0) {
+      ERROR << "Has a contribution with 0 cards." << std::endl;
+      return 1;
+    }
+    return num_cards_;
+  }
+
+private:
+  Contribution() {}
+
+  double score_ = 0.0;
+  int num_cards_ = 0;
+};
 
 CardContributions
 MakeContributionMaps(const std::vector<Spell> &available_cards,
                      const std::vector<int> &permutation,
                      std::unordered_map<int, const Contribution *>
-                         &permutation_to_contributions) {
+                         *permutation_to_contributions) {
   CardContributions contributions;
   for (int index : permutation) {
     const Spell &spell = available_cards[index];
-    auto [it, inserted] =
-        contributions.try_emplace(spell.name, std::make_unique<Contribution>());
-    ++it->second->num_cards;
-    permutation_to_contributions[index] = it->second.get();
+    const Contribution *cptr = Contribution::InsertSpell(spell, &contributions);
+    if (permutation_to_contributions != nullptr) {
+      (*permutation_to_contributions)[index] = cptr;
+    }
+  }
+  return contributions;
+}
+
+CardContributions
+MakeContributionMaps(const std::vector<Spell> &available_cards) {
+  CardContributions contributions;
+  for (const Spell &spell : available_cards) {
+    const Contribution *cptr = Contribution::InsertSpell(spell, &contributions);
   }
   return contributions;
 }
@@ -30,23 +69,17 @@ MakeContributionMaps(const std::vector<Spell> &available_cards,
 void AddDelta(double delta, const std::string &name,
               CardContributions *contributions) {
   if (contributions == nullptr) {
+    // Can happen in tests.
     return;
   }
-  auto [it, inserted] =
-      contributions->try_emplace(name, std::make_unique<Contribution>());
-  it->second->score += delta;
-  if (inserted) {
+  auto it = contributions->find(name);
+  if (it == contributions->end()) {
     ERROR << "Spell " << name << " was not yet inserted into contributions!"
           << std::endl;
+    exit(1);
+    return;
   }
-}
-
-double GetContribution(const Contribution &contribution) {
-  int num_cards = contribution.num_cards;
-  if (num_cards == 0) {
-    num_cards = 1;
-  }
-  return contribution.score / num_cards;
+  it->second->AddDelta(delta);
 }
 
 double GetContribution(const std::string &name,
@@ -56,8 +89,7 @@ double GetContribution(const std::string &name,
   }
   auto it = contributions->find(name);
   if (it != contributions->end()) {
-    const Contribution &contribution = *it->second;
-    return GetContribution(contribution);
+    return it->second->GetContribution();
   }
   return 0.0;
 }
@@ -69,7 +101,7 @@ void PrintContributions(const CardContributions &contributions) {
   };
   std::vector<std::pair<double, NamedContribution>> pairs;
   for (const auto &[name, contribution_ptr] : contributions) {
-    pairs.emplace_back(GetContribution(*contribution_ptr),
+    pairs.emplace_back(contribution_ptr->GetContribution(),
                        NamedContribution{
                            .name = name,
                            .contribution_ptr = contribution_ptr.get(),
@@ -78,9 +110,9 @@ void PrintContributions(const CardContributions &contributions) {
   std::sort(pairs.begin(), pairs.end(),
             [](const auto &a, const auto &b) { return a.first < b.first; });
   for (const auto &[score, named] : pairs) {
-    for (int i = 0; i < named.contribution_ptr->num_cards || i == 0; ++i) {
-      std::cout << GetContribution(*named.contribution_ptr) << " " << named.name
-                << std::endl;
+    for (int i = 0; i < named.contribution_ptr->num_cards() || i == 0; ++i) {
+      std::cout << named.contribution_ptr->GetContribution() << " "
+                << named.name << std::endl;
     }
   }
 }

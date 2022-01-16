@@ -90,79 +90,87 @@ std::vector<std::string_view> VowCards() {
                                        std::end(kVowCards));
 }
 
-// Found the best generated decks!
-//
-// Score: 131.624
-// Iteration: 61
-// Param experiment:   B=9  R=8
-// 1199.92 Ceremonial Knife
-// 1412.55 Persistent Specimen
-// 1608.99 Edgar's Awakening
-// 1677.91 Blood Servitor
-// 1742.65 Honored Heirloom
-// 1793.69 Sanguine Statuette
-// 2000.03 Restless Bloodseeker
-// 2062.57 Doomed Dissenter
-// 2448.55 Courier Bat
-// 2488.15 Blood Petal Celebrant
-// 2776.11 Wedding Security
-// 2989.63 Weary Prisoner
-// 3093.98 Voldaren Bloodcaster
-// 3578.65 Rot-Tide Gargantua
-// 3890.49 Diregraf Scavenger
-// 4096.15 Falkenrath Celebrants
-// 4510.82 Fell Stinger
-// 4917.15 Sorin the Mirthless
-// 4998.09 Creepy Puppeteer
-// 5974.33 Catapult Fodder
-// 7855.78 Alluring Suitor
-//
-// Score: 129.987
-// Iteration: 47
-// Param experiment:   B=11  R=6
-// 1253.69 Ceremonial Knife
-// 1517.82 Kessig Flamebreather
-// 1644.58 Wedding Invitation
-// 1703 Sanguine Statuette
-// 1783.32 Edgar's Awakening
-// 2106.84 Restless Bloodseeker
-// 2109.3 Lightning Wolf
-// 2128.15 Unhallowed Phalanx
-// 2269.02 Courier Bat
-// 2488.88 Weary Prisoner
-// 2676.91 Doomed Dissenter
-// 2972.64 Wedding Security
-// 3538.3 Voldaren Bloodcaster
-// 3607.15 Rot-Tide Gargantua
-// 3809.42 Falkenrath Celebrants
-// 3914.48 Diregraf Scavenger
-// 4523.44 Fell Stinger
-// 4664.22 Creepy Puppeteer
-// 5424.05 Sorin the Mirthless
-// 5661.58 Catapult Fodder
-// 6748.75 Alluring Suitor
-//
-// Score: 129.415
-// Iteration: 53
-// Param experiment:   B=11  U=6
-// 1632.23 Honored Heirloom
-// 1637.1 Scattered Thoughts
-// 1759.66 Mischievous Catgeist
-// 1967.75 Skywarp Skaab
-// 2094.01 Courier Bat
-// 2265.97 Skulking Killer
-// 2366.86 Steelclad Spirit
-// 2382.81 Stitched Assistant
-// 2439.5 Restless Bloodseeker
-// 2590.32 Doomed Dissenter
-// 3116.38 Overcharged Amalgam
-// 3208.49 Wedding Security
-// 3300.05 Binding Geist
-// 3568.28 Rot-Tide Gargantua
-// 3593.91 Diregraf Scavenger
-// 3628.16 Voldaren Bloodcaster
-// 3714.78 Whispering Wizard
-// 4593.75 Fell Stinger
-// 4926.12 Mirrorhall Mimic
-// 5457.5 Sorin the Mirthless
-// 6356.04 Catapult Fodder
+/*
+Found the best generated decks!
+
+Score: 131.281
+Iteration: 56
+Param experiment:   B=9  U=8
+1368.83 Gift of Fangs
+1466.91 Steelclad Spirit
+1466.91 Steelclad Spirit
+1466.91 Steelclad Spirit
+1961.25 Courier Bat
+2007.88 Unhallowed Phalanx
+2073.05 Skulking Killer
+2274.46 Mischievous Catgeist
+2294.84 Stitched Assistant
+2484.69 Runo Stromkirk
+2550.12 Doomed Dissenter
+2921.05 Wedding Security
+3214.91 Catapult Fodder
+3214.91 Catapult Fodder
+3325.67 Diregraf Scavenger
+3368.56 Voldaren Bloodcaster
+3454.26 Rot-Tide Gargantua
+3455.95 Binding Geist
+4011.78 Whispering Wizard
+4046.39 Overcharged Amalgam
+4528.85 Fell Stinger
+4978.9 Sorin the Mirthless
+5266.29 Mirrorhall Mimic
+
+Score: 130.426
+Iteration: 59
+Param experiment:   B=11  U=6
+1218.57 Ceremonial Knife
+1291.25 Lantern Bearer
+1603.19 Blood Servitor
+1771.49 Wedding Invitation
+1786.29 Chill of the Grave
+1892.42 Honored Heirloom
+2168.92 Unhallowed Phalanx
+2249.4 Courier Bat
+2348.4 Skulking Killer
+2394.74 Restless Bloodseeker
+2634.65 Doomed Dissenter
+2927.44 Overcharged Amalgam
+3046.35 Wedding Security
+3167.62 Voldaren Bloodcaster
+3246.45 Binding Geist
+3295.1 Catapult Fodder
+3295.1 Catapult Fodder
+3701.08 Whispering Wizard
+3753.1 Diregraf Scavenger
+3892.2 Rot-Tide Gargantua
+4566.71 Fell Stinger
+4959.37 Mirrorhall Mimic
+5411.18 Sorin the Mirthless
+
+Score: 127.236
+Iteration: 62
+Param experiment:   B=7  W=6  U=4
+1043.25 Radiant Grace
+1535.55 Stitched Assistant
+1681.61 Groom's Finery
+1768.88 Gryff Rider
+2108.88 Restless Bloodseeker
+2183.54 Skulking Killer
+2184.33 Binding Geist
+2328.51 Doomed Dissenter
+2563.75 Catapult Fodder
+2563.75 Catapult Fodder
+2775.81 Heron-Blessed Geist
+2830.6 Katilda, Dawnhart Martyr
+2857.18 Wedding Security
+3161.97 Distracting Geist
+3288.68 Voldaren Bloodcaster
+3322.11 Rot-Tide Gargantua
+3408.65 Whispering Wizard
+3456.52 Diregraf Scavenger
+3771.87 Gryffwing Cavalry
+3984.88 Mirrorhall Mimic
+3998.8 Fell Stinger
+4114.35 Sorin the Mirthless
+4550.35 Wedding Announcement
+*/

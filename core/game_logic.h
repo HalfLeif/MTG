@@ -672,7 +672,7 @@ TEST(PlayTurnSimple) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
 
-  CardContributions contributions;
+  CardContributions contributions = MakeContributionMaps(player.library.spells);
   double points = PlayTurn(lib, &player, &contributions);
   if (player.battlefield.spells.empty() ||
       player.battlefield.spells.front().name != "Foo") {
@@ -689,7 +689,8 @@ TEST(PlayTurnExistingCreature) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("B3")).Build();
 
-  CardContributions contributions;
+  CardContributions contributions =
+      MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, &contributions);
   EXPECT_EQ(static_cast<int>(points), 2);
   EXPECT_EQ(GetContribution("Foo", &contributions), 2);
@@ -728,7 +729,7 @@ TEST(PlayBestSpell) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
 
-  CardContributions contributions;
+  CardContributions contributions = MakeContributionMaps(player.hand.spells);
   double points = PlayTurn(lib, &player, &contributions);
   if (player.battlefield.spells.empty() ||
       player.battlefield.spells.front().name != "Big") {
@@ -808,7 +809,8 @@ TEST(PlayAbilities) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
 
-  CardContributions contributions;
+  CardContributions contributions =
+      MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, &contributions);
   // Gets 6/3 = 2 points for playing the same ability twice.
   EXPECT_EQ(static_cast<int>(points), 2);
@@ -831,7 +833,8 @@ TEST(PlayOnetimeAbilities) {
 
   Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
 
-  CardContributions contributions;
+  CardContributions contributions =
+      MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, &contributions);
   // Gets 2/2 points for playing the onetime once.
   EXPECT_EQ(static_cast<int>(points), 1);
