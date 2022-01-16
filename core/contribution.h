@@ -35,6 +35,18 @@ void AddDelta(double delta, const std::string &name,
   auto [it, inserted] =
       contributions->try_emplace(name, std::make_unique<Contribution>());
   it->second->score += delta;
+  if (inserted) {
+    ERROR << "Spell " << name << " was not yet inserted into contributions!"
+          << std::endl;
+  }
+}
+
+double GetContribution(const Contribution &contribution) {
+  int num_cards = contribution.num_cards;
+  if (num_cards == 0) {
+    num_cards = 1;
+  }
+  return contribution.score / num_cards;
 }
 
 double GetContribution(const std::string &name,
@@ -45,22 +57,30 @@ double GetContribution(const std::string &name,
   auto it = contributions->find(name);
   if (it != contributions->end()) {
     const Contribution &contribution = *it->second;
-    int num_cards = contribution.num_cards;
-    if (num_cards == 0) {
-      num_cards = 1;
-    }
-    return contribution.score / num_cards;
+    return GetContribution(contribution);
   }
   return 0.0;
 }
 
 void PrintContributions(const CardContributions &contributions) {
-  std::vector<std::pair<double, std::string_view>> pairs;
+  struct NamedContribution {
+    std::string_view name = "";
+    const Contribution *contribution_ptr = nullptr;
+  };
+  std::vector<std::pair<double, NamedContribution>> pairs;
   for (const auto &[name, contribution_ptr] : contributions) {
-    pairs.emplace_back(contribution_ptr->score, name);
+    pairs.emplace_back(GetContribution(*contribution_ptr),
+                       NamedContribution{
+                           .name = name,
+                           .contribution_ptr = contribution_ptr.get(),
+                       });
   }
-  std::sort(pairs.begin(), pairs.end());
-  for (const auto &[score, name] : pairs) {
-    std::cout << score << " " << name << std::endl;
+  std::sort(pairs.begin(), pairs.end(),
+            [](const auto &a, const auto &b) { return a.first < b.first; });
+  for (const auto &[score, named] : pairs) {
+    for (int i = 0; i < named.contribution_ptr->num_cards || i == 0; ++i) {
+      std::cout << GetContribution(*named.contribution_ptr) << " " << named.name
+                << std::endl;
+    }
   }
 }

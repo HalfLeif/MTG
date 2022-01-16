@@ -102,7 +102,7 @@ ReplaceBadCards(const std::unordered_map<int, const Contribution *>
                 ThreadsafeRandom &rand) {
   std::vector<std::pair<double, int>> scores;
   for (const auto &[index, contribution] : permutation_to_contributions) {
-    scores.emplace_back(contribution->score / contribution->num_cards, index);
+    scores.emplace_back(GetContribution(*contribution), index);
   }
   std::sort(scores.begin(), scores.end());
 
