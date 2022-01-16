@@ -93,84 +93,85 @@ std::vector<std::string_view> VowCards() {
 /*
 Found the best generated decks!
 
-Score: 131.281
-Iteration: 56
-Param experiment:   B=9  U=8
-1368.83 Gift of Fangs
-1466.91 Steelclad Spirit
-1466.91 Steelclad Spirit
-1466.91 Steelclad Spirit
-1961.25 Courier Bat
-2007.88 Unhallowed Phalanx
-2073.05 Skulking Killer
-2274.46 Mischievous Catgeist
-2294.84 Stitched Assistant
-2484.69 Runo Stromkirk
-2550.12 Doomed Dissenter
-2921.05 Wedding Security
-3214.91 Catapult Fodder
-3214.91 Catapult Fodder
-3325.67 Diregraf Scavenger
-3368.56 Voldaren Bloodcaster
-3454.26 Rot-Tide Gargantua
-3455.95 Binding Geist
-4011.78 Whispering Wizard
-4046.39 Overcharged Amalgam
-4528.85 Fell Stinger
-4978.9 Sorin the Mirthless
-5266.29 Mirrorhall Mimic
-
-Score: 130.426
+Score: 132.177
 Iteration: 59
-Param experiment:   B=11  U=6
-1218.57 Ceremonial Knife
-1291.25 Lantern Bearer
-1603.19 Blood Servitor
-1771.49 Wedding Invitation
-1786.29 Chill of the Grave
-1892.42 Honored Heirloom
-2168.92 Unhallowed Phalanx
-2249.4 Courier Bat
-2348.4 Skulking Killer
-2394.74 Restless Bloodseeker
-2634.65 Doomed Dissenter
-2927.44 Overcharged Amalgam
-3046.35 Wedding Security
-3167.62 Voldaren Bloodcaster
-3246.45 Binding Geist
-3295.1 Catapult Fodder
-3295.1 Catapult Fodder
-3701.08 Whispering Wizard
-3753.1 Diregraf Scavenger
-3892.2 Rot-Tide Gargantua
-4566.71 Fell Stinger
-4959.37 Mirrorhall Mimic
-5411.18 Sorin the Mirthless
+Param experiment:   B=9  R=8
+663.223 Dread Fugue
+1262.37 Ceremonial Knife
+1584.61 Wedding Invitation
+1983.14 Sanguine Statuette
+2111.93 Restless Bloodseeker
+2185.23 Unhallowed Phalanx
+2189.35 Doomed Dissenter
+2370.1 Courier Bat
+2527.04 Weary Prisoner
+2527.04 Weary Prisoner
+2535.92 Blood Petal Celebrant
+2812.34 Catapult Fodder
+2812.34 Catapult Fodder
+2820.33 Wedding Security
+3490.54 Rot-Tide Gargantua
+3543.29 Voldaren Bloodcaster
+3853.42 Diregraf Scavenger
+3964.32 Alluring Suitor
+3964.32 Alluring Suitor
+4087.96 Falkenrath Celebrants
+4481.97 Fell Stinger
+4876.91 Creepy Puppeteer
+4932.59 Sorin the Mirthless
 
-Score: 127.236
-Iteration: 62
-Param experiment:   B=7  W=6  U=4
-1043.25 Radiant Grace
-1535.55 Stitched Assistant
-1681.61 Groom's Finery
-1768.88 Gryff Rider
-2108.88 Restless Bloodseeker
-2183.54 Skulking Killer
-2184.33 Binding Geist
-2328.51 Doomed Dissenter
-2563.75 Catapult Fodder
-2563.75 Catapult Fodder
-2775.81 Heron-Blessed Geist
-2830.6 Katilda, Dawnhart Martyr
-2857.18 Wedding Security
-3161.97 Distracting Geist
-3288.68 Voldaren Bloodcaster
-3322.11 Rot-Tide Gargantua
-3408.65 Whispering Wizard
-3456.52 Diregraf Scavenger
-3771.87 Gryffwing Cavalry
-3984.88 Mirrorhall Mimic
-3998.8 Fell Stinger
-4114.35 Sorin the Mirthless
-4550.35 Wedding Announcement
+Score: 131.249
+Iteration: 30
+Param experiment:   B=9  U=8
+1422.51 Steelclad Spirit
+1497.92 Gift of Fangs
+1638.58 Honored Heirloom
+1693.69 Scattered Thoughts
+1899.4 Courier Bat
+1966.06 Skulking Killer
+2016.04 Unhallowed Phalanx
+2016.55 Mischievous Catgeist
+2316.41 Restless Bloodseeker
+2385.2 Doomed Dissenter
+2608.13 Stitched Assistant
+3081.79 Catapult Fodder
+3081.79 Catapult Fodder
+3105.22 Voldaren Bloodcaster
+3296.93 Wedding Security
+3472.19 Binding Geist
+3524.12 Diregraf Scavenger
+3656.23 Overcharged Amalgam
+3765.23 Rot-Tide Gargantua
+3924.97 Whispering Wizard
+4813.7 Fell Stinger
+4958.32 Sorin the Mirthless
+5133.29 Mirrorhall Mimic
+
+Score: 129.698
+Iteration: 43
+Param experiment:   B=11  R=6
+1067.51 Vampire's Kiss
+1449.38 Gift of Fangs
+1508.22 Blood Servitor
+1552.45 Edgar's Awakening
+1813.22 Wedding Invitation
+1966.06 Skulking Killer
+2285.22 Doomed Dissenter
+2335.4 Courier Bat
+2408.98 Restless Bloodseeker
+2610.81 Weary Prisoner
+2610.81 Weary Prisoner
+2797.11 Catapult Fodder
+2797.11 Catapult Fodder
+2869.46 Wedding Security
+3321.13 Voldaren Bloodcaster
+3516.53 Alluring Suitor
+3516.53 Alluring Suitor
+3788.55 Rot-Tide Gargantua
+3864.32 Diregraf Scavenger
+4030.62 Falkenrath Celebrants
+4433.29 Fell Stinger
+4735.94 Creepy Puppeteer
+5303.11 Sorin the Mirthless
+
 */

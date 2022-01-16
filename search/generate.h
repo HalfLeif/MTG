@@ -19,7 +19,7 @@
 
 // Number of threads determines how many gradient descents will run in parallel.
 constexpr int kThreads = 8;
-constexpr int kDescentDepth = 65;
+constexpr int kDescentDepth = 75;
 constexpr int kPrintTopN = 3;
 
 // LandSearch determines how many iterations are spent to optimize the land
