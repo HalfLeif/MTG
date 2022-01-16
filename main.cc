@@ -15,6 +15,7 @@
 #include "decks/m20.h"
 #include "decks/mid.h"
 #include "decks/thb.h"
+#include "decks/vow.h"
 #include "parser/parse_csv.h"
 #include "search/generate.h"
 #include "search/task.h"
@@ -36,7 +37,9 @@ int main(int argc, char *argv[]) {
   INFO << "Started program...\n";
   srand(4);
 
-  GenerateDeck(ReadCards());
+  auto all_cards = ReadCards("data/vow/cards.csv");
+  auto available_cards = FilterCards(all_cards, VowCards());
+  GenerateDeck(available_cards);
 
   // const Library &lib = GetMainLib();
   // CompareParams(lib);

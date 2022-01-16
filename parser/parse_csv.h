@@ -58,11 +58,10 @@ Spell ParseLine(const std::string_view line) {
   return spell;
 }
 
-std::vector<Spell> ReadCards() {
+std::vector<Spell> ReadCards(std::string fname) {
   // Note: Does not read any lands. Currently filter to only non-lands at python
   // export time.
   std::vector<Spell> spells;
-  std::string fname = "data/mid/cards.csv";
   std::ifstream csv;
   csv.open(fname, std::ios::in);
   if (csv.is_open()) {

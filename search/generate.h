@@ -240,6 +240,28 @@ GenerateEarlyDecks(const std::vector<Spell> &available_cards) {
   return all_decks;
 }
 
+std::vector<Spell>
+FilterCards(const std::vector<Spell> &all_cards,
+            const std::vector<std::string_view> &available_cards) {
+  std::unordered_map<std::string_view, const Spell *> spells_by_name;
+  spells_by_name.reserve(all_cards.size());
+  for (const Spell &spell : all_cards) {
+    spells_by_name[spell.name] = &spell;
+  }
+  std::vector<Spell> result;
+  result.reserve(available_cards.size());
+  for (const std::string_view cardname : available_cards) {
+    auto it = spells_by_name.find(cardname);
+    if (it == spells_by_name.end()) {
+      ERROR << "Spell " << cardname << " is not listed in all_cards"
+            << std::endl;
+      exit(1);
+    }
+    result.push_back(*it->second);
+  }
+  return result;
+}
+
 void GenerateDeck(const std::vector<Spell> &available_cards) {
   std::vector<std::unique_ptr<GeneratedDeck>> all_decks =
       GenerateEarlyDecks(available_cards);
