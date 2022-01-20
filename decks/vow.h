@@ -83,6 +83,8 @@ constexpr std::string_view kVowCards[] = {
     "Honored Heirloom",
     "Alchemist's Retrieval",
     "Kessig Flamebreather",
+
+    // Round 2
     "Path of Peril",
     "Bride's Gown",
     "Lambholt Raconteur",
