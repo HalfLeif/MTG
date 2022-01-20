@@ -19,7 +19,7 @@
 
 // Number of threads determines how many gradient descents will run in parallel.
 constexpr int kThreads = 8;
-constexpr int kDescentDepth = 75;
+constexpr int kDescentDepth = 125;
 constexpr int kPrintTopN = 3;
 
 // LandSearch determines how many iterations are spent to optimize the land
@@ -77,19 +77,19 @@ bool MutateCard(int order, int total, ThreadsafeRandom &rand) {
 // How many cards should be replaced depending on iteration number. Later
 // iterations replace fewer cards.
 int NumReplace(const int iteration_nr) {
-  if (iteration_nr < 5) {
+  if (iteration_nr < 0.10 * kDescentDepth) {
     return 10;
   }
-  if (iteration_nr < 10) {
+  if (iteration_nr < 0.35 * kDescentDepth) {
     return 7;
   }
-  if (iteration_nr < 20) {
+  if (iteration_nr < 0.60 * kDescentDepth) {
     return 5;
   }
-  if (iteration_nr < 30) {
+  if (iteration_nr < 0.80 * kDescentDepth) {
     return 3;
   }
-  if (iteration_nr < 45) {
+  if (iteration_nr < 0.90 * kDescentDepth) {
     return 2;
   }
   return 1;
@@ -265,7 +265,16 @@ FilterCards(const std::vector<Spell> &all_cards,
             << std::endl;
       exit(1);
     }
-    result.push_back(*it->second);
+    const Spell &spell = *it->second;
+    if (ContainsKey(spell.cost, Color::White) ||
+        ContainsKey(spell.cost, Color::Green) ||
+        ContainsKey(spell.cost, Color::Blue)) {
+      // TODO remove this.
+      // Temporary fix to focus on BR. Ideally algorithm should adjust colors
+      // automatically over time.
+      continue;
+    }
+    result.push_back(spell);
   }
   return result;
 }
