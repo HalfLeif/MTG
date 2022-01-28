@@ -169,20 +169,20 @@ std::vector<std::string_view> VowCards() {
 /* R3
 Score: 135.984
 Iteration: 29
-Param experiment:   B=10  W=7  -> B=8 W=8 V=1
+Param experiment:   B=9  W=7  V=1
 90.1269 Radiant Grace  -> Traveling Minister
 122.29 Ceremonial Knife  -> Sigarda's Imprisonment
-169.16 Gluttonous Guest  -> Sigarda's Imprisonment
+169.16 Gluttonous Guest
 170.8 Parish-Blade Trainee
-184.887 Blood Servitor  -> Distracting Geist
+184.887 Blood Servitor  -> Sigarda's Imprisonment
 207.531 Restless Bloodseeker
 210.277 Doomed Dissenter
-229.327 Savior of Ollenbock
+229.327 Savior of Ollenbock  -> Heron of Hope
 242.181 Catapult Fodder
 242.181 Catapult Fodder
 247.206 Markov Purifier
 314.515 Voldaren Bloodcaster
-315.433 Heron-Blessed Geist
+315.433 Heron-Blessed Geist  -> By Invitation Only
 324.242 Katilda, Dawnhart Martyr
 334.284 Rot-Tide Gargantua
 388.177 Diregraf Scavenger  -> Bleed Dry
