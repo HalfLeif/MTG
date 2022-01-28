@@ -85,7 +85,7 @@ constexpr std::string_view kVowCards[] = {
     "Kessig Flamebreather",
 
     // Round 2
-    "Path of Peril",
+    "Path of Peril", // Primarily works well with BW
     "Bride's Gown",
     "Lambholt Raconteur",
     "Nature's Embrace",
@@ -101,14 +101,101 @@ constexpr std::string_view kVowCards[] = {
     "Heron of Hope",
     "Snarling Wolf",
     "Diregraf Scavenger",
+
+    // Round 3
+    "Sawblade Slinger",
+    "Henrika Domnathi",
+    "Markov Purifier",
+    "Unhallowed Phalanx",
+    "Pyre Spawn",
+    "Lightning Wolf",
+    "Dawnhart Disciple",
+    "Flame-Blessed Bolt",
+    "Angelic Quartermaster",
+    "Savior of Ollenbock",
+    "Gutter Skulker",
+    "Dreadlight Monstrosity",
+    "Wolf Strike",
+    "Grisly Ritual",
+    "Dawnhart Disciple",
+    "Apprentice Sharpshooter",
+};
+
+constexpr std::string_view kVowBestCards[] = {
+    "Diregraf Scavenger",
+    "Diregraf Scavenger",
+    "Catapult Fodder",
+    "Catapult Fodder",
+    "Markov Purifier",
+    "Voldaren Bloodcaster",
+    "Rot-Tide Gargantua",
+    "Fell Stinger",
+    "Angelic Quartermaster",
+    "Gryffwing Cavalry",
+    "Sorin the Mirthless",
+    "Wedding Announcement",
+    "Henrika Domnathi",
+    "Parish-Blade Trainee",
+    "Savior of Ollenbock",
+    "Doomed Dissenter",
+    "Wedding Security",
+    "Distracting Geist",
+    "Katilda, Dawnhart Martyr",
+    "Heron of Hope",
+    "Restless Bloodseeker",
+    "Heron-Blessed Geist",
+    "Ceremonial Knife",
+    "Ceremonial Knife",
+    "Wedding Invitation",
+    "Bleed Dry",
+    "By Invitation Only",
+    "Radiant Grace",
+    "Radiant Grace",
+    "Groom's Finery",
+    "Traveling Minister",
+    "Sigarda's Imprisonment",
+    "Gluttonous Guest",
+    "Bride's Gown",
+    "Blood Servitor",
+    "Gryff Rider",
 };
 
 std::vector<std::string_view> VowCards() {
-  return std::vector<std::string_view>(std::begin(kVowCards),
-                                       std::end(kVowCards));
+  // TODO revert to kVowCards
+  return std::vector<std::string_view>(std::begin(kVowBestCards),
+                                       std::end(kVowBestCards));
 }
 
-/*
+/* R3
+Score: 135.984
+Iteration: 29
+Param experiment:   B=10  W=7  -> B=8 W=8 V=1
+90.1269 Radiant Grace  -> Traveling Minister
+122.29 Ceremonial Knife  -> Sigarda's Imprisonment
+169.16 Gluttonous Guest  -> Sigarda's Imprisonment
+170.8 Parish-Blade Trainee
+184.887 Blood Servitor  -> Distracting Geist
+207.531 Restless Bloodseeker
+210.277 Doomed Dissenter
+229.327 Savior of Ollenbock
+242.181 Catapult Fodder
+242.181 Catapult Fodder
+247.206 Markov Purifier
+314.515 Voldaren Bloodcaster
+315.433 Heron-Blessed Geist
+324.242 Katilda, Dawnhart Martyr
+334.284 Rot-Tide Gargantua
+388.177 Diregraf Scavenger  -> Bleed Dry
+388.177 Diregraf Scavenger
+426.462 Henrika Domnathi
+431.24 Angelic Quartermaster
+439.996 Sorin the Mirthless
+484.976 Fell Stinger
+490.63 Wedding Announcement
+496.119 Gryffwing Cavalry
+*/
+
+/* R2
 Score: 134.28
 Iteration: 52
 Param experiment:   B=11  R=6

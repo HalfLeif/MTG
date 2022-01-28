@@ -26,11 +26,17 @@ constexpr int kPrintTopN = 3;
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-constexpr int kFastLandSearch = 15;
-constexpr int kFastGames = 75;
+// constexpr int kFastLandSearch = 15;
+// constexpr int kFastGames = 75;
+//
+// constexpr int kDeepLandSearch = 75;
+// constexpr int kDeepGames = 500;
 
-constexpr int kDeepLandSearch = 75;
-constexpr int kDeepGames = 500;
+constexpr int kFastLandSearch = 10;
+constexpr int kFastGames = 5;
+
+constexpr int kDeepLandSearch = 7;
+constexpr int kDeepGames = 50;
 
 std::vector<int> GeneratePermutation(const int total, const int wanted,
                                      ThreadsafeRandom &rand) {
@@ -55,6 +61,13 @@ ApplyPermutation(const std::vector<Spell> &available_cards,
   for (int index : permutation) {
     builder.AddSpell(available_cards[index]);
   }
+
+  // Note: this is a hack since generating decks doesn't take lands into
+  // account.
+  // This is for Voldaren Estate.
+  // TODO: Support non-basic lands properly.
+  builder.AddLand(BasicLand(Color::Colorless));
+
   return builder.BuildUnique();
 }
 
@@ -266,12 +279,13 @@ FilterCards(const std::vector<Spell> &all_cards,
       exit(1);
     }
     const Spell &spell = *it->second;
-    if (ContainsKey(spell.cost, Color::White) ||
+    if (ContainsKey(spell.cost, Color::Red) ||
         ContainsKey(spell.cost, Color::Green) ||
         ContainsKey(spell.cost, Color::Blue)) {
-      // TODO remove this.
-      // Temporary fix to focus on BR. Ideally algorithm should adjust colors
-      // automatically over time.
+      // This is a hack to focus on a subset of colors. Ideally the program
+      // would first run a simulation to pick best colors, and the optimize
+      // within the colors. Or be more aggressive about what cards to keep.
+      // TODO: replace with better algorithm.
       continue;
     }
     result.push_back(spell);
