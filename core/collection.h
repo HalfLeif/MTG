@@ -72,7 +72,7 @@ T *MoveItem(int i, std::vector<T> &from, std::vector<T> &to) {
 
 template <typename T, typename R>
 std::vector<R> MapFn(const std::vector<T> &input,
-                     std::function<R(const T &)> fn) {
+                     const std::function<R(const T &)> &fn) {
   std::vector<R> result;
   result.reserve(input.size());
   for (const T &item : input) {

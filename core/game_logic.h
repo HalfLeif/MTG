@@ -42,8 +42,7 @@ void DrawN(Player *player, int n) {
 
 void TapLand(const Land &land, ManaCost &mana_pool) {
   if (land.type == LandType::fetch) {
-    ERROR << "Attempted to tap a fetch land for mana!\n";
-    std::exit(1);
+    FATAL << "Attempted to tap a fetch land for mana!\n";
     return;
   }
   ++mana_pool[land.color];
@@ -72,9 +71,8 @@ void ProduceMana(const Library &lib, const Deck &battlefield,
       // Fetch lands are used when played, so should never be tapped during this
       // step!
       // However, this situation can occur when estimating mana in the hand...
-      // ERROR << "Attempted to tap a fetch land for mana during ProduceMana "
+      // FATAL << "Attempted to tap a fetch land for mana during ProduceMana "
       //          "step!\n";
-      // std::exit(1);
     } else if (lands[i].type == LandType::shore) {
       ++shores;
     } else {

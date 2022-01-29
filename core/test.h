@@ -57,8 +57,7 @@ public:
     if (success) {
       INFO << "All tests pass!\n";
     } else {
-      ERROR << "There are test failures!\n";
-      std::exit(1);
+      FATAL << "There are test failures!\n";
     }
   }
 
@@ -126,4 +125,9 @@ TEST(SimpleTest) {
   EXPECT_TRUE(a < 2);
   EXPECT_FALSE(a > 2);
   EXPECT_NEAR(1.0, 1.001);
+}
+
+TEST(FatalLog) {
+  CHECK(true) << "OK" << std::endl;
+  // CHECK(false) << "Condition failed!" << std::endl;
 }

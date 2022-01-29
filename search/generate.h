@@ -223,9 +223,8 @@ GradientDescent(const std::vector<Spell> &available_cards,
     if (PARANOIA) {
       for (int p : forced_cards) {
         if (!ContainsItem(permutation, p)) {
-          ERROR << "Permutation does not include forced card " << p
+          FATAL << "Permutation does not include forced card " << p
                 << " at descent " << i << std::endl;
-          std::exit(1);
         }
       }
     }
@@ -365,15 +364,12 @@ FindForcedCards(const std::vector<Spell> &available_cards,
   for (const std::string_view name : forced_card_names) {
     auto it = name_to_index.find(name);
     if (it == name_to_index.end()) {
-      ERROR << "Forced card not found among available_cards: " << name
+      FATAL << "Forced card not found among available_cards: " << name
             << std::endl;
-      std::exit(1);
     }
     std::vector<int> &instances = it->second;
-    if (instances.empty()) {
-      ERROR << "Forced card is already picked: " << name << std::endl;
-      std::exit(1);
-    }
+    CHECK(!instances.empty())
+        << "Forced card is already picked: " << name << std::endl;
     forced_indices.insert(instances.back());
     instances.pop_back();
   }
