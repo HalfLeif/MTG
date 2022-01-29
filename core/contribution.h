@@ -94,25 +94,33 @@ double GetContribution(const std::string &name,
   return 0.0;
 }
 
-void PrintContributions(const CardContributions &contributions) {
+void PrintContributions(const Deck &deck,
+                        const CardContributions &contributions) {
   struct NamedContribution {
-    std::string_view name = "";
+    const Spell *spell_ptr = nullptr;
     const Contribution *contribution_ptr = nullptr;
   };
+
   std::vector<std::pair<double, NamedContribution>> pairs;
-  for (const auto &[name, contribution_ptr] : contributions) {
-    pairs.emplace_back(contribution_ptr->GetContribution(),
+  pairs.reserve(deck.spells.size());
+  for (const Spell &spell : deck.spells) {
+    auto it = contributions.find(spell.name);
+    if (it == contributions.end()) {
+      FATAL << "Could not find spell " << spell.name << " in contributions."
+            << std::endl;
+    }
+    pairs.emplace_back(it->second->GetContribution(),
                        NamedContribution{
-                           .name = name,
-                           .contribution_ptr = contribution_ptr.get(),
+                           .spell_ptr = &spell,
+                           .contribution_ptr = it->second.get(),
                        });
   }
   std::sort(pairs.begin(), pairs.end(),
             [](const auto &a, const auto &b) { return a.first < b.first; });
+
   for (const auto &[score, named] : pairs) {
-    for (int i = 0; i < named.contribution_ptr->num_cards() || i == 0; ++i) {
-      std::cout << named.contribution_ptr->GetContribution() << " "
-                << named.name << std::endl;
-    }
+    std::cout << named.contribution_ptr->GetContribution() << " "
+              << named.spell_ptr->name << " (" << named.spell_ptr->cost << ")"
+              << std::endl;
   }
 }

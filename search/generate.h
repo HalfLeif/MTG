@@ -28,18 +28,18 @@ constexpr double kChangeSizeRate = 0.05;
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-constexpr int kFastLandSearch = 20;
-constexpr int kFastGames = 100;
-
-constexpr int kDeepLandSearch = 75;
-constexpr int kDeepGames = 500;
+// constexpr int kFastLandSearch = 20;
+// constexpr int kFastGames = 100;
+//
+// constexpr int kDeepLandSearch = 75;
+// constexpr int kDeepGames = 500;
 
 // For debugging purposes:
-// constexpr int kFastLandSearch = 10;
-// constexpr int kFastGames = 5;
-//
-// constexpr int kDeepLandSearch = 7;
-// constexpr int kDeepGames = 50;
+constexpr int kFastLandSearch = 10;
+constexpr int kFastGames = 5;
+
+constexpr int kDeepLandSearch = 7;
+constexpr int kDeepGames = 50;
 
 // Uniformly samples `wanted` cards from [0,total). Any `forced_cards` are
 // automatically picked.
@@ -198,14 +198,6 @@ struct GeneratedDeck {
   CardContributions contributions;
   int iteration_nr = 0;
 };
-
-void PrintTopGeneratedDecks(
-    const std::vector<std::unique_ptr<GeneratedDeck>> &decks) {
-  for (int i = 0; i < decks.size() && i < 10; ++i) {
-    std::cout << decks[i]->score << " iteration " << decks[i]->iteration_nr
-              << std::endl;
-  }
-}
 
 // Only return the best one. That way gets more diversity between best N decks.
 std::unique_ptr<GeneratedDeck>
@@ -377,7 +369,17 @@ FindForcedCards(const std::vector<Spell> &available_cards,
   return forced_indices;
 }
 
-void PrintDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &best) {
+void PrintGeneratedDecksShort(
+    const std::vector<std::unique_ptr<GeneratedDeck>> &decks) {
+  for (int i = 0; i < decks.size() && i < 10; ++i) {
+    std::cout << decks[i]->score << " iteration " << decks[i]->iteration_nr
+              << std::endl;
+  }
+}
+
+void PrintGeneratedDecksDetailed(
+    const std::vector<Spell> &available_cards,
+    const std::vector<std::unique_ptr<GeneratedDeck>> &best) {
   std::cout << "\nFound the best generated decks! " << std::endl;
   for (int i = 0; i < best.size() && i < kPrintTopN; ++i) {
     const GeneratedDeck &generated = *best[i];
@@ -389,7 +391,7 @@ void PrintDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &best) {
     Deck deck = TournamentDeck(generated.param);
     // std::cout << deck << std::endl;
     PrintLands(deck);
-    PrintContributions(generated.contributions);
+    PrintContributions(deck, generated.contributions);
   }
 }
 
@@ -399,12 +401,12 @@ void GenerateDeck(const std::vector<Spell> &available_cards,
       RunMultipleDescent(available_cards, forced_cards);
 
   // TODO: Unique the decks, currently generates duplicates.
-  PrintTopGeneratedDecks(all_decks);
+  PrintGeneratedDecksShort(all_decks);
 
   // Re-evaluate 8 best decks, to find the best one.
-  std::vector<std::unique_ptr<GeneratedDeck>> best =
+  std::vector<std::unique_ptr<GeneratedDeck>> best_decks =
       EvaluateBestDecks(all_decks, available_cards);
-  PrintDecks(best);
+  PrintGeneratedDecksDetailed(available_cards, best_decks);
 }
 
 // -----------------------------------------------------------------------------
