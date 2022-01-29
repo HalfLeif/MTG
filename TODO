@@ -3,7 +3,6 @@
 - Can play land after drawing if did not play land in first main
 - Support spell with mana cost X and use when appropriate. Reward is X-1.
 - Search for reasonable land combinations using only few iterations (25), and then refine best N of those with more iterations (200). Can do recursively for top N-1 with more iterations until stable order?
-- Allow forcing some cards (e.g. removals and custom lands), and then sample the rest.
 
 # Suggest deck
 - Instead of replacing with a uniform random card bias color towards main colors, and manacost towards that of replaced card.

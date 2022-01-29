@@ -33,6 +33,7 @@ constexpr int kFastGames = 75;
 constexpr int kDeepLandSearch = 75;
 constexpr int kDeepGames = 500;
 
+// For debugging purposes:
 // constexpr int kFastLandSearch = 10;
 // constexpr int kFastGames = 5;
 //
@@ -133,8 +134,8 @@ int NumReplace(const int iteration_nr) {
 std::vector<int>
 ReplaceBadCards(const std::unordered_map<int, const Contribution *>
                     &permutation_to_contributions,
-                const int total, const int iteration_nr,
-                ThreadsafeRandom &rand) {
+                const std::set<int> &forced_cards, const int total,
+                const int iteration_nr, ThreadsafeRandom &rand) {
   std::vector<std::pair<double, int>> scores;
   for (const auto &[index, contribution] : permutation_to_contributions) {
     scores.emplace_back(contribution->GetContribution(), index);
@@ -146,9 +147,12 @@ ReplaceBadCards(const std::unordered_map<int, const Contribution *>
   new_permutation.reserve(scores.size());
   const int min_replace = NumReplace(iteration_nr);
   for (const auto &[score, index] : scores) {
+    if (ContainsKey(forced_cards, index)) {
+      // Forced cards cannot be considered for replacement.
+      continue;
+    }
     int new_index = index;
-    if (
-        // Replace useless card
+    if ( // Replace useless card
         score <= 0 ||
         // Replace up to N bad cards
         new_permutation.size() < min_replace ||
@@ -162,6 +166,15 @@ ReplaceBadCards(const std::unordered_map<int, const Contribution *>
       }
     }
     new_permutation.push_back(new_index);
+  }
+  for (int p : forced_cards) {
+    new_permutation.push_back(p);
+  }
+  if (new_permutation.size() != permutation_to_contributions.size()) {
+    ERROR << "Different number of cards after replacing cards: "
+          << new_permutation.size()
+          << " != " << permutation_to_contributions.size() << std::endl;
+    std::exit(1);
   }
   return new_permutation;
 }
@@ -198,6 +211,16 @@ GradientDescent(const std::vector<Spell> &available_cards,
       GeneratePermutation(available_cards.size(), 23, forced_cards, rand);
 
   for (int i = 0; i < kDescentDepth; ++i) {
+    if (PARANOIA) {
+      for (int p : forced_cards) {
+        if (!ContainsItem(permutation, p)) {
+          ERROR << "Permutation does not include forced card " << p
+                << " at descent " << i << std::endl;
+          std::exit(1);
+        }
+      }
+    }
+
     auto generated = std::make_unique<GeneratedDeck>();
     generated->iteration_nr = i;
 
@@ -214,7 +237,7 @@ GradientDescent(const std::vector<Spell> &available_cards,
 
     // 4. Replace bad cards for next iteration.
     generated->permutation = std::move(permutation);
-    permutation = ReplaceBadCards(permutation_to_contributions,
+    permutation = ReplaceBadCards(permutation_to_contributions, forced_cards,
                                   available_cards.size(), i, rand);
     iterations.push_back(std::move(generated));
   }
