@@ -136,32 +136,82 @@ std::vector<std::string_view> VowForcedCards() {
 }
 
 /* R3
-Score: 147.909
-Iteration: 55
-Param experiment:   B=9  W=8
-1338.08 Groom's Finery
-1633.66 Gift of Fangs
-1758.99 Gryff Rider
-1893.76 Sigarda's Imprisonment
-1964.72 Parish-Blade Trainee
-2491.65 Catapult Fodder
-2524.6 Heron of Hope
-2541.56 Doomed Dissenter
-2892.97 Rot-Tide Gargantua
-2998.94 Savior of Ollenbock
-3080.07 Markov Purifier
-3268.84 Voldaren Bloodcaster
-3469.26 Katilda, Dawnhart Martyr
-3497.34 Diregraf Scavenger
-3497.34 Diregraf Scavenger
-3922.46 Fell Stinger
-3931.43 Angelic Quartermaster
-3935.54 Bleed Dry
-4303.22 Gryffwing Cavalry
-4941.02 Sorin the Mirthless
-4987.02 By Invitation Only
-5322.96 Henrika Domnathi
-5549.86 Wedding Announcement
+Score: 150.265
+Iteration: 80
+Lands { W=8 B=10 C=1 }
+1685.16 Traveling Minister
+1780.38 Pointed Discussion
+2352.07 Restless Bloodseeker
+2436.78 Doomed Dissenter
+2632.1 Wedding Security
+2635.3 Distracting Geist
+2873.09 Path of Peril
+3184.2 Katilda, Dawnhart Martyr
+3317.99 Diregraf Scavenger
+3317.99 Diregraf Scavenger
+3553.15 Markov Purifier
+3831.36 Voldaren Bloodcaster
+3866.28 Rot-Tide Gargantua
+4287.68 Angelic Quartermaster
+4321.43 Bleed Dry
+4391.94 Gryffwing Cavalry
+4460.36 Fell Stinger
+4776.66 By Invitation Only
+5094.92 Wedding Announcement
+5916.8 Sorin the Mirthless
+6322.69 Henrika Domnathi
+
+Score: 148.885
+Iteration: 76
+Lands { W=8 B=8 C=1 }
+1379.52 Gift of Fangs
+1548.7 Sanctify
+1566.25 Vampire's Kiss
+1739.83 Traveling Minister
+1985.45 Sigarda's Imprisonment
+2374.45 Gluttonous Guest
+2418.09 Path of Peril
+2447.41 Restless Bloodseeker
+2798.06 Heron of Hope
+2990.24 Markov Purifier
+3230.26 Savior of Ollenbock
+3403.45 Voldaren Bloodcaster
+3565.87 Fell Stinger
+3679.02 Diregraf Scavenger
+3679.02 Diregraf Scavenger
+3864.12 Katilda, Dawnhart Martyr
+4033.34 Bleed Dry
+4065.02 Angelic Quartermaster
+4594.04 Gryffwing Cavalry
+4796.13 Sorin the Mirthless
+4979.77 By Invitation Only
+5264.97 Wedding Announcement
+5483.63 Henrika Domnathi
+
+Score: 148.854
+Iteration: 119
+Lands { W=8 B=10 C=1 }
+1703.18 Traveling Minister
+1957.6 Courier Bat
+2359.35 Catapult Fodder
+2528.03 Savior of Ollenbock
+2752.43 Distracting Geist
+2765.03 Doomed Dissenter
+3034.28 Katilda, Dawnhart Martyr
+3056.31 Wedding Security
+3169.89 Markov Purifier
+3312.17 Diregraf Scavenger
+3312.17 Diregraf Scavenger
+3389.07 Rot-Tide Gargantua
+3829.65 Angelic Quartermaster
+3858.28 Voldaren Bloodcaster
+4184.36 Fell Stinger
+4327.86 Gryffwing Cavalry
+4972.51 By Invitation Only
+5079.99 Bleed Dry
+5156.76 Wedding Announcement
+5496.92 Sorin the Mirthless
+6248.31 Henrika Domnathi
 */
 
 /* R2
