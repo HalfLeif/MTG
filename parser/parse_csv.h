@@ -24,9 +24,12 @@ std::vector<std::string_view> SplitLine(std::string_view line,
 }
 
 char TypeToPriority(std::string_view type) {
-  if (type == "Instant" || type == "Sorcery") {
-    return 0;
-  }
+  // Reducing priority for Instants and Sorceries make good removals count as
+  // bad spells, because they have low priority and then are rarely played. In
+  // reality, removals are terrific. Hence, should have same priority as
+  // Creatures. if (type == "Instant" || type == "Sorcery") {
+  //   return 0;
+  // }
   return 1;
 }
 
