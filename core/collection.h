@@ -1,5 +1,10 @@
 #pragma once
 
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <vector>
+
 template <typename T> using Predicate = std::function<bool(const T &)>;
 
 template <typename T> Predicate<T> IsElement(const T &elem) {

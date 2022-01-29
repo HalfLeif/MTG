@@ -357,12 +357,12 @@ FindForcedCards(const std::vector<Spell> &available_cards,
     if (it == name_to_index.end()) {
       ERROR << "Forced card not found among available_cards: " << name
             << std::endl;
-      std::exit;
+      std::exit(1);
     }
     std::vector<int> &instances = it->second;
     if (instances.empty()) {
       ERROR << "Forced card is already picked: " << name << std::endl;
-      std::exit;
+      std::exit(1);
     }
     forced_indices.insert(instances.back());
     instances.pop_back();
