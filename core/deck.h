@@ -60,15 +60,51 @@ int TotalSpells(DeckSize deck_size) {
   return TotalCards(deck_size) - TotalLands(deck_size);
 }
 
+void SlowInsertCount(std::vector<std::pair<Land, int>> &counted_lands,
+                     const Land &land) {
+  for (auto &pair : counted_lands) {
+    if (land == pair.first) {
+      ++pair.second;
+      return;
+    }
+  }
+  counted_lands.emplace_back(land, 1);
+}
+
+void PrintLands(const Deck &deck) {
+  std::vector<std::pair<Land, int>> land_counts;
+  for (const Land &land : deck.lands) {
+    SlowInsertCount(land_counts, land);
+  }
+
+  // Want lands to be sorted:
+  // basic lands < non-basic lands
+  // primary < secondary < ternary
+  std::sort(land_counts.begin(), land_counts.end(),
+            [](const auto &a, const auto &b) {
+              if (a.first.type != b.first.type) {
+                return a.first.type < b.first.type;
+              }
+              return a.first.color < b.first.color;
+            });
+
+  std::cout << "Lands { ";
+  for (const auto &[land_d, count] : land_counts) {
+    std::cout << land_d << "=" << count << " ";
+  }
+  std::cout << "}" << std::endl;
+}
+
 std::ostream &operator<<(std::ostream &stream, const Deck &deck) {
   stream << "Deck\n";
   stream << "Spells: " << deck.spells.size() << "\n";
   stream << "Lands: " << deck.lands.size() << "\n";
+  PrintLands(deck);
   for (const Spell &spell : deck.spells) {
     stream << "  " << spell << "\n";
   }
-  for (const Land &land : deck.lands) {
-    stream << "  " << land << "\n";
-  }
+  // for (const Land &land : deck.lands) {
+  //   stream << "  " << land << "\n";
+  // }
   return stream;
 }

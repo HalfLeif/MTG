@@ -16,7 +16,7 @@ struct Land {
   Color color;
   std::optional<Color> secondary = std::nullopt;
 
-  bool operator==(const Land &other) {
+  bool operator==(const Land &other) const {
     if (type != other.type) {
       return false;
     }

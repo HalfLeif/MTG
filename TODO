@@ -6,7 +6,6 @@
 
 # Suggest deck
 - Instead of replacing with a uniform random card, also keep track of past card contribution and topk sample based on contribution. Consider unknown cards as high contribution, but always update with latest simulation.
-- Allow mutation of number of spells: 10% to increase or reduce number of spells. Number of lands adjust automatically.
 - Parse spell abilities from html page. E.g. "RR" to +1/0.
 
 # Implementation

@@ -20,41 +20,6 @@ double AverageScore(const Library &lib, const Deck &deck,
   return score / games;
 }
 
-void SlowInsertCount(std::vector<std::pair<Land, int>> &counts,
-                     const Land &land) {
-  for (auto &pair : counts) {
-    if (pair.first == land) {
-      pair.second++;
-      return;
-    }
-  }
-  counts.emplace_back(land, 1);
-}
-
-void PrintLands(const Deck &deck) {
-  std::vector<std::pair<Land, int>> land_counts;
-  for (const Land &land : deck.lands) {
-    SlowInsertCount(land_counts, land);
-  }
-
-  // Want lands to be sorted:
-  // basic lands < non-basic lands
-  // primary < secondary < ternary
-  std::sort(land_counts.begin(), land_counts.end(),
-            [](const auto &a, const auto &b) {
-              if (a.first.type != b.first.type) {
-                return a.first.type < b.first.type;
-              }
-              return a.first.color < b.first.color;
-            });
-
-  std::cout << "Lands { ";
-  for (const auto &[land_d, count] : land_counts) {
-    std::cout << land_d << "=" << count << " ";
-  }
-  std::cout << "}";
-}
-
 struct ParamResult {
   double score;
   Param param;

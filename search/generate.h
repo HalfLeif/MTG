@@ -22,6 +22,7 @@
 constexpr int kThreads = 8;
 constexpr int kDescentDepth = 125;
 constexpr int kPrintTopN = 3;
+constexpr double kChangeSizeRate = 0.05;
 
 // LandSearch determines how many iterations are spent to optimize the land
 // distribution for a particular deck. Games on the other hand is used to
@@ -167,14 +168,22 @@ ReplaceBadCards(const std::unordered_map<int, const Contribution *>
     }
     new_permutation.push_back(new_index);
   }
+  if (const double r = rand.RandOne(); r < kChangeSizeRate) {
+    // Increase deck size
+    int new_index = rand.Rand() % total;
+    while (ContainsKey(permutation_to_contributions, new_index) ||
+           ContainsItem(new_permutation, new_index)) {
+      new_index = rand.Rand() % total;
+    }
+    new_permutation.push_back(new_index);
+  } else if (r < 2 * kChangeSizeRate) {
+    // Decrease deck size. Always remove the front element (lowest
+    // contribution).
+    new_permutation[0] = new_permutation.back();
+    new_permutation.pop_back();
+  }
   for (int p : forced_cards) {
     new_permutation.push_back(p);
-  }
-  if (new_permutation.size() != permutation_to_contributions.size()) {
-    ERROR << "Different number of cards after replacing cards: "
-          << new_permutation.size()
-          << " != " << permutation_to_contributions.size() << std::endl;
-    std::exit(1);
   }
   return new_permutation;
 }
@@ -267,7 +276,8 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
           available_cards, generated->permutation, nullptr);
       generated->lib =
           ApplyPermutation(available_cards, generated->permutation);
-      generated->param = CompareParams(*generated->lib, kDeepLandSearch, false);
+      generated->param =
+          CompareParams(*generated->lib, kDeepLandSearch, /*print=*/false);
       generated->score = RunParam(*generated->lib, generated->param, kDeepGames,
                                   &generated->contributions);
 
@@ -371,6 +381,22 @@ FindForcedCards(const std::vector<Spell> &available_cards,
   return forced_indices;
 }
 
+void PrintDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &best) {
+  std::cout << "\nFound the best generated decks! " << std::endl;
+  for (int i = 0; i < best.size() && i < kPrintTopN; ++i) {
+    const GeneratedDeck &generated = *best[i];
+    std::cout << std::endl;
+    std::cout << "Score: " << generated.score << std::endl;
+    std::cout << "Iteration: " << generated.iteration_nr << std::endl;
+    // std::cout << best[i]->param << std::endl;
+
+    Deck deck = TournamentDeck(generated.param);
+    // std::cout << deck << std::endl;
+    PrintLands(deck);
+    PrintContributions(generated.contributions);
+  }
+}
+
 void GenerateDeck(const std::vector<Spell> &available_cards,
                   const std::set<int> &forced_cards) {
   std::vector<std::unique_ptr<GeneratedDeck>> all_decks =
@@ -382,14 +408,7 @@ void GenerateDeck(const std::vector<Spell> &available_cards,
   // Re-evaluate 8 best decks, to find the best one.
   std::vector<std::unique_ptr<GeneratedDeck>> best =
       EvaluateBestDecks(all_decks, available_cards);
-  std::cout << "\nFound the best generated decks! " << std::endl;
-  for (int i = 0; i < best.size() && i < kPrintTopN; ++i) {
-    std::cout << std::endl;
-    std::cout << "Score: " << best[i]->score << std::endl;
-    std::cout << "Iteration: " << best[i]->iteration_nr << std::endl;
-    std::cout << best[i]->param << std::endl;
-    PrintContributions(best[i]->contributions);
-  }
+  PrintDecks(best);
 }
 
 // -----------------------------------------------------------------------------

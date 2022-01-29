@@ -122,12 +122,7 @@ constexpr std::string_view kVowCards[] = {
 };
 
 constexpr std::string_view kVowForcedCards[] = {
-    "Sorin the Mirthless",      //
-    "Henrika Domnathi",         //
-    "Katilda, Dawnhart Martyr", //
-    "Bleed Dry",                //
-    "By Invitation Only",       //
-    "Sigarda's Imprisonment",
+    "Traveling Minister",
 };
 
 std::vector<std::string_view> VowCards() {

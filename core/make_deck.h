@@ -41,12 +41,12 @@ void FillLands(const Param &param, Deck *deck) {
 Deck TournamentDeck(const Param &param) {
   Deck deck = param.lib->MakeDeck(param.experiment);
   if (deck.spells.size() != TotalSpells(param.deck_size)) {
-    ERROR << "Deck spells: " << deck.spells.size() << " for " << param << "\n";
+    INFO << "Deck spells: " << deck.spells.size() << " for " << param << "\n";
   }
 
   FillLands(param, &deck);
   if (deck.lands.size() != TotalLands(param.deck_size)) {
-    ERROR << "Deck lands: " << deck.lands.size() << " for " << param << "\n";
+    INFO << "Deck lands: " << deck.lands.size() << " for " << param << "\n";
   }
   return deck;
 }

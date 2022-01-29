@@ -23,7 +23,8 @@ public:
 
   // Returns a double between [0, 1).
   double RandOne() {
-    constexpr int kMax = 100000000;
+    // Use a power of two to make modulo and division somewhat more efficient.
+    constexpr int kMax = 1 << 24;
     return static_cast<double>(Rand() % kMax) / static_cast<double>(kMax);
   }
 
