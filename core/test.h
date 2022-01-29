@@ -109,6 +109,9 @@ private:
     }                                                                          \
   }
 
+#define EXPECT_TRUE(a) EXPECT_EQ(a, true)
+#define EXPECT_FALSE(a) EXPECT_EQ(a, false)
+
 // Passes by default
 TEST(SimpleTest) {
   int a = 1;
@@ -116,4 +119,7 @@ TEST(SimpleTest) {
   EXPECT_EQ(a + 1, 2);
   EXPECT_LT(a, 5);
   EXPECT_LT(0, a);
+
+  EXPECT_TRUE(a < 2);
+  EXPECT_FALSE(a > 2);
 }

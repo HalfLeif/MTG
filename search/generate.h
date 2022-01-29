@@ -3,6 +3,7 @@
 #include <mutex>
 #include <numeric>
 #include <random>
+#include <set>
 #include <thread>
 #include <unordered_map>
 #include <vector>
@@ -26,30 +27,51 @@ constexpr int kPrintTopN = 3;
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-// constexpr int kFastLandSearch = 15;
-// constexpr int kFastGames = 75;
+constexpr int kFastLandSearch = 15;
+constexpr int kFastGames = 75;
+
+constexpr int kDeepLandSearch = 75;
+constexpr int kDeepGames = 500;
+
+// constexpr int kFastLandSearch = 10;
+// constexpr int kFastGames = 5;
 //
-// constexpr int kDeepLandSearch = 75;
-// constexpr int kDeepGames = 500;
+// constexpr int kDeepLandSearch = 7;
+// constexpr int kDeepGames = 50;
 
-constexpr int kFastLandSearch = 10;
-constexpr int kFastGames = 5;
-
-constexpr int kDeepLandSearch = 7;
-constexpr int kDeepGames = 50;
-
+// Uniformly samples `wanted` cards from [0,total). Any `forced_cards` are
+// automatically picked.
 std::vector<int> GeneratePermutation(const int total, const int wanted,
+                                     const std::set<int> &forced_cards,
                                      ThreadsafeRandom &rand) {
   std::vector<int> permutation;
   if (wanted > total) {
-    ERROR << "Cannot request more cards than there are.\n";
+    ERROR << "Cannot request more cards than there are." << std::endl;
+    return permutation;
+  }
+  if (forced_cards.size() > wanted) {
+    ERROR << "Already have more cards than wanted." << std::endl;
     return permutation;
   }
 
-  permutation.resize(total);
-  std::iota(permutation.begin(), permutation.end(), 0);
-  rand.Shuffle(permutation);
-  permutation.resize(wanted);
+  std::vector<int> shuffled;
+  shuffled.reserve(total);
+  permutation.reserve(wanted);
+  for (int i = 0; i < total; ++i) {
+    if (ContainsKey(forced_cards, i)) {
+      // Already picked.
+      permutation.push_back(i);
+    } else {
+      // Available for sampling.
+      shuffled.push_back(i);
+    }
+  }
+
+  rand.Shuffle(shuffled);
+  for (int i = 0; i < shuffled.size() && permutation.size() < wanted; ++i) {
+    permutation.push_back(shuffled[i]);
+  }
+
   return permutation;
 }
 
@@ -166,14 +188,14 @@ void PrintTopGeneratedDecks(
 // Only return the best one. That way gets more diversity between best N decks.
 std::unique_ptr<GeneratedDeck>
 GradientDescent(const std::vector<Spell> &available_cards,
-                ThreadsafeRandom &rand) {
+                const std::set<int> &forced_cards, ThreadsafeRandom &rand) {
   // Keep track of best permutations.
   std::vector<std::unique_ptr<GeneratedDeck>> iterations;
 
   // 1. Create a random starting deck.
   // Limited: 23 spells, 17 lands.
   std::vector<int> permutation =
-      GeneratePermutation(available_cards.size(), 23, rand);
+      GeneratePermutation(available_cards.size(), 23, forced_cards, rand);
 
   for (int i = 0; i < kDescentDepth; ++i) {
     auto generated = std::make_unique<GeneratedDeck>();
@@ -239,7 +261,8 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
 }
 
 std::vector<std::unique_ptr<GeneratedDeck>>
-GenerateEarlyDecks(const std::vector<Spell> &available_cards) {
+RunMultipleDescent(const std::vector<Spell> &available_cards,
+                   const std::set<int> &forced_cards) {
   ThreadsafeRandom rand;
   std::vector<std::unique_ptr<GeneratedDeck>> all_decks;
   std::vector<std::thread> threads;
@@ -247,7 +270,7 @@ GenerateEarlyDecks(const std::vector<Spell> &available_cards) {
   for (int i = 0; i < kThreads; ++i) {
     threads.emplace_back([&]() {
       std::unique_ptr<GeneratedDeck> more =
-          GradientDescent(available_cards, rand);
+          GradientDescent(available_cards, forced_cards, rand);
 
       MutexLock lock(&mutex);
       all_decks.push_back(std::move(more));
@@ -283,7 +306,7 @@ FilterCards(const std::vector<Spell> &all_cards,
         ContainsKey(spell.cost, Color::Green) ||
         ContainsKey(spell.cost, Color::Blue)) {
       // This is a hack to focus on a subset of colors. Ideally the program
-      // would first run a simulation to pick best colors, and the optimize
+      // would first run a simulation to pick best colors, and then optimize
       // within the colors. Or be more aggressive about what cards to keep.
       // TODO: replace with better algorithm.
       continue;
@@ -293,9 +316,42 @@ FilterCards(const std::vector<Spell> &all_cards,
   return result;
 }
 
-void GenerateDeck(const std::vector<Spell> &available_cards) {
+// Finds the indices of the `forced_card_names` in `available_cards`. In case of
+// duplicates, only so many instances are included as in `forced_card_names`.
+std::set<int>
+FindForcedCards(const std::vector<Spell> &available_cards,
+                const std::vector<std::string_view> &forced_card_names) {
+  std::unordered_map<std::string_view, std::vector<int>> name_to_index;
+  name_to_index.reserve(available_cards.size());
+  for (int i = 0; i < available_cards.size(); ++i) {
+    const Spell &spell = available_cards[i];
+    name_to_index[spell.name].push_back(i);
+  }
+
+  std::set<int> forced_indices;
+  for (const std::string_view name : forced_card_names) {
+    auto it = name_to_index.find(name);
+    if (it == name_to_index.end()) {
+      ERROR << "Forced card not found among available_cards: " << name
+            << std::endl;
+      std::exit;
+    }
+    std::vector<int> &instances = it->second;
+    if (instances.empty()) {
+      ERROR << "Forced card is already picked: " << name << std::endl;
+      std::exit;
+    }
+    forced_indices.insert(instances.back());
+    instances.pop_back();
+  }
+
+  return forced_indices;
+}
+
+void GenerateDeck(const std::vector<Spell> &available_cards,
+                  const std::set<int> &forced_cards) {
   std::vector<std::unique_ptr<GeneratedDeck>> all_decks =
-      GenerateEarlyDecks(available_cards);
+      RunMultipleDescent(available_cards, forced_cards);
 
   // TODO: Unique the decks, currently generates duplicates.
   PrintTopGeneratedDecks(all_decks);
@@ -315,6 +371,62 @@ void GenerateDeck(const std::vector<Spell> &available_cards) {
 
 // -----------------------------------------------------------------------------
 
+bool AreInRange(const std::vector<int> &permutation, const int max) {
+  for (const int p : permutation) {
+    if (0 <= p && p < max) {
+      continue;
+    } else {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool IsSubset(const std::set<int> &forced, const std::set<int> &picked) {
+  for (int p : forced) {
+    if (!ContainsKey(picked, p)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+TEST(GeneratePermutationWithinLimits) {
+  ThreadsafeRandom rand;
+  std::set<int> forced_cards = {24, 27, 31};
+  std::vector<int> permutation =
+      GeneratePermutation(100, 23, forced_cards, rand);
+  EXPECT_EQ(permutation.size(), 23);
+  EXPECT_TRUE(AreInRange(permutation, 100));
+
+  std::set<int> picked(permutation.begin(), permutation.end());
+  // No duplicate
+  EXPECT_EQ(picked.size(), permutation.size());
+  EXPECT_TRUE(IsSubset(forced_cards, picked));
+}
+
+TEST(GeneratePermutationIgnoresForcedCardsOutOfRange) {
+  ThreadsafeRandom rand;
+  std::set<int> forced_cards = {1000};
+  std::vector<int> permutation =
+      GeneratePermutation(100, 23, forced_cards, rand);
+  EXPECT_TRUE(AreInRange(permutation, 100));
+
+  std::set<int> picked(permutation.begin(), permutation.end());
+  EXPECT_FALSE(IsSubset(forced_cards, picked));
+}
+
+TEST(GeneratePermutationWhenForcedCardsAlreadyMaximum) {
+  ThreadsafeRandom rand;
+  std::set<int> forced_cards = {0, 1, 2};
+  std::vector<int> permutation =
+      GeneratePermutation(100, 3, forced_cards, rand);
+  EXPECT_EQ(permutation.size(), 3);
+
+  std::set<int> picked(permutation.begin(), permutation.end());
+  EXPECT_TRUE(IsSubset(forced_cards, picked));
+}
+
 TEST(MutationRate) {
   double bad = MutationRate(5, 23);
   EXPECT_LT(0.05, bad);
@@ -323,4 +435,40 @@ TEST(MutationRate) {
   double good = MutationRate(20, 23);
   EXPECT_LT(0.00, good);
   EXPECT_LT(good, 0.04);
+}
+
+TEST(FindForcedCards) {
+  std::vector<Spell> available_cards;
+  available_cards.push_back(MakeSpell("B2", 1, "Other"));
+  available_cards.push_back(MakeSpell("B2", 1, "Other"));
+  available_cards.push_back(MakeSpell("B2", 1, "Foo caster"));
+  available_cards.push_back(MakeSpell("B2", 1, "Other"));
+
+  std::vector<std::string_view> forced_card_names = {"Foo caster"};
+
+  std::set<int> indices = FindForcedCards(available_cards, forced_card_names);
+  EXPECT_EQ(indices.size(), forced_card_names.size());
+
+  EXPECT_EQ(available_cards[*indices.begin()].name, "Foo caster");
+}
+
+TEST(FindForcedCardsAddsDuplicatesAsSeparateInstances) {
+  std::vector<Spell> available_cards;
+  available_cards.push_back(MakeSpell("B2", 1, "Other"));
+  available_cards.push_back(MakeSpell("B2", 1, "Other"));
+  available_cards.push_back(MakeSpell("B2", 1, "Foo caster"));
+  available_cards.push_back(MakeSpell("B2", 1, "Other"));
+  available_cards.push_back(MakeSpell("B2", 1, "Foo caster"));
+  available_cards.push_back(MakeSpell("B2", 1, "Foo caster"));
+  available_cards.push_back(MakeSpell("B2", 1, "Other"));
+
+  std::vector<std::string_view> forced_card_names = {"Foo caster",
+                                                     "Foo caster"};
+
+  std::set<int> indices = FindForcedCards(available_cards, forced_card_names);
+  EXPECT_EQ(indices.size(), forced_card_names.size());
+
+  for (int p : indices) {
+    EXPECT_EQ(available_cards[p].name, "Foo caster");
+  }
 }

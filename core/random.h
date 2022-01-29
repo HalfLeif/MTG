@@ -27,9 +27,16 @@ public:
     return static_cast<double>(Rand() % kMax) / static_cast<double>(kMax);
   }
 
+  // Shuffles an entire vector.
   template <typename T> void Shuffle(std::vector<T> &vec) {
     MutexLock lock(&mutex_);
     std::shuffle(vec.begin(), vec.end(), g_);
+  }
+
+  // Shuffles a section of a vector.
+  template <typename T> void Shuffle(std::vector<T> &vec, int begin, int end) {
+    MutexLock lock(&mutex_);
+    std::shuffle(vec.begin() + begin, vec.begin() + end, g_);
   }
 
 private:

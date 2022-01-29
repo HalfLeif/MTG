@@ -39,7 +39,8 @@ int main(int argc, char *argv[]) {
 
   auto all_cards = ReadCards("data/vow/cards.csv");
   auto available_cards = FilterCards(all_cards, VowCards());
-  GenerateDeck(available_cards);
+  auto forced_cards = FindForcedCards(all_cards, VowForcedCards());
+  GenerateDeck(available_cards, forced_cards);
 
   // const Library &lib = GetMainLib();
   // CompareParams(lib);

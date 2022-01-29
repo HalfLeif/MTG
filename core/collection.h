@@ -36,6 +36,10 @@ bool ContainsKey(const std::map<K, V> &map, const K &key) {
   return map.find(key) != map.end();
 }
 
+template <typename K> bool ContainsKey(const std::set<K> &map, const K &key) {
+  return map.find(key) != map.end();
+}
+
 template <typename K, typename V, typename M>
 V FindWithDefault(const M &map, const K &key, V default_value) {
   auto it = map.find(key);

@@ -121,49 +121,23 @@ constexpr std::string_view kVowCards[] = {
     "Apprentice Sharpshooter",
 };
 
-constexpr std::string_view kVowBestCards[] = {
-    "Diregraf Scavenger",
-    "Diregraf Scavenger",
-    "Catapult Fodder",
-    "Catapult Fodder",
-    "Markov Purifier",
-    "Voldaren Bloodcaster",
-    "Rot-Tide Gargantua",
-    "Fell Stinger",
-    "Angelic Quartermaster",
-    "Gryffwing Cavalry",
-    "Sorin the Mirthless",
-    "Wedding Announcement",
-    "Henrika Domnathi",
-    "Parish-Blade Trainee",
-    "Savior of Ollenbock",
-    "Doomed Dissenter",
-    "Wedding Security",
-    "Distracting Geist",
-    "Katilda, Dawnhart Martyr",
-    "Heron of Hope",
-    "Restless Bloodseeker",
-    "Heron-Blessed Geist",
-    "Ceremonial Knife",
-    "Ceremonial Knife",
-    "Wedding Invitation",
-    "Bleed Dry",
-    "By Invitation Only",
-    "Radiant Grace",
-    "Radiant Grace",
-    "Groom's Finery",
-    "Traveling Minister",
+constexpr std::string_view kVowForcedCards[] = {
+    "Sorin the Mirthless",      //
+    "Henrika Domnathi",         //
+    "Katilda, Dawnhart Martyr", //
+    "Bleed Dry",                //
+    "By Invitation Only",       //
     "Sigarda's Imprisonment",
-    "Gluttonous Guest",
-    "Bride's Gown",
-    "Blood Servitor",
-    "Gryff Rider",
 };
 
 std::vector<std::string_view> VowCards() {
-  // TODO revert to kVowCards
-  return std::vector<std::string_view>(std::begin(kVowBestCards),
-                                       std::end(kVowBestCards));
+  return std::vector<std::string_view>(std::begin(kVowCards),
+                                       std::end(kVowCards));
+}
+
+std::vector<std::string_view> VowForcedCards() {
+  return std::vector<std::string_view>(std::begin(kVowForcedCards),
+                                       std::end(kVowForcedCards));
 }
 
 /* R3
@@ -177,7 +151,7 @@ Param experiment:   B=9  W=7  V=1
 184.887 Blood Servitor  -> Sigarda's Imprisonment
 207.531 Restless Bloodseeker
 210.277 Doomed Dissenter
-229.327 Savior of Ollenbock  -> Heron of Hope
+229.327 Savior of Ollenbock  -> Heron of Hope ?
 242.181 Catapult Fodder
 242.181 Catapult Fodder
 247.206 Markov Purifier
