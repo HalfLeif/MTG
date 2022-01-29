@@ -141,32 +141,32 @@ std::vector<std::string_view> VowForcedCards() {
 }
 
 /* R3
-Score: 135.984
-Iteration: 29
-Param experiment:   B=9  W=7  V=1
-90.1269 Radiant Grace  -> Traveling Minister
-122.29 Ceremonial Knife  -> Sigarda's Imprisonment
-169.16 Gluttonous Guest
-170.8 Parish-Blade Trainee
-184.887 Blood Servitor  -> Sigarda's Imprisonment
-207.531 Restless Bloodseeker
-210.277 Doomed Dissenter
-229.327 Savior of Ollenbock  -> Heron of Hope ?
-242.181 Catapult Fodder
-242.181 Catapult Fodder
-247.206 Markov Purifier
-314.515 Voldaren Bloodcaster
-315.433 Heron-Blessed Geist  -> By Invitation Only
-324.242 Katilda, Dawnhart Martyr
-334.284 Rot-Tide Gargantua
-388.177 Diregraf Scavenger  -> Bleed Dry
-388.177 Diregraf Scavenger
-426.462 Henrika Domnathi
-431.24 Angelic Quartermaster
-439.996 Sorin the Mirthless
-484.976 Fell Stinger
-490.63 Wedding Announcement
-496.119 Gryffwing Cavalry
+Score: 147.909
+Iteration: 55
+Param experiment:   B=9  W=8
+1338.08 Groom's Finery
+1633.66 Gift of Fangs
+1758.99 Gryff Rider
+1893.76 Sigarda's Imprisonment
+1964.72 Parish-Blade Trainee
+2491.65 Catapult Fodder
+2524.6 Heron of Hope
+2541.56 Doomed Dissenter
+2892.97 Rot-Tide Gargantua
+2998.94 Savior of Ollenbock
+3080.07 Markov Purifier
+3268.84 Voldaren Bloodcaster
+3469.26 Katilda, Dawnhart Martyr
+3497.34 Diregraf Scavenger
+3497.34 Diregraf Scavenger
+3922.46 Fell Stinger
+3931.43 Angelic Quartermaster
+3935.54 Bleed Dry
+4303.22 Gryffwing Cavalry
+4941.02 Sorin the Mirthless
+4987.02 By Invitation Only
+5322.96 Henrika Domnathi
+5549.86 Wedding Announcement
 */
 
 /* R2

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "debug.h"
 
 class TestRegistration {
@@ -111,6 +113,7 @@ private:
 
 #define EXPECT_TRUE(a) EXPECT_EQ(a, true)
 #define EXPECT_FALSE(a) EXPECT_EQ(a, false)
+#define EXPECT_NEAR(a, b) EXPECT_LT(std::abs(a - b), 0.01)
 
 // Passes by default
 TEST(SimpleTest) {
@@ -122,4 +125,5 @@ TEST(SimpleTest) {
 
   EXPECT_TRUE(a < 2);
   EXPECT_FALSE(a > 2);
+  EXPECT_NEAR(1.0, 1.001);
 }

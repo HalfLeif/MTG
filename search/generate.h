@@ -27,8 +27,8 @@ constexpr int kPrintTopN = 3;
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-constexpr int kFastLandSearch = 15;
-constexpr int kFastGames = 75;
+constexpr int kFastLandSearch = 20;
+constexpr int kFastGames = 100;
 
 constexpr int kDeepLandSearch = 75;
 constexpr int kDeepGames = 500;

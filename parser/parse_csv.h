@@ -33,13 +33,13 @@ char TypeToPriority(std::string_view type) {
   return 1;
 }
 
-double BonusFromOrder(int draft_order, int spell_cost) {
-  constexpr double max_boost = 0.30;
-  constexpr double min_boost = -0.20;
-  constexpr double max_order = 260;
+constexpr double kMaxBoost = 0.50;
+constexpr double kMinBoost = -0.30;
+constexpr double kMaxOrder = 260;
 
+double BonusFromOrder(int draft_order, int spell_cost) {
   double relative_bonus =
-      max_boost + draft_order * (min_boost - max_boost) / max_order;
+      kMaxBoost + draft_order * (kMinBoost - kMaxBoost) / kMaxOrder;
   return relative_bonus * spell_cost;
 }
 
@@ -102,8 +102,8 @@ TEST(SplitLine) {
 }
 
 TEST(BonusFromOrder) {
-  EXPECT_EQ(BonusFromOrder(0, 1), 0.30);
-  EXPECT_EQ(BonusFromOrder(260, 1), -0.20);
+  EXPECT_NEAR(BonusFromOrder(0, 1), kMaxBoost);
+  EXPECT_NEAR(BonusFromOrder(260, 1), kMinBoost);
 
   double normal = BonusFromOrder(150, 1);
   EXPECT_LT(-0.10, normal);
@@ -112,10 +112,10 @@ TEST(BonusFromOrder) {
 
 TEST(BonusFromOrderScalesWithMana) {
   double good = BonusFromOrder(2, 4);
-  EXPECT_LT(0.2 * 4, good);
-  EXPECT_LT(good, 0.3 * 4);
+  EXPECT_LT(0, good);
+  EXPECT_LT(good, kMaxBoost * 4);
 
   double bad = BonusFromOrder(230, 4);
-  EXPECT_LT(-0.2 * 4, bad);
-  EXPECT_LT(bad, -0.1 * 4);
+  EXPECT_LT(kMinBoost * 4, bad);
+  EXPECT_LT(bad, 0);
 }
