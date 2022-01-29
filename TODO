@@ -5,7 +5,9 @@
 - Search for reasonable land combinations using only few iterations (25), and then refine best N of those with more iterations (200). Can do recursively for top N-1 with more iterations until stable order?
 
 # Suggest deck
-- Instead of replacing with a uniform random card bias color towards main colors, and manacost towards that of replaced card.
+- Instead of replacing with a uniform random card, also keep track of past card contribution and topk sample based on contribution. Consider unknown cards as high contribution, but always update with latest simulation.
+- Allow mutation of number of spells: 10% to increase or reduce number of spells. Number of lands adjust automatically.
+- Parse spell abilities from html page. E.g. "RR" to +1/0.
 
 # Implementation
 - Measure total latency, and per iteration latency, in order to see which implementation is faster.
