@@ -319,23 +319,21 @@ FilterCards(const std::vector<Spell> &all_cards,
   std::vector<Spell> result;
   result.reserve(available_cards.size());
   for (const std::string_view cardname : available_cards) {
-    auto it = spells_by_name.find(cardname);
-    if (it == spells_by_name.end()) {
-      ERROR << "Spell " << cardname << " is not listed in all_cards"
+    const Spell *spell = FindPtrOrNull(spells_by_name, cardname);
+    if (spell == nullptr) {
+      FATAL << "Spell " << cardname << " is not listed in all_cards"
             << std::endl;
-      exit(1);
     }
-    const Spell &spell = *it->second;
-    if (ContainsKey(spell.cost, Color::Red) ||
-        ContainsKey(spell.cost, Color::Green) ||
-        ContainsKey(spell.cost, Color::Blue)) {
+    if (ContainsKey(spell->cost, Color::Red) ||
+        ContainsKey(spell->cost, Color::Green) ||
+        ContainsKey(spell->cost, Color::Blue)) {
       // This is a hack to focus on a subset of colors. Ideally the program
       // would first run a simulation to pick best colors, and then optimize
       // within the colors. Or be more aggressive about what cards to keep.
       // TODO: replace with better algorithm.
       continue;
     }
-    result.push_back(spell);
+    result.push_back(*spell);
   }
   return result;
 }
@@ -354,16 +352,15 @@ FindForcedCards(const std::vector<Spell> &available_cards,
 
   std::set<int> forced_indices;
   for (const std::string_view name : forced_card_names) {
-    auto it = name_to_index.find(name);
-    if (it == name_to_index.end()) {
+    std::vector<int> *instances = FindOrNull(name_to_index, name);
+    if (instances == nullptr) {
       FATAL << "Forced card not found among available_cards: " << name
             << std::endl;
     }
-    std::vector<int> &instances = it->second;
-    CHECK(!instances.empty())
+    CHECK(!instances->empty())
         << "Forced card is already picked: " << name << std::endl;
-    forced_indices.insert(instances.back());
-    instances.pop_back();
+    forced_indices.insert(instances->back());
+    instances->pop_back();
   }
 
   return forced_indices;

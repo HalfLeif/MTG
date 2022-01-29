@@ -72,14 +72,12 @@ void AddDelta(double delta, const std::string &name,
     // Can happen in tests.
     return;
   }
-  auto it = contributions->find(name);
-  if (it == contributions->end()) {
-    ERROR << "Spell " << name << " was not yet inserted into contributions!"
+  Contribution *contribution = FindPtrOrNull(*contributions, name);
+  if (contribution == nullptr) {
+    FATAL << "Spell " << name << " was not yet inserted into contributions!"
           << std::endl;
-    exit(1);
-    return;
   }
-  it->second->AddDelta(delta);
+  contribution->AddDelta(delta);
 }
 
 double GetContribution(const std::string &name,
@@ -87,9 +85,9 @@ double GetContribution(const std::string &name,
   if (contributions == nullptr) {
     return 0.0;
   }
-  auto it = contributions->find(name);
-  if (it != contributions->end()) {
-    return it->second->GetContribution();
+  Contribution *contribution = FindPtrOrNull(*contributions, name);
+  if (contribution != nullptr) {
+    return contribution->GetContribution();
   }
   return 0.0;
 }
@@ -101,18 +99,19 @@ void PrintContributions(const Deck &deck,
     const Contribution *contribution_ptr = nullptr;
   };
 
+  // Key by 1. mana_value, 2. contribution.
   std::vector<std::pair<double, NamedContribution>> pairs;
   pairs.reserve(deck.spells.size());
   for (const Spell &spell : deck.spells) {
-    auto it = contributions.find(spell.name);
-    if (it == contributions.end()) {
+    const Contribution *contribution = FindPtrOrNull(contributions, spell.name);
+    if (contribution == nullptr) {
       FATAL << "Could not find spell " << spell.name << " in contributions."
             << std::endl;
     }
-    pairs.emplace_back(it->second->GetContribution(),
+    pairs.emplace_back(contribution->GetContribution(),
                        NamedContribution{
                            .spell_ptr = &spell,
-                           .contribution_ptr = it->second.get(),
+                           .contribution_ptr = contribution,
                        });
   }
   std::sort(pairs.begin(), pairs.end(),
