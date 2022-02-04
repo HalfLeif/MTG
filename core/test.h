@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <iostream>
 
 #include "debug.h"
 
@@ -36,6 +37,8 @@ public:
       return ERROR << test_name_ << "\n";
     }
 
+    class TestExpectationHelper;
+
   private:
     virtual void RunTest() = 0;
 
@@ -70,6 +73,52 @@ private:
   std::vector<TestCase *> test_cases_;
 };
 
+std::ostream &NullStream() {
+  class NullBuffer : public std::streambuf {
+  public:
+    int overflow(int c) { return c; }
+  };
+
+  static NullBuffer *kNullBuffer = new NullBuffer;
+  static std::ostream *kNullStream = new std::ostream(kNullBuffer);
+  return *kNullStream;
+}
+
+class TestRegistration::TestCase::TestExpectationHelper {
+public:
+  TestExpectationHelper(TestRegistration::TestCase *test) : test_(test) {}
+
+  template <typename L, typename R>
+  std::ostream &EvaluateEq(const L &left, const R &right, const char *left_desc,
+                           const char *right_desc) {
+    return EvaluateBool(left == right)
+           << "Expected " << left_desc << " to be equal to " << right_desc
+           << " but " << left << " != " << right << std::endl;
+  }
+
+  template <typename L, typename R>
+  std::ostream &EvaluateLt(const L &left, const R &right, const char *left_desc,
+                           const char *right_desc) {
+    return EvaluateBool(left < right)
+           << "Expected " << left_desc << " to be equal to " << right_desc
+           << " but " << left << " != " << right << std::endl;
+  }
+
+private:
+  std::ostream &EvaluateBool(bool pass) {
+    if (!pass) {
+      maybe_stream_ = &test_->Fail();
+    }
+    return *maybe_stream_;
+  }
+
+  TestRegistration::TestCase *test_;
+
+  // NullStream prints nothing. Is replaced with real stream in case of test
+  // failure.
+  std::ostream *maybe_stream_ = &NullStream();
+};
+
 // class MyTest : public TestRegistration::TestCase {
 // public:
 //   MyTest() : TestRegistration::TestCase("MyTest", __FILE__, __LINE__) {}
@@ -90,26 +139,10 @@ private:
   } kTestInstance##tname;                                                      \
   inline void TestCase##tname::RunTest()
 
-#define EXPECT_EQ(a, b)                                                        \
-  {                                                                            \
-    auto aresult = (a);                                                        \
-    auto bresult = (b);                                                        \
-    if (aresult != bresult) {                                                  \
-      Fail() << "Expected " << #a << " to be equal to " << #b << " but "       \
-             << aresult << " != " << bresult << "\n";                          \
-    }                                                                          \
-  }
-
-#define EXPECT_LT(a, b)                                                        \
-  {                                                                            \
-    auto aresult = (a);                                                        \
-    auto bresult = (b);                                                        \
-    if (!(aresult < bresult)) {                                                \
-      Fail() << "Expected " << #a << " to be less than " << #b << " but "      \
-             << aresult << " >= " << bresult << "\n";                          \
-    }                                                                          \
-  }
-
+// Supports streaming comments to the test expectation object:
+// EXPECT_EQ(a, 1) << "blah" << std::endl;
+#define EXPECT_EQ(a, b) TestExpectationHelper(this).EvaluateEq((a), (b), #a, #b)
+#define EXPECT_LT(a, b) TestExpectationHelper(this).EvaluateLt((a), (b), #a, #b)
 #define EXPECT_TRUE(a) EXPECT_EQ(a, true)
 #define EXPECT_FALSE(a) EXPECT_EQ(a, false)
 #define EXPECT_NEAR(a, b) EXPECT_LT(std::abs(a - b), 0.01)
