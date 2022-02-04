@@ -28,18 +28,18 @@ constexpr double kChangeSizeRate = 0.05;
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-// constexpr int kFastLandSearch = 20;
-// constexpr int kFastGames = 100;
-//
-// constexpr int kDeepLandSearch = 75;
-// constexpr int kDeepGames = 500;
+constexpr int kFastLandSearch = 25;
+constexpr int kFastGames = 100;
+
+constexpr int kDeepLandSearch = 75;
+constexpr int kDeepGames = 500;
 
 // For debugging purposes:
-constexpr int kFastLandSearch = 10;
-constexpr int kFastGames = 5;
-
-constexpr int kDeepLandSearch = 7;
-constexpr int kDeepGames = 50;
+// constexpr int kFastLandSearch = 10;
+// constexpr int kFastGames = 5;
+//
+// constexpr int kDeepLandSearch = 7;
+// constexpr int kDeepGames = 50;
 
 // Uniformly samples `wanted` cards from [0,total). Any `forced_cards` are
 // automatically picked.

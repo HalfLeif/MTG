@@ -154,9 +154,9 @@ Param CompareParams(const Library &lib, int games = 450, bool print = true) {
   }
 
   // Compare against a dummy deck as baseline.
-  Library test_lib = TestLibrary();
-  float dummy_score = RunParam(test_lib, {.lib = &test_lib}, games);
   if (print) {
+    Library test_lib = TestLibrary();
+    float dummy_score = RunParam(test_lib, {.lib = &test_lib}, games);
     std::cout << "Dummy score: " << dummy_score << "\n";
   }
 
