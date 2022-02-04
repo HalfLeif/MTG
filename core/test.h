@@ -17,24 +17,30 @@ public:
     bool RunAndLogFailure() {
       RunTest();
       if (success_) {
-        INFO << test_name_ << " passed! Defined at " << file_ << "::" << line_
-             << "\n";
+        INFO << "Test passed: " << test_name_ << " from " << file_ << ":"
+             << line_ << std::endl;
       } else {
-        ERROR << test_name_ << " failed! Defined at " << file_ << "::" << line_
-              << "\n";
+
+        std::cerr << "Test failed: " << test_name_ << " from " << file_ << ":"
+                  << line_ << std::endl
+                  << std::endl;
       }
       return success_;
     }
 
   protected:
-    void Fail(std::string msg) {
-      Fail() << test_name_ << " failed with error: " << msg << "\n";
-      success_ = false;
+    // TODO: Refactor into simply streaming Fail();
+    std::ostream &Fail(std::string_view msg) {
+      return Fail() << msg << std::endl;
     }
 
     std::ostream &Fail() {
+      return FailSilently() << "Failed test " << test_name_ << std::endl;
+    }
+
+    std::ostream &FailSilently() {
       success_ = false;
-      return ERROR << test_name_ << "\n";
+      return std::cerr;
     }
 
     class TestExpectationHelper;
@@ -86,7 +92,9 @@ std::ostream &NullStream() {
 
 class TestRegistration::TestCase::TestExpectationHelper {
 public:
-  TestExpectationHelper(TestRegistration::TestCase *test) : test_(test) {}
+  TestExpectationHelper(TestRegistration::TestCase *test, std::string file,
+                        int line)
+      : test_(test), file_(std::move(file)), line_(line) {}
 
   template <typename L, typename R>
   std::ostream &EvaluateEq(const L &left, const R &right, const char *left_desc,
@@ -107,12 +115,16 @@ public:
 private:
   std::ostream &EvaluateBool(bool pass) {
     if (!pass) {
-      maybe_stream_ = &test_->Fail();
+      maybe_stream_ = &test_->FailSilently();
+      (*maybe_stream_) << "Expectation failed at " << file_ << ":" << line_
+                       << std::endl;
     }
     return *maybe_stream_;
   }
 
   TestRegistration::TestCase *test_;
+  std::string file_;
+  int line_;
 
   // NullStream prints nothing. Is replaced with real stream in case of test
   // failure.
@@ -141,8 +153,10 @@ private:
 
 // Supports streaming comments to the test expectation object:
 // EXPECT_EQ(a, 1) << "blah" << std::endl;
-#define EXPECT_EQ(a, b) TestExpectationHelper(this).EvaluateEq((a), (b), #a, #b)
-#define EXPECT_LT(a, b) TestExpectationHelper(this).EvaluateLt((a), (b), #a, #b)
+#define EXPECT_EQ(a, b)                                                        \
+  TestExpectationHelper(this, __FILE__, __LINE__).EvaluateEq((a), (b), #a, #b)
+#define EXPECT_LT(a, b)                                                        \
+  TestExpectationHelper(this, __FILE__, __LINE__).EvaluateLt((a), (b), #a, #b)
 #define EXPECT_TRUE(a) EXPECT_EQ(a, true)
 #define EXPECT_FALSE(a) EXPECT_EQ(a, false)
 #define EXPECT_NEAR(a, b) EXPECT_LT(std::abs(a - b), 0.01)
