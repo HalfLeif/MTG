@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <sstream>
 
 #include "debug.h"
 
@@ -79,22 +80,18 @@ private:
   std::vector<TestCase *> test_cases_;
 };
 
-std::ostream &NullStream() {
-  class NullBuffer : public std::streambuf {
-  public:
-    int overflow(int c) { return c; }
-  };
-
-  static NullBuffer *kNullBuffer = new NullBuffer;
-  static std::ostream *kNullStream = new std::ostream(kNullBuffer);
-  return *kNullStream;
-}
-
 class TestRegistration::TestCase::TestExpectationHelper {
 public:
   TestExpectationHelper(TestRegistration::TestCase *test, std::string file,
                         int line)
       : test_(test), file_(std::move(file)), line_(line) {}
+
+  ~TestExpectationHelper() {
+    if (!pass_) {
+      test_->FailSilently() << "Expectation failed at " << file_ << ":" << line_
+                            << ": " << failure_stream_.str() << std::endl;
+    }
+  }
 
   template <typename L, typename R>
   std::ostream &EvaluateEq(const L &left, const R &right, const char *left_desc,
@@ -122,21 +119,17 @@ public:
 
 private:
   std::ostream &EvaluateBool(bool pass) {
-    if (!pass) {
-      maybe_stream_ = &test_->FailSilently();
-      (*maybe_stream_) << "Expectation failed at " << file_ << ":" << line_
-                       << std::endl;
-    }
-    return *maybe_stream_;
+    pass_ = pass;
+    return failure_stream_;
   }
+
+  // Contains all streamed debug about the test expectation.
+  std::stringstream failure_stream_;
+  bool pass_ = true;
 
   TestRegistration::TestCase *test_;
   std::string file_;
   int line_;
-
-  // NullStream prints nothing. Is replaced with real stream in case of test
-  // failure.
-  std::ostream *maybe_stream_ = &NullStream();
 };
 
 // class MyTest : public TestRegistration::TestCase {

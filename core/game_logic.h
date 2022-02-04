@@ -705,13 +705,9 @@ TEST(PlayTurnNotEnoughMana) {
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
 
   double points = PlayTurn(lib, &player, nullptr);
-  EXPECT_TRUE(player.battlefield.spells.empty())
-  // Why segfault here???
-  // << "Expected no spells to be played but found "
-  // << player.battlefield.spells.front().name
-  ;
+  EXPECT_TRUE(player.battlefield.spells.empty());
 
-  // Gets minus one point if cannot play a spell.
+  // Gets minus one point from 2 unused mana.
   EXPECT_NEAR(points, -1);
 }
 
