@@ -112,6 +112,14 @@ public:
            << " but " << left << " != " << right << std::endl;
   }
 
+  template <typename L, typename R>
+  std::ostream &EvaluateNear(const L &left, const R &right,
+                             const char *left_desc, const char *right_desc) {
+    return EvaluateBool(std::abs(left - right) < 0.01)
+           << "Expected " << left_desc << " to be near " << right_desc
+           << " but " << left << " != " << right << std::endl;
+  }
+
 private:
   std::ostream &EvaluateBool(bool pass) {
     if (!pass) {
@@ -159,7 +167,8 @@ private:
   TestExpectationHelper(this, __FILE__, __LINE__).EvaluateLt((a), (b), #a, #b)
 #define EXPECT_TRUE(a) EXPECT_EQ(a, true)
 #define EXPECT_FALSE(a) EXPECT_EQ(a, false)
-#define EXPECT_NEAR(a, b) EXPECT_LT(std::abs(a - b), 0.01)
+#define EXPECT_NEAR(a, b)                                                      \
+  TestExpectationHelper(this, __FILE__, __LINE__).EvaluateNear((a), (b), #a, #b)
 
 // Passes by default
 TEST(SimpleTest) {

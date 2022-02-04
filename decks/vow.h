@@ -135,6 +135,9 @@ std::vector<std::string_view> VowForcedCards() {
                                        std::end(kVowForcedCards));
 }
 
+// Recently algorithm suggests 19-20 lands, which is unexpected.
+// 16-18 is considered normal. Not sure where the discrepancy comes from.
+
 /* R3
 Score: 150.265
 Iteration: 80

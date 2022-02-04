@@ -118,9 +118,7 @@ void PayCost(const ManaCost &spell_cost, ManaCost *mana_pool) {
     int &pool_amount = (*mana_pool)[color];
     pool_amount -= cost_amount;
 
-    if (pool_amount < 0) {
-      ERROR << "Negative pool amount!\n";
-    }
+    CHECK(pool_amount >= 0) << "Negative pool amount!\n";
   }
 }
 
@@ -453,6 +451,12 @@ double PointsFromBattlefield(const Player &player,
   return points;
 }
 
+// Penalize leftover mana to avoid suggesting decks with mana flooding.
+double PenaltyFromLeftoverMana(const TurnState &state) {
+  constexpr double kPenaltyRatio = 0.5;
+  return -kPenaltyRatio * FindWithDefault(state.mana_pool, Color::Total, 0);
+}
+
 // Returns #points.
 double PlayTurn(const Library &lib, Player *player,
                 CardContributions *contributions) {
@@ -476,11 +480,7 @@ double PlayTurn(const Library &lib, Player *player,
   points += PlaySpells(player, &state, contributions);
   points += PlayAbilities(player, &state, contributions);
   points += battlefield_advantage;
-  if (points <= 0) {
-    // If could not do anything useful, not even attacking, then minus one
-    // point.
-    points -= 1;
-  }
+  points += PenaltyFromLeftoverMana(state);
   return points;
 }
 
@@ -664,7 +664,6 @@ TEST(PlayTurnSimple) {
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
-  player.battlefield.lands.push_back(BasicLand(Color::Black));
 
   // Has one spell in library. Will draw one. Then must play that one.
   player.library.spells.push_back(MakeSpell("BB", 1, "Foo"));
@@ -677,7 +676,7 @@ TEST(PlayTurnSimple) {
       player.battlefield.spells.front().name != "Foo") {
     Fail("Expected Spell to be played");
   }
-  EXPECT_EQ(static_cast<int>(points), 2);
+  EXPECT_NEAR(points, 2);
   EXPECT_EQ(GetContribution("Foo", &contributions), 2);
 }
 
@@ -691,7 +690,7 @@ TEST(PlayTurnExistingCreature) {
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, &contributions);
-  EXPECT_EQ(static_cast<int>(points), 2);
+  EXPECT_NEAR(points, 2 - 0.5);
   EXPECT_EQ(GetContribution("Foo", &contributions), 2);
 }
 
@@ -706,12 +705,14 @@ TEST(PlayTurnNotEnoughMana) {
   Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
 
   double points = PlayTurn(lib, &player, nullptr);
-  if (!player.battlefield.spells.empty()) {
-    Fail("Expected no spells to be played but found " +
-         player.battlefield.spells.front().name);
-  }
+  EXPECT_TRUE(player.battlefield.spells.empty())
+  // Why segfault here???
+  // << "Expected no spells to be played but found "
+  // << player.battlefield.spells.front().name
+  ;
+
   // Gets minus one point if cannot play a spell.
-  EXPECT_EQ(static_cast<int>(points), -1);
+  EXPECT_NEAR(points, -1);
 }
 
 TEST(PlayBestSpell) {
@@ -734,7 +735,7 @@ TEST(PlayBestSpell) {
       player.battlefield.spells.front().name != "Big") {
     Fail("Expected Big Spell to be played");
   }
-  EXPECT_EQ(static_cast<int>(points), 4);
+  EXPECT_NEAR(points, 4);
   EXPECT_EQ(GetContribution("Big", &contributions), 4);
 }
 
@@ -757,7 +758,8 @@ TEST(PlayBestSpellRespectPriority) {
       player.battlefield.spells.front().name != "Important") {
     Fail("Expected Big Spell to be played");
   }
-  EXPECT_EQ(static_cast<int>(points), 2);
+  // 2 points for important spell, -1 point for mana not spent.
+  EXPECT_NEAR(points, 2 - 1);
 }
 
 TEST(PlaySeveralSpells) {
@@ -788,7 +790,7 @@ TEST(PlaySeveralSpells) {
   if (player.hand.spells.empty() || player.hand.spells.front().name != "Tiny") {
     Fail("Expected Tiny Spell to not be played");
   }
-  EXPECT_EQ(static_cast<int>(points), 4);
+  EXPECT_NEAR(points, 4);
 }
 
 TEST(PlayAbilities) {
@@ -811,9 +813,10 @@ TEST(PlayAbilities) {
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, &contributions);
-  // Gets 6/3 = 2 points for playing the same ability twice.
-  EXPECT_EQ(static_cast<int>(points), 2);
-  EXPECT_EQ(static_cast<int>(GetContribution("Foo", &contributions)), 2);
+  // + 1/2 points for existing creature
+  // + 6/3 = 2 points for playing the same ability twice.
+  EXPECT_NEAR(points, 2.5);
+  EXPECT_NEAR(GetContribution("Foo", &contributions), 2.5);
 }
 
 TEST(PlayOnetimeAbilities) {
@@ -825,7 +828,7 @@ TEST(PlayOnetimeAbilities) {
 
   // Has one ability in battlefield.
   player.battlefield.spells.push_back(
-      MakeSpell("B", 1, "Foo").AddAbility("B3").AddOnetimeAbility("BB"));
+      MakeSpell("B", 1, "Foo").AddAbility("B4").AddOnetimeAbility("B3"));
 
   // Will draw a land. Will have 5 mana afterwards.
   player.library.lands.push_back(BasicLand(Color::Black));
@@ -835,7 +838,10 @@ TEST(PlayOnetimeAbilities) {
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, &contributions);
-  // Gets 2/2 points for playing the onetime once.
-  EXPECT_EQ(static_cast<int>(points), 1);
-  EXPECT_EQ(static_cast<int>(GetContribution("Foo", &contributions)), 1);
+  // Points:
+  // + 1/2 points for existing creature
+  // + 4/2 points for playing the onetime ability once.
+  // - 1/2 points for too many lands.
+  EXPECT_NEAR(points, 2);
+  EXPECT_NEAR(GetContribution("Foo", &contributions), 2.5);
 }
