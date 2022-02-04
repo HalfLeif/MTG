@@ -51,7 +51,8 @@ double RunParam(const Library &lib, const Param &param, int games,
   // std::chrono::steady_clock::time_point begin =
   //     std::chrono::steady_clock::now();
 
-  constexpr int kStart = 6;
+  // Always evaluate using 8 turns. Seems to provide the most fair comparison.
+  constexpr int kStart = 8;
   constexpr int kEnd = 8;
 
   struct Instance {

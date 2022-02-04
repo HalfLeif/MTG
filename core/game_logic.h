@@ -443,9 +443,10 @@ double PlayLand(Player *player, TurnState *state,
 
 double PointsFromBattlefield(const Player &player,
                              CardContributions *contributions) {
+  constexpr double kLastingContributionRatio = 0.5;
   double points = 0;
   for (const Spell &spell : player.battlefield.spells) {
-    double delta = 0.5 * PointsFromSpell(spell);
+    double delta = kLastingContributionRatio * PointsFromSpell(spell);
     points += delta;
     AddDelta(delta, spell.name, contributions);
   }
