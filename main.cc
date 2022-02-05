@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "core/benchmark.h"
+#include "core/benchmarks.h"
 #include "core/library.h"
 #include "core/test.h"
 #include "decks/bolas.h"
@@ -35,10 +36,10 @@ constexpr bool PARANOIA = false;
 
 int main(int argc, char *argv[]) {
   INFO << "Running tests...\n";
-  TestRegistration::Singleton().RunTests();
+  RunAllTests();
   INFO << "Started program...\n";
   srand(4);
-  BenchmarkRegistration::Singleton().RunAll();
+  RunAllBenchmarks();
 
   // ExecuteBenchmark<PushbackReserve>();
   // ExecuteBenchmark<Pushback>();

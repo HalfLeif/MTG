@@ -6,6 +6,8 @@
 
 #include "debug.h"
 
+void RunAllTests();
+
 class TestRegistration {
 public:
   class TestCase {
@@ -79,6 +81,8 @@ public:
 private:
   std::vector<TestCase *> test_cases_;
 };
+
+void RunAllTests() { TestRegistration::Singleton().RunTests(); }
 
 class TestRegistration::TestCase::TestExpectationHelper {
 public:
