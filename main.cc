@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "core/benchmark.h"
 #include "core/library.h"
 #include "core/test.h"
 #include "decks/bolas.h"
@@ -37,11 +38,16 @@ int main(int argc, char *argv[]) {
   TestRegistration::Singleton().RunTests();
   INFO << "Started program...\n";
   srand(4);
+  BenchmarkRegistration::Singleton().RunAll();
 
-  auto all_cards = ReadCards("data/vow/cards.csv");
-  auto available_cards = FilterCards(all_cards, VowCards());
-  auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
-  GenerateDeck(available_cards, forced_cards);
+  // ExecuteBenchmark<PushbackReserve>();
+  // ExecuteBenchmark<Pushback>();
+  // ExecuteBenchmark<Pushfront>();
+
+  // auto all_cards = ReadCards("data/vow/cards.csv");
+  // auto available_cards = FilterCards(all_cards, VowCards());
+  // auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
+  // GenerateDeck(available_cards, forced_cards);
 
   // const Library &lib = GetMainLib();
   // CompareParams(lib);
