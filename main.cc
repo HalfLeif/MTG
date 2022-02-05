@@ -39,16 +39,12 @@ int main(int argc, char *argv[]) {
   RunAllTests();
   INFO << "Started program...\n";
   srand(4);
-  RunAllBenchmarks();
+  // RunAllBenchmarks();
 
-  // ExecuteBenchmark<PushbackReserve>();
-  // ExecuteBenchmark<Pushback>();
-  // ExecuteBenchmark<Pushfront>();
-
-  // auto all_cards = ReadCards("data/vow/cards.csv");
-  // auto available_cards = FilterCards(all_cards, VowCards());
-  // auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
-  // GenerateDeck(available_cards, forced_cards);
+  auto all_cards = ReadCards("data/vow/cards.csv");
+  auto available_cards = FilterCards(all_cards, VowCards());
+  auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
+  GenerateDeck(available_cards, forced_cards);
 
   // const Library &lib = GetMainLib();
   // CompareParams(lib);

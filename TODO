@@ -9,7 +9,4 @@
 - Parse spell abilities from html page. E.g. "RR" to +1/0.
 
 # Implementation
-- Measure total latency, and per iteration latency, in order to see which implementation is faster.
-- Use string_view for parsing mana costs.
-- Use std::array<int>, perhaps with thin wrapper to represent ManaCost instead of std::map.
 - Use thin wrapper (pointer type) instead of copying Spells when simulating.
