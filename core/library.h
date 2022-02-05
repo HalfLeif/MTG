@@ -155,17 +155,12 @@ public:
   };
 
 private:
-  static void SumColorMana(const Spell &spell, ManaCost &mana) {
-    for (const auto &[color, amount] : spell.cost) {
-      if (color != Color::Colorless && color != Color::Total) {
-        mana[color] += amount;
-      }
-    }
-  }
-
   static std::vector<Color> SortColorsByMana(const ManaCost &mana) {
     std::vector<std::pair<int, Color>> colors;
     for (const auto &[color, amount] : mana) {
+      if (color == Color::Total) {
+        continue;
+      }
       colors.emplace_back(amount, color);
     }
     std::sort(colors.begin(), colors.end(),
@@ -183,7 +178,7 @@ private:
       if (experiment_id != Experiment::always) {
         active_experiments_.insert(experiment_id);
       }
-      SumColorMana(spell, mana);
+      mana += spell.cost;
     }
     colors_ = SortColorsByMana(mana);
 
@@ -209,14 +204,8 @@ TEST(LibraryHasSingleColorTest) {
                     .AddSpell(MakeSpell("4R", 1, "SearingBarrage"))
                     .Build();
   const std::vector<Color> &colors = lib.Colors();
-  if (colors.size() != 1) {
-    ERROR << colors.size();
-    Fail("Colors has wrong size!");
-    return;
-  }
-  if (colors[0] != Color::Red) {
-    Fail("First color should be Red!");
-  }
+  EXPECT_EQ(colors.size(), 1);
+  EXPECT_EQ(colors[0], Color::Red);
 }
 
 TEST(LibraryHasThreeColorsTest) {
@@ -228,18 +217,8 @@ TEST(LibraryHasThreeColorsTest) {
                     .AddSpell(MakeSpell("9W", 1, "Angel"))
                     .Build();
   const std::vector<Color> &colors = lib.Colors();
-  if (colors.size() != 3) {
-    ERROR << colors.size();
-    Fail("Colors has wrong size!");
-    return;
-  }
-  if (colors[0] != Color::Red) {
-    Fail("First color should be Red!");
-  }
-  if (colors[1] != Color::Blue) {
-    Fail("Second color should be Blue!");
-  }
-  if (colors[2] != Color::White) {
-    Fail("Third color should be White!");
-  }
+  EXPECT_EQ(colors.size(), 3);
+  EXPECT_EQ(colors[0], Color::Red);
+  EXPECT_EQ(colors[1], Color::Blue);
+  EXPECT_EQ(colors[2], Color::White);
 }

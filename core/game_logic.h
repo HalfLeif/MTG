@@ -53,10 +53,10 @@ void TapLand(const Land &land, ManaCost &mana_pool) {
 }
 
 bool IsColorStarved(const Library &lib, const ManaCost &mana_pool) {
-  if (FindWithDefault(mana_pool, lib.PrimaryColor(), 0) < 1) {
+  if (mana_pool.FindValue(lib.PrimaryColor()) < 1) {
     return true;
   }
-  if (FindWithDefault(mana_pool, lib.SecondaryColor(), 0) < 1) {
+  if (mana_pool.FindValue(lib.SecondaryColor()) < 1) {
     return true;
   }
   return false;
@@ -104,7 +104,7 @@ bool IsAffordable(const ManaCost &spell_cost, const ManaCost &mana_pool) {
   for (const auto &pair : spell_cost) {
     Color color = pair.first;
     int cost_amount = pair.second;
-    if (FindWithDefault(mana_pool, color, 0) < cost_amount) {
+    if (mana_pool.FindValue(color) < cost_amount) {
       return false;
     }
   }
@@ -275,7 +275,7 @@ std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_spell_cost,
     Color color = pair.first;
     float demand = pair.second;
     covered.push_back(color);
-    int supply = FindWithDefault(mana_pool, color, 0);
+    int supply = mana_pool.FindValue(color);
     float score = demand / (supply + 1);
     scores.emplace_back(score, color);
   }
@@ -298,19 +298,19 @@ std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_spell_cost,
 // Negative values means the color is already supplied.
 ManaCost FindMissingColors(const Player &player, const ManaCost &mana_pool) {
   ManaCost missing_colors;
-  const int max_mana = 1 + FindWithDefault(mana_pool, Color::Total, 0);
+  const int max_mana = 1 + mana_pool.FindValue(Color::Total);
   for (const Spell &spell : player.hand.spells) {
-    if (FindWithDefault(spell.cost, Color::Total, 0) <= max_mana) {
+    if (spell.cost.FindValue(Color::Total) <= max_mana) {
       UpdateMaxColors(missing_colors, spell.cost);
     }
   }
   for (const Spell &spell : player.battlefield.spells) {
     if (spell.ability.has_value() &&
-        FindWithDefault(*spell.ability, Color::Total, 0) <= max_mana) {
+        spell.ability->FindValue(Color::Total) <= max_mana) {
       UpdateMaxColors(missing_colors, *spell.ability);
     }
     if (spell.onetime_ability.has_value() &&
-        FindWithDefault(*spell.onetime_ability, Color::Total, 0) <= max_mana) {
+        spell.onetime_ability->FindValue(Color::Total) <= max_mana) {
       UpdateMaxColors(missing_colors, *spell.onetime_ability);
     }
   }
@@ -454,7 +454,7 @@ double PointsFromBattlefield(const Player &player,
 // Penalize leftover mana to avoid suggesting decks with mana flooding.
 double PenaltyFromLeftoverMana(const TurnState &state) {
   constexpr double kPenaltyRatio = 0.5;
-  return -kPenaltyRatio * FindWithDefault(state.mana_pool, Color::Total, 0);
+  return -kPenaltyRatio * state.mana_pool.FindValue(Color::Total);
 }
 
 // Returns #points.

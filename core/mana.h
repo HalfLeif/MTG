@@ -26,17 +26,85 @@ enum class Color : int8_t {
 // case should be rare (maybe OK for simulation purposes?).
 class ManaCost {
 public:
+  ManaCost() { cost_.fill(0); }
+
   using key_type = Color;
   using mapped_type = int;
+  static constexpr size_t kEnd = static_cast<size_t>(Color::ENUM_SIZE);
 
-  auto find(const key_type &c) const { return cost_.find(c); }
-  auto begin() const { return cost_.begin(); }
-  auto end() const { return cost_.end(); }
-  mapped_type &operator[](const key_type &key) { return cost_[key]; }
+  class Iter {
+  public:
+    Iter(size_t pos, const std::array<int, kEnd> *arr) : pos_(pos), arr_(arr) {}
+
+    inline mapped_type value() const { return (*arr_)[pos_]; }
+
+    const std::pair<key_type, mapped_type> &operator*() const {
+      const Color color = static_cast<Color>(pos_);
+      tmp_.first = color;
+      tmp_.second = value();
+      return tmp_;
+    }
+
+    const std::pair<key_type, mapped_type> *operator->() const {
+      return &(**this);
+    }
+
+    bool operator==(const Iter &other) const {
+      return pos_ == other.pos_ && arr_ == other.arr_;
+    }
+    bool operator!=(const Iter &other) const { return !(*this == other); }
+
+    void operator++() {
+      ++pos_;
+      // Must skip empty values on iteration.
+      while (pos_ < kEnd && value() <= 0) {
+        ++pos_;
+      }
+      // return *this;
+    }
+
+  private:
+    size_t pos_;
+    const std::array<int, kEnd> *arr_ = nullptr;
+
+    // Only used by operator* and operator->. Otherwise empty.
+    mutable std::pair<key_type, mapped_type> tmp_;
+  };
+
+  mapped_type FindValue(Color key) const {
+    CHECK(key < Color::ENUM_SIZE);
+    size_t pos = static_cast<size_t>(key);
+    return cost_[pos];
+  }
+
+  bool contains(Color key) const { return FindValue(key) > 0; }
+
+  Iter begin() const { return make_iter(static_cast<Color>(0)); }
+  Iter end() const { return make_iter(Color::ENUM_SIZE); }
+  // Note: Implementing find() is suboptimal since involves creating iterators.
+  // Calling FindValue directly is preferred.
+
+  mapped_type &operator[](const key_type &key) {
+    CHECK(key < Color::ENUM_SIZE);
+    const size_t pos = static_cast<size_t>(key);
+    return cost_[pos];
+  }
+
+  ManaCost &operator+=(const ManaCost &other) {
+    for (size_t i = 0; i < kEnd; ++i) {
+      cost_[i] += other.cost_[i];
+    }
+    return *this;
+  }
 
 private:
-  // TODO: Replace with std::array<int, Color::ENUM_SIZE>;
-  std::map<Color, int> cost_;
+  Iter make_iter(key_type key) const {
+    CHECK(key <= Color::ENUM_SIZE);
+    return Iter(static_cast<size_t>(key), &cost_);
+  }
+
+  // Consider 0 values to not be present.
+  std::array<int, kEnd> cost_;
 };
 
 void AddUniversalColor(ManaCost *mana_pool) {
@@ -47,21 +115,13 @@ void AddUniversalColor(ManaCost *mana_pool) {
   ++(*mana_pool)[Color::Green];
 }
 
-void operator+=(ManaCost &lhs, const ManaCost &rhs) {
-  for (const auto &pair : rhs) {
-    lhs[pair.first] += pair.second;
-  }
-}
-
 void UpdateMaxColors(ManaCost &mana_needs, const ManaCost &spell_needs) {
   for (const auto [color, amount] : spell_needs) {
     mana_needs[color] = std::max(mana_needs[color], amount);
   }
 }
 
-int TotalCost(const ManaCost &cost) {
-  return FindWithDefault(cost, Color::Total, 0);
-}
+int TotalCost(const ManaCost &cost) { return cost.FindValue(Color::Total); }
 
 ManaCost ParseMana(std::string_view mana) {
   ManaCost cost;
@@ -113,7 +173,7 @@ std::string ToString(Color color) {
   case Color::Colorless:
     return "C";
   }
-  ERROR << "Unknown color: " << static_cast<int>(color);
+  FATAL << "Unknown color: " << static_cast<int>(color);
   return "?";
 }
 
@@ -124,25 +184,25 @@ std::ostream &operator<<(std::ostream &stream, Color color) {
 std::string ToString(const ManaCost &mana) {
   std::string result = "";
   int color_mana_sum = 0;
-  for (int c = static_cast<int>(Color::White);
-       c < static_cast<int>(Color::ENUM_SIZE); ++c) {
-    Color color = static_cast<Color>(c);
-    int num_color = FindWithDefault(mana, color, 0);
-    if (num_color > 0) {
-      color_mana_sum += num_color;
-      std::string color_str = ToString(color);
-      for (int i = 0; i < num_color; ++i) {
-        result.append(color_str);
-      }
+  int total_mana = 0;
+  for (auto [color, value] : mana) {
+    if (color == Color::Total) {
+      total_mana = value;
+      continue;
+    }
+    color_mana_sum += value;
+    std::string color_str = ToString(color);
+    for (int i = 0; i < value; ++i) {
+      result.append(color_str);
     }
   }
-  int colorless_mana = FindWithDefault(mana, Color::Total, 0) - color_mana_sum;
-  if (colorless_mana < 0) {
-    ERROR << "Should never happen!";
-  }
+  int colorless_mana = total_mana - color_mana_sum;
+  CHECK(colorless_mana >= 0)
+      << "Total mana " << total_mana << " vs " << color_mana_sum;
   if (colorless_mana > 0) {
     result.append(std::to_string(colorless_mana));
   }
+
   return result;
 }
 
@@ -153,22 +213,14 @@ std::ostream &operator<<(std::ostream &stream, const ManaCost &mana) {
 // -----------------------------------------------------------------------------
 
 TEST(ParseManaSimple) {
-  std::string s = ToString(ParseMana("B3"));
-  if (s != "B3") {
-    Fail("Expected B3 but found " + s);
-  }
+  EXPECT_EQ(ToString(ParseMana("B3")), "B3");
+  EXPECT_EQ(ToString(ParseMana("BB")), "BB");
+  EXPECT_EQ(ToString(ParseMana("BBG2")), "BBG2");
 }
 
-TEST(ParseManaRepeat) {
-  std::string s = ToString(ParseMana("BB"));
-  if (s != "BB") {
-    Fail("Expected BB but found " + s);
-  }
-}
-
-TEST(ParseManaMulti) {
-  std::string s = ToString(ParseMana("BBG2"));
-  if (s != "BBG2") {
-    Fail("Expected BBG2 but found " + s);
-  }
+TEST(ManaAddition) {
+  ManaCost a = ParseMana("BB1");
+  ManaCost b = ParseMana("R3");
+  a += b;
+  EXPECT_EQ(ToString(a), "BBR4");
 }

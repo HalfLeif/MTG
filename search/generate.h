@@ -324,9 +324,9 @@ FilterCards(const std::vector<Spell> &all_cards,
       FATAL << "Spell " << cardname << " is not listed in all_cards"
             << std::endl;
     }
-    if (ContainsKey(spell->cost, Color::Red) ||
-        ContainsKey(spell->cost, Color::Green) ||
-        ContainsKey(spell->cost, Color::Blue)) {
+    if (spell->cost.contains(Color::Red) ||
+        spell->cost.contains(Color::Green) ||
+        spell->cost.contains(Color::Blue)) {
       // This is a hack to focus on a subset of colors. Ideally the program
       // would first run a simulation to pick best colors, and then optimize
       // within the colors. Or be more aggressive about what cards to keep.
