@@ -188,7 +188,7 @@ double PlaySpells(Player *player, TurnState *state,
 const SpellView *FindBestAbility(const Player &player, const TurnState &state) {
   double highest_affordable_cost = 0;
   const SpellView *best_ability = nullptr;
-  for (const SpellView perm : player.battlefield.spells) {
+  for (const SpellView &perm : player.battlefield.spells) {
     if (!perm->ability.has_value()) {
       continue;
     }
@@ -231,6 +231,7 @@ double PlayAbilities(Player *player, TurnState *state,
   bool found_something = true;
   while (found_something) {
     found_something = false;
+
     if (SpellView *spell = FindBestOnetimeAbility(*player, *state);
         spell != nullptr) {
       found_something = true;
