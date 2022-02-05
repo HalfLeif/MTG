@@ -94,35 +94,41 @@ public:
   }
 
   template <typename L, typename R>
-  std::ostream &EvaluateEq(const L &left, const R &right, const char *left_desc,
-                           const char *right_desc) {
-    return EvaluateBool(left == right)
-           << "Expected " << left_desc << " to be equal to " << right_desc
-           << " but " << left << " != " << right << std::endl;
+  bool EvaluateEq(const L &left, const R &right, const char *left_desc,
+                  const char *right_desc) {
+    pass_ = (left == right);
+    if (!pass_) {
+      Stream() << "Expected " << left_desc << " to be equal to " << right_desc
+               << " but " << left << " != " << right << std::endl;
+    }
+    return pass_;
   }
 
   template <typename L, typename R>
-  std::ostream &EvaluateLt(const L &left, const R &right, const char *left_desc,
-                           const char *right_desc) {
-    return EvaluateBool(left < right)
-           << "Expected " << left_desc << " to be equal to " << right_desc
-           << " but " << left << " != " << right << std::endl;
+  bool EvaluateLt(const L &left, const R &right, const char *left_desc,
+                  const char *right_desc) {
+    pass_ = (left < right);
+    if (!pass_) {
+      Stream() << "Expected " << left_desc << " to be equal to " << right_desc
+               << " but " << left << " != " << right << std::endl;
+    }
+    return pass_;
   }
 
   template <typename L, typename R>
-  std::ostream &EvaluateNear(const L &left, const R &right,
-                             const char *left_desc, const char *right_desc) {
-    return EvaluateBool(std::abs(left - right) < 0.01)
-           << "Expected " << left_desc << " to be near " << right_desc
-           << " but " << left << " != " << right << std::endl;
+  bool EvaluateNear(const L &left, const R &right, const char *left_desc,
+                    const char *right_desc) {
+    pass_ = (std::abs(left - right) < 0.01);
+    if (!pass_) {
+      Stream() << "Expected " << left_desc << " to be near " << right_desc
+               << " but " << left << " != " << right << std::endl;
+    }
+    return pass_;
   }
+
+  std::ostream &Stream() { return failure_stream_; }
 
 private:
-  std::ostream &EvaluateBool(bool pass) {
-    pass_ = pass;
-    return failure_stream_;
-  }
-
   // Contains all streamed debug about the test expectation.
   std::stringstream failure_stream_;
   bool pass_ = true;
@@ -154,14 +160,25 @@ private:
 
 // Supports streaming comments to the test expectation object:
 // EXPECT_EQ(a, 1) << "blah" << std::endl;
+//
+// Streaming comment expression is only evaluated on expectation failure.
 #define EXPECT_EQ(a, b)                                                        \
-  TestExpectationHelper(this, __FILE__, __LINE__).EvaluateEq((a), (b), #a, #b)
+  if (TestExpectationHelper helper(this, __FILE__, __LINE__);                  \
+      !helper.EvaluateEq((a), (b), #a, #b))                                    \
+  helper.Stream()
+
 #define EXPECT_LT(a, b)                                                        \
-  TestExpectationHelper(this, __FILE__, __LINE__).EvaluateLt((a), (b), #a, #b)
+  if (TestExpectationHelper helper(this, __FILE__, __LINE__);                  \
+      !helper.EvaluateLt((a), (b), #a, #b))                                    \
+  helper.Stream()
+
 #define EXPECT_TRUE(a) EXPECT_EQ(a, true)
 #define EXPECT_FALSE(a) EXPECT_EQ(a, false)
+
 #define EXPECT_NEAR(a, b)                                                      \
-  TestExpectationHelper(this, __FILE__, __LINE__).EvaluateNear((a), (b), #a, #b)
+  if (TestExpectationHelper helper(this, __FILE__, __LINE__);                  \
+      !helper.EvaluateNear((a), (b), #a, #b))                                  \
+  helper.Stream()
 
 // Passes by default
 TEST(SimpleTest) {
@@ -179,4 +196,22 @@ TEST(SimpleTest) {
 TEST(FatalLog) {
   CHECK(true) << "OK" << std::endl;
   // CHECK(false) << "Condition failed!" << std::endl;
+}
+
+TEST(OnlyEvaluateCommentOnFailure) {
+  int count = 0;
+  auto cb = [&count]() { return ++count; };
+
+  // Verify that the callback works.
+  cb();
+  cb();
+  EXPECT_EQ(count, 2);
+
+  // Expectations are true so expressions at << is never evaluated, and so count
+  // should not increase.
+  EXPECT_EQ(1, 1) << cb() << std::endl;
+  EXPECT_TRUE(true) << cb() << std::endl;
+  EXPECT_LT(1, 2) << cb() << std::endl;
+  EXPECT_NEAR(1, 1) << cb() << std::endl;
+  EXPECT_EQ(count, 2);
 }
