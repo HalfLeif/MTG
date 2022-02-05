@@ -4,20 +4,20 @@
 #include "deck.h"
 #include "mana.h"
 
-int DrawFromPlayedSpell(const Spell &spell, const Player &player) {
-  if (spell.name == "Thief") {
+int DrawFromPlayedSpell(const SpellView spell, const Player &player) {
+  if (spell.name() == "Thief") {
     return 1;
   }
-  if (spell.name == "Clockwork") {
+  if (spell.name() == "Clockwork") {
     return 1;
   }
-  if (spell.name == "LochDragon") {
+  if (spell.name() == "LochDragon") {
     return 1;
   }
-  if (spell.name == "SageOfTheFalls") {
+  if (spell.name() == "SageOfTheFalls") {
     return 1;
   }
-  if (spell.name == "UnexplainedVision") {
+  if (spell.name() == "UnexplainedVision") {
     return 3;
   }
   return 0;
@@ -25,8 +25,8 @@ int DrawFromPlayedSpell(const Spell &spell, const Player &player) {
 
 double PointsFromPlayedLand(const Land &land, const Player &player,
                             CardContributions *contributions) {
-  if (IsSwamp(land) && Contains<Spell>(player.battlefield.spells,
-                                       IsSpellName("DreadPresence"))) {
+  if (IsSwamp(land) && Contains<SpellView>(player.battlefield.spells,
+                                           IsSpellName("DreadPresence"))) {
     INFO << "Played Swamp with DreadPresence in play!\n";
     AddDelta(2, "DreadPresence", contributions);
     return 2;
@@ -35,12 +35,12 @@ double PointsFromPlayedLand(const Land &land, const Player &player,
 }
 
 void TapManaCreatures(const Deck &battlefield, ManaCost *mana_pool) {
-  for (const Spell &spell : battlefield.spells) {
-    if (spell.name == "Caryatid") {
+  for (const SpellView spell : battlefield.spells) {
+    if (spell.name() == "Caryatid") {
       AddUniversalColor(mana_pool);
       ++(*mana_pool)[Color::Total];
     }
-    if (spell.name == "SolRing") {
+    if (spell.name() == "SolRing") {
       // 2 gray mana, no color.
       (*mana_pool)[Color::Total] += 2;
     }

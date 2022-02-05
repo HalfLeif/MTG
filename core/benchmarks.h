@@ -31,8 +31,8 @@ BENCHMARK(Pushfront) {
 */
 
 // Runs 100 games for a given Library and Param.
-// Run 1222 iterations in 1904 ms
-// Run average time per iteration: 1.558 ms
+// Run 1429 iterations in 1946 ms
+// Run average time per iteration: 1.361 ms
 BENCHMARK(RunParam) {
   const Library &lib = kMID;
   // CardContributions contributions = MakeContributionMaps(lib.spells);

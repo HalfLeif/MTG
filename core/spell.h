@@ -31,6 +31,32 @@ struct Spell {
   }
 };
 
+struct SpellView {
+  SpellView(const Spell &spell) : spell_(&spell) {}
+  // Should not be able to create dangling spell views.
+  SpellView(Spell &&src) = delete;
+
+  const std::string &name() const { return spell_->name; }
+  const ManaCost &cost() const { return spell_->cost; }
+  const std::optional<ManaCost> &ability() const { return spell_->ability; }
+
+  void use_onetime_ability() { used_onetime_ = true; }
+  const ManaCost *onetime_ability() const {
+    if (!used_onetime_ && spell_->onetime_ability.has_value()) {
+      return &*spell_->onetime_ability;
+    }
+    return nullptr;
+  }
+
+  bool has_value() const { return spell_ != nullptr; }
+  const Spell &operator*() const { return *spell_; }
+  const Spell *operator->() const { return spell_; }
+
+private:
+  bool used_onetime_ = false;
+  const Spell *spell_ = nullptr;
+};
+
 Spell MakeSpell(std::string mana_cost, int priority = 1,
                 std::string name = "") {
   Spell spell;
@@ -42,6 +68,15 @@ Spell MakeSpell(std::string mana_cost, int priority = 1,
 
 std::ostream &operator<<(std::ostream &stream, const Spell &spell) {
   return stream << "spell " << spell.cost << " " << spell.name;
+}
+
+std::ostream &operator<<(std::ostream &stream, SpellView view) {
+  if (view.has_value()) {
+    stream << *view;
+  } else {
+    stream << "nullptr spell";
+  }
+  return stream;
 }
 
 // -----------------------------------------------------------------------------

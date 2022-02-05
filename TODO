@@ -9,4 +9,3 @@
 - Parse spell abilities from html page. E.g. "RR" to +1/0.
 
 # Implementation
-- Use thin wrapper (pointer type) instead of copying Spells when simulating.

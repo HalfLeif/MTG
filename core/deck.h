@@ -4,12 +4,12 @@
 #include "mana.h"
 #include "spell.h"
 
-Predicate<Spell> IsSpellName(const char *name) {
-  return [name](const Spell &spell) { return spell.name == name; };
+Predicate<SpellView> IsSpellName(const char *name) {
+  return [name](const SpellView &spell) { return spell.name() == name; };
 }
 
 struct Deck {
-  std::vector<Spell> spells;
+  std::vector<SpellView> spells;
   std::vector<Land> lands;
   size_t Size() { return spells.size() + lands.size(); }
 };
@@ -25,8 +25,8 @@ Land *MoveLand(int i, Deck &from, Deck &to) {
   return MoveItem<Land>(i, from.lands, to.lands);
 }
 
-Spell *MoveSpell(int i, Deck &from, Deck &to) {
-  return MoveItem<Spell>(i, from.spells, to.spells);
+SpellView *MoveSpell(int i, Deck &from, Deck &to) {
+  return MoveItem<SpellView>(i, from.spells, to.spells);
 }
 
 enum class DeckSize : int {
@@ -100,11 +100,8 @@ std::ostream &operator<<(std::ostream &stream, const Deck &deck) {
   stream << "Spells: " << deck.spells.size() << "\n";
   stream << "Lands: " << deck.lands.size() << "\n";
   PrintLands(deck);
-  for (const Spell &spell : deck.spells) {
-    stream << "  " << spell << "\n";
+  for (SpellView spell_view : deck.spells) {
+    stream << "  " << spell_view << "\n";
   }
-  // for (const Land &land : deck.lands) {
-  //   stream << "  " << land << "\n";
-  // }
   return stream;
 }

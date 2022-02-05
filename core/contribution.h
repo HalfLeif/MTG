@@ -59,11 +59,13 @@ MakeContributionMaps(const std::vector<Spell> &available_cards,
   return contributions;
 }
 
+// For tests.
 CardContributions
-MakeContributionMaps(const std::vector<Spell> &available_cards) {
+MakeContributionMaps(const std::vector<SpellView> &available_cards) {
   CardContributions contributions;
-  for (const Spell &spell : available_cards) {
-    const Contribution *cptr = Contribution::InsertSpell(spell, &contributions);
+  for (const SpellView spell : available_cards) {
+    const Contribution *cptr =
+        Contribution::InsertSpell(*spell, &contributions);
   }
   return contributions;
 }
@@ -97,22 +99,23 @@ double GetContribution(const std::string &name,
 void PrintContributions(const Deck &deck,
                         const CardContributions &contributions) {
   struct NamedContribution {
-    const Spell *spell_ptr = nullptr;
+    SpellView spell;
     const Contribution *contribution_ptr = nullptr;
   };
 
   // Key by 1. mana_value, 2. contribution.
   std::vector<std::pair<double, NamedContribution>> pairs;
   pairs.reserve(deck.spells.size());
-  for (const Spell &spell : deck.spells) {
-    const Contribution *contribution = FindPtrOrNull(contributions, spell.name);
+  for (const SpellView spell : deck.spells) {
+    const Contribution *contribution =
+        FindPtrOrNull(contributions, spell.name());
     if (contribution == nullptr) {
-      FATAL << "Could not find spell " << spell.name << " in contributions."
+      FATAL << "Could not find spell " << spell.name() << " in contributions."
             << std::endl;
     }
     pairs.emplace_back(contribution->GetContribution(),
                        NamedContribution{
-                           .spell_ptr = &spell,
+                           .spell = spell,
                            .contribution_ptr = contribution,
                        });
   }
@@ -121,7 +124,7 @@ void PrintContributions(const Deck &deck,
 
   for (const auto &[score, named] : pairs) {
     std::cout << named.contribution_ptr->GetContribution() << " "
-              << named.spell_ptr->name << " (" << named.spell_ptr->cost << ")"
+              << named.spell.name() << " (" << named.spell.cost() << ")"
               << std::endl;
   }
 }

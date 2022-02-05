@@ -29,7 +29,7 @@ void DrawOne(Player *player) {
     INFO << "Drew " << *land << "\n";
   } else {
     // Picked a non-land
-    Spell *spell = MoveSpell(picked, player->library, player->hand);
+    SpellView *spell = MoveSpell(picked, player->library, player->hand);
     INFO << "Drew " << *spell << "\n";
   }
 }
@@ -122,20 +122,20 @@ void PayCost(const ManaCost &spell_cost, ManaCost *mana_pool) {
   }
 }
 
-double PointsFromSpell(const Spell &spell) {
-  return TotalCost(spell.cost) + spell.point_bonus;
+double PointsFromSpell(const SpellView spell) {
+  return TotalCost(spell->cost) + spell->point_bonus;
 }
 
 // Returns number of points from playing this spell.
 double PlaySpell(int i, Player *player, TurnState *state,
                  CardContributions *contributions) {
-  PayCost(player->hand.spells[i].cost, &state->mana_pool);
-  const Spell *spell = MoveSpell(i, player->hand, player->battlefield);
+  PayCost(player->hand.spells[i]->cost, &state->mana_pool);
+  const SpellView *spell = MoveSpell(i, player->hand, player->battlefield);
   if (spell != nullptr) {
     INFO << "Played " << *spell << "\n";
     DrawN(player, DrawFromPlayedSpell(*spell, *player));
     double delta = PointsFromSpell(*spell);
-    AddDelta(delta, spell->name, contributions);
+    AddDelta(delta, spell->name(), contributions);
     return delta;
   }
   ERROR << "Attempted to play a spell that doesn't exist!\n";
@@ -144,28 +144,28 @@ double PlaySpell(int i, Player *player, TurnState *state,
 
 // Returns index to spell in hand of best spell to play.
 int FindBestSpell(const Player &player, const TurnState &state) {
-  const std::vector<Spell> &spells = player.hand.spells;
+  const std::vector<SpellView> &spells = player.hand.spells;
 
   int best_affordable_spell = -1;
   int best_affordable_priority = -1;
   double highest_points = 0;
 
   for (int i = 0; i < spells.size(); ++i) {
-    if (!IsAffordable(spells[i].cost, state.mana_pool)) {
+    if (!IsAffordable(spells[i].cost(), state.mana_pool)) {
       continue;
     }
-    if (spells[i].priority == 0 && player.battlefield.spells.empty()) {
+    if (spells[i]->priority == 0 && player.battlefield.spells.empty()) {
       // Cannot play secondary spells if there are no creatures!
       continue;
     }
-    if (spells[i].priority < best_affordable_priority) {
+    if (spells[i]->priority < best_affordable_priority) {
       continue;
     }
     const double spell_points = PointsFromSpell(spells[i]);
     if (spell_points > highest_points) {
       best_affordable_spell = i;
       highest_points = spell_points;
-      best_affordable_priority = spells[i].priority;
+      best_affordable_priority = spells[i]->priority;
     }
   }
   return best_affordable_spell;
@@ -185,17 +185,17 @@ double PlaySpells(Player *player, TurnState *state,
   return points;
 }
 
-const Spell *FindBestAbility(const Player &player, const TurnState &state) {
+const SpellView *FindBestAbility(const Player &player, const TurnState &state) {
   double highest_affordable_cost = 0;
-  const Spell *best_ability = nullptr;
-  for (const Spell &perm : player.battlefield.spells) {
-    if (!perm.ability.has_value()) {
+  const SpellView *best_ability = nullptr;
+  for (const SpellView perm : player.battlefield.spells) {
+    if (!perm->ability.has_value()) {
       continue;
     }
-    if (!IsAffordable(*perm.ability, state.mana_pool)) {
+    if (!IsAffordable(*perm->ability, state.mana_pool)) {
       continue;
     }
-    if (int ability_cost = TotalCost(*perm.ability);
+    if (int ability_cost = TotalCost(*perm->ability);
         ability_cost > highest_affordable_cost) {
       highest_affordable_cost = ability_cost;
       best_ability = &perm;
@@ -204,17 +204,18 @@ const Spell *FindBestAbility(const Player &player, const TurnState &state) {
   return best_ability;
 }
 
-Spell *FindBestOnetimeAbility(Player &player, const TurnState &state) {
+SpellView *FindBestOnetimeAbility(Player &player, const TurnState &state) {
   double highest_affordable_cost = 0;
-  Spell *best_ability = nullptr;
-  for (Spell &perm : player.battlefield.spells) {
-    if (!perm.onetime_ability.has_value()) {
+  SpellView *best_ability = nullptr;
+  for (SpellView &perm : player.battlefield.spells) {
+    const ManaCost *onetime = perm.onetime_ability();
+    if (onetime == nullptr) {
       continue;
     }
-    if (!IsAffordable(*perm.onetime_ability, state.mana_pool)) {
+    if (!IsAffordable(*onetime, state.mana_pool)) {
       continue;
     }
-    if (int ability_cost = TotalCost(*perm.onetime_ability);
+    if (int ability_cost = TotalCost(*onetime);
         ability_cost > highest_affordable_cost) {
       highest_affordable_cost = ability_cost;
       best_ability = &perm;
@@ -230,23 +231,24 @@ double PlayAbilities(Player *player, TurnState *state,
   bool found_something = true;
   while (found_something) {
     found_something = false;
-    if (Spell *spell = FindBestOnetimeAbility(*player, *state);
+    if (SpellView *spell = FindBestOnetimeAbility(*player, *state);
         spell != nullptr) {
       found_something = true;
 
-      PayCost(*spell->onetime_ability, &state->mana_pool);
-      // Can only use it once, so need to reset it to nullopt!
-      spell->onetime_ability = std::nullopt;
-      double delta = TotalCost(*spell->onetime_ability) / 2.0;
+      const ManaCost *onetime = spell->onetime_ability();
+      PayCost(*onetime, &state->mana_pool);
+      double delta = TotalCost(*onetime) / 2.0;
       points += delta;
-      AddDelta(delta, spell->name, contributions);
-    } else if (const Spell *spell = FindBestAbility(*player, *state);
+      // Can only use it once, so need to reset it to nullopt!
+      spell->use_onetime_ability();
+      AddDelta(delta, spell->name(), contributions);
+    } else if (const SpellView *spell = FindBestAbility(*player, *state);
                spell != nullptr) {
       found_something = true;
-      PayCost(*spell->ability, &state->mana_pool);
-      double delta = TotalCost(*spell->ability) / 3.0;
+      PayCost(*spell->ability(), &state->mana_pool);
+      double delta = TotalCost(*spell->ability()) / 3.0;
       points += delta;
-      AddDelta(delta, spell->name, contributions);
+      AddDelta(delta, spell->name(), contributions);
     }
   }
   return points;
@@ -254,15 +256,15 @@ double PlayAbilities(Player *player, TurnState *state,
 
 // Accumulates how much mana is needed for all spells in the hand.
 void AggregateCosts(const Player &player, ManaCost *aggregate) {
-  for (const Spell &spell : player.hand.spells) {
-    (*aggregate) += spell.cost;
+  for (const SpellView spell : player.hand.spells) {
+    (*aggregate) += spell.cost();
   }
-  for (const Spell &spell : player.battlefield.spells) {
-    if (spell.ability.has_value()) {
-      (*aggregate) += *spell.ability;
+  for (const SpellView spell : player.battlefield.spells) {
+    if (spell->ability.has_value()) {
+      (*aggregate) += *spell->ability;
     }
-    if (spell.onetime_ability.has_value()) {
-      (*aggregate) += *spell.onetime_ability;
+    if (spell.onetime_ability() != nullptr) {
+      (*aggregate) += *spell.onetime_ability();
     }
   }
 }
@@ -299,19 +301,19 @@ std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_spell_cost,
 ManaCost FindMissingColors(const Player &player, const ManaCost &mana_pool) {
   ManaCost missing_colors;
   const int max_mana = 1 + mana_pool.FindValue(Color::Total);
-  for (const Spell &spell : player.hand.spells) {
-    if (spell.cost.FindValue(Color::Total) <= max_mana) {
-      UpdateMaxColors(missing_colors, spell.cost);
+  for (const SpellView spell : player.hand.spells) {
+    if (spell->cost.FindValue(Color::Total) <= max_mana) {
+      UpdateMaxColors(missing_colors, spell->cost);
     }
   }
-  for (const Spell &spell : player.battlefield.spells) {
-    if (spell.ability.has_value() &&
-        spell.ability->FindValue(Color::Total) <= max_mana) {
-      UpdateMaxColors(missing_colors, *spell.ability);
+  for (const SpellView spell : player.battlefield.spells) {
+    if (spell.ability().has_value() &&
+        spell.ability()->FindValue(Color::Total) <= max_mana) {
+      UpdateMaxColors(missing_colors, *spell.ability());
     }
-    if (spell.onetime_ability.has_value() &&
-        spell.onetime_ability->FindValue(Color::Total) <= max_mana) {
-      UpdateMaxColors(missing_colors, *spell.onetime_ability);
+    if (spell.onetime_ability() != nullptr &&
+        spell.onetime_ability()->FindValue(Color::Total) <= max_mana) {
+      UpdateMaxColors(missing_colors, *spell.onetime_ability());
     }
   }
   for (const auto [color, amount] : mana_pool) {
@@ -443,10 +445,10 @@ double PointsFromBattlefield(const Player &player,
                              CardContributions *contributions) {
   constexpr double kLastingContributionRatio = 0.5;
   double points = 0;
-  for (const Spell &spell : player.battlefield.spells) {
+  for (const SpellView spell : player.battlefield.spells) {
     double delta = kLastingContributionRatio * PointsFromSpell(spell);
     points += delta;
-    AddDelta(delta, spell.name, contributions);
+    AddDelta(delta, spell->name, contributions);
   }
   return points;
 }
@@ -533,10 +535,10 @@ void BottomOne(const Library &lib, Player *player) {
     int worst_spell = 0;
     int least_priority = 100;
     for (int i = 0; i < spells.size(); ++i) {
-      if (!IsAffordable(spells[i].cost, hand_pool) &&
-          spells[i].priority <= least_priority) {
+      if (!IsAffordable(spells[i]->cost, hand_pool) &&
+          spells[i]->priority <= least_priority) {
         worst_spell = i;
-        least_priority = spells[i].priority;
+        least_priority = spells[i]->priority;
       }
     }
     MoveSpell(worst_spell, player->hand, player->library);
@@ -577,8 +579,8 @@ Player StartingHand(const Library &lib, const Deck &deck,
 
 int BoardPoints(const Player &player) {
   int sum = 0;
-  for (const Spell &spell : player.battlefield.spells) {
-    sum += TotalCost(spell.cost);
+  for (const SpellView spell : player.battlefield.spells) {
+    sum += TotalCost(spell->cost);
   }
   return sum;
 }
@@ -617,14 +619,17 @@ TEST(ProduceManaBasicLands) {
 }
 
 TEST(ChoseLandSimpleNeed) {
+  Spell bb = MakeSpell("BB");
+  Spell b4 = MakeSpell("B4");
+
   Player player;
   player.hand.lands.push_back(BasicLand(Color::White));
   player.hand.lands.push_back(BasicLand(Color::Black));
-  player.hand.spells.push_back(MakeSpell("BB"));
-  player.hand.spells.push_back(MakeSpell("B4"));
+  player.hand.spells.push_back(bb);
+  player.hand.spells.push_back(b4);
   player.battlefield.lands.push_back(BasicLand(Color::Black));
 
-  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+  Library lib = Library::Builder().AddSpell(bb).Build();
   TurnState state;
   AggregateCosts(player, &state.agg_spell_cost);
   ProduceMana(lib, &player, &state);
@@ -644,10 +649,15 @@ TEST(PrioritizeColorThatEnablesSpell) {
   player.hand.lands.push_back(BasicLand(Color::White));
   player.hand.lands.push_back(BasicLand(Color::Red));
 
-  player.hand.spells.push_back(MakeSpell("W2"));
-  player.hand.spells.push_back(MakeSpell("BR1"));
-  player.hand.spells.push_back(MakeSpell("WW2"));
-  player.hand.spells.push_back(MakeSpell("WW3"));
+  Spell s1 = MakeSpell("W2");
+  Spell s2 = MakeSpell("BR1");
+  Spell s3 = MakeSpell("WW2");
+  Spell s4 = MakeSpell("WW3");
+
+  player.hand.spells.push_back(s1);
+  player.hand.spells.push_back(s2);
+  player.hand.spells.push_back(s3);
+  player.hand.spells.push_back(s4);
   // Has many more white spells, but should prioritize enabling BR1 before
   // enabling WW2 because is playable same turn.
 
@@ -661,19 +671,20 @@ TEST(PrioritizeColorThatEnablesSpell) {
 }
 
 TEST(PlayTurnSimple) {
+  Spell bb = MakeSpell("BB", 1, "Foo");
+
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
 
   // Has one spell in library. Will draw one. Then must play that one.
-  player.library.spells.push_back(MakeSpell("BB", 1, "Foo"));
-
-  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+  player.library.spells.push_back(bb);
+  Library lib = Library::Builder().AddSpell(bb).Build();
 
   CardContributions contributions = MakeContributionMaps(player.library.spells);
   double points = PlayTurn(lib, &player, &contributions);
   if (player.battlefield.spells.empty() ||
-      player.battlefield.spells.front().name != "Foo") {
+      player.battlefield.spells.front().name() != "Foo") {
     Fail("Expected Spell to be played");
   }
   EXPECT_NEAR(points, 2);
@@ -681,11 +692,12 @@ TEST(PlayTurnSimple) {
 }
 
 TEST(PlayTurnExistingCreature) {
-  Player player;
-  player.battlefield.spells.push_back(MakeSpell("B3", 1, "Foo"));
-  player.library.lands.push_back(BasicLand(Color::White));
+  Spell b3 = MakeSpell("B3", 1, "Foo");
 
-  Library lib = Library::Builder().AddSpell(MakeSpell("B3")).Build();
+  Player player;
+  player.battlefield.spells.push_back(b3);
+  player.library.lands.push_back(BasicLand(Color::White));
+  Library lib = Library::Builder().AddSpell(b3).Build();
 
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
@@ -695,14 +707,15 @@ TEST(PlayTurnExistingCreature) {
 }
 
 TEST(PlayTurnNotEnoughMana) {
+  Spell bb = MakeSpell("BB", 1, "Foo");
+
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::White));
 
   // Has one spell in library. Will draw one. Not enough mana to play it.
-  player.library.spells.push_back(MakeSpell("BB", 1, "Foo"));
-
-  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+  player.library.spells.push_back(bb);
+  Library lib = Library::Builder().AddSpell(bb).Build();
 
   double points = PlayTurn(lib, &player, nullptr);
   EXPECT_TRUE(player.battlefield.spells.empty());
@@ -712,84 +725,92 @@ TEST(PlayTurnNotEnoughMana) {
 }
 
 TEST(PlayBestSpell) {
+  Spell bb = MakeSpell("BB", 1, "Small");
+  Spell b3 = MakeSpell("B3", 1, "Big");
+
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
 
-  player.hand.spells.push_back(MakeSpell("BB", 1, "Small"));
-  player.hand.spells.push_back(MakeSpell("B3", 1, "Big"));
+  player.hand.spells.push_back(bb);
+  player.hand.spells.push_back(b3);
 
   // Will draw one.
   player.library.lands.push_back(BasicLand(Color::Black));
-
-  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+  Library lib = Library::Builder().AddSpell(bb).Build();
 
   CardContributions contributions = MakeContributionMaps(player.hand.spells);
   double points = PlayTurn(lib, &player, &contributions);
-  if (player.battlefield.spells.empty() ||
-      player.battlefield.spells.front().name != "Big") {
-    Fail("Expected Big Spell to be played");
-  }
+
+  EXPECT_EQ(player.battlefield.spells.size(), 1);
+  EXPECT_EQ(player.battlefield.spells.front().name(), "Big");
   EXPECT_NEAR(points, 4);
   EXPECT_EQ(GetContribution("Big", &contributions), 4);
 }
 
 TEST(PlayBestSpellRespectPriority) {
+  Spell bb = MakeSpell("BB", 5, "Important");
+  Spell b3 = MakeSpell("B3", 1, "Big");
+
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
 
-  player.hand.spells.push_back(MakeSpell("BB", 5, "Important"));
-  player.hand.spells.push_back(MakeSpell("B3", 1, "Big"));
+  player.hand.spells.push_back(bb);
+  player.hand.spells.push_back(b3);
 
   // Will draw one.
   player.library.lands.push_back(BasicLand(Color::Black));
-
   Library lib = Library::Builder().AddSpell(MakeSpell("BB7")).Build();
 
   double points = PlayTurn(lib, &player, nullptr);
-  if (player.battlefield.spells.empty() ||
-      player.battlefield.spells.front().name != "Important") {
-    Fail("Expected Big Spell to be played");
-  }
+  EXPECT_EQ(player.battlefield.spells.size(), 1);
+  EXPECT_EQ(player.battlefield.spells.front().name(), "Important");
+
   // 2 points for important spell, -1 point for mana not spent.
   EXPECT_NEAR(points, 2 - 1);
 }
 
 TEST(PlaySeveralSpells) {
+  Spell bb = MakeSpell("BB", 1, "Small");
+  Spell b = MakeSpell("B", 1, "Tiny");
+
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
 
-  player.hand.spells.push_back(MakeSpell("BB", 1, "Small"));
-  player.hand.spells.push_back(MakeSpell("BB", 1, "Small"));
-  player.hand.spells.push_back(MakeSpell("B", 1, "Tiny"));
+  player.hand.spells.push_back(bb);
+  player.hand.spells.push_back(bb);
+  player.hand.spells.push_back(b);
 
   // Will draw one land.
   player.library.lands.push_back(BasicLand(Color::Black));
-
-  Library lib = Library::Builder().AddSpell(MakeSpell("BB")).Build();
+  Library lib = Library::Builder().AddSpell(bb).Build();
 
   // Can play two Small spells, but not Tiny.
   double points = PlayTurn(lib, &player, nullptr);
+
   if (player.battlefield.spells.empty() ||
-      player.battlefield.spells.front().name != "Small") {
+      player.battlefield.spells.front().name() != "Small") {
     Fail("Expected Small Spell to be played first");
   }
   if (player.battlefield.spells.size() < 2 ||
-      player.battlefield.spells[1].name != "Small") {
+      player.battlefield.spells[1].name() != "Small") {
     Fail("Expected Small Spell to be played second");
   }
-  if (player.hand.spells.empty() || player.hand.spells.front().name != "Tiny") {
+  if (player.hand.spells.empty() ||
+      player.hand.spells.front().name() != "Tiny") {
     Fail("Expected Tiny Spell to not be played");
   }
   EXPECT_NEAR(points, 4);
 }
 
 TEST(PlayAbilities) {
+  Spell b = MakeSpell("B", 1, "Foo").AddAbility("B2");
+
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
@@ -798,13 +819,11 @@ TEST(PlayAbilities) {
   player.battlefield.lands.push_back(BasicLand(Color::Black));
 
   // Has one ability in battlefield.
-  player.battlefield.spells.push_back(
-      MakeSpell("B", 1, "Foo").AddAbility("B2"));
+  player.battlefield.spells.push_back(b);
 
   // Will draw a land. Will have 6 mana afterwards.
   player.library.lands.push_back(BasicLand(Color::Black));
-
-  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+  Library lib = Library::Builder().AddSpell(b).Build();
 
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
@@ -816,6 +835,8 @@ TEST(PlayAbilities) {
 }
 
 TEST(PlayOnetimeAbilities) {
+  Spell b = MakeSpell("B", 1, "Foo").AddAbility("B4").AddOnetimeAbility("B3");
+
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::Black));
@@ -823,13 +844,11 @@ TEST(PlayOnetimeAbilities) {
   player.battlefield.lands.push_back(BasicLand(Color::Black));
 
   // Has one ability in battlefield.
-  player.battlefield.spells.push_back(
-      MakeSpell("B", 1, "Foo").AddAbility("B4").AddOnetimeAbility("B3"));
+  player.battlefield.spells.push_back(b);
 
   // Will draw a land. Will have 5 mana afterwards.
   player.library.lands.push_back(BasicLand(Color::Black));
-
-  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+  Library lib = Library::Builder().AddSpell(b).Build();
 
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
