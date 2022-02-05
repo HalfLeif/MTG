@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <iostream>
 #include <map>
 #include <string_view>
@@ -8,7 +9,7 @@
 #include "debug.h"
 #include "test.h"
 
-enum class Color {
+enum class Color : int8_t {
   Total = 0, // Total converted mana cost (including Grey).
   White,
   Blue,
@@ -23,7 +24,20 @@ enum class Color {
 // And then compare mana spent vs total mana pool. Very similar to MaxFlow
 // problem. Edge case: dual W/B land + G land cannot pay for WB. Although this
 // case should be rare (maybe OK for simulation purposes?).
-using ManaCost = std::map<Color, int>;
+class ManaCost {
+public:
+  using key_type = Color;
+  using mapped_type = int;
+
+  auto find(const key_type &c) const { return cost_.find(c); }
+  auto begin() const { return cost_.begin(); }
+  auto end() const { return cost_.end(); }
+  mapped_type &operator[](const key_type &key) { return cost_[key]; }
+
+private:
+  // TODO: Replace with std::array<int, Color::ENUM_SIZE>;
+  std::map<Color, int> cost_;
+};
 
 void AddUniversalColor(ManaCost *mana_pool) {
   ++(*mana_pool)[Color::White];
