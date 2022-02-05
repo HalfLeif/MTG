@@ -38,15 +38,9 @@ public:
 
     inline mapped_type value() const { return (*arr_)[pos_]; }
 
-    const std::pair<key_type, mapped_type> &operator*() const {
+    std::pair<key_type, mapped_type> operator*() const {
       const Color color = static_cast<Color>(pos_);
-      tmp_.first = color;
-      tmp_.second = value();
-      return tmp_;
-    }
-
-    const std::pair<key_type, mapped_type> *operator->() const {
-      return &(**this);
+      return {color, value()};
     }
 
     bool operator==(const Iter &other) const {
@@ -54,21 +48,18 @@ public:
     }
     bool operator!=(const Iter &other) const { return !(*this == other); }
 
+    // Increments iterator to next valid position or kEnd.
     void operator++() {
       ++pos_;
       // Must skip empty values on iteration.
       while (pos_ < kEnd && value() <= 0) {
         ++pos_;
       }
-      // return *this;
     }
 
   private:
     size_t pos_;
     const std::array<int, kEnd> *arr_ = nullptr;
-
-    // Only used by operator* and operator->. Otherwise empty.
-    mutable std::pair<key_type, mapped_type> tmp_;
   };
 
   mapped_type FindValue(Color key) const {
@@ -81,8 +72,8 @@ public:
 
   Iter begin() const { return make_iter(static_cast<Color>(0)); }
   Iter end() const { return make_iter(Color::ENUM_SIZE); }
-  // Note: Implementing find() is suboptimal since involves creating iterators.
-  // Calling FindValue directly is preferred.
+  // find() is suboptimal since creates iterators.
+  // Calling FindValue directly is more efficient.
 
   mapped_type &operator[](const key_type &key) {
     CHECK(key < Color::ENUM_SIZE);
