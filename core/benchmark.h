@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 
+#include "../core/test.h"
+
 // How to use:
 // BENCHMARK(Foo) {
 //   code_to_be_measured();
@@ -53,6 +55,30 @@ BenchmarkBase::BenchmarkBase() {
   BenchmarkRegistration::Singleton().Register(this);
 }
 
+// Converts a duration to a 3 decimal double with a given readable unit.
+std::pair<double, std::string_view>
+GetGoodUnit(std::chrono::duration<double, std::nano> duration) {
+  double t = 0;
+  std::string_view unit = "";
+  if (duration < std::chrono::nanoseconds(1000)) {
+    t = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+    unit = "ns";
+  } else if (duration < std::chrono::microseconds(1000)) {
+    t = 0.001 *
+        std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+    unit = "us";
+  } else if (duration < std::chrono::milliseconds(1000)) {
+    t = 0.001 *
+        std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    unit = "ms";
+  } else {
+    t = 0.001 *
+        std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+    unit = "s";
+  }
+  return {t, unit};
+}
+
 template <typename Op> class Benchmark : public BenchmarkBase {
 public:
   Benchmark(std::string_view name) : name_(name) {}
@@ -98,11 +124,12 @@ private:
               << " ms" << std::endl;
 
     std::chrono::duration per_run_total = total_duration / total_iterations;
-    int nanos =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(per_run_total)
-            .count();
-    std::cout << "Run average time per iteration: "
-              << (static_cast<double>(nanos) * 0.001) << " us" << std::endl
+
+    auto [t, unit] = GetGoodUnit(per_run_total);
+    // std::chrono::duration_cast<std::chrono::nanoseconds>()
+    //     .count());
+    std::cout << "Run average time per iteration: " << t << " " << unit
+              << std::endl
               << std::endl;
   }
 
@@ -113,4 +140,28 @@ private:
 
 void RunAllBenchmarks() {
   internal::BenchmarkRegistration::Singleton().RunAll();
+}
+
+TEST(GetGoodUnitNanos) {
+  auto [t, unit] = internal::GetGoodUnit(std::chrono::nanoseconds(5));
+  EXPECT_NEAR(t, 5);
+  EXPECT_EQ(unit, "ns");
+}
+
+TEST(GetGoodUnitMicros) {
+  auto [t, unit] = internal::GetGoodUnit(std::chrono::nanoseconds(5500));
+  EXPECT_NEAR(t, 5.5);
+  EXPECT_EQ(unit, "us");
+}
+
+TEST(GetGoodUnitMillis) {
+  auto [t, unit] = internal::GetGoodUnit(std::chrono::microseconds(5500));
+  EXPECT_NEAR(t, 5.5);
+  EXPECT_EQ(unit, "ms");
+}
+
+TEST(GetGoodUnitSeconds) {
+  auto [t, unit] = internal::GetGoodUnit(std::chrono::milliseconds(5500));
+  EXPECT_NEAR(t, 5.5);
+  EXPECT_EQ(unit, "s");
 }

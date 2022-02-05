@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "../core/debug.h"
+#include "../core/deck.h"
+#include "../core/spell.h"
 
 class Contribution;
 
