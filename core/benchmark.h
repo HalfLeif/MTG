@@ -24,6 +24,8 @@ void RunAllBenchmarks();
 
 namespace internal {
 
+constexpr std::chrono::duration kWantedRuntime = std::chrono::seconds(2);
+
 class BenchmarkBase {
 public:
   virtual void Run() const = 0;
@@ -90,7 +92,6 @@ private:
   void ExecuteBenchmark() const {
     std::cout << "Benchmark " << name_ << std::endl;
     Op op;
-    const std::chrono::duration wanted_total = std::chrono::seconds(1);
     constexpr int kEstimateIterations = 50;
 
     const std::chrono::steady_clock::time_point begin =
@@ -105,10 +106,8 @@ private:
     const std::chrono::duration single_run =
         estimate_duration / kEstimateIterations;
 
-    const int iterations_left = (wanted_total - estimate_duration) / single_run;
-    // std::cout << "Estimation run suggest we can do " << iterations_left
-    //           << " more iterations" << std::endl;
-
+    const int iterations_left =
+        (kWantedRuntime - estimate_duration) / single_run;
     for (int r = 0; r < iterations_left; ++r) {
       op();
     }

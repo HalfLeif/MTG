@@ -6,6 +6,7 @@
 #include "../decks/mid.h"
 #include "../search/search.h"
 
+/*
 BENCHMARK(PushbackReserve) {
   std::vector<int> v;
   v.reserve(100);
@@ -27,6 +28,7 @@ BENCHMARK(Pushfront) {
     v.insert(v.begin(), i);
   }
 }
+*/
 
 // Runs 100 games for a given Library and Param.
 BENCHMARK(RunParam) {
