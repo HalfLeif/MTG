@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../core/benchmark.h"
+#include "../common/benchmark.h"
+#include "../common/random.h"
 #include "../core/library.h"
 #include "../core/make_deck.h"
-#include "../core/random.h"
 #include "../decks/mid.h"
 #include "../search/search.h"
 

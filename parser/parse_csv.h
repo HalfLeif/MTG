@@ -4,9 +4,9 @@
 #include <string_view>
 #include <vector>
 
-#include "../core/debug.h"
+#include "../common/debug.h"
+#include "../common/test.h"
 #include "../core/spell.h"
-#include "../core/test.h"
 
 std::vector<std::string_view> SplitLine(std::string_view line,
                                         std::string_view delimiter) {

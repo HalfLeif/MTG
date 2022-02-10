@@ -5,11 +5,11 @@
 #include <map>
 #include <thread>
 
+#include "../common/random.h"
 #include "../core/contribution.h"
 #include "../core/game_logic.h"
 #include "../core/library.h"
 #include "../core/make_deck.h"
-#include "../core/random.h"
 
 double AverageScore(const Library &lib, const Deck &deck,
                     const MulliganStrategy &strategy, int turns, int games,

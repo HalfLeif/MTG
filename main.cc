@@ -7,10 +7,10 @@
 #include <string>
 #include <vector>
 
-#include "core/benchmark.h"
+#include "common/benchmark.h"
+#include "common/test.h"
 #include "core/benchmarks.h"
 #include "core/library.h"
-#include "core/test.h"
 #include "decks/bolas.h"
 #include "decks/dnd.h"
 #include "decks/eld.h"

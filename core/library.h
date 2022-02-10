@@ -5,10 +5,10 @@
 #include <set>
 #include <vector>
 
-#include "collection.h"
+#include "../common/container.h"
+#include "../common/test.h"
 #include "deck.h"
 #include "mana.h"
-#include "test.h"
 
 enum class Experiment : int {
   always, // always included.

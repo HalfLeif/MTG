@@ -3,8 +3,8 @@
 #include <optional>
 #include <string>
 
+#include "../common/test.h"
 #include "mana.h"
-#include "test.h"
 
 struct Spell {
   ManaCost cost;

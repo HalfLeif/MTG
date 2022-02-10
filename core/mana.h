@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string_view>
 
-#include "collection.h"
-#include "debug.h"
-#include "test.h"
+#include "../common/container.h"
+#include "../common/debug.h"
+#include "../common/test.h"
 
 enum class Color : int8_t {
   Total = 0, // Total converted mana cost (including Grey).

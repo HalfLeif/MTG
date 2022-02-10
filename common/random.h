@@ -1,20 +1,11 @@
 #pragma once
 
 #include <algorithm>
-#include <mutex>
 #include <random>
 #include <vector>
 
+#include "mutex_lock.h"
 #include "test.h"
-
-class MutexLock {
-public:
-  MutexLock(std::mutex *mutex) : mutex_(mutex) { mutex_->lock(); }
-  ~MutexLock() { mutex_->unlock(); }
-
-private:
-  std::mutex *mutex_;
-};
 
 class ThreadsafeRandom {
 public:
@@ -62,4 +53,13 @@ TEST(RandomDifferentSeedsProducesDifferentResult) {
   ThreadsafeRandom r2(2);
   EXPECT_NE(r1.Rand(), r2.Rand());
   EXPECT_NE(r1.Rand(), r2.Rand());
+}
+
+TEST(RandOneAlwaysWithinRange) {
+  ThreadsafeRandom rand(1234);
+  for (int i = 0; i < 100; ++i) {
+    double r = rand.RandOne();
+    EXPECT_LT(r, 1.0);
+    EXPECT_LT(0.0, r);
+  }
 }

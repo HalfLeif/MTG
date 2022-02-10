@@ -1,11 +1,11 @@
 #pragma once
 
+#include "../common/container.h"
+#include "../common/random.h"
+#include "../common/test.h"
 #include "card_logic.h"
-#include "collection.h"
 #include "contribution.h"
 #include "library.h"
-#include "random.h"
-#include "test.h"
 
 struct TurnState {
   ManaCost mana_pool;

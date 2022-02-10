@@ -7,11 +7,11 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../core/collection.h"
+#include "../common/container.h"
+#include "../common/debug.h"
+#include "../common/random.h"
 #include "../core/contribution.h"
-#include "../core/debug.h"
 #include "../core/library.h"
-#include "../core/random.h"
 #include "../core/spell.h"
 #include "search.h"
 

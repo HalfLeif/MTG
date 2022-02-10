@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../core/test.h"
+#include "test.h"
 
 // How to use:
 // BENCHMARK(Foo) {

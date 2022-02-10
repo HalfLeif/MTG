@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../core/debug.h"
+#include "../common/debug.h"
 #include "../core/deck.h"
 #include "../core/spell.h"
 

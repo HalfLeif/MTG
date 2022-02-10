@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../common/random.h"
 #include "../core/deck.h"
 #include "../core/game_logic.h"
 #include "../core/library.h"
-#include "../core/random.h"
 #include "search.h"
 
 void StepOne() {

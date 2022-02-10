@@ -1,13 +1,12 @@
 #pragma once
 
-#include <array>
 #include <map>
 #include <memory>
 #include <set>
 #include <unordered_map>
 #include <vector>
 
-#include "../core/test.h"
+#include "test.h"
 
 template <typename T> using Predicate = std::function<bool(const T &)>;
 
