@@ -135,86 +135,113 @@ std::vector<std::string_view> VowForcedCards() {
                                        std::end(kVowForcedCards));
 }
 
-// Recently algorithm suggests 19-20 lands, which is unexpected.
-// 16-18 is considered normal. Not sure where the discrepancy comes from.
-
 /* R3
-Score: 150.265
-Iteration: 80
-Lands { W=8 B=10 C=1 }
-1685.16 Traveling Minister
-1780.38 Pointed Discussion
-2352.07 Restless Bloodseeker
-2436.78 Doomed Dissenter
-2632.1 Wedding Security
-2635.3 Distracting Geist
-2873.09 Path of Peril
-3184.2 Katilda, Dawnhart Martyr
-3317.99 Diregraf Scavenger
-3317.99 Diregraf Scavenger
-3553.15 Markov Purifier
-3831.36 Voldaren Bloodcaster
-3866.28 Rot-Tide Gargantua
-4287.68 Angelic Quartermaster
-4321.43 Bleed Dry
-4391.94 Gryffwing Cavalry
-4460.36 Fell Stinger
-4776.66 By Invitation Only
-5094.92 Wedding Announcement
-5916.8 Sorin the Mirthless
-6322.69 Henrika Domnathi
+Score: 62.1599
+Iteration: 110
+Lands { W=8 B=9 C=1 }
+587.845 Sanctify (W1) -> Restless Bloodseeker (B1)
+672.862 Traveling Minister (W)
+901.606 Courier Bat (B2)
+967.654 Doomed Dissenter (B1)
+1046.53 Catapult Fodder (B2)
+1156.39 Path of Peril (BB1)
+1376.83 Wedding Security (BB3)
+1385.33 Markov Purifier (WB1)
+1418.34 Voldaren Bloodcaster (B1)
+1420.98 Savior of Ollenbock (WW1)
+1452.74 Katilda, Dawnhart Martyr (WW1)
+1534.11 Rot-Tide Gargantua (BB3)
+1537.29 Diregraf Scavenger (B3)
+1537.29 Diregraf Scavenger (B3)
+1724.51 Fell Stinger (B2)
+1900.22 Gryffwing Cavalry (W3)
+1900.51 By Invitation Only (WW3)
+2010.25 Angelic Quartermaster (WW3)
+2027.24 Bleed Dry (BB2)
+2137.86 Sorin the Mirthless (BB2)
+2215.09 Wedding Announcement (W2)
+2538 Henrika Domnathi (BB2)
 
-Score: 148.885
-Iteration: 76
+Score: 61.8128
+Iteration: 79
+Lands { W=7 B=10 C=1 }
+656.137 Bride's Gown (W1)
+718.52 Traveling Minister (W)
+765.443 Boarded Window (3)
+915.501 Courier Bat (B2)
+921.588 Sigarda's Imprisonment (W2)
+1043.53 Heron of Hope (W3)
+1227.92 Path of Peril (BB1)
+1280.9 Voldaren Bloodcaster (B1)
+1307.39 Savior of Ollenbock (WW1)
+1401.63 Wedding Security (BB3)
+1415.27 Markov Purifier (WB1)
+1561.07 Rot-Tide Gargantua (BB3)
+1657.25 Diregraf Scavenger (B3)
+1657.25 Diregraf Scavenger (B3)
+1694.29 Fell Stinger (B2)
+1769.59 Gryffwing Cavalry (W3)
+1816.22 Angelic Quartermaster (WW3)
+2040.46 Bleed Dry (BB2)
+2131.17 Wedding Announcement (W2)
+2208.8 By Invitation Only (WW3)
+2270.92 Sorin the Mirthless (BB2)
+2713.55 Henrika Domnathi (BB2)
+
+Score: 61.7571
+Iteration: 92
 Lands { W=8 B=8 C=1 }
-1379.52 Gift of Fangs
-1548.7 Sanctify
-1566.25 Vampire's Kiss
-1739.83 Traveling Minister
-1985.45 Sigarda's Imprisonment
-2374.45 Gluttonous Guest
-2418.09 Path of Peril
-2447.41 Restless Bloodseeker
-2798.06 Heron of Hope
-2990.24 Markov Purifier
-3230.26 Savior of Ollenbock
-3403.45 Voldaren Bloodcaster
-3565.87 Fell Stinger
-3679.02 Diregraf Scavenger
-3679.02 Diregraf Scavenger
-3864.12 Katilda, Dawnhart Martyr
-4033.34 Bleed Dry
-4065.02 Angelic Quartermaster
-4594.04 Gryffwing Cavalry
-4796.13 Sorin the Mirthless
-4979.77 By Invitation Only
-5264.97 Wedding Announcement
-5483.63 Henrika Domnathi
+564.134 Honored Heirloom (3)
+662.048 Traveling Minister (W)
+807.092 Edgar's Awakening (BB3)
+908.349 Restless Bloodseeker (B1)
+976.208 Doomed Dissenter (B1)
+1046.53 Catapult Fodder (B2)
+1046.53 Catapult Fodder (B2)
+1065.41 Heron of Hope (W3)
+1163.48 Wedding Security (BB3)
+1259.64 Voldaren Bloodcaster (B1)
+1393.07 Distracting Geist (W2)
+1552.98 Rot-Tide Gargantua (BB3)
+1590.93 Markov Purifier (WB1)
+1592.03 Diregraf Scavenger (B3)
+1592.03 Diregraf Scavenger (B3)
+1739.88 Angelic Quartermaster (WW3)
+1811.49 Gryffwing Cavalry (W3)
+1864.24 By Invitation Only (WW3)
+1887.16 Bleed Dry (BB2)
+1948.13 Fell Stinger (B2)
+1990.01 Sorin the Mirthless (BB2)
+2175.01 Henrika Domnathi (BB2)
+2290.17 Wedding Announcement (W2)
 
-Score: 148.854
+Score: 61.4621
 Iteration: 119
-Lands { W=8 B=10 C=1 }
-1703.18 Traveling Minister
-1957.6 Courier Bat
-2359.35 Catapult Fodder
-2528.03 Savior of Ollenbock
-2752.43 Distracting Geist
-2765.03 Doomed Dissenter
-3034.28 Katilda, Dawnhart Martyr
-3056.31 Wedding Security
-3169.89 Markov Purifier
-3312.17 Diregraf Scavenger
-3312.17 Diregraf Scavenger
-3389.07 Rot-Tide Gargantua
-3829.65 Angelic Quartermaster
-3858.28 Voldaren Bloodcaster
-4184.36 Fell Stinger
-4327.86 Gryffwing Cavalry
-4972.51 By Invitation Only
-5079.99 Bleed Dry
-5156.76 Wedding Announcement
-5496.92 Sorin the Mirthless
-6248.31 Henrika Domnathi
+Lands { W=6 B=9 C=1 }
+467.908 Sigarda's Imprisonment (W2)
+585.149 Traveling Minister (W)
+777.282 Distracting Geist (W2)
+847.229 Catapult Fodder (B2)
+847.229 Catapult Fodder (B2)
+919.096 Savior of Ollenbock (WW1)
+980.086 Heron of Hope (W3)
+1101.31 Doomed Dissenter (B1)
+1123.34 Katilda, Dawnhart Martyr (WW1)
+1174.27 Path of Peril (BB1)
+1178.37 Wedding Security (BB3)
+1245.48 Voldaren Bloodcaster (B1)
+1373.35 Markov Purifier (WB1)
+1392.88 Diregraf Scavenger (B3)
+1392.88 Diregraf Scavenger (B3)
+1421.8 Angelic Quartermaster (WW3)
+1582.28 Gryffwing Cavalry (W3)
+1652.74 Rot-Tide Gargantua (BB3)
+1769.94 By Invitation Only (WW3)
+1817.18 Fell Stinger (B2)
+2005.28 Wedding Announcement (W2)
+2037.81 Bleed Dry (BB2)
+2421.72 Sorin the Mirthless (BB2)
+2606.44 Henrika Domnathi (BB2)
 */
 
 /* R2
