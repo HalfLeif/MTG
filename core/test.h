@@ -109,6 +109,17 @@ public:
   }
 
   template <typename L, typename R>
+  bool EvaluateNe(const L &left, const R &right, const char *left_desc,
+                  const char *right_desc) {
+    pass_ = (left != right);
+    if (!pass_) {
+      Stream() << "Expected " << left_desc << " to be different from "
+               << right_desc << " but " << left << " == " << right << std::endl;
+    }
+    return pass_;
+  }
+
+  template <typename L, typename R>
   bool EvaluateLt(const L &left, const R &right, const char *left_desc,
                   const char *right_desc) {
     pass_ = (left < right);
@@ -171,6 +182,11 @@ private:
       !helper.EvaluateEq((a), (b), #a, #b))                                    \
   helper.Stream()
 
+#define EXPECT_NE(a, b)                                                        \
+  if (TestExpectationHelper helper(this, __FILE__, __LINE__);                  \
+      !helper.EvaluateNe((a), (b), #a, #b))                                    \
+  helper.Stream()
+
 #define EXPECT_LT(a, b)                                                        \
   if (TestExpectationHelper helper(this, __FILE__, __LINE__);                  \
       !helper.EvaluateLt((a), (b), #a, #b))                                    \
@@ -191,6 +207,7 @@ TEST(SimpleTest) {
   EXPECT_EQ(a + 1, 2);
   EXPECT_LT(a, 5);
   EXPECT_LT(0, a);
+  EXPECT_NE(1, 2);
 
   EXPECT_TRUE(a < 2);
   EXPECT_FALSE(a > 2);

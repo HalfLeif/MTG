@@ -3,6 +3,7 @@
 #include "../core/benchmark.h"
 #include "../core/library.h"
 #include "../core/make_deck.h"
+#include "../core/random.h"
 #include "../decks/mid.h"
 #include "../search/search.h"
 
@@ -34,11 +35,12 @@ BENCHMARK(Pushfront) {
 // Run 1429 iterations in 1946 ms
 // Run average time per iteration: 1.361 ms
 BENCHMARK(RunParam) {
+  ThreadsafeRandom rand;
   const Library &lib = kMID;
   // CardContributions contributions = MakeContributionMaps(lib.spells);
   Param param = {
       .lib = &lib,
       .secondary = 8,
   };
-  RunParam(lib, param, 100, /*contributions=*/nullptr);
+  RunParam(lib, param, 100, rand, /*contributions=*/nullptr);
 }

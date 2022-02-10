@@ -9,13 +9,15 @@
 #include "../core/game_logic.h"
 #include "../core/library.h"
 #include "../core/make_deck.h"
+#include "../core/random.h"
 
 double AverageScore(const Library &lib, const Deck &deck,
                     const MulliganStrategy &strategy, int turns, int games,
+                    ThreadsafeRandom &rand,
                     CardContributions *contributions = nullptr) {
   double score = 0;
   for (int i = 0; i < games; ++i) {
-    score += PlayGame(lib, deck, strategy, turns, contributions);
+    score += PlayGame(lib, deck, strategy, turns, rand, contributions);
   }
   return score / games;
 }
@@ -47,6 +49,7 @@ void PrintParamResult(const std::vector<ParamResult> best_result,
 }
 
 double RunParam(const Library &lib, const Param &param, int games,
+                ThreadsafeRandom &rand,
                 CardContributions *contributions = nullptr) {
   // std::chrono::steady_clock::time_point begin =
   //     std::chrono::steady_clock::now();
@@ -68,7 +71,7 @@ double RunParam(const Library &lib, const Param &param, int games,
   Deck deck = TournamentDeck(param);
   for (Instance &instance : instances) {
     instance.score = AverageScore(lib, deck, SimpleStrategy, instance.turns,
-                                  games, contributions);
+                                  games, rand, contributions);
   }
   double score = 0;
   for (const Instance &instance : instances) {
@@ -132,7 +135,8 @@ std::vector<Param> ManualParams(const Library &lib) {
   return solutions;
 }
 
-Param CompareParams(const Library &lib, int games = 450, bool print = true) {
+Param CompareParams(const Library &lib, ThreadsafeRandom &rand, int games = 450,
+                    bool print = true) {
   // constexpr int kGames = 100;
   // constexpr int kGames = 450;
   // constexpr int kGames = 1000;
@@ -142,7 +146,7 @@ Param CompareParams(const Library &lib, int games = 450, bool print = true) {
   std::vector<Param> params = GoodParams(lib);
   std::vector<ParamResult> best_result;
   for (const Param &param : params) {
-    double score = RunParam(lib, param, games);
+    double score = RunParam(lib, param, games, rand);
     if (print) {
       std::cout << param << " score: " << score << "\n";
     }
@@ -156,7 +160,7 @@ Param CompareParams(const Library &lib, int games = 450, bool print = true) {
   // Compare against a dummy deck as baseline.
   if (print) {
     Library test_lib = TestLibrary();
-    float dummy_score = RunParam(test_lib, {.lib = &test_lib}, games);
+    float dummy_score = RunParam(test_lib, {.lib = &test_lib}, games, rand);
     std::cout << "Dummy score: " << dummy_score << "\n";
   }
 

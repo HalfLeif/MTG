@@ -1,11 +1,10 @@
 #pragma once
 
-#include <random>
-
 #include "card_logic.h"
 #include "collection.h"
 #include "contribution.h"
 #include "library.h"
+#include "random.h"
 #include "test.h"
 
 struct TurnState {
@@ -13,14 +12,14 @@ struct TurnState {
   ManaCost agg_spell_cost;
 };
 
-void DrawOne(Player *player) {
+void DrawOne(ThreadsafeRandom &rand, Player *player) {
   auto &lib = player->library;
   int total_cards = lib.spells.size() + lib.lands.size();
   if (total_cards <= 0) {
     ERROR << "Cannot draw card because the library is empty!\n";
     return;
   }
-  int picked = rand() % total_cards;
+  int picked = rand.Rand() % total_cards;
   // INFO << "Rand pick " << picked << "\n";
   if (picked >= lib.spells.size()) {
     // Picked a land
@@ -34,9 +33,9 @@ void DrawOne(Player *player) {
   }
 }
 
-void DrawN(Player *player, int n) {
+void DrawN(ThreadsafeRandom &rand, Player *player, int n) {
   for (int i = 0; i < n; ++i) {
-    DrawOne(player);
+    DrawOne(rand, player);
   }
 }
 
@@ -128,12 +127,12 @@ double PointsFromSpell(const SpellView spell) {
 
 // Returns number of points from playing this spell.
 double PlaySpell(int i, Player *player, TurnState *state,
-                 CardContributions *contributions) {
+                 ThreadsafeRandom &rand, CardContributions *contributions) {
   PayCost(player->hand.spells[i]->cost, &state->mana_pool);
   const SpellView *spell = MoveSpell(i, player->hand, player->battlefield);
   if (spell != nullptr) {
     INFO << "Played " << *spell << "\n";
-    DrawN(player, DrawFromPlayedSpell(*spell, *player));
+    DrawN(rand, player, DrawFromPlayedSpell(*spell, *player));
     double delta = PointsFromSpell(*spell);
     AddDelta(delta, spell->name(), contributions);
     return delta;
@@ -171,7 +170,7 @@ int FindBestSpell(const Player &player, const TurnState &state) {
   return best_affordable_spell;
 }
 
-double PlaySpells(Player *player, TurnState *state,
+double PlaySpells(Player *player, TurnState *state, ThreadsafeRandom &rand,
                   CardContributions *contributions) {
   double points = 0;
   while (true) {
@@ -179,7 +178,7 @@ double PlaySpells(Player *player, TurnState *state,
     if (spell_i < 0) {
       break;
     } else {
-      points += PlaySpell(spell_i, player, state, contributions);
+      points += PlaySpell(spell_i, player, state, rand, contributions);
     }
   }
   return points;
@@ -461,7 +460,7 @@ double PenaltyFromLeftoverMana(const TurnState &state) {
 }
 
 // Returns #points.
-double PlayTurn(const Library &lib, Player *player,
+double PlayTurn(const Library &lib, Player *player, ThreadsafeRandom &rand,
                 CardContributions *contributions) {
   double points = 0;
   TurnState state;
@@ -472,7 +471,7 @@ double PlayTurn(const Library &lib, Player *player,
       PointsFromBattlefield(*player, contributions);
 
   // Upkeep
-  DrawOne(player);
+  DrawOne(rand, player);
   INFO << "Hand " << player->hand << "\n";
   AggregateCosts(*player, &state.agg_spell_cost);
   ProduceMana(lib, player, &state);
@@ -480,7 +479,7 @@ double PlayTurn(const Library &lib, Player *player,
   // Main phase
   points += PlayLand(player, &state, contributions);
   INFO << "Mana " << state.mana_pool << "\n";
-  points += PlaySpells(player, &state, contributions);
+  points += PlaySpells(player, &state, rand, contributions);
   points += PlayAbilities(player, &state, contributions);
   points += battlefield_advantage;
   points += PenaltyFromLeftoverMana(state);
@@ -547,10 +546,11 @@ void BottomOne(const Library &lib, Player *player) {
 }
 
 // First Mulligan, n==1. Second mulligan, n==2.
-void DrawMulligan(const Library &lib, Player *player, const int n) {
+void DrawMulligan(const Library &lib, Player *player, ThreadsafeRandom &rand,
+                  const int n) {
   // DrawN(player, 7 - n);
   // TODO: actually draw 7 and return 1 spell of choice...
-  DrawN(player, 7);
+  DrawN(rand, player, 7);
   for (int i = 0; i < n; ++i) {
     BottomOne(lib, player);
     if (player->hand.Size() + i + 1 != 7) {
@@ -561,18 +561,18 @@ void DrawMulligan(const Library &lib, Player *player, const int n) {
 }
 
 Player StartingHand(const Library &lib, const Deck &deck,
-                    const MulliganStrategy &strategy) {
+                    ThreadsafeRandom &rand, const MulliganStrategy &strategy) {
   // Note: No need to Shuffle, since draws randomly rather than from top inside
   // DrawOne().
   Player player;
   player.library = deck;
-  DrawN(&player, 7);
+  DrawN(rand, &player, 7);
 
   for (int i = 1; i < 7 && strategy(player.hand, i); ++i) {
     INFO << "Mulligan!\n";
     player = Player();
     player.library = deck;
-    DrawMulligan(lib, &player, i);
+    DrawMulligan(lib, &player, rand, i);
   }
 
   return player;
@@ -588,14 +588,15 @@ int BoardPoints(const Player &player) {
 
 double PlayGame(const Library &lib, const Deck &deck,
                 const MulliganStrategy &strategy, int turns,
+                ThreadsafeRandom &rand,
                 CardContributions *contributions = nullptr) {
   INFO << "-- Game start ------------- \n";
   float score = 0.0f;
-  Player player = StartingHand(lib, deck, strategy);
+  Player player = StartingHand(lib, deck, rand, strategy);
 
   for (int turn = 0; turn < turns; ++turn) {
     INFO << "-- Begin turn " << (turn + 1) << " ------------- \n";
-    score += PlayTurn(lib, &player, contributions);
+    score += PlayTurn(lib, &player, rand, contributions);
     // std::cout << "Score at turn " << (turn + 1) << ": " << score << "\n";
   }
   return score;
@@ -672,6 +673,7 @@ TEST(PrioritizeColorThatEnablesSpell) {
 }
 
 TEST(PlayTurnSimple) {
+  ThreadsafeRandom rand;
   Spell bb = MakeSpell("BB", 1, "Foo");
 
   Player player;
@@ -683,7 +685,7 @@ TEST(PlayTurnSimple) {
   Library lib = Library::Builder().AddSpell(bb).Build();
 
   CardContributions contributions = MakeContributionMaps(player.library.spells);
-  double points = PlayTurn(lib, &player, &contributions);
+  double points = PlayTurn(lib, &player, rand, &contributions);
   if (player.battlefield.spells.empty() ||
       player.battlefield.spells.front().name() != "Foo") {
     Fail("Expected Spell to be played");
@@ -693,6 +695,7 @@ TEST(PlayTurnSimple) {
 }
 
 TEST(PlayTurnExistingCreature) {
+  ThreadsafeRandom rand;
   Spell b3 = MakeSpell("B3", 1, "Foo");
 
   Player player;
@@ -702,12 +705,13 @@ TEST(PlayTurnExistingCreature) {
 
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
-  double points = PlayTurn(lib, &player, &contributions);
+  double points = PlayTurn(lib, &player, rand, &contributions);
   EXPECT_NEAR(points, 2 - 0.5);
   EXPECT_EQ(GetContribution("Foo", &contributions), 2);
 }
 
 TEST(PlayTurnNotEnoughMana) {
+  ThreadsafeRandom rand;
   Spell bb = MakeSpell("BB", 1, "Foo");
 
   Player player;
@@ -718,7 +722,7 @@ TEST(PlayTurnNotEnoughMana) {
   player.library.spells.push_back(bb);
   Library lib = Library::Builder().AddSpell(bb).Build();
 
-  double points = PlayTurn(lib, &player, nullptr);
+  double points = PlayTurn(lib, &player, rand, nullptr);
   EXPECT_TRUE(player.battlefield.spells.empty());
 
   // Gets minus one point from 2 unused mana.
@@ -726,6 +730,7 @@ TEST(PlayTurnNotEnoughMana) {
 }
 
 TEST(PlayBestSpell) {
+  ThreadsafeRandom rand;
   Spell bb = MakeSpell("BB", 1, "Small");
   Spell b3 = MakeSpell("B3", 1, "Big");
 
@@ -742,7 +747,7 @@ TEST(PlayBestSpell) {
   Library lib = Library::Builder().AddSpell(bb).Build();
 
   CardContributions contributions = MakeContributionMaps(player.hand.spells);
-  double points = PlayTurn(lib, &player, &contributions);
+  double points = PlayTurn(lib, &player, rand, &contributions);
 
   EXPECT_EQ(player.battlefield.spells.size(), 1);
   EXPECT_EQ(player.battlefield.spells.front().name(), "Big");
@@ -751,6 +756,7 @@ TEST(PlayBestSpell) {
 }
 
 TEST(PlayBestSpellRespectPriority) {
+  ThreadsafeRandom rand;
   Spell bb = MakeSpell("BB", 5, "Important");
   Spell b3 = MakeSpell("B3", 1, "Big");
 
@@ -766,7 +772,7 @@ TEST(PlayBestSpellRespectPriority) {
   player.library.lands.push_back(BasicLand(Color::Black));
   Library lib = Library::Builder().AddSpell(MakeSpell("BB7")).Build();
 
-  double points = PlayTurn(lib, &player, nullptr);
+  double points = PlayTurn(lib, &player, rand, nullptr);
   EXPECT_EQ(player.battlefield.spells.size(), 1);
   EXPECT_EQ(player.battlefield.spells.front().name(), "Important");
 
@@ -775,6 +781,7 @@ TEST(PlayBestSpellRespectPriority) {
 }
 
 TEST(PlaySeveralSpells) {
+  ThreadsafeRandom rand;
   Spell bb = MakeSpell("BB", 1, "Small");
   Spell b = MakeSpell("B", 1, "Tiny");
 
@@ -792,7 +799,7 @@ TEST(PlaySeveralSpells) {
   Library lib = Library::Builder().AddSpell(bb).Build();
 
   // Can play two Small spells, but not Tiny.
-  double points = PlayTurn(lib, &player, nullptr);
+  double points = PlayTurn(lib, &player, rand, nullptr);
 
   if (player.battlefield.spells.empty() ||
       player.battlefield.spells.front().name() != "Small") {
@@ -810,6 +817,7 @@ TEST(PlaySeveralSpells) {
 }
 
 TEST(PlayAbilities) {
+  ThreadsafeRandom rand;
   Spell b = MakeSpell("B", 1, "Foo").AddAbility("B2");
 
   Player player;
@@ -828,7 +836,7 @@ TEST(PlayAbilities) {
 
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
-  double points = PlayTurn(lib, &player, &contributions);
+  double points = PlayTurn(lib, &player, rand, &contributions);
   // + 1/2 points for existing creature
   // + 6/3 = 2 points for playing the same ability twice.
   EXPECT_NEAR(points, 2.5);
@@ -836,6 +844,7 @@ TEST(PlayAbilities) {
 }
 
 TEST(PlayOnetimeAbilities) {
+  ThreadsafeRandom rand;
   Spell b = MakeSpell("B", 1, "Foo").AddAbility("B4").AddOnetimeAbility("B3");
 
   Player player;
@@ -853,7 +862,7 @@ TEST(PlayOnetimeAbilities) {
 
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
-  double points = PlayTurn(lib, &player, &contributions);
+  double points = PlayTurn(lib, &player, rand, &contributions);
   // Points:
   // + 1/2 points for existing creature
   // + 4/2 points for playing the onetime ability once.

@@ -38,7 +38,6 @@ int main(int argc, char *argv[]) {
   INFO << "Running tests...\n";
   RunAllTests();
   INFO << "Started program...\n";
-  srand(4);
   // RunAllBenchmarks();
 
   auto all_cards = ReadCards("data/vow/cards.csv");

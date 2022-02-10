@@ -2,7 +2,6 @@
 #include <memory>
 #include <mutex>
 #include <numeric>
-#include <random>
 #include <set>
 #include <thread>
 #include <unordered_map>
@@ -28,8 +27,8 @@ constexpr double kChangeSizeRate = 0.05;
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-constexpr int kFastLandSearch = 25;
-constexpr int kFastGames = 100;
+constexpr int kFastLandSearch = 50;
+constexpr int kFastGames = 250;
 
 constexpr int kDeepLandSearch = 75;
 constexpr int kDeepGames = 500;
@@ -202,7 +201,8 @@ struct GeneratedDeck {
 // Only return the best one. That way gets more diversity between best N decks.
 std::unique_ptr<GeneratedDeck>
 GradientDescent(const std::vector<Spell> &available_cards,
-                const std::set<int> &forced_cards, ThreadsafeRandom &rand) {
+                const std::set<int> &forced_cards, int seed) {
+  ThreadsafeRandom rand(seed);
   // Keep track of best permutations.
   std::vector<std::unique_ptr<GeneratedDeck>> iterations;
 
@@ -226,14 +226,15 @@ GradientDescent(const std::vector<Spell> &available_cards,
 
     // 2. Find best land distribution for small number of iterations.
     generated->lib = ApplyPermutation(available_cards, permutation);
-    generated->param = CompareParams(*generated->lib, kFastLandSearch, false);
+    generated->param =
+        CompareParams(*generated->lib, rand, kFastLandSearch, false);
 
     // 3. Track contributions per card.
     std::unordered_map<int, const Contribution *> permutation_to_contributions;
     generated->contributions = MakeContributionMaps(
         available_cards, permutation, &permutation_to_contributions);
     generated->score = RunParam(*generated->lib, generated->param, kFastGames,
-                                &generated->contributions);
+                                rand, &generated->contributions);
 
     // 4. Replace bad cards for next iteration.
     generated->permutation = std::move(permutation);
@@ -250,6 +251,7 @@ GradientDescent(const std::vector<Spell> &available_cards,
 std::vector<std::unique_ptr<GeneratedDeck>>
 EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
                   const std::vector<Spell> &available_cards) {
+  ThreadsafeRandom rand;
   std::vector<std::thread> threads;
   threads.reserve(decks.size());
   std::vector<std::unique_ptr<GeneratedDeck>> re_evaluated;
@@ -267,10 +269,10 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
           available_cards, generated->permutation, nullptr);
       generated->lib =
           ApplyPermutation(available_cards, generated->permutation);
-      generated->param =
-          CompareParams(*generated->lib, kDeepLandSearch, /*print=*/false);
+      generated->param = CompareParams(*generated->lib, rand, kDeepLandSearch,
+                                       /*print=*/false);
       generated->score = RunParam(*generated->lib, generated->param, kDeepGames,
-                                  &generated->contributions);
+                                  rand, &generated->contributions);
 
       MutexLock lock(&mutex);
       re_evaluated.push_back(std::move(generated));
@@ -287,14 +289,13 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
 std::vector<std::unique_ptr<GeneratedDeck>>
 RunMultipleDescent(const std::vector<Spell> &available_cards,
                    const std::set<int> &forced_cards) {
-  ThreadsafeRandom rand;
   std::vector<std::unique_ptr<GeneratedDeck>> all_decks;
   std::vector<std::thread> threads;
   std::mutex mutex;
   for (int i = 0; i < kThreads; ++i) {
     threads.emplace_back([&]() {
       std::unique_ptr<GeneratedDeck> more =
-          GradientDescent(available_cards, forced_cards, rand);
+          GradientDescent(available_cards, forced_cards, i);
 
       MutexLock lock(&mutex);
       all_decks.push_back(std::move(more));
