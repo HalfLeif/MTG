@@ -2,40 +2,12 @@
 
 #include "deck.h"
 #include "library.h"
-
-struct Param {
-  const Library *lib;
-  Experiment experiment = Experiment::base;
-  int secondary = 0;
-  int ternary = 0;
-  DeckSize deck_size = DeckSize::limited;
-};
-
-std::ostream &operator<<(std::ostream &stream, const Param &param) {
-  stream << "Param experiment: " << param.experiment;
-  // Note: This is an approximation since must also take into account number of
-  // non-basic lands!
-  const int primary_lands =
-      TotalLands(param.deck_size) - param.secondary - param.ternary;
-  stream << "  " << param.lib->PrimaryColor() << "=" << primary_lands;
-  if (param.secondary > 0) {
-    stream << "  " << param.lib->SecondaryColor() << "=" << param.secondary;
-  }
-  if (param.ternary > 0) {
-    stream << "  " << param.lib->TernaryColor() << "=" << param.ternary;
-  }
-  return stream;
-}
+#include "param.h"
 
 void FillLands(const Param &param, Deck *deck) {
+  AddN(deck->lands, param.primary, BasicLand(param.lib->PrimaryColor()));
   AddN(deck->lands, param.secondary, BasicLand(param.lib->SecondaryColor()));
   AddN(deck->lands, param.ternary, BasicLand(param.lib->TernaryColor()));
-
-  int total = deck->lands.size() + deck->spells.size();
-  int expected = TotalCards(param.deck_size);
-  if (total < expected) {
-    AddN(deck->lands, expected - total, BasicLand(param.lib->PrimaryColor()));
-  }
 }
 
 Deck TournamentDeck(const Param &param) {
@@ -69,4 +41,29 @@ Library TestLibrary() {
   builder.AddSpell(MakeSpell("1BB"));
   builder.AddSpell(MakeSpell("3BB"));
   return builder.Build();
+}
+
+// -----------------------------------------------------------------------------
+
+TEST(TournamentDeckWithFewerSpells) {
+  Library::Builder builder;
+  const int num_spells = TotalSpells(DeckSize::limited) - 1;
+  for (int i = 0; i < num_spells; ++i) {
+    if (i % 2 == 0) {
+      builder.AddSpell(MakeSpell("B2"));
+    } else {
+      builder.AddSpell(MakeSpell("W3"));
+    }
+  }
+  Library lib = builder.Build();
+
+  Param param = {
+      .lib = &lib,
+      .primary = 10,
+      .secondary = 8,
+  };
+  Deck deck = TournamentDeck(param);
+  EXPECT_EQ(deck.spells.size(), 22);
+  EXPECT_EQ(deck.lands.size(), 18);
+  EXPECT_EQ(deck.Size(), TotalCards(DeckSize::limited));
 }

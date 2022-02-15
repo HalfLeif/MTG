@@ -9,7 +9,7 @@
 #include "../core/contribution.h"
 #include "../core/game_logic.h"
 #include "../core/library.h"
-#include "../core/make_deck.h"
+#include "../core/param.h"
 
 double AverageScore(const Library &lib, const Deck &deck,
                     const MulliganStrategy &strategy, int turns, int games,
@@ -112,10 +112,12 @@ std::vector<Param> GoodParams(const Library &lib) {
 
     for (int secondary = 0; secondary <= max_secondary_lands; ++secondary) {
       for (int ternary = 0; ternary <= max_ternary_lands; ++ternary) {
+        int primary = remaining_lands - secondary - ternary;
         INFO << secondary << " " << ternary << "\n";
         solutions.push_back(Param{
             .lib = &lib,
             .experiment = exp,
+            .primary = primary,
             .secondary = secondary,
             .ternary = ternary,
             .deck_size = lib.GetDeckSize(),
@@ -131,9 +133,8 @@ std::vector<Param> ManualParams(const Library &lib) {
   // Can be tweaked for a detailed run of best params.
   std::vector<Param> solutions;
   for (Experiment exp : lib.ActiveExperiments()) {
-    solutions.push_back({.lib = &lib, .experiment = exp, .secondary = 7});
-    solutions.push_back({.lib = &lib, .experiment = exp, .secondary = 8});
-    solutions.push_back({.lib = &lib, .experiment = exp, .secondary = 9});
+    solutions.push_back(
+        {.lib = &lib, .experiment = exp, .primary = 10, .secondary = 7});
   }
   return solutions;
 }
@@ -173,4 +174,60 @@ Param CompareParams(const Library &lib, ThreadsafeRandom &rand, int games = 450,
   }
 
   return best_result.back().param;
+}
+
+// -----------------------------------------------------------------------------
+
+TEST(GoodParamsWithStandardDeck) {
+  Library::Builder builder;
+  for (int i = 0; i < TotalSpells(DeckSize::limited); ++i) {
+    if (i % 2 == 0) {
+      builder.AddSpell(MakeSpell("B2"));
+    } else {
+      builder.AddSpell(MakeSpell("W3"));
+    }
+  }
+  Library lib = builder.Build();
+  std::vector<Param> params = GoodParams(lib);
+  EXPECT_LT(0, params.size());
+  for (Param p : params) {
+    EXPECT_EQ(p.primary + p.secondary, TotalLands(DeckSize::limited));
+  }
+}
+
+TEST(GoodParamsWithFewerSpells) {
+  Library::Builder builder;
+  int num_spells = TotalSpells(DeckSize::limited) - 1;
+  for (int i = 0; i < num_spells; ++i) {
+    if (i % 2 == 0) {
+      builder.AddSpell(MakeSpell("B2"));
+    } else {
+      builder.AddSpell(MakeSpell("W3"));
+    }
+  }
+  Library lib = builder.Build();
+  std::vector<Param> params = GoodParams(lib);
+  EXPECT_LT(0, params.size());
+  for (Param p : params) {
+    EXPECT_EQ(p.primary + p.secondary, 1 + TotalLands(DeckSize::limited));
+  }
+}
+
+TEST(GoodParamsWithCustomLand) {
+  Library::Builder builder;
+  for (int i = 0; i < TotalSpells(DeckSize::limited); ++i) {
+    if (i % 2 == 0) {
+      builder.AddSpell(MakeSpell("B2"));
+    } else {
+      builder.AddSpell(MakeSpell("W3"));
+    }
+  }
+  builder.AddLand(DualLand(Color::White, Color::Black));
+
+  Library lib = builder.Build();
+  std::vector<Param> params = GoodParams(lib);
+  EXPECT_LT(0, params.size());
+  for (Param p : params) {
+    EXPECT_EQ(p.primary + p.secondary, TotalLands(DeckSize::limited) - 1);
+  }
 }
