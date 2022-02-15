@@ -67,7 +67,7 @@ public:
     }
 
     if (success) {
-      INFO << "All tests pass!\n";
+      std::cout << "All " << test_cases_.size() << " tests pass!\n";
     } else {
       FATAL << "There are test failures!\n";
     }

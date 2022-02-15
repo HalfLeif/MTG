@@ -31,9 +31,9 @@ struct ParamResult {
   }
 };
 
-void PrintParamResult(const std::vector<ParamResult> best_result,
+void PrintParamResult(const std::vector<ParamResult> &best_result,
                       int results = 10) {
-  std::cout << "\n";
+  std::cout << std::endl;
   if (best_result.size() < results) {
     // Can happen if very few results.
     results = best_result.size();
@@ -42,9 +42,12 @@ void PrintParamResult(const std::vector<ParamResult> best_result,
     const auto &param = best_result[i].param;
     Deck deck = TournamentDeck(param);
 
-    std::cout << param.experiment << " ";
+    std::cout << best_result[i].score << "  ";
+    if (param.experiment != Experiment::always) {
+      std::cout << param.experiment << " ";
+    }
     PrintLands(deck);
-    std::cout << "  -> " << best_result[i].score << "\n";
+    std::cout << std::endl;
   }
 }
 
@@ -159,13 +162,6 @@ Param CompareParams(const Library &lib, ThreadsafeRandom &rand, int games = 450,
         .score = score,
         .param = param,
     });
-  }
-
-  // Compare against a dummy deck as baseline.
-  if (print) {
-    Library test_lib = TestLibrary();
-    float dummy_score = RunParam(test_lib, {.lib = &test_lib}, games, rand);
-    std::cout << "Dummy score: " << dummy_score << "\n";
   }
 
   std::sort(best_result.begin(), best_result.end());

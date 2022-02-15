@@ -30,8 +30,8 @@ constexpr double kChangeSizeRate = 0.05;
 constexpr int kFastLandSearch = 50;
 constexpr int kFastGames = 250;
 
-constexpr int kDeepLandSearch = 75;
-constexpr int kDeepGames = 500;
+constexpr int kDeepLandSearch = 150;
+constexpr int kDeepGames = 1000;
 
 // For debugging purposes:
 // constexpr int kFastLandSearch = 10;

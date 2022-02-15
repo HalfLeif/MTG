@@ -187,19 +187,25 @@ private:
         colors, [](const auto &pair) { return pair.second; });
   }
 
+  ManaCost AggregateMana() const {
+    ManaCost total_mana;
+    for (const auto &[spell, experiment_id] : spells_) {
+      total_mana += spell.cost;
+    }
+    return total_mana;
+  }
+
   Library(std::vector<std::pair<Spell, Experiment>> spells,
           std::vector<std::pair<Land, Experiment>> lands,
           DeckSize expected_size)
       : spells_(spells), lands_(lands), expected_size_(expected_size) {
-    ManaCost mana;
+    colors_ = SortColorsByMana(AggregateMana());
+
     for (const auto &[spell, experiment_id] : spells_) {
       if (experiment_id != Experiment::always) {
         active_experiments_.insert(experiment_id);
       }
-      mana += spell.cost;
     }
-    colors_ = SortColorsByMana(mana);
-
     for (const auto &[land, experiment_id] : lands_) {
       if (experiment_id != Experiment::always) {
         active_experiments_.insert(experiment_id);

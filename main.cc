@@ -35,9 +35,9 @@ constexpr bool DEBUG_ON = false;
 constexpr bool PARANOIA = false;
 
 int main(int argc, char *argv[]) {
-  INFO << "Running tests...\n";
+  std::cout << "\n -- Running tests --\n";
   RunAllTests();
-  INFO << "Started program...\n";
+  std::cout << "\n -- Started program --\n";
   // RunAllBenchmarks();
 
   std::vector<Spell> all_cards = ReadCards("data/vow/cards.csv");
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
                     .Build();
 
   ThreadsafeRandom random;
-  CompareParams(lib, random);
+  CompareParams(lib, random, 1000);
 
   return 0;
 }
