@@ -309,6 +309,8 @@ RunMultipleDescent(const std::vector<Spell> &available_cards,
   return all_decks;
 }
 
+// Returns vector of spells where each spell corresponds to an element
+// available_cards. Supports duplicate cards. Takes spell info from all_cards.
 std::vector<Spell>
 FilterCards(const std::vector<Spell> &all_cards,
             const std::vector<std::string_view> &available_cards) {

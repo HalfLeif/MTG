@@ -135,6 +135,36 @@ std::vector<std::string_view> VowForcedCards() {
                                        std::end(kVowForcedCards));
 }
 
+constexpr std::string_view kVowDeck[] = {
+    "Restless Bloodseeker",
+    "Traveling Minister",
+    "Courier Bat",
+    "Doomed Dissenter",
+    "Catapult Fodder",
+    "Path of Peril",
+    "Wedding Security",
+    "Markov Purifier",
+    "Voldaren Bloodcaster",
+    "Savior of Ollenbock",
+    "Katilda, Dawnhart Martyr",
+    "Rot-Tide Gargantua",
+    "Diregraf Scavenger",
+    "Diregraf Scavenger",
+    "Fell Stinger",
+    "Gryffwing Cavalry",
+    "By Invitation Only",
+    "Angelic Quartermaster",
+    "Bleed Dry",
+    "Sorin the Mirthless",
+    "Wedding Announcement",
+    "Henrika Domnathi",
+};
+
+std::vector<std::string_view> VowDeck() {
+  return std::vector<std::string_view>(std::begin(kVowDeck),
+                                       std::end(kVowDeck));
+}
+
 /* R3
 Score: 62.1599
 Iteration: 110

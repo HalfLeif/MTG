@@ -91,12 +91,15 @@ double RunParam(const Library &lib, const Param &param, int games,
 
 // Attempts to populate good parameters based on the Library format.
 std::vector<Param> GoodParams(const Library &lib) {
-  const int total_lands = TotalLands(lib.GetDeckSize());
-
   std::vector<Param> solutions;
   for (Experiment exp : lib.ActiveExperiments()) {
-    int wanted_lands = total_lands - lib.NumLandsPresent(exp);
+    // If have less than 23 spells in the deck, should fill up with lands, even
+    // if gets 18 or more lands.
+    const int existing_cards =
+        lib.NumLandsPresent(exp) + lib.NumSpellsPresent(exp);
+    const int remaining_lands = TotalCards(lib.GetDeckSize()) - existing_cards;
 
+    int wanted_lands = remaining_lands;
     int max_ternary_lands = 1 + wanted_lands / 3;
     if (lib.TernaryColor() == Color::Colorless) {
       max_ternary_lands = 0;

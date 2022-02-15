@@ -98,6 +98,16 @@ public:
     return count;
   }
 
+  int NumSpellsPresent(Experiment exp_id) const {
+    int count = 0;
+    for (const auto &[spell, experiment] : spells_) {
+      if (experiment == exp_id || experiment == Experiment::always) {
+        ++count;
+      }
+    }
+    return count;
+  }
+
   std::set<Experiment> ActiveExperiments() const {
     std::set<Experiment> active;
     for (const auto &[_, experiment] : lands_) {
@@ -110,8 +120,9 @@ public:
         active.insert(experiment);
       }
     }
-    if (active.empty()) {
+    if (active.size() < 2) {
       // If no active experiments, should return a single value to iterate on.
+      // If only exp, still run always since then number of lands differ.
       active.insert(Experiment::always);
     }
     return active;
@@ -133,6 +144,13 @@ public:
     }
     Builder &AddSpell(Spell c, Experiment experiment_id = Experiment::always) {
       spells_.emplace_back(c, experiment_id);
+      return *this;
+    }
+    Builder &AddSpells(const std::vector<Spell> &spells,
+                       Experiment experiment_id = Experiment::always) {
+      for (const Spell &s : spells) {
+        AddSpell(s, experiment_id);
+      }
       return *this;
     }
     Builder &AddLand(Land c, Experiment experiment_id = Experiment::always) {

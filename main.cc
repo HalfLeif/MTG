@@ -40,13 +40,25 @@ int main(int argc, char *argv[]) {
   INFO << "Started program...\n";
   // RunAllBenchmarks();
 
-  auto all_cards = ReadCards("data/vow/cards.csv");
-  auto available_cards = FilterCards(all_cards, VowCards());
-  auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
-  GenerateDeck(available_cards, forced_cards);
+  std::vector<Spell> all_cards = ReadCards("data/vow/cards.csv");
+  // std::vector<Spell> available_cards = FilterCards(all_cards, VowCards());
+  // auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
+  // GenerateDeck(available_cards, forced_cards);
 
   // const Library &lib = GetMainLib();
-  // CompareParams(lib);
+  std::vector<Spell> chosen_cards = FilterCards(all_cards, VowDeck());
+  std::vector<Spell> exp_cards =
+      FilterCards(all_cards, {"Sigarda's Imprisonment"});
+
+  Library lib = Library::Builder()
+                    .SetLimited()
+                    .AddSpells(chosen_cards)
+                    .AddSpells(exp_cards, Experiment::exp)
+                    .AddLand(BasicLand(Color::Colorless))
+                    .Build();
+
+  ThreadsafeRandom random;
+  CompareParams(lib, random);
 
   return 0;
 }
