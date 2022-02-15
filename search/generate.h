@@ -27,10 +27,10 @@ constexpr double kChangeSizeRate = 0.05;
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-constexpr int kFastLandSearch = 50;
-constexpr int kFastGames = 250;
+constexpr int kFastLandSearch = 100;
+constexpr int kFastGames = 350;
 
-constexpr int kDeepLandSearch = 150;
+constexpr int kDeepLandSearch = 500;
 constexpr int kDeepGames = 1000;
 
 // For debugging purposes:
