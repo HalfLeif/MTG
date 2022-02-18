@@ -84,13 +84,6 @@ ApplyPermutation(const std::vector<Spell> &available_cards,
   for (int index : permutation) {
     builder.AddSpell(available_cards[index]);
   }
-
-  // Note: this is a hack since generating decks doesn't take lands into
-  // account.
-  // This is for Voldaren Estate.
-  // TODO: Support non-basic lands properly.
-  builder.AddLand(BasicLand(Color::Colorless));
-
   return builder.BuildUnique();
 }
 

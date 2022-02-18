@@ -119,6 +119,24 @@ constexpr std::string_view kVowCards[] = {
     "Grisly Ritual",
     "Dawnhart Disciple",
     "Apprentice Sharpshooter",
+
+    // Round 4
+    "Lantern of the Lost",
+    "Hullbreaker Horror",
+    "Vampire's Vengeance",
+    "Unholy Officiant",
+    "Adamant Will",
+    "Fierce Retribution",
+    "Witch's Web",
+    "Flourishing Hunter",
+    "Dormant Grove",
+    "Savior of Ollenbock",
+    "Boarded Window",
+    "Gryff Rider",
+    "Estwald Shieldbasher",
+    "Adamant Will",
+    "Wanderlight Spirit",
+    "Hungry Ridgewolf",
 };
 
 constexpr std::string_view kVowForcedCards[] = {
