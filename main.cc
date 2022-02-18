@@ -42,24 +42,24 @@ int main(int argc, char *argv[]) {
 
   std::vector<Spell> all_cards = ReadCards("data/vow/cards.csv");
 
-  std::vector<Spell> available_cards = FilterCards(all_cards, VowCards());
-  auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
-  GenerateDeck(available_cards, forced_cards);
+  // std::vector<Spell> available_cards = FilterCards(all_cards, VowCards());
+  // auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
+  // GenerateDeck(available_cards, forced_cards);
 
   // const Library &lib = GetMainLib();
-  // std::vector<Spell> chosen_cards = FilterCards(all_cards, VowDeck());
-  // std::vector<Spell> exp_cards =
-  //     FilterCards(all_cards, {"Sigarda's Imprisonment"});
-  //
-  // Library lib = Library::Builder()
-  //                   .SetLimited()
-  //                   .AddSpells(chosen_cards)
-  //                   .AddSpells(exp_cards, Experiment::exp)
-  //                   .AddLand(BasicLand(Color::Colorless))
-  //                   .Build();
-  //
-  // ThreadsafeRandom random;
-  // CompareParams(lib, random, 1000);
+  std::vector<Spell> chosen_cards = FilterCards(all_cards, VowDeck());
+  std::vector<Spell> base_cards = FilterCards(all_cards, {});
+  std::vector<Spell> exp_cards = FilterCards(all_cards, {});
+
+  Library lib = Library::Builder()
+                    .SetLimited()
+                    .AddSpells(chosen_cards)
+                    .AddSpells(base_cards, Experiment::base)
+                    .AddSpells(exp_cards, Experiment::exp)
+                    .Build();
+
+  ThreadsafeRandom random;
+  CompareParams(lib, random, 1000);
 
   return 0;
 }

@@ -18,7 +18,7 @@
 // Params at top in order to quickly reduce for debugging purposes.
 
 // Number of threads determines how many gradient descents will run in parallel.
-constexpr int kThreads = 8;
+constexpr int kThreads = 16;
 constexpr int kDescentDepth = 125;
 constexpr int kPrintTopN = 3;
 constexpr double kChangeSizeRate = 0.05;

@@ -123,7 +123,7 @@ constexpr std::string_view kVowCards[] = {
     // Round 4
     "Lantern of the Lost",
     "Hullbreaker Horror",
-    "Vampire's Vengeance",
+    "Vampires' Vengeance",
     "Unholy Officiant",
     "Adamant Will",
     "Fierce Retribution",
@@ -140,7 +140,12 @@ constexpr std::string_view kVowCards[] = {
 };
 
 constexpr std::string_view kVowForcedCards[] = {
-    "Traveling Minister",
+    "Traveling Minister",       //
+    "Markov Purifier",          //
+    "Katilda, Dawnhart Martyr", //
+    "Wedding Announcement",     //
+    "Bleed Dry",                //
+    "Sorin the Mirthless",
 };
 
 std::vector<std::string_view> VowCards() {
@@ -154,34 +159,143 @@ std::vector<std::string_view> VowForcedCards() {
 }
 
 constexpr std::string_view kVowDeck[] = {
+    "Adamant Will",
     "Restless Bloodseeker",
     "Traveling Minister",
-    "Courier Bat",
-    "Doomed Dissenter",
+    "Catapult Fodder",
     "Catapult Fodder",
     "Path of Peril",
-    "Wedding Security",
-    "Markov Purifier",
-    "Voldaren Bloodcaster",
+    "Fierce Retribution",
     "Savior of Ollenbock",
-    "Katilda, Dawnhart Martyr",
+    "Savior of Ollenbock",
+    "Voldaren Bloodcaster",
+    "Markov Purifier",
     "Rot-Tide Gargantua",
+    "Katilda, Dawnhart Martyr",
     "Diregraf Scavenger",
     "Diregraf Scavenger",
     "Fell Stinger",
-    "Gryffwing Cavalry",
-    "By Invitation Only",
-    "Angelic Quartermaster",
     "Bleed Dry",
-    "Sorin the Mirthless",
+    "Angelic Quartermaster",
+    "Gryffwing Cavalry",
     "Wedding Announcement",
     "Henrika Domnathi",
+    "By Invitation Only",
+    "Sorin the Mirthless",
 };
 
 std::vector<std::string_view> VowDeck() {
   return std::vector<std::string_view>(std::begin(kVowDeck),
                                        std::end(kVowDeck));
 }
+
+/* R4
+Score: 65.4018
+Iteration: 96
+Lands { W=8 B=9 }
+1301.9 Gryff Rider (W2) -> Restless Bloodseeker (B1)
+1385.37 Traveling Minister (W)
+1659.69 Catapult Fodder (B2)
+1659.69 Catapult Fodder (B2)
+2139.92 Path of Peril (BB1)
+2403.92 Fierce Retribution (W1)
+2601.17 Heron of Hope (W3) -> Adamant Will (W1)
+2720.11 Savior of Ollenbock (WW1)
+2720.11 Savior of Ollenbock (WW1)
+2814.01 Voldaren Bloodcaster (B1)
+2872.47 Markov Purifier (WB1)
+3003.52 Rot-Tide Gargantua (BB3)
+3065.95 Katilda, Dawnhart Martyr (WW1)
+3178.24 Diregraf Scavenger (B3)
+3178.24 Diregraf Scavenger (B3)
+3271.74 Fell Stinger (B2)
+3380.5 Bleed Dry (BB2)
+3584.73 Angelic Quartermaster (WW3)
+3817.69 Gryffwing Cavalry (W3)
+4224.79 Wedding Announcement (W2)
+4710.03 Henrika Domnathi (BB2)
+4841.94 By Invitation Only (WW3)
+4938.06 Sorin the Mirthless (BB2)
+
+Score: 65.3328
+Iteration: 92
+Lands { W=8 B=10 }
+1346.32 Traveling Minister (W)
+1479.99 Parish-Blade Trainee (W1)
+1567 Courier Bat (B2)
+2008.86 Distracting Geist (W2)
+2388.62 Savior of Ollenbock (WW1)
+2388.62 Savior of Ollenbock (WW1)
+2431.41 Fierce Retribution (W1)
+2504.91 Heron of Hope (W3)
+2978.26 Markov Purifier (WB1)
+2992.54 Voldaren Bloodcaster (B1)
+3036.39 Katilda, Dawnhart Martyr (WW1)
+3084.4 Rot-Tide Gargantua (BB3)
+3118.62 Fell Stinger (B2)
+3165.42 Diregraf Scavenger (B3)
+3165.42 Diregraf Scavenger (B3)
+3647.63 Gryffwing Cavalry (W3)
+3882.68 Bleed Dry (BB2)
+4045.94 Angelic Quartermaster (WW3)
+4712.86 Wedding Announcement (W2)
+4941.02 Sorin the Mirthless (BB2)
+5255.41 By Invitation Only (WW3)
+5745.47 Henrika Domnathi (BB2)
+
+Score: 64.1836
+Iteration: 105
+Lands { W=9 B=8 }
+1270.38 Gryff Rider (W2) -> Markov Purifier
+1446.65 Traveling Minister (W)
+1493.83 Sigarda's Imprisonment (W2)
+1985.35 Catapult Fodder (B2)
+1985.35 Catapult Fodder (B2)
+2174.4 Fierce Retribution (W1)
+2306.82 Path of Peril (BB1)
+2371.46 Heron of Hope (W3)
+2750.08 Rot-Tide Gargantua (BB3)
+2836.68 Voldaren Bloodcaster (B1)
+2878.11 Savior of Ollenbock (WW1)
+2878.11 Savior of Ollenbock (WW1)
+3141.97 Katilda, Dawnhart Martyr (WW1)
+3181.08 Fell Stinger (B2)
+3236.47 Diregraf Scavenger (B3)
+3236.47 Diregraf Scavenger (B3)
+3343.49 Bleed Dry (BB2)
+3597.45 Angelic Quartermaster (WW3)
+3943.38 Gryffwing Cavalry (W3)
+4196.08 Wedding Announcement (W2)
+4653.5 Henrika Domnathi (BB2)
+4654.2 Sorin the Mirthless (BB2)
+4780.28 By Invitation Only (WW3)
+
+Score: 64.1493
+Iteration: 92
+Lands { W=10 B=8 }
+1418.42 Traveling Minister (W)
+1628.76 Courier Bat (B2)
+1674.44 Parish-Blade Trainee (W1)
+2104.69 Distracting Geist (W2)
+2160.06 Fierce Retribution (W1)
+2389.4 Markov Purifier (WB1)
+2791.34 Voldaren Bloodcaster (B1)
+2850.23 Savior of Ollenbock (WW1)
+2850.23 Savior of Ollenbock (WW1)
+2979.25 Rot-Tide Gargantua (BB3)
+2990.58 Heron of Hope (W3)
+3066.24 Fell Stinger (B2)
+3256.26 Diregraf Scavenger (B3)
+3256.26 Diregraf Scavenger (B3)
+3615.73 Bleed Dry (BB2)
+3680.41 Katilda, Dawnhart Martyr (WW1)
+3918.71 Angelic Quartermaster (WW3)
+3970.5 Gryffwing Cavalry (W3)
+4249.1 Sorin the Mirthless (BB2)
+4350.67 Wedding Announcement (W2)
+4638.62 Henrika Domnathi (BB2)
+4997.9 By Invitation Only (WW3)
+*/
 
 /* R3
 Score: 62.7984
