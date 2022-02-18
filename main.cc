@@ -56,6 +56,8 @@ int main(int argc, char *argv[]) {
                     .AddSpells(chosen_cards)
                     .AddSpells(base_cards, Experiment::base)
                     .AddSpells(exp_cards, Experiment::exp)
+                    // Compare with having one more land.
+                    .AddLand(BasicLand(Color::Black), Experiment::exp2)
                     .Build();
 
   ThreadsafeRandom random;

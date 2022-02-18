@@ -159,7 +159,7 @@ std::vector<std::string_view> VowForcedCards() {
 }
 
 constexpr std::string_view kVowDeck[] = {
-    "Adamant Will",
+    "Doomed Dissenter"
     "Restless Bloodseeker",
     "Traveling Minister",
     "Catapult Fodder",
@@ -199,7 +199,7 @@ Lands { W=8 B=9 }
 1659.69 Catapult Fodder (B2)
 2139.92 Path of Peril (BB1)
 2403.92 Fierce Retribution (W1)
-2601.17 Heron of Hope (W3) -> Adamant Will (W1)
+2601.17 Heron of Hope (W3) -> Adamant Will (W1) or Doomed Dissenter (B1)
 2720.11 Savior of Ollenbock (WW1)
 2720.11 Savior of Ollenbock (WW1)
 2814.01 Voldaren Bloodcaster (B1)
