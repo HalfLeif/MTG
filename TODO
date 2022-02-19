@@ -7,5 +7,9 @@
 # Suggest deck
 - Instead of replacing with a uniform random card, also keep track of past card contribution and topk sample based on contribution. Consider unknown cards as high contribution, but always update with latest simulation.
 - Parse spell abilities from html page. E.g. "RR" to +1/0.
+- // Big cards produce much contribution just by virtue of being big. This bias
+// can lead to unnecessarily slow decks and a local minimum during the
+// descent. To avoid this, we should instead replace the least useful cards
+// per mana value.
 
 # Implementation

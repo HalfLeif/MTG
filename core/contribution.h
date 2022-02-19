@@ -20,6 +20,7 @@ public:
     auto [it, inserted] = contributions->try_emplace(
         spell.name, std::unique_ptr<Contribution>(new Contribution));
     ++it->second->num_cards_;
+    it->second->mana_value_ = spell.cost.FindValue(Color::Total);
     return it->second.get();
   }
 
@@ -27,6 +28,8 @@ public:
 
   // Returns contribution per card instance.
   double GetContribution() const { return score_ / num_cards(); }
+
+  int mana_value() const { return mana_value_; }
 
   int num_cards() const {
     if (num_cards_ == 0) {
@@ -41,6 +44,7 @@ private:
 
   double score_ = 0.0;
   int num_cards_ = 0;
+  int mana_value_ = 0;
 };
 
 CardContributions
