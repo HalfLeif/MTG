@@ -47,21 +47,21 @@ int main(int argc, char *argv[]) {
   // GenerateDeck(available_cards, forced_cards);
 
   // const Library &lib = GetMainLib();
-  std::vector<Spell> chosen_cards = FilterCards(all_cards, VowDeck());
-  std::vector<Spell> base_cards = FilterCards(all_cards, {});
-  std::vector<Spell> exp_cards = FilterCards(all_cards, {});
-
-  Library lib = Library::Builder()
-                    .SetLimited()
-                    .AddSpells(chosen_cards)
-                    .AddSpells(base_cards, Experiment::base)
-                    .AddSpells(exp_cards, Experiment::exp)
-                    // Compare with having one more land.
-                    .AddLand(BasicLand(Color::Black), Experiment::exp2)
-                    .Build();
-
-  ThreadsafeRandom random;
-  CompareParams(lib, random, 1000);
+  // std::vector<Spell> chosen_cards = FilterCards(all_cards, VowDeck());
+  // std::vector<Spell> base_cards = FilterCards(all_cards, {});
+  // std::vector<Spell> exp_cards = FilterCards(all_cards, {});
+  //
+  // Library lib = Library::Builder()
+  //                   .SetLimited()
+  //                   .AddSpells(chosen_cards)
+  //                   .AddSpells(base_cards, Experiment::base)
+  //                   .AddSpells(exp_cards, Experiment::exp)
+  //                   // Compare with having one more land.
+  //                   .AddLand(BasicLand(Color::Black), Experiment::exp2)
+  //                   .Build();
+  //
+  // ThreadsafeRandom random;
+  // CompareParams(lib, random, 1000);
 
   return 0;
 }

@@ -87,22 +87,6 @@ ApplyPermutation(const std::vector<Spell> &available_cards,
   return builder.BuildUnique();
 }
 
-// MutationRate is high for low-value cards,  and less for good cards.
-double MutationRate(int order, int total) {
-  constexpr double kMax = 0.10;
-  constexpr double kMin = 0.0;
-  const double slope = (kMin - kMax) / total;
-  return kMax + order * slope;
-}
-
-// Returns whether should mutate this card.
-bool MutateCard(int order, int total, ThreadsafeRandom &rand) {
-  // Seems like mutations don't help.
-  return false;
-  double r = rand.RandOne();
-  return r < MutationRate(order, total);
-}
-
 // How many cards should be replaced depending on iteration number. Later
 // iterations replace fewer cards.
 int NumReplace(const int iteration_nr) {
@@ -125,57 +109,73 @@ int NumReplace(const int iteration_nr) {
 }
 
 std::vector<int>
-ReplaceBadCards(const std::unordered_map<int, const Contribution *>
-                    &permutation_to_contributions,
-                const std::set<int> &forced_cards, const int total,
-                const int iteration_nr, ThreadsafeRandom &rand) {
+SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
+                         &permutation_to_contributions,
+                     const std::set<int> &forced_cards, int min_replace) {
   std::vector<std::pair<double, int>> scores;
   for (const auto &[index, contribution] : permutation_to_contributions) {
-    scores.emplace_back(contribution->GetContribution(), index);
+    const double usefulness = contribution->GetContribution();
+    scores.emplace_back(usefulness, index);
   }
   std::sort(scores.begin(), scores.end());
 
-  // Could also consider some decay here, instead of constant number.
-  std::vector<int> new_permutation;
-  new_permutation.reserve(scores.size());
-  const int min_replace = NumReplace(iteration_nr);
+  std::vector<int> to_replace;
+  to_replace.reserve(min_replace);
+
   for (const auto &[score, index] : scores) {
     if (ContainsKey(forced_cards, index)) {
       // Forced cards cannot be considered for replacement.
       continue;
     }
+    if (score <= 0) {
+      // Replace useless card
+      to_replace.push_back(index);
+    } else if (to_replace.size() < min_replace) {
+      // Replace up to N bad cards
+      to_replace.push_back(index);
+    } else {
+      // Already found enough bad cards.
+      break;
+    }
+  }
+  return to_replace;
+}
+
+std::vector<int> ReplaceBadCards(const std::vector<int> &permutation,
+                                 const std::vector<int> &to_replace,
+                                 const int total, ThreadsafeRandom &rand) {
+  // Stores one position of a replaced card.
+  int replaced_position = -1;
+
+  std::vector<int> new_permutation;
+  new_permutation.reserve(permutation.size());
+  for (const int index : permutation) {
     int new_index = index;
-    if ( // Replace useless card
-        score <= 0 ||
-        // Replace up to N bad cards
-        new_permutation.size() < min_replace ||
-        // Maybe replace card randomly, higher chance for bad cards.
-        MutateCard(new_permutation.size(), permutation_to_contributions.size(),
-                   rand)) {
+    if (ContainsItem(to_replace, index)) {
       // Choose a different card randonly.
-      while (ContainsKey(permutation_to_contributions, new_index) ||
+      while (ContainsItem(permutation, new_index) ||
              ContainsItem(new_permutation, new_index)) {
         new_index = rand.Rand() % total;
       }
+      replaced_position = new_permutation.size();
     }
     new_permutation.push_back(new_index);
   }
+
+  // Chance to modify deck size
   if (const double r = rand.RandOne(); r < kChangeSizeRate) {
     // Increase deck size
     int new_index = rand.Rand() % total;
-    while (ContainsKey(permutation_to_contributions, new_index) ||
+    while (ContainsItem(permutation, new_index) ||
            ContainsItem(new_permutation, new_index)) {
       new_index = rand.Rand() % total;
     }
     new_permutation.push_back(new_index);
   } else if (r < 2 * kChangeSizeRate) {
-    // Decrease deck size. Always remove the front element (lowest
-    // contribution).
-    new_permutation[0] = new_permutation.back();
+    // Decrease deck size. Must only remove a "bad" card.
+    CHECK(replaced_position > 0);
+    new_permutation[replaced_position] = new_permutation.back();
     new_permutation.pop_back();
-  }
-  for (int p : forced_cards) {
-    new_permutation.push_back(p);
   }
   return new_permutation;
 }
@@ -231,8 +231,10 @@ GradientDescent(const std::vector<Spell> &available_cards,
 
     // 4. Replace bad cards for next iteration.
     generated->permutation = std::move(permutation);
-    permutation = ReplaceBadCards(permutation_to_contributions, forced_cards,
-                                  available_cards.size(), i, rand);
+    const std::vector<int> to_replace = SelectCardsToReplace(
+        permutation_to_contributions, forced_cards, NumReplace(i));
+    permutation = ReplaceBadCards(generated->permutation, to_replace,
+                                  available_cards.size(), rand);
     iterations.push_back(std::move(generated));
   }
 
@@ -460,14 +462,65 @@ TEST(GeneratePermutationWhenForcedCardsAlreadyMaximum) {
   EXPECT_TRUE(IsSubset(forced_cards, picked));
 }
 
-TEST(MutationRate) {
-  double bad = MutationRate(5, 23);
-  EXPECT_LT(0.05, bad);
-  EXPECT_LT(bad, 0.10);
+TEST(SelectCardsToReplaceRemovesLowestContribution) {
+  std::vector<Spell> available_cards;
+  available_cards.push_back(MakeSpell("W", 1, "Minister"));
+  available_cards.push_back(MakeSpell("WW3", 1, "Invitation"));
+  available_cards.push_back(MakeSpell("BB3", 1, "Security"));
 
-  double good = MutationRate(20, 23);
-  EXPECT_LT(0.00, good);
-  EXPECT_LT(good, 0.04);
+  std::vector<int> permutation = {0, 1, 2};
+  std::unordered_map<int, const Contribution *> permutation_to_contributions;
+  CardContributions contributions = MakeContributionMaps(
+      available_cards, permutation, &permutation_to_contributions);
+
+  AddDelta(1, "Minister", &contributions);
+  AddDelta(4, "Security", &contributions);
+  AddDelta(6, "Invitation", &contributions);
+
+  std::vector<int> to_replace =
+      SelectCardsToReplace(permutation_to_contributions, {}, 1);
+  CHECK(to_replace.size() == 1);
+  // Remove lowest contribution
+  EXPECT_EQ(available_cards[to_replace[0]].name, "Minister");
+}
+
+TEST(SelectCardsToReplaceRespectForcedCards) {
+  std::vector<Spell> available_cards;
+  available_cards.push_back(MakeSpell("W", 1, "Minister"));
+  available_cards.push_back(MakeSpell("WW3", 1, "Invitation"));
+  available_cards.push_back(MakeSpell("BB3", 1, "Security"));
+
+  std::vector<int> permutation = {0, 1, 2};
+  std::unordered_map<int, const Contribution *> permutation_to_contributions;
+  CardContributions contributions = MakeContributionMaps(
+      available_cards, permutation, &permutation_to_contributions);
+
+  AddDelta(1, "Minister", &contributions);
+  AddDelta(4, "Security", &contributions);
+  AddDelta(6, "Invitation", &contributions);
+
+  std::vector<int> to_replace =
+      SelectCardsToReplace(permutation_to_contributions, {0}, 1);
+  CHECK(to_replace.size() == 1);
+  // Remove lowest contribution
+  EXPECT_EQ(available_cards[to_replace[0]].name, "Security");
+}
+
+TEST(ReplaceBadCards) {
+  ThreadsafeRandom rand;
+  std::vector<int> permutation = {3, 1, 2, 0};
+  std::vector<int> to_replace = {1, 2};
+
+  std::vector<int> new_permutation =
+      ReplaceBadCards(permutation, to_replace, 100, rand);
+  CHECK(permutation.size() == new_permutation.size());
+  // Unchanged
+  EXPECT_EQ(new_permutation[0], 3);
+  EXPECT_EQ(new_permutation[3], 0);
+
+  // New cards must be greater than 3
+  EXPECT_LT(3, new_permutation[1]);
+  EXPECT_LT(3, new_permutation[2]);
 }
 
 TEST(FindForcedCards) {

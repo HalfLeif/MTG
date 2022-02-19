@@ -159,7 +159,7 @@ std::vector<std::string_view> VowForcedCards() {
 }
 
 constexpr std::string_view kVowDeck[] = {
-    "Doomed Dissenter"
+    "Doomed Dissenter",
     "Restless Bloodseeker",
     "Traveling Minister",
     "Catapult Fodder",
