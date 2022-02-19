@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <mutex>
 #include <numeric>
@@ -89,6 +90,7 @@ ApplyPermutation(const std::vector<Spell> &available_cards,
 
 // How many cards should be replaced depending on iteration number. Later
 // iterations replace fewer cards.
+// Corresponds to decaying learning rate.
 int NumReplace(const int iteration_nr) {
   if (iteration_nr < 0.10 * kDescentDepth) {
     return 10;
@@ -108,13 +110,27 @@ int NumReplace(const int iteration_nr) {
   return 1;
 }
 
+// Selects cards to replace based on their contributions.
+//
+// Currently is biased towards replacing cards of lower mana value, which can
+// cause the algorithm to get stuck in local minima.
+//
+// Ideas to avoid local minima, at possible cost of convergence:
+// - (done) decaying learning rate,
+// - (bad) random mutations,
+// - (done) modify distribution to avoid penalize low mana cards,
+// - (todo) try sampling instead of merely lowest score (Stochastic Gradient).
 std::vector<int>
 SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
                          &permutation_to_contributions,
                      const std::set<int> &forced_cards, int min_replace) {
   std::vector<std::pair<double, int>> scores;
   for (const auto &[index, contribution] : permutation_to_contributions) {
-    const double usefulness = contribution->GetContribution();
+    // Note: `score/sqrt(1+mana)` still biases heavier cards, but is less biased
+    // than simply score. However, `score/sqrt(mana)` favors single mana cards
+    // way too highly.
+    const double usefulness = contribution->GetContribution() /
+                              std::sqrt(1 + contribution->mana_value());
     scores.emplace_back(usefulness, index);
   }
   std::sort(scores.begin(), scores.end());
@@ -462,26 +478,29 @@ TEST(GeneratePermutationWhenForcedCardsAlreadyMaximum) {
   EXPECT_TRUE(IsSubset(forced_cards, picked));
 }
 
-TEST(SelectCardsToReplaceRemovesLowestContribution) {
+TEST(SelectCardsToReplaceRemovesLowestContributionPerManaValue) {
   std::vector<Spell> available_cards;
-  available_cards.push_back(MakeSpell("W", 1, "Minister"));
+  available_cards.push_back(MakeSpell("B1", 1, "Bloodseeker"));
+  available_cards.push_back(MakeSpell("B2", 1, "Stinger"));
   available_cards.push_back(MakeSpell("WW3", 1, "Invitation"));
   available_cards.push_back(MakeSpell("BB3", 1, "Security"));
 
-  std::vector<int> permutation = {0, 1, 2};
+  std::vector<int> permutation = {3, 1, 2, 0};
   std::unordered_map<int, const Contribution *> permutation_to_contributions;
   CardContributions contributions = MakeContributionMaps(
       available_cards, permutation, &permutation_to_contributions);
 
-  AddDelta(1, "Minister", &contributions);
+  AddDelta(1.9, "Bloodseeker", &contributions);
+  AddDelta(3.5, "Stinger", &contributions);
   AddDelta(4, "Security", &contributions);
   AddDelta(6, "Invitation", &contributions);
 
   std::vector<int> to_replace =
-      SelectCardsToReplace(permutation_to_contributions, {}, 1);
-  CHECK(to_replace.size() == 1);
-  // Remove lowest contribution
-  EXPECT_EQ(available_cards[to_replace[0]].name, "Minister");
+      SelectCardsToReplace(permutation_to_contributions, {}, 2);
+  CHECK(to_replace.size() == 2);
+  // Removes lowest contribution.
+  EXPECT_EQ(available_cards[to_replace[0]].name, "Bloodseeker");
+  EXPECT_EQ(available_cards[to_replace[1]].name, "Security");
 }
 
 TEST(SelectCardsToReplaceRespectForcedCards) {
@@ -495,14 +514,14 @@ TEST(SelectCardsToReplaceRespectForcedCards) {
   CardContributions contributions = MakeContributionMaps(
       available_cards, permutation, &permutation_to_contributions);
 
-  AddDelta(1, "Minister", &contributions);
+  AddDelta(0.001, "Minister", &contributions);
   AddDelta(4, "Security", &contributions);
   AddDelta(6, "Invitation", &contributions);
 
   std::vector<int> to_replace =
       SelectCardsToReplace(permutation_to_contributions, {0}, 1);
   CHECK(to_replace.size() == 1);
-  // Remove lowest contribution
+  // Remove lowest contribution, except Minister which is forced.
   EXPECT_EQ(available_cards[to_replace[0]].name, "Security");
 }
 

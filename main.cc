@@ -42,9 +42,9 @@ int main(int argc, char *argv[]) {
 
   std::vector<Spell> all_cards = ReadCards("data/vow/cards.csv");
 
-  // std::vector<Spell> available_cards = FilterCards(all_cards, VowCards());
-  // auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
-  // GenerateDeck(available_cards, forced_cards);
+  std::vector<Spell> available_cards = FilterCards(all_cards, VowCards());
+  auto forced_cards = FindForcedCards(available_cards, VowForcedCards());
+  GenerateDeck(available_cards, forced_cards);
 
   // const Library &lib = GetMainLib();
   // std::vector<Spell> chosen_cards = FilterCards(all_cards, VowDeck());
