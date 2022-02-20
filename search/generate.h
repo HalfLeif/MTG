@@ -357,7 +357,9 @@ RunMultipleDescent(const std::vector<Spell> &available_cards,
   std::vector<std::thread> threads;
   std::mutex mutex;
   for (int i = 0; i < kThreads; ++i) {
-    threads.emplace_back([&]() {
+    // Must take `i` by value, not reference. Otherwise several threads will
+    // have the same value and redo the same computation.
+    threads.emplace_back([&, i]() {
       std::unique_ptr<GeneratedDeck> more =
           GradientDescent(available_cards, forced_cards, i);
 
