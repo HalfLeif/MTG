@@ -41,6 +41,27 @@ private:
   std::mutex mutex_;
 };
 
+// Returns the position of the sampled item, not pair.second.
+// Could use binary search if cumulative distribution and sampled with
+// repetition. However, sampling without repetition doesn't benefit from it.
+template <typename T>
+int SampleOne(const std::vector<std::pair<double, T>> &distribution, double r,
+              double total) {
+  int pos = -1;
+  double acc = 0;
+  const double target = r * total;
+  for (int i = 0; i < distribution.size(); ++i) {
+    acc += distribution[i].first;
+    if (target < acc) {
+      pos = i;
+      break;
+    }
+  }
+  return pos;
+}
+
+// -----------------------------------------------------------------------------
+
 TEST(RandomSameSeedProducesSameResult) {
   ThreadsafeRandom r1(1234);
   ThreadsafeRandom r2(1234);
@@ -62,4 +83,26 @@ TEST(RandOneAlwaysWithinRange) {
     EXPECT_LT(r, 1.0);
     EXPECT_LT(0.0, r);
   }
+}
+
+TEST(SampleOneOnlyOneChoice) {
+  std::vector<std::pair<double, std::string>> distribution;
+  distribution.emplace_back(0, "Bad");
+  distribution.emplace_back(0, "Bad2");
+  distribution.emplace_back(25, "Good");
+
+  int sample = SampleOne(distribution, 0.1, 25);
+  EXPECT_EQ(sample, 2);
+  EXPECT_EQ(distribution[sample].second, "Good");
+}
+
+TEST(SampleOneReturnsCorrect) {
+  std::vector<std::pair<double, std::string>> distribution;
+  distribution.emplace_back(1, "Small");
+  distribution.emplace_back(1, "Medium");
+  distribution.emplace_back(1, "Big");
+
+  EXPECT_EQ(distribution[SampleOne(distribution, 0.1, 3)].second, "Small");
+  EXPECT_EQ(distribution[SampleOne(distribution, 0.4, 3)].second, "Medium");
+  EXPECT_EQ(distribution[SampleOne(distribution, 0.8, 3)].second, "Big");
 }
