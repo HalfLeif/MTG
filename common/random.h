@@ -47,7 +47,9 @@ private:
 template <typename T>
 int SampleOne(const std::vector<std::pair<double, T>> &distribution, double r,
               double total) {
-  int pos = -1;
+  // By default picks last element. Should never be necessary when total is
+  // correct.
+  int pos = distribution.size() - 1;
   double acc = 0;
   const double target = r * total;
   for (int i = 0; i < distribution.size(); ++i) {
@@ -105,4 +107,5 @@ TEST(SampleOneReturnsCorrect) {
   EXPECT_EQ(distribution[SampleOne(distribution, 0.1, 3)].second, "Small");
   EXPECT_EQ(distribution[SampleOne(distribution, 0.4, 3)].second, "Medium");
   EXPECT_EQ(distribution[SampleOne(distribution, 0.8, 3)].second, "Big");
+  EXPECT_EQ(distribution[SampleOne(distribution, 1.001, 3)].second, "Big");
 }

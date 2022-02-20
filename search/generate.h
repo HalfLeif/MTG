@@ -166,6 +166,10 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
   std::vector<int> to_replace;
   to_replace.reserve(min_replace);
 
+  // Sampling temperature. Higher temperature -> more flat distribution.
+  // Lower temperature (close to 0) -> more focused distribution.
+  constexpr double kSampleTemp = 0.10;
+
   // Build a random distribution of what cards to keep.
   double distribution_total = 0;
   std::vector<std::pair<double, int>> distribution;
@@ -174,37 +178,34 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
       // Forced cards cannot be considered for replacement.
       continue;
     }
-    // Note: `score/sqrt(1+mana)` still biases heavier cards, but is less biased
-    // than simply score. However, `score/sqrt(mana)` favors single mana cards
-    // way too highly.
-    const double usefulness = contribution->GetContribution() /
-                              std::sqrt(1 + contribution->mana_value());
-    if (usefulness <= 0) {
+    const double contribution_score = contribution->GetContribution();
+    if (contribution_score <= 0) {
       to_replace.push_back(index);
       continue;
     }
-    distribution.emplace_back(usefulness, index);
-    distribution_total += usefulness;
+    // Note: `score/sqrt(1+mana)` still biases heavier cards, but is less biased
+    // than simply score. However, `score/sqrt(mana)` favors single mana cards
+    // way too highly.
+    const double usefulness =
+        contribution_score / std::sqrt(1 + contribution->mana_value());
+    double prob = 1 / usefulness;
+    prob = std::exp(std::log(prob) / kSampleTemp);
+    distribution.emplace_back(prob, index);
+    distribution_total += prob;
   }
-  // std::sort(scores.begin(), scores.end());
 
   if (to_replace.size() >= min_replace) {
     return to_replace;
   }
   const int left_replace = min_replace - to_replace.size();
 
-  // Sample cards to keep. Remaining cards are removed.
-  // TODO: Perhaps build distribution of what card to replace instead, since
-  // would require less sampling. Currently this is quadratic...
-  while (distribution.size() > left_replace && !distribution.empty()) {
+  // Sample cards to replace.
+  while (to_replace.size() < left_replace && !distribution.empty()) {
     int pos = SampleOne(distribution, random.RandOne(), distribution_total);
     CHECK(pos >= 0);
     distribution_total -= distribution[pos].first;
-    distribution.erase(distribution.begin() + pos);
-  }
-
-  for (const auto [s, index] : distribution) {
-    to_replace.push_back(index);
+    distribution[pos].first = 0;
+    to_replace.push_back(distribution[pos].second);
   }
   return to_replace;
 }
@@ -531,12 +532,12 @@ TEST(GeneratePermutationWhenForcedCardsAlreadyMaximum) {
 }
 
 TEST(SelectCardsToReplaceRemovesLowestContributionPerManaValue) {
-  ThreadsafeRandom random;
+  ThreadsafeRandom random(123);
   std::vector<Spell> available_cards;
   available_cards.push_back(MakeSpell("B1", 1, "Bloodseeker"));
   available_cards.push_back(MakeSpell("B2", 1, "Stinger"));
   available_cards.push_back(MakeSpell("WW3", 1, "Invitation"));
-  available_cards.push_back(MakeSpell("BB3", 1, "Security"));
+  available_cards.push_back(MakeSpell("BB9", 1, "Bad"));
 
   std::vector<int> permutation = {3, 1, 2, 0};
   std::unordered_map<int, const Contribution *> permutation_to_contributions;
@@ -545,15 +546,14 @@ TEST(SelectCardsToReplaceRemovesLowestContributionPerManaValue) {
 
   AddDelta(1, "Bloodseeker", &contributions);
   AddDelta(3.5, "Stinger", &contributions);
-  AddDelta(1, "Security", &contributions);
+  AddDelta(1.1, "Bad", &contributions);
   AddDelta(6, "Invitation", &contributions);
 
   std::vector<int> to_replace =
       SelectCardsToReplace(permutation_to_contributions, {}, 1, random);
   CHECK(to_replace.size() == 1);
-  // Removes lowest contribution.
-  // EXPECT_EQ(available_cards[to_replace[0]].name, "Bloodseeker");
-  EXPECT_EQ(available_cards[to_replace[0]].name, "Security");
+  // Removes lowest contribution per mana.
+  EXPECT_EQ(available_cards[to_replace[0]].name, "Bad");
 }
 
 TEST(SelectCardsToReplaceRespectForcedCards) {
