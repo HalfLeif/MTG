@@ -28,6 +28,10 @@ constexpr double kChangeSizeRate = 0.05;
 // Lower temperature (close to 0) -> more focused distribution.
 constexpr double kSampleTemp = 0.07;
 
+// Keep top X% of items for sampling.
+// E.g. 23 cards -> keep 9.
+constexpr double kTopPart = 0.40;
+
 // LandSearch determines how many iterations are spent to optimize the land
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
@@ -161,7 +165,9 @@ OldSelectCardsToReplace(const std::unordered_map<int, const Contribution *>
 // - (done) decaying learning rate,
 // - (bad) random mutations,
 // - (done) modify distribution to avoid penalize low mana cards,
-// - (todo) try sampling instead of merely lowest score (Stochastic Gradient).
+// - (done) sample instead of merely pick lowest score (Stochastic Gradient).
+// - (done) temperature sampling.
+// - (done) top K sampling.
 std::vector<int>
 SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
                          &permutation_to_contributions,
@@ -171,7 +177,6 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
   to_replace.reserve(min_replace);
 
   // Build a random distribution of what cards to keep.
-  double distribution_total = 0;
   std::vector<std::pair<double, int>> distribution;
   for (const auto &[index, contribution] : permutation_to_contributions) {
     if (ContainsKey(forced_cards, index)) {
@@ -191,6 +196,22 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
     double prob = 1 / usefulness;
     prob = std::exp(std::log(prob) / kSampleTemp);
     distribution.emplace_back(prob, index);
+  }
+
+  // Restrict sampling to top K least useful cards.
+  std::sort(distribution.begin(), distribution.end(),
+            std::greater<std::pair<double, int>>());
+  int topk = static_cast<int>(kTopPart * distribution.size());
+  if (topk < min_replace) {
+    topk = min_replace;
+  }
+  if (topk < distribution.size()) {
+    distribution.resize(topk);
+  }
+
+  // Sum up total for normalization.
+  double distribution_total = 0;
+  for (const auto [prob, index] : distribution) {
     distribution_total += prob;
   }
 
@@ -202,7 +223,6 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
   // Sample cards to replace.
   while (to_replace.size() < left_replace && !distribution.empty()) {
     int pos = SampleOne(distribution, random.RandOne(), distribution_total);
-    CHECK(pos >= 0);
     distribution_total -= distribution[pos].first;
     distribution[pos].first = 0;
     to_replace.push_back(distribution[pos].second);
