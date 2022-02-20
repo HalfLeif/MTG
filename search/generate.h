@@ -24,12 +24,16 @@ constexpr int kDescentDepth = 125;
 constexpr int kPrintTopN = 3;
 constexpr double kChangeSizeRate = 0.05;
 
+// Sampling temperature. Higher temperature -> more flat distribution.
+// Lower temperature (close to 0) -> more focused distribution.
+constexpr double kSampleTemp = 0.07;
+
 // LandSearch determines how many iterations are spent to optimize the land
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-constexpr int kFastLandSearch = 100;
-constexpr int kFastGames = 350;
+constexpr int kFastLandSearch = 150;
+constexpr int kFastGames = 500;
 
 constexpr int kDeepLandSearch = 500;
 constexpr int kDeepGames = 1000;
@@ -165,10 +169,6 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
                      ThreadsafeRandom &random) {
   std::vector<int> to_replace;
   to_replace.reserve(min_replace);
-
-  // Sampling temperature. Higher temperature -> more flat distribution.
-  // Lower temperature (close to 0) -> more focused distribution.
-  constexpr double kSampleTemp = 0.10;
 
   // Build a random distribution of what cards to keep.
   double distribution_total = 0;
@@ -315,20 +315,18 @@ GradientDescent(const std::vector<Spell> &available_cards,
 std::vector<std::unique_ptr<GeneratedDeck>>
 EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
                   const std::vector<Spell> &available_cards) {
-  ThreadsafeRandom rand;
   std::vector<std::thread> threads;
   threads.reserve(decks.size());
   std::vector<std::unique_ptr<GeneratedDeck>> re_evaluated;
   re_evaluated.reserve(decks.size());
   std::mutex mutex;
   for (int i = 0; i < decks.size(); ++i) {
-    // Note: this const int is necessary to avoid a silly bug where i is updated
-    // for all threads!
-    const int kIter = i;
-    threads.emplace_back([&, kIter]() {
+    // Must take `i` by value, not reference.
+    threads.emplace_back([&, i]() {
+      ThreadsafeRandom rand(i);
       auto generated = std::make_unique<GeneratedDeck>();
-      generated->iteration_nr = decks[kIter]->iteration_nr;
-      generated->permutation = decks[kIter]->permutation;
+      generated->iteration_nr = decks[i]->iteration_nr;
+      generated->permutation = decks[i]->permutation;
       generated->contributions = MakeContributionMaps(
           available_cards, generated->permutation, nullptr);
       generated->lib =
