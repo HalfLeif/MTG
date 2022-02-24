@@ -454,9 +454,22 @@ double PointsFromBattlefield(const Player &player,
 }
 
 // Penalize leftover mana to avoid suggesting decks with mana flooding.
-double PenaltyFromLeftoverMana(const TurnState &state) {
+double PenaltyFromLeftoverMana(const Player &player, const TurnState &state,
+                               CardContributions *contributions) {
   constexpr double kPenaltyRatio = 0.5;
-  return -kPenaltyRatio * state.mana_pool.FindValue(Color::Total);
+  double penalty = -kPenaltyRatio * state.mana_pool.FindValue(Color::Total);
+  CHECK(penalty <= 0) << "Cannot have negative mana but total mana left is "
+                      << state.mana_pool.FindValue(Color::Total);
+
+  // Attribute penalty to spells in the hand, since if has significant leftover
+  // mana and cannot play spell, then the spell may be too expensive or has too
+  // difficult mana requirements.
+  for (const SpellView spell : player.hand.spells) {
+    // Cannot divide by zero since must be >1 if entered the loop.
+    double delta = penalty / player.hand.spells.size();
+    AddDelta(delta, spell.name(), contributions);
+  }
+  return penalty;
 }
 
 // Returns #points.
@@ -482,7 +495,7 @@ double PlayTurn(const Library &lib, Player *player, ThreadsafeRandom &rand,
   points += PlaySpells(player, &state, rand, contributions);
   points += PlayAbilities(player, &state, contributions);
   points += battlefield_advantage;
-  points += PenaltyFromLeftoverMana(state);
+  points += PenaltyFromLeftoverMana(*player, state, contributions);
   return points;
 }
 
@@ -713,20 +726,27 @@ TEST(PlayTurnExistingCreature) {
 TEST(PlayTurnNotEnoughMana) {
   ThreadsafeRandom rand;
   Spell bb = MakeSpell("BB", 1, "Foo");
+  Spell bb2 = MakeSpell("BB2", 1, "Bar");
 
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
   player.battlefield.lands.push_back(BasicLand(Color::White));
+  player.hand.spells.push_back(bb);
+  player.hand.spells.push_back(bb2);
 
-  // Has one spell in library. Will draw one. Not enough mana to play it.
-  player.library.spells.push_back(bb);
-  Library lib = Library::Builder().AddSpell(bb).Build();
+  // Has one land in library. Will draw one Plains.
+  Library lib = Library::Builder().AddLand(BasicLand(Color::White)).Build();
+  player.library.lands.push_back(BasicLand(Color::White));
 
-  double points = PlayTurn(lib, &player, rand, nullptr);
+  CardContributions contributions = MakeContributionMaps(player.hand.spells);
+  double points = PlayTurn(lib, &player, rand, &contributions);
   EXPECT_TRUE(player.battlefield.spells.empty());
 
-  // Gets minus one point from 2 unused mana.
-  EXPECT_NEAR(points, -1);
+  // Gets minus 3/2 point from 3 unused mana.
+  EXPECT_NEAR(points, -1.5);
+  // The penalty is attributed equally to the spells in hand.
+  EXPECT_NEAR(GetContribution("Foo", &contributions), -0.75);
+  EXPECT_NEAR(GetContribution("Bar", &contributions), -0.75);
 }
 
 TEST(PlayBestSpell) {

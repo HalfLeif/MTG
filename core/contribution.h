@@ -89,7 +89,7 @@ void AddDelta(double delta, const std::string &name,
 }
 
 double GetContribution(const std::string &name,
-                       CardContributions *contributions) {
+                       const CardContributions *contributions) {
   if (contributions == nullptr) {
     return 0.0;
   }
