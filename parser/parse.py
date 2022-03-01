@@ -1,6 +1,7 @@
 import cardlist
 import order
 import save
+import sys
 
 def join_cards(cards, ordinals):
     d = {}
@@ -8,13 +9,21 @@ def join_cards(cards, ordinals):
         d[c.name] = c
 
     for name, ordinal in ordinals:
-        assert name in d, name
-        d[name].order = ordinal
+        if name not in d:
+            print(f'ERROR: Ordinal card not found in card list: {name}')
+        else:
+            d[name].order = ordinal
 
 DEBUG=True
 SEASON='vow'
 
 def main():
+    args = sys.argv[1:]
+    if len(args) > 1:
+      print(f'Got more arguments than expected: {len(args)}')
+    if len(args) > 0:
+      SEASON = args[0]
+
     cards = list(cardlist.read_cards(f'data/{SEASON}/cards.html'))
     print(f'Found {len(cards)} cards')
     ordinals = order.read_order(f'data/{SEASON}/order.html')

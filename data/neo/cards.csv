@@ -1,0 +1,264 @@
+mana;name;type;order
+W;Hotshot Mechanic;Artifact Creature;157
+W;Light the Way;Instant;238
+W;Lucky Offering;Sorcery;274
+W;Mothrider Patrol;Creature;216
+W;Regent's Authority;Instant;243
+1W;Ancestral Katana;Artifact;273
+WW;Banishing Slash;Sorcery;51
+1W;Eiganjo Exemplar;Enchantment Creature;240
+1W;Era of Enlightenment;Enchantment;165
+1W;Kitsune Ace;Creature;203
+1W;Light-Paws, Emperor's Voice;Legendary Creature;271
+1W;Lion Sash;Artifact Creature;19
+1W;Michiko's Reign of Truth;Enchantment;38
+1W;Selfless Samurai;Creature;91
+1W;Spirited Companion;Enchantment Creature;100
+1W;Wanderer's Intervention;Instant;141
+2W;Blade-Blizzard Kitsune;Creature;106
+2W;Born to Drive;Enchantment;241
+2W;Cloudsteel Kirin;Artifact Creature;50
+2W;Dragonfly Suit;Artifact;215
+2W;Golden-Tail Disciple;Enchantment Creature;140
+2W;Imperial Recovery Unit;Artifact;118
+2W;Imperial Subduer;Creature;239
+2W;Intercessor's Arrest;Enchantment;94
+2W;Norika Yamazaki, the Poet;Legendary Creature;101
+2W;The Fall of Lord Konda;Enchantment;93
+2W;The Restoration of Eiganjo;Enchantment;22
+2W;Touch the Spirit Realm;Enchantment;48
+3W;Befriending the Moths;Enchantment;214
+3W;Go-Shintai of Shared Purpose;Legendary Enchantment Creature;117
+3W;Kyodai, Soul of Kamigawa;Legendary Creature;20
+3W;Repel the Vile;Instant;168
+3W;Seven-Tail Mentor;Creature;156
+2WW;The Wandering Emperor;Legendary Planeswalker;6
+3W;When We Were Young;Instant;213
+3WW;Ao, the Dawn Sky;Legendary Creature;7
+1WWWW;Invoke Justice;Sorcery;49
+4W;Sunblade Samurai;Enchantment Creature;135
+4WW;Farewell;Sorcery;45
+5W;Imperial Oath;Sorcery;167
+3WWWW;Brilliant Restoration;Sorcery;272
+6W;Sky-Blessed Samurai;Enchantment Creature;198
+XW;March of Otherworldly Light;Instant;61
+U;Moonsnare Prototype;Artifact;212
+U;Network Disruptor;Artifact Creature;195
+U;Spell Pierce;Instant;269
+U;Thousand-Faced Shadow;Creature;60
+1U;Armguard Familiar;Artifact Creature;237
+UU;Disruption Protocol;Instant;217
+UU;Essence Capture;Instant;155
+1U;Go-Shintai of Lost Wisdom;Legendary Enchantment Creature;122
+1U;Mnemonic Sphere;Artifact;142
+1U;Mobilizer Mech;Artifact;196
+1U;Moon-Circuit Hacker;Enchantment Creature;134
+1U;Planar Incision;Instant;218
+1U;Short Circuit;Enchantment;244
+1U;The Modern Age;Enchantment;139
+1U;The Reality Chip;Legendary Artifact Creature;17
+2U;Acquisition Octopus;Artifact Creature;69
+2U;Covert Technician;Artifact Creature;197
+2U;Discover the Impossible;Instant;280
+2U;Guardians of Oboro;Creature;236
+2U;Mindlink Mech;Artifact;68
+2U;Moonfolk Puzzlemaker;Artifact Creature;143
+2U;Prosperous Thief;Creature;133
+2U;Suit Up;Instant;219
+2U;Tameshi, Reality Architect;Legendary Creature;33
+2U;Thirst for Knowledge;Instant;98
+2UU;Anchor to Reality;Sorcery;282
+3U;Futurist Operative;Creature;154
+3U;Futurist Sentinel;Artifact;260
+3U;Inventive Iteration;Enchantment;27
+3U;Moonsnare Specialist;Creature;89
+3U;Skyswimmer Koi;Creature;170
+3U;Tamiyo's Compleation;Enchantment;132
+2UU;Tezzeret, Betrayer of Flesh;Legendary Planeswalker;16
+3UU;Behold the Unspeakable;Enchantment;28
+1UUUU;Invoke the Winds;Sorcery;18
+4U;Replication Specialist;Creature;99
+4U;Saiba Trespassers;Artifact Creature;258
+4UU;Kairi, the Swirling Sky;Legendary Creature;5
+5UU;Jin-Gitaxias, Progress Tyrant;Legendary Creature;90
+5UU;Mirrorshell Crab;Artifact Creature;169
+5UU;Reality Heist;Instant;270
+XU;March of Swirling Mist;Instant;254
+XUU;Awakened Awareness;Enchantment;281
+B;Clawing Torment;Enchantment;245
+B;Dockside Chef;Enchantment Creature;74
+B;Okiba Reckoner Raid;Enchantment;102
+B;You Are Already Dead;Instant;152
+1B;Blade of the Oni;Artifact Creature;12
+1B;Dokuchi Silencer;Creature;76
+1B;Inkrise Infiltrator;Creature;153
+1B;Leech Gauntlet;Artifact Creature;59
+1B;Lethal Exploit;Instant;130
+1B;Life of Toshiro Umezawa;Enchantment;52
+1B;Mukotai Soulripper;Artifact;53
+1B;Nezumi Prowler;Artifact Creature;87
+1B;Reckoner's Bargain;Instant;246
+1B;Return to Action;Instant;247
+1B;Tribute to Horobi;Enchantment;24
+1B;Virus Beetle;Artifact Creature;119
+2B;Biting-Palm Ninja;Creature;36
+2B;Chainflail Centipede;Artifact Creature;171
+2B;Debt to the Kami;Instant;172
+2B;Enormous Energy Blade;Artifact;279
+2B;Gravelighter;Creature;131
+2B;Kaito's Pursuit;Sorcery;220
+1BB;Malicious Malfunction;Sorcery;193
+1BB;Nashi, Moon Sage's Scion;Legendary Creature;15
+2B;Nezumi Bladeblesser;Creature;191
+2B;Reckoner Shakedown;Sorcery;222
+1BB;Soul Transfer;Sorcery;35
+2B;Tatsunari, Toad Rider;Legendary Creature;26
+2B;Undercity Scrounger;Artifact Creature;174
+2B;Unforgiving One;Creature;148
+2BB;Assassin's Ink;Instant;47
+3B;Go-Shintai of Hidden Cruelty;Legendary Enchantment Creature;116
+3B;Hidetsugu, Devouring Chaos;Legendary Creature;11
+3B;Kami of Terrible Secrets;Creature;173
+3B;Mukotai Ambusher;Artifact Creature;192
+3B;The Long Reach of Night;Enchantment;136
+2BB;Twisted Embrace;Enchantment;103
+1BBBB;Invoke Despair;Sorcery;211
+3BB;Junji, the Midnight Sky;Legendary Creature;4
+4B;Kami of Restless Shadows;Creature;221
+4B;Okiba Salvage;Sorcery;210
+4BB;Dokuchi Shadow-Walker;Creature;194
+XB;March of Wretched Sorrow;Instant;88
+R;Akki War Paint;Enchantment;278
+R;Experimental Synthesizer;Artifact;120
+R;Kindled Fury;Instant;249
+R;Kumano Faces Kakkazan;Enchantment;92
+R;Rabbit Battery;Artifact Creature;75
+R;Reinforced Ronin;Artifact Creature;86
+R;Simian Sling;Artifact Creature;208
+R;Voltage Surge;Instant;104
+1R;Akki Ember-Keeper;Enchantment Creature;209
+1R;Akki Ronin;Creature;190
+1R;Crackling Emergence;Enchantment;224
+1R;Dragonspark Reactor;Artifact;180
+1R;Explosive Entry;Sorcery;261
+1R;Goro-Goro, Disciple of Ryusei;Legendary Creature;42
+1R;Kami's Flare;Instant;71
+1R;Lizard Blades;Artifact Creature;32
+1R;Ogre-Head Helm;Artifact Creature;40
+1R;Sokenzan Smelter;Creature;96
+1R;Tempered in Solitude;Enchantment;67
+1R;Towashi Songshaper;Artifact Creature;226
+1R;Upriser Renegade;Creature;186
+2R;Ambitious Assault;Instant;223
+2R;Bronzeplate Boar;Artifact Creature;97
+2R;Fable of the Mirror-Breaker;Enchantment;21
+2R;Go-Shintai of Ancient Wars;Legendary Enchantment Creature;115
+2R;Peerless Samurai;Creature;188
+2R;Scrap Welder;Creature;129
+2R;Seismic Wave;Instant;123
+2R;Unstoppable Ogre;Artifact Creature;187
+2RR;Atsushi, the Blazing Sky;Legendary Creature;3
+3R;Gift of Wrath;Enchantment;248
+3R;Heiko Yamazaki, the General;Legendary Creature;114
+3R;Scrapyard Steelbreaker;Artifact Creature;225
+2RR;Thundering Raiju;Creature;14
+3R;Twinshot Sniper;Artifact Creature;31
+1RRRR;Invoke Calamity;Instant;277
+4R;Kami of Industry;Creature;235
+4R;The Shattered States Era;Enchantment;242
+5R;Ironhoof Boar;Artifact Creature;175
+8RR;Explosive Singularity;Sorcery;230
+XR;Flame Discharge;Instant;62
+XR;March of Reckless Joy;Instant;189
+G;Commune with Spirits;Sorcery;176
+G;Fang of Shigeki;Enchantment Creature;151
+G;Generous Visitor;Creature;128
+G;Tamiyo's Safekeeping;Instant;263
+1G;Azusa's Many Journeys;Enchantment;202
+1G;Bamboo Grove Archer;Enchantment Creature;234
+1G;Boon of Boseiju;Instant;185
+1G;Coiling Stalker;Creature;184
+1G;Go-Shintai of Boundless Vigor;Legendary Enchantment Creature;113
+1G;Jukai Trainee;Creature;166
+1G;Kami of Transience;Creature;57
+1G;Kappa Tech-Wrecker;Creature;34
+1G;Master's Rebuke;Instant;72
+1G;Orochi Merge-Keeper;Creature;127
+1G;Roaring Earth;Enchantment;182
+1G;Shigeki, Jukai Visionary;Legendary Enchantment Creature;55
+1G;Teachings of the Kirin;Enchantment;43
+1G;Weaver of Harmony;Enchantment Creature;85
+2G;Bearer of Memory;Enchantment Creature;204
+2G;Careful Cultivation;Enchantment;144
+2G;Fade into Antiquity;Sorcery;145
+2G;Grafted Growth;Enchantment;177
+2G;Heir of the Ancient Fang;Creature;233
+2G;Historian's Wisdom;Enchantment;257
+2G;Jugan Defends the Temple;Enchantment;8
+2G;Kodama of the West Tree;Legendary Creature;25
+2G;Season of Renewal;Instant;178
+2G;Storyweave;Instant;207
+2G;The Dragon-Kami Reborn;Enchantment;259
+2G;Webspinner Cuff;Artifact Creature;181
+3G;Boseiju Reaches Skyward;Enchantment;70
+3G;Favor of Jukai;Enchantment;262
+3G;Geothermal Kami;Creature;150
+3G;Harmonious Emergence;Enchantment;227
+3G;Jukai Preserver;Enchantment Creature;121
+3GG;Blossom Prancer;Creature;41
+1GGGG;Invoke the Ancients;Sorcery;44
+3GG;Kura, the Boundless Sky;Legendary Creature;2
+3GG;Spring-Leaf Avenger;Creature;29
+4G;Tales of Master Seshiro;Enchantment;138
+4GG;Greater Tanuki;Enchantment Creature;183
+XG;March of Burgeoning Life;Instant;276
+XXGG;Spinning Wheel Kick;Sorcery;112
+1WU;Prodigy's Prototype;Artifact;79
+1WB;Greasefang, Okiba Boss;Legendary Creature;66
+3WB;Naomi, Pillar of Order;Legendary Creature;80
+3WB;Spirit-Sister's Call;Enchantment;232
+UB;Silver-Fur Master;Creature;78
+1UB;Kaito Shizuki;Legendary Planeswalker;10
+1UB;Satoru Umezawa;Legendary Creature;9
+3UB;Kotose, the Silent Spider;Legendary Creature;46
+UR;Enthusiastic Mechanaut;Artifact Creature;83
+BR;Oni-Cult Anvil;Artifact;65
+1BR;Hidetsugu Consumes All;Enchantment;137
+1BG;Gloomshrieker;Enchantment Creature;54
+1RG;Invigorating Hot Spring;Enchantment;63
+1RW;Risona, Asari Commander;Legendary Creature;58
+2RW;Raiyuu, Storm's Edge;Legendary Creature;13
+3RW;Asari Captain;Creature;84
+XRW;Eiganjo Uprising;Sorcery;256
+GW;Jukai Naturalist;Enchantment Creature;81
+GW;Satsuki, the Living Lore;Legendary Creature;64
+2GGU;Tamiyo, Compleated Sage;Legendary Planeswalker;1
+4GGU;Colossal Skyturtle;Enchantment Creature;56
+RWB;Isshin, Two Heavens as One;Legendary Creature;82
+1URW;Hinata, Dawn-Crowned;Legendary Creature;111
+1WUBRG;The Kami War;Enchantment;37
+1;Bronze Cudgels;Artifact;266
+1;Eater of Virtue;Legendary Artifact;39
+1;Iron Apprentice;Artifact Creature;265
+1;Ninja's Kunai;Artifact;146
+2;Automated Artificer;Artifact Creature;250
+2;Containment Construct;Artifact Creature;107
+2;Ecologist's Terrarium;Artifact;228
+2;High-Speed Hoverbike;Artifact;149
+2;Mechtitan Core;Artifact;206
+2;Papercraft Decoy;Artifact Creature;205
+2;Patchwork Automaton;Artifact Creature;105
+2;Reckoner Bankbuster;Artifact;23
+3;Brute Suit;Artifact;251
+3;Circuit Mender;Artifact Creature;77
+3;Mirror Box;Artifact;275
+3;Network Terminal;Artifact;229
+3;Reito Sentinel;Artifact Creature;255
+3;Runaway Trash-Bot;Artifact Creature;231
+3;Searchlight Companion;Artifact Creature;179
+4;Dramatist's Puppet;Artifact Creature;264
+4;Surgehacker Mech;Artifact;30
+4;Towashi Guide-Bot;Artifact Creature;126
+5;Shrine Steward;Artifact Creature;252
+7;Thundersteel Colossus;Artifact;253
+8;Walking Skyscraper;Artifact Creature;110
