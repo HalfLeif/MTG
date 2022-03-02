@@ -1,0 +1,90 @@
+#pragma once
+
+#include <string_view>
+#include <vector>
+
+#include "../core/sealed_deck.h"
+
+// Neon Dynasty (2022)
+class Neo : public SealedDeck {
+public:
+  std::string_view data_path() const override { return "data/neo/cards.csv"; }
+
+  std::vector<std::string_view> cards() const override {
+    return {
+        "Circuit Mender",
+        "Kairi, the Swirling Sky",
+        "When We Were Young",
+        "Automated Artificer",
+        "The Shattered States Era",
+        "Towashi Songshaper",
+        "Clawing Torment",
+        "Moonsnare Specialist",
+        "The Reality Chip",
+        "Anchor To Reality",
+        "Mnemonic Sphere",
+        "Akki Ronin",
+        "Dramatist's Puppet",
+        "Explosive Entry",
+        "Go-Shintai of Ancient Wars",
+        "Eater of Virtue",
+        "Webspinner Cuff",
+        "Grafted Growth",
+        "Mothrider Patrol",
+        "Crackling Emergence",
+        "Careful Cultivation",
+        "Moon-Circuit Hacker",
+        "Twinshot Sniper",
+        "Eater of Virtue",
+        "Prosperous Thief",
+        "Lethal Exploit",
+        "Mirrorshell Crab",
+        "Crackling Emergence",
+        "Uncharted Haven",
+        "Dokuchi Silencer",
+        "Boseiju, Who Endures",
+        "Generous Visitor",
+        "Chainflail Centipede",
+        "Wanderer's Intervention",
+        "Seven-Tail Mentor",
+        "Imperial Oath",
+        "Roadside Reliquary",
+        "Circuit Mender",
+        "Peerless Samurai",
+        "Era of Enlightenment",
+        "Heir of the Ancient Fang",
+        "Seven-Tail Mentor",
+        "Scrapyard Steelbreaker",
+        "Boseiju Reaches Skyward",
+        "March of Swirling Mist",
+        "Roadside Reliquary",
+        "Ninja's Kunai",
+        "Peerless Samurai",
+        "Light the Way",
+        "Virus Beetle",
+        "Blossoming Sands",
+        "Explosive Singularity",
+        "Invigorating Hot Spring",
+        "Repel the Vile",
+        "Return to Action",
+        "Mukotai Ambusher",
+        "Experimental Synthesizer",
+        "Wanderer's Intervention",
+        "Enormous Energy Blade",
+        "Junji, the Midnight Sky",
+        "Blossom Prancer",
+        "Fade into Antiquity",
+        "Moonsnare Prototype",
+        "Kami the Terrible Secrets",
+        "Era of Enlightenment",
+        "Michiko's Reign of Truth",
+        "Tatsunari, Toad Rider",
+        "Gloomshrieker",
+        "Ancestral Katana",
+        "Dokuchi Shadow-Walker",
+        "Sunblade Samurai",
+        "Towashi Songshaper",
+        "Simian Sling",
+    };
+  }
+};

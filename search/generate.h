@@ -405,11 +405,12 @@ FilterCards(const std::vector<Spell> &all_cards,
   }
   std::vector<Spell> result;
   result.reserve(available_cards.size());
+  std::vector<std::string_view> missing_spells;
   for (const std::string_view cardname : available_cards) {
     const Spell *spell = FindPtrOrNull(spells_by_name, cardname);
     if (spell == nullptr) {
-      FATAL << "Spell " << cardname << " is not listed in all_cards"
-            << std::endl;
+      missing_spells.push_back(cardname);
+      continue;
     }
     if (spell->cost.contains(Color::Red) ||
         spell->cost.contains(Color::Green) ||
@@ -418,10 +419,14 @@ FilterCards(const std::vector<Spell> &all_cards,
       // would first run a simulation to pick best colors, and then optimize
       // within the colors. Or be more aggressive about what cards to keep.
       // TODO: replace with better algorithm.
-      continue;
+      // continue;
     }
     result.push_back(*spell);
   }
+  for (std::string_view cardname : missing_spells) {
+    ERROR << "Spell " << cardname << " is not listed in all_cards" << std::endl;
+  }
+  CHECK(missing_spells.empty());
   return result;
 }
 

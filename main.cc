@@ -18,6 +18,7 @@
 #include "decks/eld.h"
 #include "decks/m20.h"
 #include "decks/mid.h"
+#include "decks/neo.h"
 #include "decks/thb.h"
 #include "decks/vow.h"
 #include "parser/parse_csv.h"
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]) {
   std::cout << "\n -- Started program --\n";
   // RunAllBenchmarks();
 
-  std::unique_ptr<SealedDeck> sealed = std::make_unique<Vow>();
+  std::unique_ptr<SealedDeck> sealed = std::make_unique<Neo>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
   std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
