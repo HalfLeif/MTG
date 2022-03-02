@@ -23,7 +23,7 @@ assert _strip_html_tags('<td class="name"><a href="https://www.magicarenacardlis
 
 class Card:
     def __init__(self):
-        self.mana = ''
+        self.mana = None
         self.name = ''
         self.type = ''
         self.order = None

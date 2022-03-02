@@ -61,6 +61,11 @@ public:
     const std::array<int, kEnd> *arr_ = nullptr;
   };
 
+  mapped_type Total() const {
+    size_t pos = static_cast<size_t>(Color::Total);
+    return cost_[pos];
+  }
+
   mapped_type FindValue(Color key) const {
     CHECK(key < Color::ENUM_SIZE);
     size_t pos = static_cast<size_t>(key);

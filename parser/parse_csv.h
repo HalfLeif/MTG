@@ -11,7 +11,7 @@
 std::vector<std::string_view> SplitLine(std::string_view line,
                                         std::string_view delimiter) {
   std::vector<std::string_view> result;
-  for (size_t pos = 0; pos < line.size();) {
+  for (size_t pos = 0; pos <= line.size();) {
     size_t next = line.find(delimiter, pos);
     if (next == std::string_view::npos) {
       next = line.size();
@@ -89,7 +89,6 @@ std::vector<Spell> ReadCards(std::string fname) {
 // -----------------------------------------------------------------------------
 
 TEST(SplitLine) {
-  // std::vector<std::string_view> fields;
   std::vector<std::string_view> fields =
       SplitLine("W;Blessed Defiance;Instant;237", ";");
   EXPECT_EQ(fields.size(), 4);
@@ -98,6 +97,22 @@ TEST(SplitLine) {
     EXPECT_EQ(fields[1], "Blessed Defiance");
     EXPECT_EQ(fields[2], "Instant");
     EXPECT_EQ(fields[3], "237");
+  }
+}
+
+TEST(SplitLineKeepsEmptyElements) {
+  std::vector<std::string_view> fields =
+      SplitLine(";Blessed Defiance;Instant;", ";");
+  EXPECT_EQ(fields.size(), 4);
+  if (fields.size() > 0) {
+    EXPECT_EQ(fields[0], "");
+  }
+  if (fields.size() > 2) {
+    EXPECT_EQ(fields[1], "Blessed Defiance");
+    EXPECT_EQ(fields[2], "Instant");
+  }
+  if (fields.size() > 3) {
+    EXPECT_EQ(fields[3], "");
   }
 }
 

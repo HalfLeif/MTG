@@ -28,7 +28,6 @@ def main():
     print(f'Found {len(cards)} cards')
     ordinals = order.read_order(f'data/{SEASON}/order.html')
     join_cards(cards, ordinals)
-    filtered = filter(lambda x: x.mana, cards)
-    save.save_cards(filtered, f'data/{SEASON}/cards.csv')
+    save.save_cards(cards, f'data/{SEASON}/cards.csv')
 
 main()

@@ -8,10 +8,12 @@ W;Regent's Authority;Instant;243
 WW;Banishing Slash;Sorcery;51
 1W;Eiganjo Exemplar;Enchantment Creature;240
 1W;Era of Enlightenment;Enchantment;165
+;Hand of Enlightenment;Enchantment Creature;
 1W;Kitsune Ace;Creature;203
 1W;Light-Paws, Emperor's Voice;Legendary Creature;271
 1W;Lion Sash;Artifact Creature;19
 1W;Michiko's Reign of Truth;Enchantment;38
+;Portrait of Michiko;Enchantment Creature;
 1W;Selfless Samurai;Creature;91
 1W;Spirited Companion;Enchantment Creature;100
 1W;Wanderer's Intervention;Instant;141
@@ -25,9 +27,12 @@ WW;Banishing Slash;Sorcery;51
 2W;Intercessor's Arrest;Enchantment;94
 2W;Norika Yamazaki, the Poet;Legendary Creature;101
 2W;The Fall of Lord Konda;Enchantment;93
+;Fragment of Konda;Enchantment Creature;
 2W;The Restoration of Eiganjo;Enchantment;22
+;Architect of Restoration;Enchantment Creature;
 2W;Touch the Spirit Realm;Enchantment;48
 3W;Befriending the Moths;Enchantment;214
+;Imperial Moth;Enchantment Creature;
 3W;Go-Shintai of Shared Purpose;Legendary Enchantment Creature;117
 3W;Kyodai, Soul of Kamigawa;Legendary Creature;20
 3W;Repel the Vile;Instant;168
@@ -56,6 +61,7 @@ UU;Essence Capture;Instant;155
 1U;Planar Incision;Instant;218
 1U;Short Circuit;Enchantment;244
 1U;The Modern Age;Enchantment;139
+;Vector Glider;Enchantment Creature;
 1U;The Reality Chip;Legendary Artifact Creature;17
 2U;Acquisition Octopus;Artifact Creature;69
 2U;Covert Technician;Artifact Creature;197
@@ -71,11 +77,13 @@ UU;Essence Capture;Instant;155
 3U;Futurist Operative;Creature;154
 3U;Futurist Sentinel;Artifact;260
 3U;Inventive Iteration;Enchantment;27
+;Living Breakthrough;Enchantment Creature;
 3U;Moonsnare Specialist;Creature;89
 3U;Skyswimmer Koi;Creature;170
 3U;Tamiyo's Compleation;Enchantment;132
 2UU;Tezzeret, Betrayer of Flesh;Legendary Planeswalker;16
 3UU;Behold the Unspeakable;Enchantment;28
+;Vision of the Unspeakable;Enchantment Creature;
 1UUUU;Invoke the Winds;Sorcery;18
 4U;Replication Specialist;Creature;99
 4U;Saiba Trespassers;Artifact Creature;258
@@ -88,6 +96,7 @@ XUU;Awakened Awareness;Enchantment;281
 B;Clawing Torment;Enchantment;245
 B;Dockside Chef;Enchantment Creature;74
 B;Okiba Reckoner Raid;Enchantment;102
+;Nezumi Road Captain;Enchantment Creature;
 B;You Are Already Dead;Instant;152
 1B;Blade of the Oni;Artifact Creature;12
 1B;Dokuchi Silencer;Creature;76
@@ -95,11 +104,13 @@ B;You Are Already Dead;Instant;152
 1B;Leech Gauntlet;Artifact Creature;59
 1B;Lethal Exploit;Instant;130
 1B;Life of Toshiro Umezawa;Enchantment;52
+;Memory of Toshiro;Enchantment Creature;
 1B;Mukotai Soulripper;Artifact;53
 1B;Nezumi Prowler;Artifact Creature;87
 1B;Reckoner's Bargain;Instant;246
 1B;Return to Action;Instant;247
 1B;Tribute to Horobi;Enchantment;24
+;Echo of Death's Wail;Enchantment Creature;
 1B;Virus Beetle;Artifact Creature;119
 2B;Biting-Palm Ninja;Creature;36
 2B;Chainflail Centipede;Artifact Creature;171
@@ -121,6 +132,7 @@ B;You Are Already Dead;Instant;152
 3B;Kami of Terrible Secrets;Creature;173
 3B;Mukotai Ambusher;Artifact Creature;192
 3B;The Long Reach of Night;Enchantment;136
+;Animus of Night's Reach;Enchantment Creature;
 2BB;Twisted Embrace;Enchantment;103
 1BBBB;Invoke Despair;Sorcery;211
 3BB;Junji, the Midnight Sky;Legendary Creature;4
@@ -132,6 +144,7 @@ R;Akki War Paint;Enchantment;278
 R;Experimental Synthesizer;Artifact;120
 R;Kindled Fury;Instant;249
 R;Kumano Faces Kakkazan;Enchantment;92
+;Etching of Kumano;Enchantment Creature;
 R;Rabbit Battery;Artifact Creature;75
 R;Reinforced Ronin;Artifact Creature;86
 R;Simian Sling;Artifact Creature;208
@@ -152,6 +165,7 @@ R;Voltage Surge;Instant;104
 2R;Ambitious Assault;Instant;223
 2R;Bronzeplate Boar;Artifact Creature;97
 2R;Fable of the Mirror-Breaker;Enchantment;21
+;Reflection of Kiki-Jiki;Enchantment Creature;
 2R;Go-Shintai of Ancient Wars;Legendary Enchantment Creature;115
 2R;Peerless Samurai;Creature;188
 2R;Scrap Welder;Creature;129
@@ -166,6 +180,7 @@ R;Voltage Surge;Instant;104
 1RRRR;Invoke Calamity;Instant;277
 4R;Kami of Industry;Creature;235
 4R;The Shattered States Era;Enchantment;242
+;Nameless Conqueror;Enchantment Creature;
 5R;Ironhoof Boar;Artifact Creature;175
 8RR;Explosive Singularity;Sorcery;230
 XR;Flame Discharge;Instant;62
@@ -175,6 +190,7 @@ G;Fang of Shigeki;Enchantment Creature;151
 G;Generous Visitor;Creature;128
 G;Tamiyo's Safekeeping;Instant;263
 1G;Azusa's Many Journeys;Enchantment;202
+;Likeness of the Seeker;Enchantment Creature;
 1G;Bamboo Grove Archer;Enchantment Creature;234
 1G;Boon of Boseiju;Instant;185
 1G;Coiling Stalker;Creature;184
@@ -187,6 +203,7 @@ G;Tamiyo's Safekeeping;Instant;263
 1G;Roaring Earth;Enchantment;182
 1G;Shigeki, Jukai Visionary;Legendary Enchantment Creature;55
 1G;Teachings of the Kirin;Enchantment;43
+;Kirin-Touched Orochi;Enchantment Creature;
 1G;Weaver of Harmony;Enchantment Creature;85
 2G;Bearer of Memory;Enchantment Creature;204
 2G;Careful Cultivation;Enchantment;144
@@ -195,12 +212,15 @@ G;Tamiyo's Safekeeping;Instant;263
 2G;Heir of the Ancient Fang;Creature;233
 2G;Historian's Wisdom;Enchantment;257
 2G;Jugan Defends the Temple;Enchantment;8
+;Remnant of the Rising Star;Enchantment Creature;
 2G;Kodama of the West Tree;Legendary Creature;25
 2G;Season of Renewal;Instant;178
 2G;Storyweave;Instant;207
 2G;The Dragon-Kami Reborn;Enchantment;259
+;Dragon-Kami's Egg;Enchantment Creature;
 2G;Webspinner Cuff;Artifact Creature;181
 3G;Boseiju Reaches Skyward;Enchantment;70
+;Branch of Boseiju;Enchantment Creature;
 3G;Favor of Jukai;Enchantment;262
 3G;Geothermal Kami;Creature;150
 3G;Harmonious Emergence;Enchantment;227
@@ -210,6 +230,7 @@ G;Tamiyo's Safekeeping;Instant;263
 3GG;Kura, the Boundless Sky;Legendary Creature;2
 3GG;Spring-Leaf Avenger;Creature;29
 4G;Tales of Master Seshiro;Enchantment;138
+;Seshiro's Living Legacy;Enchantment Creature;
 4GG;Greater Tanuki;Enchantment Creature;183
 XG;March of Burgeoning Life;Instant;276
 XXGG;Spinning Wheel Kick;Sorcery;112
@@ -224,6 +245,7 @@ UB;Silver-Fur Master;Creature;78
 UR;Enthusiastic Mechanaut;Artifact Creature;83
 BR;Oni-Cult Anvil;Artifact;65
 1BR;Hidetsugu Consumes All;Enchantment;137
+;Vessel of the All-Consuming;Enchantment Creature;
 1BG;Gloomshrieker;Enchantment Creature;54
 1RG;Invigorating Hot Spring;Enchantment;63
 1RW;Risona, Asari Commander;Legendary Creature;58
@@ -237,6 +259,7 @@ GW;Satsuki, the Living Lore;Legendary Creature;64
 RWB;Isshin, Two Heavens as One;Legendary Creature;82
 1URW;Hinata, Dawn-Crowned;Legendary Creature;111
 1WUBRG;The Kami War;Enchantment;37
+;O-Kagachi Made Manifest;Enchantment Creature;
 1;Bronze Cudgels;Artifact;266
 1;Eater of Virtue;Legendary Artifact;39
 1;Iron Apprentice;Artifact Creature;265
@@ -262,3 +285,27 @@ RWB;Isshin, Two Heavens as One;Legendary Creature;82
 5;Shrine Steward;Artifact Creature;252
 7;Thundersteel Colossus;Artifact;253
 8;Walking Skyscraper;Artifact Creature;110
+;Bloodfell Caves;Land;163
+;Blossoming Sands;Land;162
+;Boseiju, Who Endures;Legendary Land;125
+;Dismal Backwater;Land;161
+;Eiganjo, Seat of the Empire;Legendary Land;73
+;Forest;Basic Land;
+;Island;Basic Land;
+;Jungle Hollow;Land;199
+;Mech Hangar;Land;268
+;Mountain;Basic Land;
+;Otawara, Soaring City;Legendary Land;109
+;Plains;Basic Land;
+;Roadside Reliquary;Land;95
+;Rugged Highlands;Land;200
+;Scoured Barrens;Land;201
+;Secluded Courtyard;Land;267
+;Sokenzan, Crucible of Defiance;Legendary Land;124
+;Swamp;Basic Land;
+;Swiftwater Cliffs;Land;158
+;Takenuma, Abandoned Mire;Legendary Land;108
+;Thornwood Falls;Land;159
+;Tranquil Cove;Land;160
+;Uncharted Haven;Land;147
+;Wind-Scarred Crag;Land;164

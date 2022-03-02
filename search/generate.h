@@ -36,8 +36,8 @@ constexpr double kTopPart = 0.40;
 // distribution for a particular deck. Games on the other hand is used to
 // specify for how many games a deck should be evaluated, using the optimal land
 // distribution.
-constexpr int kFastLandSearch = 150;
-constexpr int kFastGames = 500;
+constexpr int kFastLandSearch = 120;
+constexpr int kFastGames = 400;
 
 constexpr int kDeepLandSearch = 500;
 constexpr int kDeepGames = 1000;
@@ -230,9 +230,28 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
   return to_replace;
 }
 
+bool IsSubsetOf(const std::vector<int> &subset,
+                const std::vector<int> &superset) {
+  std::set<int> all(superset.begin(), superset.end());
+  for (int x : subset) {
+    if (!ContainsKey(all, x)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+TEST(IsSubsetOfTest) { EXPECT_TRUE(IsSubsetOf({2, 1, 3}, {1, 2, 3, 4, 5})); }
+
+// Returns a new "permutation" given a permutation, and what elements of
+// permutation should be replaced.
+// `to_replace` must be a subset of `permutation`.
+// `total` signifies the total number of available cards.
 std::vector<int> ReplaceBadCards(const std::vector<int> &permutation,
                                  const std::vector<int> &to_replace,
                                  const int total, ThreadsafeRandom &rand) {
+  CHECK(!to_replace.empty());
+  // CHECK(IsSubsetOf(to_replace, permutation));
   // Stores one position of a replaced card.
   int replaced_position = -1;
 
@@ -262,7 +281,7 @@ std::vector<int> ReplaceBadCards(const std::vector<int> &permutation,
     new_permutation.push_back(new_index);
   } else if (r < 2 * kChangeSizeRate) {
     // Decrease deck size. Must only remove a "bad" card.
-    CHECK(replaced_position > 0);
+    CHECK(replaced_position >= 0);
     new_permutation[replaced_position] = new_permutation.back();
     new_permutation.pop_back();
   }
@@ -410,6 +429,10 @@ FilterCards(const std::vector<Spell> &all_cards,
     const Spell *spell = FindPtrOrNull(spells_by_name, cardname);
     if (spell == nullptr) {
       missing_spells.push_back(cardname);
+      continue;
+    }
+    if (spell->cost.Total() == 0) {
+      // Happens for Lands and transformed cards.
       continue;
     }
     if (spell->cost.contains(Color::Red) ||
