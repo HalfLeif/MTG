@@ -209,16 +209,16 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
     distribution.resize(topk);
   }
 
+  if (to_replace.size() >= min_replace) {
+    return to_replace;
+  }
+  const int left_replace = min_replace - to_replace.size();
+
   // Sum up total for normalization.
   double distribution_total = 0;
   for (const auto [prob, index] : distribution) {
     distribution_total += prob;
   }
-
-  if (to_replace.size() >= min_replace) {
-    return to_replace;
-  }
-  const int left_replace = min_replace - to_replace.size();
 
   // Sample cards to replace.
   while (to_replace.size() < left_replace && !distribution.empty()) {
@@ -339,6 +339,8 @@ GradientDescent(const std::vector<Spell> &available_cards,
 
     // 4. Replace bad cards for next iteration.
     generated->permutation = std::move(permutation);
+    // const std::vector<int> to_replace = OldSelectCardsToReplace(
+    //     permutation_to_contributions, forced_cards, NumReplace(i));
     const std::vector<int> to_replace = SelectCardsToReplace(
         permutation_to_contributions, forced_cards, NumReplace(i), rand);
     permutation = ReplaceBadCards(generated->permutation, to_replace,
