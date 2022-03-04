@@ -74,10 +74,6 @@ std::vector<int> GeneratePermutation(const std::vector<int> &available_ids,
                                      const std::set<int> &forced_cards,
                                      ThreadsafeRandom &rand) {
   std::vector<int> permutation;
-  if (wanted > available_ids.size()) {
-    ERROR << "Cannot request more cards than there are." << std::endl;
-    return permutation;
-  }
   if (forced_cards.size() > wanted) {
     ERROR << "Already have more cards than wanted." << std::endl;
     return permutation;
@@ -86,13 +82,13 @@ std::vector<int> GeneratePermutation(const std::vector<int> &available_ids,
   std::vector<int> shuffled;
   shuffled.reserve(available_ids.size());
   permutation.reserve(wanted);
-  for (int i : available_ids) {
-    if (ContainsKey(forced_cards, i)) {
+  for (int id : available_ids) {
+    if (ContainsKey(forced_cards, id)) {
       // Already picked.
-      permutation.push_back(i);
+      permutation.push_back(id);
     } else {
       // Available for sampling.
-      shuffled.push_back(i);
+      shuffled.push_back(id);
     }
   }
 
@@ -250,25 +246,16 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
 }
 
 // Given a range of [0..total-1], return all numbers not present in subset.
-std::vector<int> InvertSubset(const std::vector<int> &subset, int total) {
+std::vector<int> InvertSubset(const std::vector<int> &subset,
+                              const std::vector<int> &all_cards) {
   std::vector<int> inverted;
-  inverted.reserve(total - subset.size());
-  for (int i = 0; i < total; ++i) {
-    if (!ContainsItem(subset, i)) {
-      inverted.push_back(i);
+  inverted.reserve(all_cards.size());
+  for (int id : all_cards) {
+    if (!ContainsItem(subset, id)) {
+      inverted.push_back(id);
     }
   }
   return inverted;
-}
-
-TEST(InvertSubset) {
-  std::vector<int> inverted = InvertSubset({2, 3, 4, 8}, 10);
-  EXPECT_EQ(inverted.size(), 6);
-  EXPECT_TRUE(ContainsItem(inverted, 0));
-  EXPECT_TRUE(ContainsItem(inverted, 1));
-  EXPECT_TRUE(ContainsItem(inverted, 5));
-  EXPECT_FALSE(ContainsItem(inverted, 2));
-  EXPECT_FALSE(ContainsItem(inverted, 8));
 }
 
 // Returns a new "permutation" given a permutation, and what elements of
@@ -277,12 +264,13 @@ TEST(InvertSubset) {
 // `total` signifies the total number of available cards.
 std::vector<int> ReplaceBadCards(const std::vector<int> &permutation,
                                  const std::vector<int> &to_replace,
-                                 const int total, ThreadsafeRandom &rand) {
+                                 const std::vector<int> &all_cards,
+                                 ThreadsafeRandom &rand) {
   CHECK(!to_replace.empty());
   // Stores one position of a replaced card.
   int replaced_position = -1;
 
-  std::vector<int> pool = InvertSubset(permutation, total);
+  std::vector<int> pool = InvertSubset(permutation, all_cards);
 
   std::vector<int> new_permutation;
   new_permutation.reserve(permutation.size());
@@ -305,8 +293,12 @@ std::vector<int> ReplaceBadCards(const std::vector<int> &permutation,
       MoveItem(choice, pool, new_permutation);
     }
   } else if (r < 2 * kChangeSizeRate) {
-    // Decrease deck size. Must only remove a "bad" card.
-    CHECK(replaced_position >= 0);
+    // Decrease deck size. Prefer to remove a newly added card.
+    if (replaced_position < 0) {
+      // Can happen when pools are very small. If so, replace any card, even
+      // a forced card. Should happen very rarely.
+      replaced_position = 0;
+    }
     new_permutation[replaced_position] = new_permutation.back();
     new_permutation.pop_back();
   }
@@ -403,7 +395,7 @@ GradientDescent(const std::vector<Spell> &available_cards,
     const std::vector<int> to_replace = SelectCardsToReplace(
         permutation_to_contributions, forced_cards, NumReplace(i), rand);
     permutation = ReplaceBadCards(generated->permutation, to_replace,
-                                  available_cards.size(), rand);
+                                  available_ids, rand);
     iterations.push_back(std::move(generated));
   }
 
@@ -496,17 +488,6 @@ FilterCards(const std::vector<Spell> &all_cards,
       // Happens for Lands and transformed cards.
       continue;
     }
-    if (spell->cost.contains(Color::Red) ||
-        spell->cost.contains(Color::Green)
-        //
-        // || spell->cost.contains(Color::Blue)
-        || spell->cost.contains(Color::White)) {
-      // This is a hack to focus on a subset of colors. Ideally the program
-      // would first run a simulation to pick best colors, and then optimize
-      // within the colors. Or be more aggressive about what cards to keep.
-      // TODO: replace with better algorithm.
-      continue;
-    }
     result.push_back(*spell);
   }
   for (std::string_view cardname : missing_spells) {
@@ -556,7 +537,7 @@ void PrintGeneratedDecksDetailed(
     const std::vector<Spell> &available_cards,
     const std::vector<std::unique_ptr<GeneratedDeck>> &best) {
   std::cout << "\nFound the best generated decks! " << std::endl;
-  for (int i = 0; i < best.size() && i < kPrintTopN; ++i) {
+  for (int i = 0; i < best.size(); ++i) {
     const GeneratedDeck &generated = *best[i];
     std::cout << std::endl;
     std::cout << "Score: " << generated.score << std::endl;
@@ -566,7 +547,10 @@ void PrintGeneratedDecksDetailed(
     Deck deck = TournamentDeck(generated.param);
     // std::cout << deck << std::endl;
     PrintLands(deck);
-    PrintContributions(deck, generated.contributions);
+    if (i < kPrintTopN) {
+      // Only print detailed decks for best N.
+      PrintContributions(deck, generated.contributions);
+    }
   }
 }
 
@@ -613,6 +597,16 @@ std::vector<int> Consecutive(int total) {
     result.push_back(i);
   }
   return result;
+}
+
+TEST(InvertSubset) {
+  std::vector<int> inverted = InvertSubset({2, 3, 4, 8}, Consecutive(10));
+  EXPECT_EQ(inverted.size(), 6);
+  EXPECT_TRUE(ContainsItem(inverted, 0));
+  EXPECT_TRUE(ContainsItem(inverted, 1));
+  EXPECT_TRUE(ContainsItem(inverted, 5));
+  EXPECT_FALSE(ContainsItem(inverted, 2));
+  EXPECT_FALSE(ContainsItem(inverted, 8));
 }
 
 TEST(GeneratePermutationWithinLimits) {
@@ -705,7 +699,7 @@ TEST(ReplaceBadCards) {
   std::vector<int> to_replace = {1, 2};
 
   std::vector<int> new_permutation =
-      ReplaceBadCards(permutation, to_replace, 100, rand);
+      ReplaceBadCards(permutation, to_replace, Consecutive(10), rand);
   CHECK(permutation.size() == new_permutation.size());
   // Unchanged
   EXPECT_EQ(new_permutation[0], 3);

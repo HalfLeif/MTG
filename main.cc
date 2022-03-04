@@ -43,12 +43,12 @@ int main(int argc, char *argv[]) {
   std::cout << "\n -- Started program --\n";
   // RunAllBenchmarks();
 
-  // std::unique_ptr<SealedDeck> sealed = std::make_unique<Neo>();
-  // std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
-  //
-  // std::vector<Spell> available_cards = FilterCards(all_cards,
-  // sealed->cards()); auto forced_cards = FindForcedCards(available_cards,
-  // sealed->forced_cards()); GenerateDeck(available_cards, forced_cards);
+  std::unique_ptr<SealedDeck> sealed = std::make_unique<Neo>();
+  std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
+
+  std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
+  auto forced_cards = FindForcedCards(available_cards, sealed->forced_cards());
+  GenerateDeck(available_cards, forced_cards);
 
   // const Library &lib = GetMainLib();
   // std::vector<Spell> chosen_cards =
