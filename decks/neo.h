@@ -106,6 +106,57 @@ public:
 
 /* Round 1
 
+Score: 58.6629
+Iteration: 93
+Lands { U=8 B=10 }
+1040.21 March of Swirling Mist (U2)
+1549.11 Suit Up (U2)
+1658.57 Moon-Circuit Hacker (U1)
+1680.5 Eater of Virtue (1)
+1680.5 Eater of Virtue (1)
+1907.42 Dokuchi Shadow-Walker (BB4)
+1950.38 Lethal Exploit (B1)
+1999.77 Go-Shintai of Lost Wisdom (U1)
+2158.38 Virus Beetle (B1)
+2221.73 Chainflail Centipede (B2)
+2525.71 Dokuchi Silencer (B1)
+2591.59 Mukotai Ambusher (B3)
+2615.7 Prosperous Thief (U2)
+3190.75 The Reality Chip (U1)
+3201.36 Kami of Terrible Secrets (B3)
+3745.29 Kairi, the Swirling Sky (UU4)
+3856.73 Circuit Mender (3)
+3856.73 Circuit Mender (3)
+4203.64 Biting-Palm Ninja (B2)
+4318.39 Tatsunari, Toad Rider (B2)
+4614.42 Moonsnare Specialist (U3)
+5262.54 Junji, the Midnight Sky (BB3)
+
+Score: 58.3989
+Iteration: 94
+Lands { U=8 B=11 }
+1178.52 Automated Artificer (2)
+1696.71 Eater of Virtue (1)
+1696.71 Eater of Virtue (1)
+1703.13 Moon-Circuit Hacker (U1)
+2104.66 Lethal Exploit (B1)
+2138.74 Go-Shintai of Lost Wisdom (U1)
+2367.39 Prosperous Thief (U2)
+2382.45 Virus Beetle (B1)
+2383.66 Chainflail Centipede (B2)
+2472.28 Dokuchi Shadow-Walker (BB4)
+2482.94 Dokuchi Silencer (B1)
+2831.77 Mukotai Ambusher (B3)
+3012.49 The Reality Chip (U1)
+3473.69 Kami of Terrible Secrets (B3)
+3599.4 Circuit Mender (3)
+3599.4 Circuit Mender (3)
+3838.12 Kairi, the Swirling Sky (UU4)
+4466.63 Tatsunari, Toad Rider (B2)
+4492.34 Moonsnare Specialist (U3)
+4928.28 Biting-Palm Ninja (B2)
+5376.04 Junji, the Midnight Sky (BB3)
+
 Score: 58.3507
 Iteration: 113
 Lands { W=8 B=10 }
@@ -211,86 +262,5 @@ Lands { W=5 U=5 B=8 }
 4024.28 Biting-Palm Ninja (B2)
 4479.13 Tatsunari, Toad Rider (B2)
 4516.44 Junji, the Midnight Sky (BB3)
-
-Score: 57.6053
-Iteration: 123
-Lands { B=9 G=7 }
-1018.66 Heir of the Ancient Fang (G2)
-1185.54 Automated Artificer (2)
-1191.31 Ninja's Kunai (1)
-1191.31 Ninja's Kunai (1)
-1212.35 Return to Action (B1)
-1560.78 Eater of Virtue (1)
-1560.78 Eater of Virtue (1)
-1639.45 Webspinner Cuff (G2)
-1906.78 Lethal Exploit (B1)
-1988.93 Chainflail Centipede (B2)
-2124.15 Fade into Antiquity (G2)
-2272.75 Virus Beetle (B1)
-2398.78 Mukotai Ambusher (B3)
-2488.38 Careful Cultivation (G2)
-2731.07 Dokuchi Silencer (B1)
-3115.67 Kami of Terrible Secrets (B3)
-3455.73 Circuit Mender (3)
-3455.73 Circuit Mender (3)
-3484.75 Blossom Prancer (GG3)
-3485.81 Gloomshrieker (BG1)
-3919.99 Biting-Palm Ninja (B2)
-4302.58 Junji, the Midnight Sky (BB3)
-4345.4 Boseiju Reaches Skyward (G3)
-4572.64 Tatsunari, Toad Rider (B2)
-
-Score: 57.5121
-Iteration: 50
-Lands { W=10 B=9 }
-1473.87 Era of Enlightenment (W1)
-1566.85 When We Were Young (W3)
-1698.55 Wanderer's Intervention (W1)
-1698.55 Wanderer's Intervention (W1)
-1799.76 Lethal Exploit (B1)
-1870.5 Mukotai Ambusher (B3)
-2096.8 Virus Beetle (B1)
-2111.76 Dokuchi Shadow-Walker (BB4)
-2482.95 Dokuchi Silencer (B1)
-2581.38 Kami of Terrible Secrets (B3)
-3048.88 Repel the Vile (W3)
-3051.94 Imperial Oath (W5)
-3134.75 Michiko's Reign of Truth (W1)
-3267.27 Circuit Mender (3)
-3267.27 Circuit Mender (3)
-3476.68 Seven-Tail Mentor (W3)
-3476.68 Seven-Tail Mentor (W3)
-3816.57 Sunblade Samurai (W4)
-4359.25 Biting-Palm Ninja (B2)
-4622.11 Tatsunari, Toad Rider (B2)
-5200.26 Junji, the Midnight Sky (BB3)
-
-
-Score: 57.4153
-Iteration: 120
-Lands { W=8 B=9 }
-1166.88 Ninja's Kunai (1)
-1380.05 Era of Enlightenment (W1)
-1746.66 Wanderer's Intervention (W1)
-1746.66 Wanderer's Intervention (W1)
-1750.88 Eater of Virtue (1)
-1750.88 Eater of Virtue (1)
-1949.38 When We Were Young (W3)
-1978.1 Lethal Exploit (B1)
-2049.9 Virus Beetle (B1)
-2093.15 Mukotai Ambusher (B3)
-2130.85 Chainflail Centipede (B2)
-2406.28 Kami of Terrible Secrets (B3)
-2594.18 Dokuchi Silencer (B1)
-3016.46 Michiko's Reign of Truth (W1)
-3026.84 Repel the Vile (W3)
-3148.81 Seven-Tail Mentor (W3)
-3148.81 Seven-Tail Mentor (W3)
-3254.4 Sunblade Samurai (W4)
-3401.77 Circuit Mender (3)
-3401.77 Circuit Mender (3)
-4333.57 Biting-Palm Ninja (B2)
-4610.45 Tatsunari, Toad Rider (B2)
-4910.59 Junji, the Midnight Sky (BB3)
 
 */

@@ -50,6 +50,23 @@ constexpr int kDeepGames = 1000;
 // constexpr int kDeepLandSearch = 7;
 // constexpr int kDeepGames = 50;
 
+constexpr int kMaxColors = 3;
+
+std::vector<Color> AvailableColors() {
+  return {Color::Black, Color::White, Color::Green, Color::Blue, Color::Red};
+}
+
+// Returns vector of all color combinations from 1-3 distinct colors, based on
+// kAvailableColors.
+const std::vector<ManaCost> &ColorCombinations() {
+  const std::vector<ManaCost> *kCombinations = []() {
+    std::vector<ManaCost> *combinations = new std::vector<ManaCost>();
+    GenerateAllColorCombinations(AvailableColors(), kMaxColors, combinations);
+    return combinations;
+  }();
+  return *kCombinations;
+}
+
 // Uniformly samples `wanted` cards from [0,total). Any `forced_cards` are
 // automatically picked.
 std::vector<int> GeneratePermutation(const int total, const int wanted,
@@ -231,19 +248,6 @@ SelectCardsToReplace(const std::unordered_map<int, const Contribution *>
   return to_replace;
 }
 
-bool IsSubsetOf(const std::vector<int> &subset,
-                const std::vector<int> &superset) {
-  std::set<int> all(superset.begin(), superset.end());
-  for (int x : subset) {
-    if (!ContainsKey(all, x)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-TEST(IsSubsetOfTest) { EXPECT_TRUE(IsSubsetOf({2, 1, 3}, {1, 2, 3, 4, 5})); }
-
 // Given a range of [0..total-1], return all numbers not present in subset.
 std::vector<int> InvertSubset(const std::vector<int> &subset, int total) {
   std::vector<int> inverted;
@@ -274,7 +278,6 @@ std::vector<int> ReplaceBadCards(const std::vector<int> &permutation,
                                  const std::vector<int> &to_replace,
                                  const int total, ThreadsafeRandom &rand) {
   CHECK(!to_replace.empty());
-  // CHECK(IsSubsetOf(to_replace, permutation));
   // Stores one position of a replaced card.
   int replaced_position = -1;
 
@@ -327,6 +330,10 @@ GradientDescent(const std::vector<Spell> &available_cards,
   ThreadsafeRandom rand(kSeed + seed);
   // Keep track of best permutations.
   std::vector<std::unique_ptr<GeneratedDeck>> iterations;
+
+  // 0. Choose a set of colors. Filter available cards to those colors.
+  // However! the generated permutation indices must still match the original
+  // available_cards...
 
   // 1. Create a random starting deck.
   // Limited: 23 spells, 17 lands.

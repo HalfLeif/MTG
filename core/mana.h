@@ -205,6 +205,39 @@ std::ostream &operator<<(std::ostream &stream, const ManaCost &mana) {
   return stream << ToString(mana);
 }
 
+void RecursivelyAddColors(const std::vector<Color> &colors, int elem,
+                          int max_different, ManaCost mana,
+                          std::vector<ManaCost> *output) {
+  if (elem >= 0 && elem >= colors.size()) {
+    return;
+  }
+  if (mana.Total() >= max_different) {
+    // Sufficient number of colors already.
+    return;
+  }
+
+  if (elem >= 0) {
+    mana[colors[elem]]++;
+    mana[Color::Total]++;
+    output->push_back(mana);
+  }
+
+  for (int i = elem + 1; i < colors.size(); ++i) {
+    // Kick off N+1 colors.
+    // Intentionally copies mana so that modifications only affect sub tree.
+    RecursivelyAddColors(colors, i, max_different, mana, output);
+  }
+}
+
+// Generates all non-empty color combinations with at most `max_different`
+// distinct colors.
+void GenerateAllColorCombinations(const std::vector<Color> &colors,
+                                  int max_different,
+                                  std::vector<ManaCost> *output) {
+  // Start with -1 in order to kick of all colors.
+  RecursivelyAddColors(colors, -1, max_different, ManaCost(), output);
+}
+
 // -----------------------------------------------------------------------------
 
 TEST(ParseManaSimple) {
@@ -218,4 +251,39 @@ TEST(ManaAddition) {
   ManaCost b = ParseMana("R3");
   a += b;
   EXPECT_EQ(ToString(a), "BBR4");
+}
+
+TEST(RecursivelyAddColors) {
+  std::vector<ManaCost> combinations;
+  GenerateAllColorCombinations({Color::Black, Color::White}, 3, &combinations);
+  EXPECT_EQ(combinations.size(), 3);
+
+  std::set<std::string> mana_readable;
+  for (ManaCost cost : combinations) {
+    mana_readable.insert(ToString(cost));
+  }
+  EXPECT_TRUE(ContainsKey(mana_readable, "B"));
+  EXPECT_TRUE(ContainsKey(mana_readable, "W"));
+  EXPECT_TRUE(ContainsKey(mana_readable, "WB"));
+}
+
+TEST(RecursivelyAddColorsMaxDifferent) {
+  std::vector<ManaCost> combinations;
+  GenerateAllColorCombinations(
+      {Color::Black, Color::White, Color::Blue, Color::Green, Color::Red}, 2,
+      &combinations);
+  EXPECT_EQ(combinations.size(), 15);
+  // 5 monocolor
+  // 10 dualcolor
+
+  std::set<std::string> mana_readable;
+  for (ManaCost cost : combinations) {
+    mana_readable.insert(ToString(cost));
+  }
+  EXPECT_TRUE(ContainsKey(mana_readable, "B"));
+  EXPECT_TRUE(ContainsKey(mana_readable, "W"));
+  EXPECT_TRUE(ContainsKey(mana_readable, "G"));
+  EXPECT_TRUE(ContainsKey(mana_readable, "WB"));
+  EXPECT_TRUE(ContainsKey(mana_readable, "RG"));
+  EXPECT_FALSE(ContainsKey(mana_readable, "WBR"));
 }
