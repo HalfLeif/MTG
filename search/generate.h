@@ -52,21 +52,6 @@ constexpr int kDeepGames = 1000;
 
 constexpr int kMaxColors = 3;
 
-std::vector<Color> AvailableColors() {
-  return {Color::Black, Color::White, Color::Green, Color::Blue, Color::Red};
-}
-
-// Returns vector of all color combinations from 1-3 distinct colors, based on
-// kAvailableColors.
-const std::vector<ManaCost> &ColorCombinations() {
-  const std::vector<ManaCost> *kCombinations = []() {
-    std::vector<ManaCost> *combinations = new std::vector<ManaCost>();
-    GenerateAllColorCombinations(AvailableColors(), kMaxColors, combinations);
-    return combinations;
-  }();
-  return *kCombinations;
-}
-
 // Uniformly samples `wanted` cards from [0,total). Any `forced_cards` are
 // automatically picked.
 std::vector<int> GeneratePermutation(const std::vector<int> &available_ids,
@@ -346,16 +331,13 @@ struct GeneratedDeck {
 // Only return the best one. That way gets more diversity between best N decks.
 std::unique_ptr<GeneratedDeck>
 GradientDescent(const std::vector<Spell> &available_cards,
-                const std::set<int> &forced_cards, int seed) {
-  ThreadsafeRandom rand(kSeed + seed);
+                const ManaCost &colors, const std::set<int> &forced_cards,
+                int seed) {
+  ThreadsafeRandom rand(seed);
   // Keep track of best permutations.
   std::vector<std::unique_ptr<GeneratedDeck>> iterations;
 
-  // 0. Choose a set of colors. Filter available cards to those colors.
-  // However! the generated permutation indices must still match the original
-  // available_cards...
-  const std::vector<ManaCost> &combinations = ColorCombinations();
-  const ManaCost colors = combinations[seed % combinations.size()];
+  // 0. Filter available cards to chosen colors.
   const std::vector<int> available_ids = FilterOnMana(available_cards, colors);
 
   // 1. Create a random starting deck.
@@ -442,7 +424,8 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
 
 std::vector<std::unique_ptr<GeneratedDeck>>
 RunMultipleDescent(const std::vector<Spell> &available_cards,
-                   const std::set<int> &forced_cards) {
+                   const std::set<int> &forced_cards,
+                   const std::vector<ManaCost> &combinations) {
   std::vector<std::unique_ptr<GeneratedDeck>> all_decks;
   std::vector<std::thread> threads;
   std::mutex mutex;
@@ -450,8 +433,9 @@ RunMultipleDescent(const std::vector<Spell> &available_cards,
     // Must take `i` by value, not reference. Otherwise several threads will
     // have the same value and redo the same computation.
     threads.emplace_back([&, i]() {
+      const ManaCost &colors = combinations[i % combinations.size()];
       std::unique_ptr<GeneratedDeck> more =
-          GradientDescent(available_cards, forced_cards, i);
+          GradientDescent(available_cards, colors, forced_cards, kSeed + i);
 
       MutexLock lock(&mutex);
       all_decks.push_back(std::move(more));
@@ -555,9 +539,10 @@ void PrintGeneratedDecksDetailed(
 }
 
 void GenerateDeck(const std::vector<Spell> &available_cards,
-                  const std::set<int> &forced_cards) {
+                  const std::set<int> &forced_cards,
+                  const std::vector<ManaCost> &combinations) {
   std::vector<std::unique_ptr<GeneratedDeck>> all_decks =
-      RunMultipleDescent(available_cards, forced_cards);
+      RunMultipleDescent(available_cards, forced_cards, combinations);
 
   // TODO: Unique the decks, currently generates duplicates.
   PrintGeneratedDecksShort(all_decks);

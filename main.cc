@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 
   std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
   auto forced_cards = FindForcedCards(available_cards, sealed->forced_cards());
-  GenerateDeck(available_cards, forced_cards);
+  GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
 
   // const Library &lib = GetMainLib();
   // std::vector<Spell> chosen_cards =
