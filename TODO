@@ -3,6 +3,7 @@
 - Can play land after drawing if did not play land in first main
 - Support spell with mana cost X and use when appropriate. Reward is X-1.
 - Search for reasonable land combinations using only few iterations (25), and then refine best N of those with more iterations (200). Can do recursively for top N-1 with more iterations until stable order?
+- Limit number of colors to 2 for some threads. Limit to 3 for other threads. Or perhaps choose colors per thread in advance? Currently gets stuck at 3 color decks...
 
 # Suggest deck
 - Instead of replacing with a uniform random card, also keep track of past card contribution and topk sample based on contribution. Consider unknown cards as high contribution, but always update with latest simulation.

@@ -23,6 +23,7 @@ constexpr int kThreads = 16;
 constexpr int kDescentDepth = 125;
 constexpr int kPrintTopN = 3;
 constexpr double kChangeSizeRate = 0.05;
+constexpr int kSeed = 35;
 
 // Sampling temperature. Higher temperature -> more flat distribution.
 // Lower temperature (close to 0) -> more focused distribution.
@@ -243,6 +244,28 @@ bool IsSubsetOf(const std::vector<int> &subset,
 
 TEST(IsSubsetOfTest) { EXPECT_TRUE(IsSubsetOf({2, 1, 3}, {1, 2, 3, 4, 5})); }
 
+// Given a range of [0..total-1], return all numbers not present in subset.
+std::vector<int> InvertSubset(const std::vector<int> &subset, int total) {
+  std::vector<int> inverted;
+  inverted.reserve(total - subset.size());
+  for (int i = 0; i < total; ++i) {
+    if (!ContainsItem(subset, i)) {
+      inverted.push_back(i);
+    }
+  }
+  return inverted;
+}
+
+TEST(InvertSubset) {
+  std::vector<int> inverted = InvertSubset({2, 3, 4, 8}, 10);
+  EXPECT_EQ(inverted.size(), 6);
+  EXPECT_TRUE(ContainsItem(inverted, 0));
+  EXPECT_TRUE(ContainsItem(inverted, 1));
+  EXPECT_TRUE(ContainsItem(inverted, 5));
+  EXPECT_FALSE(ContainsItem(inverted, 2));
+  EXPECT_FALSE(ContainsItem(inverted, 8));
+}
+
 // Returns a new "permutation" given a permutation, and what elements of
 // permutation should be replaced.
 // `to_replace` must be a subset of `permutation`.
@@ -255,30 +278,28 @@ std::vector<int> ReplaceBadCards(const std::vector<int> &permutation,
   // Stores one position of a replaced card.
   int replaced_position = -1;
 
+  std::vector<int> pool = InvertSubset(permutation, total);
+
   std::vector<int> new_permutation;
   new_permutation.reserve(permutation.size());
   for (const int index : permutation) {
-    int new_index = index;
-    if (ContainsItem(to_replace, index)) {
+    if (!pool.empty() && ContainsItem(to_replace, index)) {
       // Choose a different card randonly.
-      while (ContainsItem(permutation, new_index) ||
-             ContainsItem(new_permutation, new_index)) {
-        new_index = rand.Rand() % total;
-      }
       replaced_position = new_permutation.size();
+      int choice = rand.Rand() % pool.size();
+      MoveItem(choice, pool, new_permutation);
+    } else {
+      new_permutation.push_back(index);
     }
-    new_permutation.push_back(new_index);
   }
 
   // Chance to modify deck size
   if (const double r = rand.RandOne(); r < kChangeSizeRate) {
-    // Increase deck size
-    int new_index = rand.Rand() % total;
-    while (ContainsItem(permutation, new_index) ||
-           ContainsItem(new_permutation, new_index)) {
-      new_index = rand.Rand() % total;
+    // Increase deck size if there are still available cards.
+    if (!pool.empty()) {
+      int choice = rand.Rand() % pool.size();
+      MoveItem(choice, pool, new_permutation);
     }
-    new_permutation.push_back(new_index);
   } else if (r < 2 * kChangeSizeRate) {
     // Decrease deck size. Must only remove a "bad" card.
     CHECK(replaced_position >= 0);
@@ -303,7 +324,7 @@ struct GeneratedDeck {
 std::unique_ptr<GeneratedDeck>
 GradientDescent(const std::vector<Spell> &available_cards,
                 const std::set<int> &forced_cards, int seed) {
-  ThreadsafeRandom rand(seed);
+  ThreadsafeRandom rand(kSeed + seed);
   // Keep track of best permutations.
   std::vector<std::unique_ptr<GeneratedDeck>> iterations;
 
@@ -438,13 +459,15 @@ FilterCards(const std::vector<Spell> &all_cards,
       continue;
     }
     if (spell->cost.contains(Color::Red) ||
-        spell->cost.contains(Color::Green) ||
-        spell->cost.contains(Color::Blue)) {
+        spell->cost.contains(Color::Green)
+        //
+        // || spell->cost.contains(Color::Blue)
+        || spell->cost.contains(Color::White)) {
       // This is a hack to focus on a subset of colors. Ideally the program
       // would first run a simulation to pick best colors, and then optimize
       // within the colors. Or be more aggressive about what cards to keep.
       // TODO: replace with better algorithm.
-      // continue;
+      continue;
     }
     result.push_back(*spell);
   }
