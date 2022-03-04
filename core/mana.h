@@ -206,7 +206,7 @@ std::ostream &operator<<(std::ostream &stream, const ManaCost &mana) {
 }
 
 void RecursivelyAddColors(const std::vector<Color> &colors, int elem,
-                          int max_different, ManaCost mana,
+                          int min_different, int max_different, ManaCost mana,
                           std::vector<ManaCost> *output) {
   if (elem >= 0 && elem >= colors.size()) {
     return;
@@ -217,25 +217,28 @@ void RecursivelyAddColors(const std::vector<Color> &colors, int elem,
   }
 
   if (elem >= 0) {
-    mana[colors[elem]]++;
-    mana[Color::Total]++;
-    output->push_back(mana);
+    ++mana[colors[elem]];
+    ++mana[Color::Total];
+    if (mana.Total() >= min_different) {
+      output->push_back(mana);
+    }
   }
 
   for (int i = elem + 1; i < colors.size(); ++i) {
     // Kick off N+1 colors.
     // Intentionally copies mana so that modifications only affect sub tree.
-    RecursivelyAddColors(colors, i, max_different, mana, output);
+    RecursivelyAddColors(colors, i, min_different, max_different, mana, output);
   }
 }
 
 // Generates all non-empty color combinations with at most `max_different`
 // distinct colors.
 void GenerateAllColorCombinations(const std::vector<Color> &colors,
-                                  int max_different,
+                                  int min_different, int max_different,
                                   std::vector<ManaCost> *output) {
   // Start with -1 in order to kick of all colors.
-  RecursivelyAddColors(colors, -1, max_different, ManaCost(), output);
+  RecursivelyAddColors(colors, -1, min_different, max_different, ManaCost(),
+                       output);
 }
 
 // -----------------------------------------------------------------------------
@@ -255,7 +258,8 @@ TEST(ManaAddition) {
 
 TEST(RecursivelyAddColors) {
   std::vector<ManaCost> combinations;
-  GenerateAllColorCombinations({Color::Black, Color::White}, 3, &combinations);
+  GenerateAllColorCombinations({Color::Black, Color::White}, 1, 3,
+                               &combinations);
   EXPECT_EQ(combinations.size(), 3);
 
   std::set<std::string> mana_readable;
@@ -267,23 +271,26 @@ TEST(RecursivelyAddColors) {
   EXPECT_TRUE(ContainsKey(mana_readable, "WB"));
 }
 
-TEST(RecursivelyAddColorsMaxDifferent) {
+TEST(RecursivelyAddColorsMinMaxDifferent) {
   std::vector<ManaCost> combinations;
   GenerateAllColorCombinations(
-      {Color::Black, Color::White, Color::Blue, Color::Green, Color::Red}, 2,
+      {Color::Black, Color::White, Color::Blue, Color::Green, Color::Red}, 2, 2,
       &combinations);
-  EXPECT_EQ(combinations.size(), 15);
-  // 5 monocolor
-  // 10 dualcolor
+  EXPECT_EQ(combinations.size(), 10);
 
   std::set<std::string> mana_readable;
   for (ManaCost cost : combinations) {
     mana_readable.insert(ToString(cost));
   }
-  EXPECT_TRUE(ContainsKey(mana_readable, "B"));
-  EXPECT_TRUE(ContainsKey(mana_readable, "W"));
-  EXPECT_TRUE(ContainsKey(mana_readable, "G"));
+  // No monocolor
+  EXPECT_FALSE(ContainsKey(mana_readable, "B"));
+  EXPECT_FALSE(ContainsKey(mana_readable, "W"));
+  EXPECT_FALSE(ContainsKey(mana_readable, "G"));
+
+  // Only dual color
   EXPECT_TRUE(ContainsKey(mana_readable, "WB"));
+  EXPECT_TRUE(ContainsKey(mana_readable, "BR"));
   EXPECT_TRUE(ContainsKey(mana_readable, "RG"));
+
   EXPECT_FALSE(ContainsKey(mana_readable, "WBR"));
 }

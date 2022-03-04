@@ -102,6 +102,15 @@ public:
         "Eater of Virtue",
     };
   }
+
+  int MinColors() const override { return 2; }
+  int MaxColors() const override { return 2; }
+
+  // Colors the generator can use for building a deck.
+  std::vector<Color> AvailableColors() const override {
+    return {Color::Black, Color::White, Color::Green, Color::Blue,
+            /*Color::Red*/};
+  }
 };
 
 /* Round 1
@@ -131,6 +140,33 @@ Lands { U=8 B=10 }
 4318.39 Tatsunari, Toad Rider (B2)
 4614.42 Moonsnare Specialist (U3)
 5262.54 Junji, the Midnight Sky (BB3)
+
+Score: 58.4915
+Iteration: 81
+Lands { B=9 G=8 }
+739.584 Dramatist's Puppet (4)
+1281.03 Automated Artificer (2)
+1292.11 Webspinner Cuff (G2)
+1611.81 Grafted Growth (G2)
+1697.75 Eater of Virtue (1)
+1697.75 Eater of Virtue (1)
+1757.32 Chainflail Centipede (B2)
+1995.89 Fade into Antiquity (G2)
+1997.6 Dokuchi Shadow-Walker (BB4)
+2093.17 Lethal Exploit (B1)
+2131.77 Virus Beetle (B1)
+2262.42 Mukotai Ambusher (B3)
+2451.64 Careful Cultivation (G2)
+2562.99 Dokuchi Silencer (B1)
+2899.07 Kami of Terrible Secrets (B3)
+3188.44 Circuit Mender (3)
+3188.44 Circuit Mender (3)
+3775.73 Gloomshrieker (BG1)
+4132 Biting-Palm Ninja (B2)
+4147.05 Blossom Prancer (GG3)
+4479.4 Boseiju Reaches Skyward (G3)
+4775.57 Tatsunari, Toad Rider (B2)
+4864.98 Junji, the Midnight Sky (BB3)
 
 Score: 58.3989
 Iteration: 94
@@ -210,57 +246,5 @@ Lands { W=7 B=9 }
 3848.81 Biting-Palm Ninja (B2)
 4529.14 Tatsunari, Toad Rider (B2)
 4553.99 Junji, the Midnight Sky (BB3)
-
-Score: 57.9875
-Iteration: 100
-Lands { W=5 U=7 B=6 }
-1392.38 Era of Enlightenment (W1)
-1622.19 Eater of Virtue (1)
-1622.19 Eater of Virtue (1)
-1693.45 Moon-Circuit Hacker (U1)
-2009.24 Go-Shintai of Lost Wisdom (U1)
-2034.01 Imperial Oath (W5)
-2145.3 Dokuchi Silencer (B1)
-2378.65 Michiko's Reign of Truth (W1)
-2434.16 Repel the Vile (W3)
-2553.26 Prosperous Thief (U2)
-2706.92 Kami of Terrible Secrets (B3)
-2853.15 Sunblade Samurai (W4)
-2947.68 Seven-Tail Mentor (W3)
-2947.68 Seven-Tail Mentor (W3)
-3152.82 The Reality Chip (U1)
-3342.11 Circuit Mender (3)
-3342.11 Circuit Mender (3)
-3485.62 Junji, the Midnight Sky (BB3)
-3690.23 Kairi, the Swirling Sky (UU4)
-3917.35 Biting-Palm Ninja (B2)
-3918.24 Tatsunari, Toad Rider (B2)
-4142.22 Moonsnare Specialist (U3)
-
-Score: 57.8119
-Iteration: 124
-Lands { W=5 U=5 B=8 }
-1713.96 Eater of Virtue (1)
-1713.96 Eater of Virtue (1)
-1728.27 Mukotai Ambusher (B3)
-1809.61 Lethal Exploit (B1)
-1960.7 Chainflail Centipede (B2)
-1984.89 Virus Beetle (B1)
-2041.09 Prosperous Thief (U2)
-2218.68 Michiko's Reign of Truth (W1)
-2336.01 Imperial Oath (W5)
-2421.26 Dokuchi Silencer (B1)
-2446.09 The Reality Chip (U1)
-2686.98 Kami of Terrible Secrets (B3)
-2770.66 Repel the Vile (W3)
-2865.92 Seven-Tail Mentor (W3)
-2865.92 Seven-Tail Mentor (W3)
-3148.35 Sunblade Samurai (W4)
-3421.28 Circuit Mender (3)
-3421.28 Circuit Mender (3)
-3796.6 Moonsnare Specialist (U3)
-4024.28 Biting-Palm Ninja (B2)
-4479.13 Tatsunari, Toad Rider (B2)
-4516.44 Junji, the Midnight Sky (BB3)
 
 */

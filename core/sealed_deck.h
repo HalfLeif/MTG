@@ -20,6 +20,9 @@ public:
   // Resulting deck (for analysis purposes).
   virtual std::vector<std::string_view> chosen_deck() const { return {}; };
 
+  // Minimum number of colors in generated deck.
+  virtual int MinColors() const { return 1; }
+
   // Maximum number of colors in generated deck.
   virtual int MaxColors() const { return 3; }
 
@@ -33,8 +36,8 @@ public:
   const std::vector<ManaCost> &ColorCombinations() {
     const std::vector<ManaCost> *kCombinations = [this]() {
       std::vector<ManaCost> *combinations = new std::vector<ManaCost>();
-      GenerateAllColorCombinations(this->AvailableColors(), this->MaxColors(),
-                                   combinations);
+      GenerateAllColorCombinations(this->AvailableColors(), this->MinColors(),
+                                   this->MaxColors(), combinations);
       return combinations;
     }();
     return *kCombinations;
