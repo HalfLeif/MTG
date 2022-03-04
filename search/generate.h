@@ -69,11 +69,12 @@ const std::vector<ManaCost> &ColorCombinations() {
 
 // Uniformly samples `wanted` cards from [0,total). Any `forced_cards` are
 // automatically picked.
-std::vector<int> GeneratePermutation(const int total, const int wanted,
+std::vector<int> GeneratePermutation(const std::vector<int> &available_ids,
+                                     const int wanted,
                                      const std::set<int> &forced_cards,
                                      ThreadsafeRandom &rand) {
   std::vector<int> permutation;
-  if (wanted > total) {
+  if (wanted > available_ids.size()) {
     ERROR << "Cannot request more cards than there are." << std::endl;
     return permutation;
   }
@@ -83,9 +84,9 @@ std::vector<int> GeneratePermutation(const int total, const int wanted,
   }
 
   std::vector<int> shuffled;
-  shuffled.reserve(total);
+  shuffled.reserve(available_ids.size());
   permutation.reserve(wanted);
-  for (int i = 0; i < total; ++i) {
+  for (int i : available_ids) {
     if (ContainsKey(forced_cards, i)) {
       // Already picked.
       permutation.push_back(i);
@@ -312,6 +313,33 @@ std::vector<int> ReplaceBadCards(const std::vector<int> &permutation,
   return new_permutation;
 }
 
+bool ColorsIn(const Spell &spell, const ManaCost &mana) {
+  for (const auto [color, amount] : spell.cost) {
+    if (!mana.contains(color)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+TEST(ColorsIn) {
+  EXPECT_TRUE(ColorsIn(MakeSpell("W3"), ParseMana("W")));
+  EXPECT_TRUE(ColorsIn(MakeSpell("W3"), ParseMana("WB")));
+  EXPECT_TRUE(ColorsIn(MakeSpell("WB3"), ParseMana("WB")));
+  EXPECT_TRUE(ColorsIn(MakeSpell("WB3"), ParseMana("WBUG")));
+}
+
+std::vector<int> FilterOnMana(const std::vector<Spell> &available_cards,
+                              const ManaCost &mana) {
+  std::vector<int> result;
+  for (int i = 0; i < available_cards.size(); ++i) {
+    if (ColorsIn(available_cards[i], mana)) {
+      result.push_back(i);
+    }
+  }
+  return result;
+}
+
 struct GeneratedDeck {
   std::vector<int> permutation;
 
@@ -334,11 +362,14 @@ GradientDescent(const std::vector<Spell> &available_cards,
   // 0. Choose a set of colors. Filter available cards to those colors.
   // However! the generated permutation indices must still match the original
   // available_cards...
+  const std::vector<ManaCost> &combinations = ColorCombinations();
+  const ManaCost colors = combinations[seed % combinations.size()];
+  const std::vector<int> available_ids = FilterOnMana(available_cards, colors);
 
   // 1. Create a random starting deck.
   // Limited: 23 spells, 17 lands.
   std::vector<int> permutation =
-      GeneratePermutation(available_cards.size(), 23, forced_cards, rand);
+      GeneratePermutation(available_ids, 23, forced_cards, rand);
 
   for (int i = 0; i < kDescentDepth; ++i) {
     if (PARANOIA) {
@@ -575,11 +606,20 @@ bool IsSubset(const std::set<int> &forced, const std::set<int> &picked) {
   return true;
 }
 
+std::vector<int> Consecutive(int total) {
+  std::vector<int> result;
+  result.reserve(total);
+  for (int i = 0; i < total; ++i) {
+    result.push_back(i);
+  }
+  return result;
+}
+
 TEST(GeneratePermutationWithinLimits) {
   ThreadsafeRandom rand;
   std::set<int> forced_cards = {24, 27, 31};
   std::vector<int> permutation =
-      GeneratePermutation(100, 23, forced_cards, rand);
+      GeneratePermutation(Consecutive(32), 23, forced_cards, rand);
   EXPECT_EQ(permutation.size(), 23);
   EXPECT_TRUE(AreInRange(permutation, 100));
 
@@ -593,7 +633,7 @@ TEST(GeneratePermutationIgnoresForcedCardsOutOfRange) {
   ThreadsafeRandom rand;
   std::set<int> forced_cards = {1000};
   std::vector<int> permutation =
-      GeneratePermutation(100, 23, forced_cards, rand);
+      GeneratePermutation(Consecutive(32), 23, forced_cards, rand);
   EXPECT_TRUE(AreInRange(permutation, 100));
 
   std::set<int> picked(permutation.begin(), permutation.end());
@@ -604,7 +644,7 @@ TEST(GeneratePermutationWhenForcedCardsAlreadyMaximum) {
   ThreadsafeRandom rand;
   std::set<int> forced_cards = {0, 1, 2};
   std::vector<int> permutation =
-      GeneratePermutation(100, 3, forced_cards, rand);
+      GeneratePermutation(Consecutive(32), 3, forced_cards, rand);
   EXPECT_EQ(permutation.size(), 3);
 
   std::set<int> picked(permutation.begin(), permutation.end());
