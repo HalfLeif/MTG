@@ -106,11 +106,12 @@ public:
   std::vector<std::string_view> chosen_deck() const override {
     return {
         "Era of Enlightenment",
+        "Era of Enlightenment",
         "Dokuchi Shadow-Walker",
         //
         "Eater of Virtue",
         "Eater of Virtue",
-        "When We Were Young",
+        // "When We Were Young",
         "When We Were Young",
         "Wanderer's Intervention",
         "Wanderer's Intervention",

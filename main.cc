@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
                              });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
-                                 // "Era of Enlightenment",
+                                 // "Mukotai Ambusher",
                              });
 
   Library lib = Library::Builder()
@@ -69,6 +69,7 @@ int main(int argc, char *argv[]) {
                     .AddSpells(exp_cards, Experiment::exp)
                     // Compare with having one more land.
                     // .AddLand(BasicLand(Color::Black), Experiment::exp2)
+                    .AddLand(BasicLand(Color::Colorless))
                     .Build();
 
   ThreadsafeRandom random;
