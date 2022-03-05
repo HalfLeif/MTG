@@ -481,6 +481,16 @@ FilterCards(const std::vector<Spell> &all_cards,
   return result;
 }
 
+TEST(FilterCardsSupportsDuplicateCards) {
+  std::vector<Spell> spells;
+  spells.push_back(MakeSpell("B2", 1, "Foo"));
+  std::vector<Spell> filtered = FilterCards(spells, {"Foo", "Foo"});
+  EXPECT_EQ(filtered.size(), 2);
+  for (SpellView spell : filtered) {
+    EXPECT_EQ(spell.name(), "Foo");
+  }
+}
+
 // Finds the indices of the `forced_card_names` in `available_cards`. In case of
 // duplicates, only so many instances are included as in `forced_card_names`.
 std::set<int>

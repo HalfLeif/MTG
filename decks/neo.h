@@ -103,17 +103,78 @@ public:
     };
   }
 
+  std::vector<std::string_view> chosen_deck() const override {
+    return {
+        "Era of Enlightenment",
+        "Dokuchi Shadow-Walker",
+        //
+        "Eater of Virtue",
+        "Eater of Virtue",
+        "When We Were Young",
+        "When We Were Young",
+        "Wanderer's Intervention",
+        "Wanderer's Intervention",
+        "Lethal Exploit",
+        "Imperial Oath",
+        "Chainflail Centipede",
+        "Virus Beetle",
+        "Kami of Terrible Secrets",
+        "Dokuchi Silencer",
+        "Michiko's Reign of Truth",
+        "Repel the Vile",
+        "Sunblade Samurai",
+        "Seven-Tail Mentor",
+        "Seven-Tail Mentor",
+        "Circuit Mender",
+        "Circuit Mender",
+        "Biting-Palm Ninja",
+        "Tatsunari, Toad Rider",
+        "Junji, the Midnight Sky",
+    };
+  };
+
   int MinColors() const override { return 2; }
   int MaxColors() const override { return 2; }
 
   // Colors the generator can use for building a deck.
   std::vector<Color> AvailableColors() const override {
-    return {Color::Black, Color::White, Color::Green, Color::Blue,
-            /*Color::Red*/};
+    return {
+        Color::Black, Color::White, // Color::Green, Color::Blue,
+                                    // Color::Red
+    };
   }
 };
 
 /* Round 1
+
+Note: Even better with { W=8 B=8 }
+Score: 58.5363
+Iteration: 48
+Lands { W=7 B=9 }
+1215.46 Era of Enlightenment (W1)
+1390.46 Dokuchi Shadow-Walker (BB4)
+1579.41 Eater of Virtue (1)
+1579.41 Eater of Virtue (1)
+1587.15 When We Were Young (W3)
+1587.15 When We Were Young (W3)
+1697.63 Wanderer's Intervention (W1)
+1697.63 Wanderer's Intervention (W1)
+1831.49 Lethal Exploit (B1)
+1871.74 Imperial Oath (W5)
+1961.05 Chainflail Centipede (B2)
+2050.99 Virus Beetle (B1)
+2434.29 Kami of Terrible Secrets (B3)
+2619.76 Dokuchi Silencer (B1)
+2697.43 Michiko's Reign of Truth (W1)
+2813.11 Repel the Vile (W3)
+3136.28 Sunblade Samurai (W4)
+3246.75 Seven-Tail Mentor (W3)
+3246.75 Seven-Tail Mentor (W3)
+3452.61 Circuit Mender (3)
+3452.61 Circuit Mender (3)
+4141.99 Biting-Palm Ninja (B2)
+4504.23 Tatsunari, Toad Rider (B2)
+4540.97 Junji, the Midnight Sky (BB3)
 
 Score: 58.6629
 Iteration: 93
