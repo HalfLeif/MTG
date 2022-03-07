@@ -46,34 +46,33 @@ int main(int argc, char *argv[]) {
   std::unique_ptr<SealedDeck> sealed = std::make_unique<Neo>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
-  // std::vector<Spell> available_cards = FilterCards(all_cards,
-  // sealed->cards()); auto forced_cards = FindForcedCards(available_cards,
-  // sealed->forced_cards()); GenerateDeck(available_cards, forced_cards,
-  // sealed->ColorCombinations());
+  std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
+  auto forced_cards = FindForcedCards(available_cards, sealed->forced_cards());
+  GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
 
-  std::vector<Spell> chosen_cards =
-      FilterCards(all_cards, sealed->chosen_deck());
-  std::vector<Spell> base_cards =
-      FilterCards(all_cards, {
-                                 // "Dokuchi Shadow-Walker",
-                             });
-  std::vector<Spell> exp_cards =
-      FilterCards(all_cards, {
-                                 // "Mukotai Ambusher",
-                             });
-
-  Library lib = Library::Builder()
-                    .SetLimited()
-                    .AddSpells(chosen_cards)
-                    .AddSpells(base_cards, Experiment::base)
-                    .AddSpells(exp_cards, Experiment::exp)
-                    // Compare with having one more land.
-                    // .AddLand(BasicLand(Color::Black), Experiment::exp2)
-                    .AddLand(BasicLand(Color::Colorless))
-                    .Build();
-
-  ThreadsafeRandom random;
-  CompareParams(lib, random, 1000);
+  // std::vector<Spell> chosen_cards =
+  //     FilterCards(all_cards, sealed->chosen_deck());
+  // std::vector<Spell> base_cards =
+  //     FilterCards(all_cards, {
+  //                                // "Dokuchi Shadow-Walker",
+  //                            });
+  // std::vector<Spell> exp_cards =
+  //     FilterCards(all_cards, {
+  //                                // "Mukotai Ambusher",
+  //                            });
+  //
+  // Library lib = Library::Builder()
+  //                   .SetLimited()
+  //                   .AddSpells(chosen_cards)
+  //                   .AddSpells(base_cards, Experiment::base)
+  //                   .AddSpells(exp_cards, Experiment::exp)
+  //                   // Compare with having one more land.
+  //                   // .AddLand(BasicLand(Color::Black), Experiment::exp2)
+  //                   .AddLand(BasicLand(Color::Colorless))
+  //                   .Build();
+  //
+  // ThreadsafeRandom random;
+  // CompareParams(lib, random, 1000);
 
   return 0;
 }

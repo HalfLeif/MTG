@@ -21,7 +21,7 @@ public:
         "When We Were Young",
         "Circuit Mender",
         "Kairi, the Swirling Sky",
-        "When We Were Young",
+        // "When We Were Young",
         "Automated Artificer",
         "The Shattered States Era",
         "Towashi Songshaper",
@@ -31,7 +31,7 @@ public:
         "Anchor to Reality",
         "Mnemonic Sphere",
         "Akki Ronin",
-        "Dramatist's Puppet",
+        // "Dramatist's Puppet",
         "Explosive Entry",
         "Go-Shintai of Ancient Wars",
         "Eater of Virtue",
@@ -42,7 +42,7 @@ public:
         "Careful Cultivation",
         "Moon-Circuit Hacker",
         "Twinshot Sniper",
-        "Eater of Virtue",
+        // "Eater of Virtue", // one less, don't want to have two.
         "Prosperous Thief",
         "Lethal Exploit",
         "Mirrorshell Crab",
@@ -77,7 +77,7 @@ public:
         "Mukotai Ambusher",
         "Experimental Synthesizer",
         "Wanderer's Intervention",
-        "Enormous Energy Blade",
+        // "Enormous Energy Blade",
         "Junji, the Midnight Sky",
         "Blossom Prancer",
         "Fade into Antiquity",
@@ -140,8 +140,9 @@ public:
   // Colors the generator can use for building a deck.
   std::vector<Color> AvailableColors() const override {
     return {
-        Color::Black, Color::White, // Color::Green, Color::Blue,
-                                    // Color::Red
+        Color::Black, // Color::White,
+        Color::Green, Color::Blue,
+        // Color::Red
     };
   }
 };
@@ -230,83 +231,58 @@ Lands { B=9 G=8 }
 4775.57 Tatsunari, Toad Rider (B2)
 4864.98 Junji, the Midnight Sky (BB3)
 
-Score: 58.3989
-Iteration: 94
-Lands { U=8 B=11 }
-1178.52 Automated Artificer (2)
-1696.71 Eater of Virtue (1)
-1696.71 Eater of Virtue (1)
-1703.13 Moon-Circuit Hacker (U1)
-2104.66 Lethal Exploit (B1)
-2138.74 Go-Shintai of Lost Wisdom (U1)
-2367.39 Prosperous Thief (U2)
-2382.45 Virus Beetle (B1)
-2383.66 Chainflail Centipede (B2)
-2472.28 Dokuchi Shadow-Walker (BB4)
-2482.94 Dokuchi Silencer (B1)
-2831.77 Mukotai Ambusher (B3)
-3012.49 The Reality Chip (U1)
-3473.69 Kami of Terrible Secrets (B3)
-3599.4 Circuit Mender (3)
-3599.4 Circuit Mender (3)
-3838.12 Kairi, the Swirling Sky (UU4)
-4466.63 Tatsunari, Toad Rider (B2)
-4492.34 Moonsnare Specialist (U3)
-4928.28 Biting-Palm Ninja (B2)
-5376.04 Junji, the Midnight Sky (BB3)
+Score: 58.4404
+Iteration: 55
+Lands { U=8 B=10 }
+1055.82 March of Swirling Mist (U2)
+1151.81 Mirrorshell Crab (UU5)
+1171.89 Automated Artificer (2)
+1514.36 Suit Up (U2)
+1772.48 Lethal Exploit (B1)
+1793.31 Eater of Virtue (1)
+1869.29 Dokuchi Shadow-Walker (BB4)
+1930.77 Go-Shintai of Lost Wisdom (U1)
+2192.51 Chainflail Centipede (B2)
+2393.1 Virus Beetle (B1)
+2595.03 Mukotai Ambusher (B3)
+2635.71 Dokuchi Silencer (B1)
+2725.62 Prosperous Thief (U2)
+3220.35 Kami of Terrible Secrets (B3)
+3283.75 The Reality Chip (U1)
+3614.73 Circuit Mender (3)
+3614.73 Circuit Mender (3)
+3992.85 Kairi, the Swirling Sky (UU4)
+4087.59 Biting-Palm Ninja (B2)
+4315.64 Tatsunari, Toad Rider (B2)
+4577.98 Moonsnare Specialist (U3)
+5214.07 Junji, the Midnight Sky (BB3)
 
-Score: 58.3507
-Iteration: 113
-Lands { W=8 B=10 }
-1359.48 When We Were Young (W3)
-1596.32 Era of Enlightenment (W1)
-1687.01 Wanderer's Intervention (W1)
-1729.14 Eater of Virtue (1)
-1729.14 Eater of Virtue (1)
-2015.57 Dokuchi Shadow-Walker (BB4)
-2039.13 Mukotai Ambusher (B3)
-2064.03 Lethal Exploit (B1)
-2088.12 Virus Beetle (B1)
-2553.57 Dokuchi Silencer (B1)
-2573.44 Imperial Oath (W5)
-2688.96 Kami of Terrible Secrets (B3)
-2805.97 Repel the Vile (W3)
-3043.57 Michiko's Reign of Truth (W1)
-3296.61 Seven-Tail Mentor (W3)
-3296.61 Seven-Tail Mentor (W3)
-3402.8 Circuit Mender (3)
-3402.8 Circuit Mender (3)
-3647.98 Sunblade Samurai (W4)
-4099.34 Biting-Palm Ninja (B2)
-4480.79 Tatsunari, Toad Rider (B2)
-5313.28 Junji, the Midnight Sky (BB3)
+Score: 58.2404
+Iteration: 57
+Lands { U=8 B=9 }
+624.917 Mirrorshell Crab (UU5)
+1157.99 March of Swirling Mist (U2)
+1264.6 Ninja's Kunai (1)
+1466.15 Mnemonic Sphere (U1)
+1534.35 Dokuchi Shadow-Walker (BB4)
+1651.17 Eater of Virtue (1)
+1783.93 Moon-Circuit Hacker (U1)
+1866.42 Lethal Exploit (B1)
+2079.76 Go-Shintai of Lost Wisdom (U1)
+2179.02 Chainflail Centipede (B2)
+2207.38 Virus Beetle (B1)
+2417.35 Dokuchi Silencer (B1)
+2678.99 Mukotai Ambusher (B3)
+2737.31 Prosperous Thief (U2)
+3133.61 Kairi, the Swirling Sky (UU4)
+3195.16 Kami of Terrible Secrets (B3)
+3463.96 The Reality Chip (U1)
+3613.93 Circuit Mender (3)
+3613.93 Circuit Mender (3)
+4014.22 Biting-Palm Ninja (B2)
+4392.59 Tatsunari, Toad Rider (B2)
+4521.5 Moonsnare Specialist (U3)
+4877.17 Junji, the Midnight Sky (BB3)
 
-Score: 58.1002
-Iteration: 104
-Lands { W=7 B=9 }
-1150.59 Ninja's Kunai (1)
-1314.93 Era of Enlightenment (W1)
-1343.43 Dokuchi Shadow-Walker (BB4)
-1600.06 Wanderer's Intervention (W1)
-1600.06 Wanderer's Intervention (W1)
-1654.28 Eater of Virtue (1)
-1654.28 Eater of Virtue (1)
-1847.1 Mukotai Ambusher (B3)
-1938.16 Chainflail Centipede (B2)
-1973.57 Imperial Oath (W5)
-1979.65 Lethal Exploit (B1)
-2080.1 Virus Beetle (B1)
-2388.73 Kami of Terrible Secrets (B3)
-2594.04 Dokuchi Silencer (B1)
-2720.17 Repel the Vile (W3)
-3005.24 Michiko's Reign of Truth (W1)
-3032.88 Sunblade Samurai (W4)
-3339.91 Seven-Tail Mentor (W3)
-3339.91 Seven-Tail Mentor (W3)
-3431.34 Circuit Mender (3)
-3431.34 Circuit Mender (3)
-3848.81 Biting-Palm Ninja (B2)
-4529.14 Tatsunari, Toad Rider (B2)
-4553.99 Junji, the Midnight Sky (BB3)
 
 */

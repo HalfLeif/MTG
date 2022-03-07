@@ -22,8 +22,8 @@
 constexpr int kThreads = 16;
 constexpr int kDescentDepth = 125;
 constexpr int kPrintTopN = 3;
-constexpr double kChangeSizeRate = 0.05;
-constexpr int kSeed = 35;
+constexpr double kChangeSizeRate = 0.01;
+constexpr int kSeed = 1511;
 
 // Sampling temperature. Higher temperature -> more flat distribution.
 // Lower temperature (close to 0) -> more focused distribution.
