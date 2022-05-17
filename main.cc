@@ -19,6 +19,7 @@
 #include "decks/m20.h"
 #include "decks/mid.h"
 #include "decks/neo.h"
+#include "decks/snc.h"
 #include "decks/thb.h"
 #include "decks/vow.h"
 #include "parser/parse_csv.h"
@@ -35,7 +36,7 @@ const Library &GetMainLib() {
 }
 
 constexpr bool DEBUG_ON = false;
-constexpr bool PARANOIA = false;
+constexpr bool PARANOIA = true; // TODO
 
 int main(int argc, char *argv[]) {
   std::cout << "\n -- Running tests --\n";
@@ -43,11 +44,15 @@ int main(int argc, char *argv[]) {
   std::cout << "\n -- Started program --\n";
   // RunAllBenchmarks();
 
-  std::unique_ptr<SealedDeck> sealed = std::make_unique<Neo>();
+  std::unique_ptr<SealedDeck> sealed = std::make_unique<Snc>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
   std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
   auto forced_cards = FindForcedCards(available_cards, sealed->forced_cards());
+
+  // DEBUG
+  // int forced = *forced_cards.begin();
+  // std::cout << "Forced card: " << available_cards[forced] << "\n";
   GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
 
   // std::vector<Spell> chosen_cards =
