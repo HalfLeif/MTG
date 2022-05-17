@@ -20,10 +20,10 @@
 
 // Number of threads determines how many gradient descents will run in parallel.
 constexpr int kThreads = 16;
-constexpr int kDescentDepth = 125;
+constexpr int kDescentDepth = 150;
 constexpr int kPrintTopN = 3;
 constexpr double kChangeSizeRate = 0.01;
-constexpr int kSeed = 3;
+constexpr int kSeed = 6;
 
 // Sampling temperature. Higher temperature -> more flat distribution.
 // Lower temperature (close to 0) -> more focused distribution.
@@ -314,10 +314,14 @@ TEST(ColorsIn) {
 
 std::vector<int> FilterOnMana(const std::vector<Spell> &available_cards,
                               const std::set<int> &forced_cards,
-                              const ManaCost &mana) {
+                              ManaCost mana) {
+  for (int f : forced_cards) {
+    mana += available_cards[f].cost;
+  }
+
   std::vector<int> result;
   for (int i = 0; i < available_cards.size(); ++i) {
-    if (ColorsIn(available_cards[i], mana) || ContainsKey(forced_cards, i)) {
+    if (ColorsIn(available_cards[i], mana)) {
       result.push_back(i);
     }
   }
@@ -584,7 +588,7 @@ TEST(FilterOnMana) {
   available_cards.push_back(MakeSpell("W", 1, "Citizen"));
 
   auto available = FilterOnMana(available_cards, {2}, ParseMana("BR"));
-  EXPECT_EQ(available.size(), 4);
+  EXPECT_EQ(available.size(), 5);
   EXPECT_TRUE(ContainsItem(available, 0));
   EXPECT_TRUE(ContainsItem(available, 1));
   EXPECT_TRUE(ContainsItem(available, 2));
@@ -593,7 +597,9 @@ TEST(FilterOnMana) {
   // Not BR, and not forced.
   EXPECT_FALSE(ContainsItem(available, 4));
   EXPECT_FALSE(ContainsItem(available, 5));
-  EXPECT_FALSE(ContainsItem(available, 6));
+
+  // Same color as forced card.
+  EXPECT_TRUE(ContainsItem(available, 6));
 }
 
 bool AreInRange(const std::vector<int> &permutation, const int max) {

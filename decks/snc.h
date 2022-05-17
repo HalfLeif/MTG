@@ -81,9 +81,9 @@ public:
 
   std::vector<std::string_view> forced_cards() const override {
     return {
-        "Freelance Muscle",
-        "Hold for Ransom",
-        "Knockout Blow",
+        "Freelance Muscle", "Jaxis, the Troublemaker",
+        // "Hold for Ransom",
+        // "Knockout Blow",
     };
   }
 
@@ -145,59 +145,138 @@ Lands { W=6 R=5 G=6 }
 4063.15 Rocco, Cabaretti Caterer (WRG2)
 4701.28 Jaxis, the Troublemaker (R3)
 
-Score: 55.2223
-Iteration: 85
-Lands { W=6 R=5 G=5 }
-1122.32 Hold for Ransom (W1)
-1402.67 Sky Crier (W1)
-1589.29 Park Heights Pegasus (WG)
-1618.49 Quick-Draw Dagger (3)
-1618.49 Quick-Draw Dagger (3)
-1636.07 Mayhem Patrol (R1)
-1729.06 Rumor Gatherer (WW1)
-1730.46 Celebrity Fencer (W3)
-1797.36 Riveteers Requisitioner (R1)
-1902.09 Illuminator Virtuoso (W1)
-1992.18 Ready to Rumble (R4)
-2030.73 Pugnacious Pugilist (RR3)
-2037.01 High-Rise Sawjack (G2)
-2131.23 Capenna Express (G3)
-2193.18 Ceremonial Groundbreaker (WG1)
-2344.5 Sizzling Soloist (R3)
-2750.95 Giada, Font of Hope (W1)
-3054.71 Jewel Thief (G2)
-3137.72 Freelance Muscle (G4)
-3255.33 Knockout Blow (W2)
-3484.06 Rocco, Cabaretti Caterer (WRG2)
-3737.99 Elegant Entourage (G3)
-3994.92 Inspiring Overseer (W2)
-4332.54 Jaxis, the Troublemaker (R3)
+Score: 56.2046
+Iteration: 108
+Lands { B=6 R=6 G=5 }
+1345.93 Gilded Pinions (2)
+1554.45 Light 'Em Up (R1)
+1642.21 Capenna Express (G3)
+1793.95 Mayhem Patrol (R1)
+1803.27 Quick-Draw Dagger (3)
+1803.27 Quick-Draw Dagger (3)
+1946.45 Deal Gone Bad (B3)
+2034.24 Ready to Rumble (R4)
+2096.19 Corrupt Court Official (B1)
+2125.64 Riveteers Requisitioner (R1)
+2146.85 Wrecking Crew (R4)
+2159.56 High-Rise Sawjack (G2)
+2266.91 Dig Up the Body (B2)
+2283.9 Sizzling Soloist (R3)
+2386.02 Murder (BB1)
+2941.66 Tenacious Underdog (B1)
+3333.87 Jewel Thief (G2)
+3367.94 Girder Goons (B4)
+3388.63 Rogues' Gallery (B2)
+3392.2 Freelance Muscle (G4)
+3482.78 Elegant Entourage (G3)
+3495.39 Pugnacious Pugilist (RR3)
+4839.26 Jaxis, the Troublemaker (R3)
 
-Score: 55.0937
-Iteration: 114
-Lands { B=6 R=6 G=6 }
-1383.08 Fake Your Own Death (B1)
-1563.12 Light 'Em Up (R1)
-1748.62 Mayhem Patrol (R1)
-1799.7 Quick-Draw Dagger (3)
-1799.7 Quick-Draw Dagger (3)
-1827.16 Join the Maestros (B4)
-2140.05 Corrupt Court Official (B1)
-2300.62 Riveteers Requisitioner (R1)
-2307.76 Deal Gone Bad (B3)
-2326.83 Dig Up the Body (B2)
-2355.72 Sizzling Soloist (R3)
-2394.29 Murder (BB1)
-2486.46 Wrecking Crew (R4)
-2515.01 High-Rise Sawjack (G2)
-2793.13 Tenacious Underdog (B1)
-3130.14 Girder Goons (B4)
-3144.13 Pugnacious Pugilist (RR3)
-3169.86 Rogues' Gallery (B2)
-3264.1 Jewel Thief (G2)
-3873.17 Elegant Entourage (G3)
-4035.48 Freelance Muscle (G4)
-4679.07 Jaxis, the Troublemaker (R3)
+Score: 56.0214
+Iteration: 122
+Lands { W=5 R=6 G=6 }
+1179.21 Hold for Ransom (W1)
+1199 Strangle (R)
+1500.84 Celebrity Fencer (W3)
+1653.14 Light 'Em Up (R1)
+1735.34 Illuminator Virtuoso (W1)
+1823.08 Quick-Draw Dagger (3)
+1823.08 Quick-Draw Dagger (3)
+1829.8 Mayhem Patrol (R1)
+2003.95 Ready to Rumble (R4)
+2085.83 Ceremonial Groundbreaker (WG1)
+2124.41 Wrecking Crew (R4)
+2320.66 Giada, Font of Hope (W1)
+2429.55 Riveteers Requisitioner (R1)
+2461.51 Sizzling Soloist (R3)
+2511.73 High-Rise Sawjack (G2)
+2711.52 Pugnacious Pugilist (RR3)
+2869.08 Knockout Blow (W2)
+3417.49 Jewel Thief (G2)
+3751.11 Inspiring Overseer (W2)
+3872.4 Freelance Muscle (G4)
+3920.4 Rocco, Cabaretti Caterer (WRG2)
+3958.74 Elegant Entourage (G3)
+4827.5 Jaxis, the Troublemaker (R3)
+
+Score: 55.5872
+Iteration: 124
+Lands { W=6 R=6 G=6 }
+1301.87 Strangle (R)
+1403.68 Backup Agent (W1)
+1542.32 Sky Crier (W1)
+1837.42 Light 'Em Up (R1)
+1862.61 Mayhem Patrol (R1)
+1898.58 Illuminator Virtuoso (W1)
+2011.6 Quick-Draw Dagger (3)
+2011.6 Quick-Draw Dagger (3)
+2011.92 Riveteers Requisitioner (R1)
+2155.75 Ready to Rumble (R4)
+2429.83 Sizzling Soloist (R3)
+2517.64 High-Rise Sawjack (G2)
+2611.3 Pugnacious Pugilist (RR3)
+2632.12 Wrecking Crew (R4)
+2792.9 Giada, Font of Hope (W1)
+3260.74 Knockout Blow (W2)
+3544.78 Jewel Thief (G2)
+3638.54 Inspiring Overseer (W2)
+3727.53 Freelance Muscle (G4)
+3863.41 Elegant Entourage (G3)
+4133.82 Rocco, Cabaretti Caterer (WRG2)
+4904.24 Jaxis, the Troublemaker (R3)
+
+Score: 55.5858
+Iteration: 100
+Lands { W=6 R=6 G=5 }
+1494.94 Rumor Gatherer (WW1)
+1586.04 Sky Crier (W1)
+1599.06 Gilded Pinions (2)
+1739.05 Quick-Draw Dagger (3)
+1739.05 Quick-Draw Dagger (3)
+1797.99 Light 'Em Up (R1)
+1961.63 Capenna Express (G3)
+1968.45 Celebrity Fencer (W3)
+1974.98 Rhox Pummeler (G5)
+1984.3 Ceremonial Groundbreaker (WG1)
+2045.55 Mayhem Patrol (R1)
+2171.36 High-Rise Sawjack (G2)
+2176.89 Riveteers Requisitioner (R1)
+2210.9 Wrecking Crew (R4)
+2676.86 Giada, Font of Hope (W1)
+2962.69 Pugnacious Pugilist (RR3)
+3142.38 Elegant Entourage (G3)
+3196.54 Knockout Blow (W2)
+3225.4 Jewel Thief (G2)
+3329.21 Freelance Muscle (G4)
+3759.93 Inspiring Overseer (W2)
+3938.94 Rocco, Cabaretti Caterer (WRG2)
+4560.12 Jaxis, the Troublemaker (R3)
+
+Score: 55.5195
+Iteration: 123
+Lands { B=6 R=7 G=5 }
+1174.38 Strangle (R)
+1376.84 Fake Your Own Death (B1)
+1913.91 Light 'Em Up (R1)
+1944.89 Rhox Pummeler (G5)
+1963.91 Mayhem Patrol (R1)
+2089.89 Quick-Draw Dagger (3)
+2089.89 Quick-Draw Dagger (3)
+2136.69 Ready to Rumble (R4)
+2160.23 Deal Gone Bad (B3)
+2187.87 Corrupt Court Official (B1)
+2320.63 Riveteers Requisitioner (R1)
+2329.77 Sizzling Soloist (R3)
+2393.04 Wrecking Crew (R4)
+2497.14 Dig Up the Body (B2)
+2775.39 Tenacious Underdog (B1)
+3301.95 Rogues' Gallery (B2)
+3382.93 Jewel Thief (G2)
+3404.78 Pugnacious Pugilist (RR3)
+3622.62 Elegant Entourage (G3)
+3789.22 Freelance Muscle (G4)
+3854.77 Girder Goons (B4)
+4907.26 Jaxis, the Troublemaker (R3)
 
 Score: 55.027
 Iteration: 116
@@ -225,31 +304,5 @@ Lands { W=9 G=8 }
 3910.13 Jewel Thief (G2)
 4331.22 Elegant Entourage (G3)
 4370.02 Inspiring Overseer (W2)
-
-Score: 54.9073
-Iteration: 115
-Lands { W=5 R=6 G=7 }
-1273.53 Suspicious Bookcase (2)
-1367.82 Venom Connoisseur (G1)
-1421.52 Park Heights Pegasus (WG)
-1523.6 Backup Agent (W1)
-1829.86 Illuminator Virtuoso (W1)
-1872.08 Quick-Draw Dagger (3)
-1900.58 Mayhem Patrol (R1)
-2192.13 Rhox Pummeler (G5)
-2230.6 Riveteers Requisitioner (R1)
-2241.12 Ceremonial Groundbreaker (WG1)
-2362.86 Giada, Font of Hope (W1)
-2402.72 Capenna Express (G3)
-2502.55 Sizzling Soloist (R3)
-2503.93 High-Rise Sawjack (G2)
-2539.8 Wrecking Crew (R4)
-2904.61 Knockout Blow (W2)
-3547.2 Inspiring Overseer (W2)
-3799.39 Freelance Muscle (G4)
-3804.74 Jewel Thief (G2)
-4131.98 Rocco, Cabaretti Caterer (WRG2)
-4221.68 Elegant Entourage (G3)
-4901.98 Jaxis, the Troublemaker (R3)
 
 */
