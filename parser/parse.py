@@ -3,6 +3,9 @@ import order
 import save
 import sys
 
+DEBUG = True
+SEASON = 'snc'
+
 def join_cards(cards, ordinals):
     d = {}
     for c in cards:
@@ -14,10 +17,8 @@ def join_cards(cards, ordinals):
         else:
             d[name].order = ordinal
 
-DEBUG=True
-SEASON='vow'
-
 def main():
+    global SEASON
     args = sys.argv[1:]
     if len(args) > 1:
       print(f'Got more arguments than expected: {len(args)}')

@@ -1,0 +1,267 @@
+mana;name;type;order
+W;Boon of Safety;Instant;194
+W;Brokers Initiate;Creature;169
+W;Raffine's Guidance;Enchantment;256
+1W;Backup Agent;Creature;128
+1W;Citizen's Crowbar;Artifact;93
+1W;Giada, Font of Hope;Legendary Creature;40
+1W;Hold for Ransom;Enchantment;157
+1W;Illuminator Virtuoso;Creature;91
+1W;Raffine's Informant;Creature;125
+1W;Refuse to Yield;Instant;243
+1W;Revelation of Power;Instant;215
+1W;Sky Crier;Creature;132
+2W;Extraction Specialist;Creature;92
+2W;Gathering Throng;Creature;133
+2W;Halo Fountain;Artifact;62
+2W;Inspiring Overseer;Creature;49
+2W;Kill Shot;Instant;127
+2W;Knockout Blow;Instant;90
+2W;Mage's Attendant;Creature;126
+2W;Patch Up;Sorcery;257
+1WW;Rumor Gatherer;Creature;124
+3W;Celebrity Fencer;Creature;211
+3W;Dapper Shieldmate;Creature;238
+2WW;Depopulate;Sorcery;18
+3W;Swooping Protector;Creature;170
+3WW;Ballroom Brawlers;Creature;158
+4W;Buy Your Silence;Sorcery;193
+3WW;Elspeth Resplendent;Legendary Planeswalker;6
+3WW;Mysterious Limousine;Artifact;37
+4W;Rabble Rousing;Enchantment;17
+4W;Speakeasy Server;Creature;237
+5W;Angelic Observer;Creature;239
+4WW;Sanctuary Warden;Creature;5
+U;An Offer You Can't Refuse;Instant;242
+U;Errant, Street Artist;Legendary Creature;255
+U;Expendable Lackey;Creature;168
+U;Hypnotic Grifter;Creature;155
+U;Slip Out the Back;Instant;153
+U;Witness Protection;Enchantment;121
+1U;A Little Chat;Instant;108
+1U;Backstreet Bruiser;Creature;195
+1U;Brokers Veteran;Creature;210
+1U;Disdainful Stroke;Instant;192
+1U;Faerie Vandal;Creature;61
+1U;Ledger Shredder;Creature;36
+1U;Make Disappear;Instant;191
+1U;Security Bypass;Enchantment;234
+2U;Majestic Metamorphosis;Instant;129
+2U;Obscura Initiate;Creature;154
+2U;Psionic Snoop;Creature;235
+2U;Public Enemy;Enchantment;254
+2U;Rooftop Nuisance;Sorcery;123
+2U;Wingshield Agent;Creature;106
+3U;Case the Joint;Instant;236
+3U;Echo Inspector;Creature;109
+3U;Out of the Way;Instant;107
+2UU;Reservoir Kraken;Creature;30
+3U;Run Out of Town;Instant;159
+2UU;Sleep with the Fishes;Enchantment;60
+2UU;Undercover Operative;Creature;59
+4U;Psychic Pickpocket;Creature;48
+4U;Wiretapping;Enchantment;122
+4UU;All-Seeing Arbiter;Creature;4
+4UU;Cut Your Losses;Sorcery;260
+5U;Sewer Crocodile;Creature;196
+XUUU;Even the Score;Instant;156
+B;Cutthroat Contender;Creature;217
+B;Grisly Sigil;Sorcery;75
+1B;Corrupt Court Official;Creature;77
+1B;Crooked Custodian;Creature;160
+1B;Extract the Truth;Sorcery;218
+1B;Fake Your Own Death;Instant;167
+1B;Incriminate;Sorcery;209
+1B;Tavern Swindler;Creature;241
+1B;Tenacious Underdog;Creature;29
+2B;Cemetery Tampering;Enchantment;253
+2B;Dig Up the Body;Instant;152
+2B;Maestros Initiate;Creature;151
+2B;Midnight Assassin;Creature;161
+1BB;Murder;Instant;57
+1BB;Night Clubber;Creature;47
+2B;Raffine's Silencer;Creature;104
+2B;Rogues' Gallery;Sorcery;74
+2B;Sanguine Spy;Creature;35
+2B;Shakedown Heavy;Creature;25
+2BB;Body Launderer;Creature;26
+3B;Deal Gone Bad;Instant;190
+3B;Demon's Due;Instant;212
+3B;Revel Ruiner;Creature;208
+3B;Whack;Sorcery;88
+3BB;Angel of Suffering;Creature;89
+4B;Girder Goons;Creature;105
+4B;Graveyard Shift;Sorcery;232
+3BB;Illicit Shipment;Sorcery;259
+4B;Join the Maestros;Sorcery;231
+4B;Vampire Scrivener;Creature;229
+5BB;Dusk Mangler;Creature;58
+1BB;Shadow of Mortality;Creature;230
+XBB;Cut of the Profits;Sorcery;233
+R;Daring Escape;Instant;213
+R;Goldhound;Artifact Creature;204
+R;Sticky Fingers;Enchantment;203
+R;Strangle;Sorcery;71
+R;Unlucky Witness;Creature;117
+1R;Antagonize;Instant;197
+1R;Jackhammer;Artifact;244
+1R;Light 'Em Up;Sorcery;119
+1R;Mayhem Patrol;Creature;103
+1R;Riveteers Initiate;Creature;188
+1R;Riveteers Requisitioner;Creature;87
+1R;Rob the Archives;Sorcery;227
+2R;Call In a Professional;Instant;73
+2R;Devilish Valet;Creature;149
+2R;Exhibition Magician;Creature;134
+2R;Glittering Stockpile;Artifact;252
+2R;Professional Face-Breaker;Creature;23
+2R;Pyre-Sledge Arsonist;Creature;118
+2R;Widespread Thieving;Enchantment;251
+2R;Witty Roastmaster;Creature;186
+3R;Big Score;Instant;150
+3R;Hoard Hauler;Artifact;228
+3R;Involuntary Employment;Sorcery;189
+3R;Jaxis, the Troublemaker;Legendary Creature;24
+3R;Plasma Jockey;Creature;148
+3R;Sizzling Soloist;Creature;187
+3RR;Pugnacious Pugilist;Creature;72
+4R;Ready to Rumble;Sorcery;199
+3RR;Structural Assault;Sorcery;226
+3RR;Urabrask, Heretic Praetor;Legendary Creature;16
+4R;Wrecking Crew;Creature;198
+4RR;Arcane Bombardment;Enchantment;120
+XR;Torch Breath;Instant;102
+G;Cabaretti Initiate;Creature;225
+G;For the Family;Instant;130
+1G;Attended Socialite;Creature;207
+1G;Civic Gardener;Creature;162
+1G;Courier's Briefcase;Artifact;147
+1G;Gala Greeters;Creature;34
+1G;Prizefight;Instant;135
+1G;Riveteers Decoy;Creature;94
+1G;Venom Connoisseur;Creature;182
+2G;Bouncer's Beatdown;Instant;76
+2G;Broken Wings;Instant;214
+2G;Evolving Door;Artifact;250
+2G;Fight Rigging;Enchantment;15
+2G;High-Rise Sawjack;Creature;131
+2G;Jewel Thief;Creature;70
+2G;Most Wanted;Enchantment;258
+2G;Social Climber;Creature;224
+1GG;Topiary Stomper;Creature;56
+2G;Warm Welcome;Instant;163
+3G;Capenna Express;Artifact;201
+3G;Elegant Entourage;Creature;85
+3G;Glittermonger;Creature;164
+3G;Voice of the Vermin;Creature;69
+4G;Caldaia Strongarm;Creature;184
+4G;Freelance Muscle;Creature;84
+4G;Take to the Streets;Sorcery;223
+3GG;Workshop Warchief;Creature;7
+5G;Bootleggers' Stash;Artifact;185
+4GG;Cleanup Crew;Creature;86
+5G;Rhox Pummeler;Creature;183
+4GG;Vivien on the Hunt;Legendary Planeswalker;3
+4GGG;Titan of Industry;Creature;8
+XG;Luxurious Libation;Instant;146
+WU;Scheming Fence;Creature;137
+1WU;Celestial Regulator;Creature;115
+1WU;Exotic Pets;Instant;80
+2WU;Metropolis Angel;Creature;66
+UB;Aven Heartstabber;Creature;83
+UB;Snooping Newsie;Creature;111
+UB;Tainted Indulgence;Instant;100
+2UB;Syndicate Infiltrator;Creature;78
+BR;Body Dropper;Creature;116
+BR;Fatal Grudge;Sorcery;206
+1BR;Corpse Explosion;Sorcery;54
+1BR;Ob Nixilis, the Adversary;Legendary Planeswalker;2
+2BR;Forge Boss;Creature;142
+RG;Black Market Tycoon;Creature;46
+RG;Jetmir's Fixer;Creature;140
+2RG;Security Rhox;Creature;112
+2RG;Stimulus Package;Enchantment;136
+GW;Civil Servant;Creature;143
+GW;Park Heights Pegasus;Creature;79
+1GW;Ceremonial Groundbreaker;Artifact;114
+2GW;Darling of the Masses;Creature;68
+WUB;Nimble Larcenist;Creature;39
+WUB;Obscura Ascendancy;Enchantment;249
+WUB;Obscura Charm;Instant;113
+WUB;Raffine, Scheming Seer;Legendary Creature;10
+WUU;Toluz, Clever Conductor;Legendary Creature;27
+WUB;Void Rend;Instant;41
+1WUB;Obscura Interceptor;Creature;53
+1WUB;Queza, Augur of Agonies;Legendary Creature;31
+4WUB;Shattered Seraph;Creature;180
+UBR;Corpse Appraiser;Creature;33
+UBR;Maestros Ascendancy;Enchantment;139
+UBR;Maestros Charm;Instant;67
+UBR;Maestros Diabolist;Creature;20
+1UBR;Cormela, Glamour Thief;Legendary Creature;44
+2UBB;Evelyn, the Covetous;Legendary Creature;13
+2UBR;Hostile Takeover;Sorcery;11
+3UBR;Glamorous Outlaw;Creature;141
+4UBR;Lord Xander, the Collector;Legendary Creature;32
+BRG;Crew Captain;Creature;82
+BRG;Riveteers Ascendancy;Enchantment;221
+BRG;Riveteers Charm;Instant;51
+1BRG;Mr. Orfeo, the Boulder;Legendary Creature;65
+1BRR;Ognis, the Dragon's Lash;Legendary Creature;101
+1BRG;Unleash the Inferno;Instant;64
+1BRG;Ziatora's Envoy;Creature;9
+3BRG;Masked Bandits;Creature;181
+3BRG;Ziatora, the Incinerator;Legendary Creature;1
+RGW;Brazen Upstart;Creature;45
+RGW;Cabaretti Ascendancy;Enchantment;145
+RGW;Cabaretti Charm;Instant;144
+RGW;Incandescent Aria;Sorcery;222
+RGG;Jinnie Fay, Jetmir's Second;Legendary Creature;28
+1RGW;Fleetfoot Dancer;Creature;22
+1RGW;Jetmir, Nexus of Revels;Legendary Creature;21
+2RGW;Rakish Revelers;Creature;138
+XRGW;Rocco, Cabaretti Caterer;Legendary Creature;42
+GWU;Brokers Ascendancy;Enchantment;14
+GWU;Brokers Charm;Instant;55
+GWU;Disciplined Duelist;Creature;43
+GWU;Endless Detour;Instant;81
+GWU;Lagrella, the Magpie;Legendary Creature;38
+GWW;Rigo, Streetwise Mentor;Legendary Creature;52
+1GWU;Falco Spara, Pactweaver;Legendary Creature;12
+2GWU;Spara's Adjudicators;Creature;110
+4GWU;Soul of Emancipation;Creature;19
+3WUBRG;Meeting of the Five;Sorcery;261
+1;Arc Spitter;Artifact;248
+1;Cement Shoes;Artifact;246
+1;Luxior, Giada's Gift;Legendary Artifact;245
+1;Ominous Parcel;Artifact;219
+2;Gilded Pinions;Artifact;200
+2;Halo Scarab;Artifact Creature;220
+2;Suspicious Bookcase;Artifact Creature;205
+2;Unlicensed Hearse;Artifact;63
+3;Chrome Cat;Artifact Creature;240
+3;Getaway Car;Artifact;50
+3;Quick-Draw Dagger;Artifact;202
+3;Scuttling Butler;Artifact Creature;179
+4;Brass Knuckles;Artifact;247
+4;Paragon of Modernity;Artifact Creature;216
+;Botanical Plaza;Land;178
+;Brokers Hideout;Land;166
+;Cabaretti Courtyard;Land;177
+;Forest;Basic Land;
+;Island;Basic Land;
+;Jetmir's Garden;Land;99
+;Maestros Theater;Land;176
+;Mountain;Basic Land;
+;Obscura Storefront;Land;175
+;Plains;Basic Land;
+;Racers' Ring;Land;174
+;Raffine's Tower;Land;98
+;Riveteers Overlook;Land;165
+;Skybridge Towers;Land;173
+;Spara's Headquarters;Land;97
+;Swamp;Basic Land;
+;Tramway Station;Land;172
+;Waterfront District;Land;171
+;Xander's Lounge;Land;96
+;Ziatora's Proving Ground;Land;95
