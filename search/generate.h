@@ -23,7 +23,7 @@ constexpr int kThreads = 16;
 constexpr int kDescentDepth = 125;
 constexpr int kPrintTopN = 3;
 constexpr double kChangeSizeRate = 0.01;
-constexpr int kSeed = 1511;
+constexpr int kSeed = 3;
 
 // Sampling temperature. Higher temperature -> more flat distribution.
 // Lower temperature (close to 0) -> more focused distribution.
@@ -58,6 +58,12 @@ std::vector<int> GeneratePermutation(const std::vector<int> &available_ids,
                                      const int wanted,
                                      const std::set<int> &forced_cards,
                                      ThreadsafeRandom &rand) {
+  for (int f : forced_cards) {
+    if (!ContainsItem(available_ids, f)) {
+      FATAL << "Forced card " << f << " not available!" << std::endl;
+    }
+  }
+
   std::vector<int> permutation;
   if (forced_cards.size() > wanted) {
     ERROR << "Already have more cards than wanted." << std::endl;
@@ -307,10 +313,11 @@ TEST(ColorsIn) {
 }
 
 std::vector<int> FilterOnMana(const std::vector<Spell> &available_cards,
+                              const std::set<int> &forced_cards,
                               const ManaCost &mana) {
   std::vector<int> result;
   for (int i = 0; i < available_cards.size(); ++i) {
-    if (ColorsIn(available_cards[i], mana)) {
+    if (ColorsIn(available_cards[i], mana) || ContainsKey(forced_cards, i)) {
       result.push_back(i);
     }
   }
@@ -338,7 +345,8 @@ GradientDescent(const std::vector<Spell> &available_cards,
   std::vector<std::unique_ptr<GeneratedDeck>> iterations;
 
   // 0. Filter available cards to chosen colors.
-  const std::vector<int> available_ids = FilterOnMana(available_cards, colors);
+  const std::vector<int> available_ids =
+      FilterOnMana(available_cards, forced_cards, colors);
 
   // 1. Create a random starting deck.
   // Limited: 23 spells, 17 lands.
@@ -565,6 +573,29 @@ void GenerateDeck(const std::vector<Spell> &available_cards,
 
 // -----------------------------------------------------------------------------
 
+TEST(FilterOnMana) {
+  std::vector<Spell> available_cards;
+  available_cards.push_back(MakeSpell("B", 1, ""));      // 0
+  available_cards.push_back(MakeSpell("R", 1, ""));      // 1
+  available_cards.push_back(MakeSpell("W", 1, "Angel")); // 2
+  available_cards.push_back(MakeSpell("BR", 1, ""));
+  available_cards.push_back(MakeSpell("G", 1, ""));
+  available_cards.push_back(MakeSpell("GW", 1, ""));
+  available_cards.push_back(MakeSpell("W", 1, "Citizen"));
+
+  auto available = FilterOnMana(available_cards, {2}, ParseMana("BR"));
+  EXPECT_EQ(available.size(), 4);
+  EXPECT_TRUE(ContainsItem(available, 0));
+  EXPECT_TRUE(ContainsItem(available, 1));
+  EXPECT_TRUE(ContainsItem(available, 2));
+  EXPECT_TRUE(ContainsItem(available, 3));
+
+  // Not BR, and not forced.
+  EXPECT_FALSE(ContainsItem(available, 4));
+  EXPECT_FALSE(ContainsItem(available, 5));
+  EXPECT_FALSE(ContainsItem(available, 6));
+}
+
 bool AreInRange(const std::vector<int> &permutation, const int max) {
   for (const int p : permutation) {
     if (0 <= p && p < max) {
@@ -616,17 +647,6 @@ TEST(GeneratePermutationWithinLimits) {
   // No duplicate
   EXPECT_EQ(picked.size(), permutation.size());
   EXPECT_TRUE(IsSubset(forced_cards, picked));
-}
-
-TEST(GeneratePermutationIgnoresForcedCardsOutOfRange) {
-  ThreadsafeRandom rand;
-  std::set<int> forced_cards = {1000};
-  std::vector<int> permutation =
-      GeneratePermutation(Consecutive(32), 23, forced_cards, rand);
-  EXPECT_TRUE(AreInRange(permutation, 100));
-
-  std::set<int> picked(permutation.begin(), permutation.end());
-  EXPECT_FALSE(IsSubset(forced_cards, picked));
 }
 
 TEST(GeneratePermutationWhenForcedCardsAlreadyMaximum) {
