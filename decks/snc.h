@@ -87,7 +87,33 @@ public:
     };
   }
 
-  std::vector<std::string_view> chosen_deck() const override { return {}; }
+  std::vector<std::string_view> chosen_deck() const override {
+    return {
+        "Strangle",
+        "For the Family",
+        "Suspicious Bookcase",
+        "Illuminator Virtuoso",
+        "Mayhem Patrol",
+        "Riveteers Requisitioner",
+        "Giada, Font of Hope",
+        "Hold for Ransom",
+        "Antagonize",
+        "High-Rise Sawjack",
+        "Jewel Thief",
+        "Inspiring Overseer",
+        "Quick-Draw Dagger",
+        "Knockout Blow",
+        "Celebrity Fencer",
+        "Sizzling Soloist",
+        "Elegant Entourage",
+        "Jaxis, the Troublemaker",
+        "Wrecking Crew",
+        "Pugnacious Pugilist",
+        "Freelance Muscle",
+        "Rocco, Cabaretti Caterer",
+        "Rhox Pummeler",
+    };
+  }
 };
 
 /*

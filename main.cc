@@ -53,31 +53,32 @@ int main(int argc, char *argv[]) {
   // DEBUG
   // int forced = *forced_cards.begin();
   // std::cout << "Forced card: " << available_cards[forced] << "\n";
-  GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
+  // GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
 
-  // std::vector<Spell> chosen_cards =
-  //     FilterCards(all_cards, sealed->chosen_deck());
-  // std::vector<Spell> base_cards =
-  //     FilterCards(all_cards, {
-  //                                // "Dokuchi Shadow-Walker",
-  //                            });
-  // std::vector<Spell> exp_cards =
-  //     FilterCards(all_cards, {
-  //                                // "Mukotai Ambusher",
-  //                            });
-  //
-  // Library lib = Library::Builder()
-  //                   .SetLimited()
-  //                   .AddSpells(chosen_cards)
-  //                   .AddSpells(base_cards, Experiment::base)
-  //                   .AddSpells(exp_cards, Experiment::exp)
-  //                   // Compare with having one more land.
-  //                   // .AddLand(BasicLand(Color::Black), Experiment::exp2)
-  //                   .AddLand(BasicLand(Color::Colorless))
-  //                   .Build();
-  //
-  // ThreadsafeRandom random;
-  // CompareParams(lib, random, 1000);
+  std::vector<Spell> chosen_cards =
+      FilterCards(all_cards, sealed->chosen_deck());
+  std::vector<Spell> base_cards = FilterCards(all_cards, {
+                                                             // "Wrecking Crew",
+
+                                                         });
+  std::vector<Spell> exp_cards =
+      FilterCards(all_cards, {
+                                 // "Park Heights Pegasus",
+                                 // "Sky Crier",
+                             });
+
+  Library lib = Library::Builder()
+                    .SetLimited()
+                    .AddSpells(chosen_cards)
+                    .AddSpells(base_cards, Experiment::base)
+                    .AddSpells(exp_cards, Experiment::exp)
+                    .AddLand(DualLand(Color::Green, Color::White))
+                    .AddLand(FetchLand())
+                    .AddLand(FetchLand())
+                    .Build();
+
+  ThreadsafeRandom random;
+  CompareParams(lib, random, 1000);
 
   return 0;
 }
