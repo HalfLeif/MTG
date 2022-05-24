@@ -50,21 +50,26 @@ int main(int argc, char *argv[]) {
   std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
   auto forced_cards = FindForcedCards(available_cards, sealed->forced_cards());
 
-  // DEBUG
-  // int forced = *forced_cards.begin();
-  // std::cout << "Forced card: " << available_cards[forced] << "\n";
   // GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
 
   std::vector<Spell> chosen_cards =
       FilterCards(all_cards, sealed->chosen_deck());
-  std::vector<Spell> base_cards = FilterCards(all_cards, {
-                                                             // "Wrecking Crew",
-                                                         });
+  std::vector<Spell> base_cards =
+      FilterCards(all_cards, {
+                                 // "Ready to Rumble",
+                                 // "Wrecking Crew",
+                                 // "Sky Crier",
+                             });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
-                                 // "Park Heights Pegasus",
+                                 // "Rhox Pummeler"
+                                 // "High-Rise Sawjack",
+                                 // "Wrecking Crew",
                                  // "Sky Crier",
-                                 "Illuminator Virtuoso",
+                                 // "Illuminator Virtuoso",
+                                 // "Jetmir's Fixer",
+                                 // "Backup Agent",
+                                 // "Goldhound",
                              });
 
   Library lib = Library::Builder()
@@ -78,7 +83,7 @@ int main(int argc, char *argv[]) {
                     .Build();
 
   ThreadsafeRandom random;
-  CompareParams(lib, random, 1000);
+  CompareParams(lib, random, 2000);
 
   return 0;
 }
