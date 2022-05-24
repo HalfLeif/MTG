@@ -25,6 +25,7 @@ double AverageScore(const Library &lib, const Deck &deck,
 struct ParamResult {
   double score;
   Param param;
+  CardContributions contributions;
 
   bool operator<(const ParamResult &other) const {
     return this->score < other.score;
@@ -48,12 +49,16 @@ void PrintParamResult(const std::vector<ParamResult> &best_result,
     }
     PrintLands(deck);
     std::cout << std::endl;
+
+    if (i == best_result.size() - 1) {
+      // The best result
+      PrintContributions(deck, best_result[i].contributions);
+    }
   }
 }
 
 double RunParam(const Library &lib, const Param &param, int games,
-                ThreadsafeRandom &rand,
-                CardContributions *contributions = nullptr) {
+                ThreadsafeRandom &rand, CardContributions *contributions) {
   // std::chrono::steady_clock::time_point begin =
   //     std::chrono::steady_clock::now();
 
@@ -72,6 +77,10 @@ double RunParam(const Library &lib, const Param &param, int games,
   }
 
   Deck deck = TournamentDeck(param);
+  if (contributions->empty()) {
+    // For mana eval.
+    *contributions = MakeContributionMaps(deck.spells);
+  }
   for (Instance &instance : instances) {
     instance.score = AverageScore(lib, deck, SimpleStrategy, instance.turns,
                                   games, rand, contributions);
@@ -153,7 +162,8 @@ Param CompareParams(const Library &lib, ThreadsafeRandom &rand, int games = 450,
   std::vector<Param> params = GoodParams(lib);
   std::vector<ParamResult> best_result;
   for (const Param &param : params) {
-    double score = RunParam(lib, param, games, rand);
+    CardContributions contributions;
+    double score = RunParam(lib, param, games, rand, &contributions);
     if (print) {
       std::cout << param << " score: " << score << "\n";
     }
@@ -161,6 +171,7 @@ Param CompareParams(const Library &lib, ThreadsafeRandom &rand, int games = 450,
     best_result.push_back({
         .score = score,
         .param = param,
+        .contributions = std::move(contributions),
     });
   }
 

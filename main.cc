@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
       FilterCards(all_cards, {
                                  // "Park Heights Pegasus",
                                  // "Sky Crier",
+                                 "Illuminator Virtuoso",
                              });
 
   Library lib = Library::Builder()
