@@ -81,8 +81,7 @@ public:
 
   std::vector<std::string_view> forced_cards() const override {
     return {
-        "Freelance Muscle", "Jaxis, the Troublemaker",
-        // "Hold for Ransom",
+        "Freelance Muscle", "Jaxis, the Troublemaker", "Strangle",
         // "Knockout Blow",
     };
   }
@@ -92,13 +91,13 @@ public:
         "Strangle",
         "For the Family",
         "Suspicious Bookcase",
-        "Illuminator Virtuoso",
+        // Forest <- "Illuminator Virtuoso",
+        "Sky Crier", // "Hold for Ransom",
+        "Sky Crier", // "High-Rise Sawjack",
         "Mayhem Patrol",
         "Riveteers Requisitioner",
         "Giada, Font of Hope",
-        "Hold for Ransom",
         "Antagonize",
-        "High-Rise Sawjack",
         "Jewel Thief",
         "Inspiring Overseer",
         "Quick-Draw Dagger",
@@ -107,7 +106,7 @@ public:
         "Sizzling Soloist",
         "Elegant Entourage",
         "Jaxis, the Troublemaker",
-        "Wrecking Crew",
+        "Ready to Rumble", // "Wrecking Crew",
         "Pugnacious Pugilist",
         "Freelance Muscle",
         "Rocco, Cabaretti Caterer",

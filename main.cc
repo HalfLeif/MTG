@@ -59,7 +59,6 @@ int main(int argc, char *argv[]) {
       FilterCards(all_cards, sealed->chosen_deck());
   std::vector<Spell> base_cards = FilterCards(all_cards, {
                                                              // "Wrecking Crew",
-
                                                          });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
