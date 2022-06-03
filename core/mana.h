@@ -140,11 +140,7 @@ ManaCost ParseMana(std::string_view mana) {
       ++cost[Color::Green];
       ++cost[Color::Total];
     } else if (c == 'X') {
-      // X is obviously contextual, but in my experience, I often play X>=3,
-      // and sometimes as 2 as a fallback. For purposes of getting value out of
-      // cards and balancing number of lands, we assume 3 since if one has the
-      // choice of 3, then one also has the choice of 2.
-      cost[Color::Total] += 3;
+      cost[Color::Total] += 2;
     } else {
       ERROR << "Unrecognized char when parsing mana: " << c << " (" << int(c)
             << ")\n";
