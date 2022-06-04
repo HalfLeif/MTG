@@ -13,22 +13,18 @@ enum class LandType {
 
 struct Land {
   LandType type;
-  Color color;
-  std::optional<Color> secondary = std::nullopt;
+  ManaCost colors;
+  // Color color;
+  // std::optional<Color> secondary = std::nullopt;
 
   bool operator==(const Land &other) const {
     if (type != other.type) {
       return false;
     }
     switch (type) {
-    case LandType::basic:
-      return color == other.color;
-    case LandType::dual: {
-      std::pair<Color, Color> left = {color, *secondary};
-      std::pair<Color, Color> right = {other.color, *other.secondary};
-      std::pair<Color, Color> right_inv = {*other.secondary, other.color};
-      return (left == right) || (left == right_inv);
-    }
+    case LandType::basic:;
+    case LandType::dual:
+      return colors == other.colors;
     case LandType::fetch:
     case LandType::shore:
       // Always true if is same type.
@@ -38,41 +34,56 @@ struct Land {
   }
 };
 
+Land TapLand(std::string_view mana) {
+  return {
+      .type = LandType::dual,
+      .colors = ParseMana(mana),
+  };
+}
+
 Land BasicLand(Color c) {
+  ManaCost colors;
+  colors[c]++;
+  colors[Color::Total]++;
   return {
       .type = LandType::basic,
-      .color = c,
+      .colors = colors,
   };
 }
 
 Land DualLand(Color c, Color secondary) {
+  ManaCost colors;
+  colors[c]++;
+  colors[secondary]++;
+  colors[Color::Total]++;
   return {
       .type = LandType::dual,
-      .color = c,
-      .secondary = secondary,
+      .colors = colors,
   };
 }
 
 Land FetchLand() {
   return {
       .type = LandType::fetch,
-      .color = Color::Colorless,
   };
 }
 
 Land Shore() {
+  ManaCost colors;
+  colors[Color::Colorless]++;
+  colors[Color::Total]++;
   return {
       .type = LandType::shore,
-      .color = Color::Colorless,
+      .colors = colors,
   };
 }
 
 bool IsBasicLand(const Land &land) { return land.type == LandType::basic; }
 bool IsSwamp(const Land &land) {
-  return IsBasicLand(land) && land.color == Color::Black;
+  return IsBasicLand(land) && land.colors.contains(Color::Black);
 }
 bool IsPlains(const Land &land) {
-  return IsBasicLand(land) && land.color == Color::White;
+  return IsBasicLand(land) && land.colors.contains(Color::White);
 }
 bool IsFetchLand(const Land &land) { return land.type == LandType::fetch; }
 
@@ -80,9 +91,8 @@ std::string ToString(const Land &land) {
   std::string result;
   switch (land.type) {
   case LandType::basic:
-    return ToString(land.color);
   case LandType::dual:
-    return ToString(land.color) + ToString(*land.secondary);
+    return ToString(land.colors);
   case LandType::fetch:
     return "Fetch";
   case LandType::shore:

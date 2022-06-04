@@ -92,6 +92,8 @@ public:
     return *this;
   }
 
+  bool operator==(const ManaCost &other) const { return cost_ == other.cost_; }
+
 private:
   Iter make_iter(key_type key) const {
     CHECK(key <= Color::ENUM_SIZE);
@@ -178,10 +180,9 @@ std::ostream &operator<<(std::ostream &stream, Color color) {
 std::string ToString(const ManaCost &mana) {
   std::string result = "";
   int color_mana_sum = 0;
-  int total_mana = 0;
+  const int total_mana = mana.Total();
   for (auto [color, value] : mana) {
     if (color == Color::Total) {
-      total_mana = value;
       continue;
     }
     color_mana_sum += value;
@@ -191,8 +192,7 @@ std::string ToString(const ManaCost &mana) {
     }
   }
   int colorless_mana = total_mana - color_mana_sum;
-  CHECK(colorless_mana >= 0)
-      << "Total mana " << total_mana << " vs " << color_mana_sum;
+  // Note: mana can have more color than total for e.g. dual lands.
   if (colorless_mana > 0) {
     result.append(std::to_string(colorless_mana));
   }

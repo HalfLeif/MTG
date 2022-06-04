@@ -44,11 +44,7 @@ void TapLand(const Land &land, ManaCost &mana_pool) {
     FATAL << "Attempted to tap a fetch land for mana!\n";
     return;
   }
-  ++mana_pool[land.color];
-  ++mana_pool[Color::Total];
-  if (land.secondary.has_value()) {
-    ++mana_pool[*land.secondary];
-  }
+  mana_pool += land.colors;
 }
 
 bool IsColorStarved(const Library &lib, const ManaCost &mana_pool) {
@@ -370,10 +366,10 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
   int wanted_double_land = -1;
   for (Color color : needs) {
     for (int i = 0; i < lands.size(); ++i) {
-      if (lands[i].type == LandType::dual &&
-          (lands[i].color == color || *lands[i].secondary == color)) {
+      if (lands[i].type == LandType::dual && lands[i].colors.contains(color)) {
         wanted_double_land = i;
-      } else if (lands[i].color == color) {
+      } else if (lands[i].type == LandType::basic &&
+                 lands[i].colors.contains(color)) {
         // Found a wanted color of basic land, play that land!
         return i;
       } else if (lands[i].type != LandType::basic) {
@@ -531,7 +527,7 @@ void BottomOne(const Library &lib, Player *player) {
     Color least_wanted = needs.back().second;
     int worst_land =
         Find<Land>(player->hand.lands, [least_wanted](const Land &land) {
-          return land.color == least_wanted;
+          return land.colors.contains(least_wanted);
         });
     if (worst_land < 0) {
       INFO << "The least_wanted color " << least_wanted

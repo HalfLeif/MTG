@@ -85,7 +85,10 @@ void PrintLands(const Deck &deck) {
               if (a.first.type != b.first.type) {
                 return a.first.type < b.first.type;
               }
-              return a.first.color < b.first.color;
+
+              // Making these strings once per comparison is obviously
+              // expensive. However, printing lands is not a frequent operation.
+              return ToString(a.first) < ToString(b.first);
             });
 
   std::cout << "Lands { ";
