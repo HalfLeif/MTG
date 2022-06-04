@@ -35,9 +35,11 @@ struct Land {
 };
 
 Land TapLand(std::string_view mana) {
+  ManaCost colors = ParseMana(mana);
+  colors[Color::Total] = 1;
   return {
       .type = LandType::dual,
-      .colors = ParseMana(mana),
+      .colors = colors,
   };
 }
 
