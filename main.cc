@@ -36,7 +36,58 @@ const Library &GetMainLib() {
 }
 
 constexpr bool DEBUG_ON = false;
-constexpr bool PARANOIA = true; // TODO
+constexpr bool PARANOIA = true;
+
+void GenerateDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
+  std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
+  auto forced_cards = FindForcedCards(available_cards, sealed->forced_cards());
+  GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
+}
+
+void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
+  std::vector<Spell> chosen_cards =
+      FilterCards(all_cards, sealed->chosen_deck());
+  std::vector<Spell> base_cards =
+      FilterCards(all_cards, {
+                                 // "Ready to Rumble",
+                                 // "Wrecking Crew",
+                                 // "Sky Crier",
+                                 // "Quick-Draw Dagger",
+                                 // "Rhox Pummeler",
+                             });
+  std::vector<Spell> exp_cards =
+      FilterCards(all_cards, {
+
+                                 // "High-Rise Sawjack",
+                                 // "Wrecking Crew",
+                                 // "Sky Crier",
+                                 // "Illuminator Virtuoso",
+                                 // "Jetmir's Fixer",
+                                 // "Backup Agent",
+                                 // "Goldhound",
+                                 // "Jetmir's Fixer",
+                                 // "Quick-Draw Dagger",
+                                 // "Celebrity Fencer",
+                                 // "Rhox Pummeler",
+                                 // "Soul of Emancipation",
+
+                             });
+
+  Library lib = Library::Builder()
+                    .SetLimited()
+                    .AddSpells(chosen_cards)
+                    .AddSpells(base_cards, Experiment::base)
+                    .AddSpells(exp_cards, Experiment::exp)
+                    .AddLand(TapLand("WG"))
+                    // .AddLand(TapLand("UW"), Experiment::exp)
+                    // .AddLand(TapLand("UWG"), Experiment::exp)
+                    .AddLand(FetchLand())
+                    .AddLand(FetchLand())
+                    .Build();
+
+  ThreadsafeRandom random;
+  CompareParams(lib, random, 2000);
+}
 
 int main(int argc, char *argv[]) {
   std::cout << "\n -- Running tests --\n";
@@ -47,43 +98,8 @@ int main(int argc, char *argv[]) {
   std::unique_ptr<SealedDeck> sealed = std::make_unique<Snc>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
-  std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
-  auto forced_cards = FindForcedCards(available_cards, sealed->forced_cards());
-
-  // GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
-
-  std::vector<Spell> chosen_cards =
-      FilterCards(all_cards, sealed->chosen_deck());
-  std::vector<Spell> base_cards =
-      FilterCards(all_cards, {
-                                 // "Ready to Rumble",
-                                 // "Wrecking Crew",
-                                 // "Sky Crier",
-                             });
-  std::vector<Spell> exp_cards =
-      FilterCards(all_cards, {
-                                 // "Rhox Pummeler"
-                                 // "High-Rise Sawjack",
-                                 // "Wrecking Crew",
-                                 // "Sky Crier",
-                                 // "Illuminator Virtuoso",
-                                 // "Jetmir's Fixer",
-                                 // "Backup Agent",
-                                 // "Goldhound",
-                             });
-
-  Library lib = Library::Builder()
-                    .SetLimited()
-                    .AddSpells(chosen_cards)
-                    .AddSpells(base_cards, Experiment::base)
-                    .AddSpells(exp_cards, Experiment::exp)
-                    .AddLand(DualLand(Color::Green, Color::White))
-                    .AddLand(FetchLand())
-                    .AddLand(FetchLand())
-                    .Build();
-
-  ThreadsafeRandom random;
-  CompareParams(lib, random, 2000);
+  // GenerateDeck(all_cards, sealed.get());
+  OptimizeDeck(all_cards, sealed.get());
 
   return 0;
 }

@@ -17,20 +17,27 @@ public:
 
   std::vector<std::string_view> cards() const override {
     return {
-        "Goldhound", "Chrome Cat", "Witness Protection",
+        "Goldhound",
+        "Chrome Cat",
+        "Witness Protection",
         "Fake Your Own Death", // Nice combat trick
         "Sky Crier",           // Cheap flyer (W)
         "Antagonize",          // Comat trick
         "For the Family",      // Nice combat trick
-        "Speakeasy Server", "Mayhem Patrol", "Rhox Pummeler",
+        "Speakeasy Server",
+        "Mayhem Patrol",
+        "Rhox Pummeler",
         "Fatal Grudge", // Kind of removal
-        "Illicit Shipment", "Sizzling Soloist", "Riveteers Ascendancy",
+        "Illicit Shipment",
+        "Sizzling Soloist",
+        "Riveteers Ascendancy",
         // p2
         "Backstreet Bruiser",
         "Deal Gone Bad",   // Removal
         "Hold for Ransom", // Nice removal (W)
         "Broken Wings",    // Removal (G)
-        "Wrecking Crew", "Civic Gardener",
+        "Wrecking Crew",
+        "Civic Gardener",
         "Masked Bandits",           // Good creature + mana fix
         "Inspiring Overseer",       // Cheap flyer (W)
         "Illuminator Virtuoso",     // Combo
@@ -40,42 +47,71 @@ public:
         "Rogues' Gallery",
         // p3
         "Expendable Lackey", // Can't be blocked (B)
-        "Fake Your Own Death", "Backup Agent", "Ready to Rumble", "Halo Scarab",
+        "Fake Your Own Death",
+        "Backup Agent",
+        "Ready to Rumble",
+        "Halo Scarab",
         "Capenna Express",
         "Strangle", // Cheap removal (R)
         "Girder Goons",
         "Cabaretti Initiate", // Double strike with (G+R/W)
         "Elegant Entourage",
         "Out of the Way", // Kind of removal
-        "Riveteers Requisitioner", "Evolving Door",
+        "Riveteers Requisitioner",
+        "Evolving Door",
         // p4
-        "Case the Joint", "Dig Up the Body",
+        "Case the Joint",
+        "Dig Up the Body",
         "Revelation of Power", // Combat trick (W)
-        "Jackhammer", "Gilded Pinions", "Snooping Newsie", "Body Dropper",
-        "High-Rise Sawjack", "Rumor Gatherer", "Hypnotic Grifter",
+        "Jackhammer",
+        "Gilded Pinions",
+        "Snooping Newsie",
+        "Body Dropper",
+        "High-Rise Sawjack",
+        "Rumor Gatherer",
+        "Hypnotic Grifter",
         "Suspicious Bookcase",     // Can't be blocked
         "Soul of Emancipation",    // Great first pick (GWU)
         "Jaxis, the Troublemaker", // Great first pick (R)
         // p5
         "Quick-Draw Dagger",      // Combat trick
         "Majestic Metamorphosis", // Combat trick
-        "Corrupt Court Official", "Sky Crier", "Sticky Fingers",
+        "Corrupt Court Official",
+        "Sky Crier",
+        "Sticky Fingers",
         "Light 'Em Up", // Cheap removal (R)
         "Attended Socialite",
         "Murder",         // Great removal (BB)
         "Jetmir's Fixer", // Boostable (GR)
-        "Rumor Gatherer", "Venom Connoisseur",
+        "Rumor Gatherer",
+        "Venom Connoisseur",
         "Knockout Blow", // Removal
         "Tenacious Underdog",
         // p6
         "Case the Joint",
         "Incriminate",      // Removal (B)
         "Celebrity Fencer", // Nice creature (W)
-        "Sticky Fingers", "Quick-Draw Dagger",
+        "Sticky Fingers",
+        "Quick-Draw Dagger",
         "Jewel Thief", // Nice creature (G)
-        "Join the Maestros", "Pugnacious Pugilist", "Rocco, Cabaretti Caterer",
+        "Join the Maestros",
+        "Pugnacious Pugilist",
+        "Rocco, Cabaretti Caterer",
         "Freelance Muscle",    // Nice creature (G)
         "Giada, Font of Hope", // Cheap flyer (W)
+        // p7 - Round 2
+        "Disdainful Stroke",
+        "Midnight Assassin",
+        "Boon of Safety",
+        "Witty Roastmaster",
+        "Broken Wings",
+        "Psionic Snoop",
+        "Celestial Regulator",
+        "Most Wanted",
+        "Strangle",
+        "Involuntary Employment",
+        "Graveyard Shift",
+        "Stimulus Package",
     };
   }
 
@@ -88,10 +124,10 @@ public:
 
   std::vector<std::string_view> chosen_deck() const override {
     return {
+        "Strangle", // <- "Ready to Rumble",
         "Strangle",
         "For the Family",
         "Suspicious Bookcase",
-        // Forest <- "Illuminator Virtuoso",
         "Sky Crier",            // <- "Hold for Ransom",
         "Park Heights Pegasus", // <- "Sky Crier",
         "Mayhem Patrol",
@@ -100,17 +136,17 @@ public:
         "Antagonize",
         "Jewel Thief",
         "Inspiring Overseer",
-        "Quick-Draw Dagger",
+        "Witty Roastmaster", // <- "Quick-Draw Dagger",
         "Knockout Blow",
         "High-Rise Sawjack", // <- "Celebrity Fencer",
         "Sizzling Soloist",
         "Elegant Entourage",
         "Jaxis, the Troublemaker",
-        "Ready to Rumble",
         "Wrecking Crew", // <- "Rhox Pummeler",
         "Pugnacious Pugilist",
         "Freelance Muscle",
         "Rocco, Cabaretti Caterer",
+        // "Rhox Pummeler", // <- Forest <- "Illuminator Virtuoso",
     };
   }
 };
