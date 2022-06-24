@@ -736,14 +736,24 @@ TEST(PlayFetchLandForLandThatEnablesFutureSpell) {
   // playing R.
 
   Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
-  TurnState state;
-  AggregateCosts(player, &state.agg_spell_cost);
-  ProduceMana(lib, &player, &state);
+  {
+    TurnState state;
+    AggregateCosts(player, &state.agg_spell_cost);
+    ProduceMana(lib, &player, &state);
 
-  // Uses fetch land to play plains.
-  EXPECT_TRUE(IsPlains(*PlayLand(&player, &state)));
-  // Fetched land is already tapped.
-  EXPECT_EQ(ToString(state.mana_pool), "BR");
+    // Uses fetch land to play plains.
+    EXPECT_TRUE(IsPlains(*PlayLand(&player, &state)));
+    // Fetched land is already tapped.
+    EXPECT_EQ(ToString(state.mana_pool), "BR");
+  }
+
+  {
+    // Land gets untapped for next turn.
+    TurnState next_turn;
+    AggregateCosts(player, &next_turn.agg_spell_cost);
+    ProduceMana(lib, &player, &next_turn);
+    EXPECT_EQ(ToString(next_turn.mana_pool), "WBR");
+  }
 }
 
 TEST(PlayTurnSimple) {
