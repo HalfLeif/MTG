@@ -96,9 +96,7 @@ void ProduceMana(const Library &lib, Player *player, TurnState *state) {
 // end of turn.
 bool IsAffordable(const ManaCost &spell_cost, const ManaCost &mana_pool) {
   // Loop checks for both Colors, as well as Total mana cost.
-  for (const auto &pair : spell_cost) {
-    Color color = pair.first;
-    int cost_amount = pair.second;
+  for (const auto &[color, cost_amount] : spell_cost) {
     if (mana_pool.FindValue(color) < cost_amount) {
       return false;
     }
@@ -270,16 +268,16 @@ std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_spell_cost,
                                                const ManaCost &mana_pool) {
   std::vector<std::pair<float, Color>> scores;
   std::vector<Color> covered;
-  for (const auto &pair : agg_spell_cost) {
-    Color color = pair.first;
-    float demand = pair.second;
+  for (const auto &[color, demand] : agg_spell_cost) {
+    if (color == Color::Total) {
+      continue;
+    }
     covered.push_back(color);
     int supply = mana_pool.FindValue(color);
-    float score = demand / (supply + 1);
+    float score = static_cast<float>(demand) / (supply + 1);
     scores.emplace_back(score, color);
   }
-  for (const auto &pair : mana_pool) {
-    Color color = pair.first;
+  for (const auto &[color, supply] : mana_pool) {
     if (color == Color::Total) {
       continue;
     }
@@ -293,31 +291,53 @@ std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_spell_cost,
   return scores;
 }
 
+// Populates instances of missing color.
+// Higher value means it is more vital to supply.
+// Multiplies score with weight, since spells is more important than abilities.
+void AddMissingColors(const ManaCost &spell_cost, const ManaCost &mana_pool,
+                      const float weight,
+                      std::vector<std::pair<float, Color>> *missing_colors) {
+  // It is more important to supply colors with small total mana_diff.
+  // I.e. we should prioritize spells that can be played soon over spells that
+  // can be played far in the future.
+  const float mana_diff =
+      std::max<float>(0.0f, spell_cost.Total() - mana_pool.Total());
+  for (const auto &[color, cost] : spell_cost) {
+    if (color == Color::Total) {
+      continue;
+    }
+    const float missing_amount = cost - mana_pool.FindValue(color);
+    if (missing_amount > 0) {
+      // It is more important to supply colors with large missing_amount.
+      const float importance = missing_amount / (1 + mana_diff);
+      missing_colors->emplace_back(importance, color);
+    }
+  }
+}
+
 // Returns which colors are missing for spells in the hand, and by how much.
 // Negative values means the color is already supplied.
-ManaCost FindMissingColors(const Player &player, const ManaCost &mana_pool) {
-  ManaCost missing_colors;
-  const int max_mana = 1 + mana_pool.FindValue(Color::Total);
+// Need to prioritize by how far away that spell is in terms of mana cost...
+std::vector<std::pair<float, Color>>
+FindMissingColors(const Player &player, const ManaCost &mana_pool) {
+  std::vector<std::pair<float, Color>> missing_colors_sorted;
+
   for (const SpellView spell : player.hand.spells) {
-    if (spell->cost.FindValue(Color::Total) <= max_mana) {
-      UpdateMaxColors(missing_colors, spell->cost);
-    }
+    AddMissingColors(spell->cost, mana_pool, 1.0, &missing_colors_sorted);
   }
   for (const SpellView spell : player.battlefield.spells) {
-    if (spell.ability().has_value() &&
-        spell.ability()->FindValue(Color::Total) <= max_mana) {
-      UpdateMaxColors(missing_colors, *spell.ability());
+    if (spell.ability().has_value()) {
+      AddMissingColors(*spell.ability(), mana_pool, 0.5,
+                       &missing_colors_sorted);
     }
-    if (spell.onetime_ability() != nullptr &&
-        spell.onetime_ability()->FindValue(Color::Total) <= max_mana) {
-      UpdateMaxColors(missing_colors, *spell.onetime_ability());
+    if (spell.onetime_ability() != nullptr) {
+      AddMissingColors(*spell.onetime_ability(), mana_pool, 0.6,
+                       &missing_colors_sorted);
     }
   }
-  for (const auto [color, amount] : mana_pool) {
-    missing_colors[color] -= amount;
-  }
-  missing_colors[Color::Total] = 0;
-  return missing_colors;
+  std::sort(missing_colors_sorted.begin(), missing_colors_sorted.end(),
+            std::greater<std::pair<float, Color>>());
+  return missing_colors_sorted;
 }
 
 // First color is most important to add.
@@ -325,10 +345,8 @@ std::vector<Color> ManaNeeds(const Player &player,
                              const ManaCost &agg_spell_cost,
                              const ManaCost &mana_pool) {
   std::vector<Color> priorities;
-  for (const auto [color, amount] : FindMissingColors(player, mana_pool)) {
-    if (amount > 0) {
-      priorities.push_back(color);
-    }
+  for (const auto [priority, color] : FindMissingColors(player, mana_pool)) {
+    priorities.push_back(color);
   }
   for (const auto [priority, color] : SortNeeds(agg_spell_cost, mana_pool)) {
     priorities.push_back(color);
@@ -389,7 +407,7 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
       return non_basic_land;
     }
   }
-  // Play any land if possible...
+  // Play any land if there are no specific needs.
   return 0;
 }
 
@@ -685,11 +703,12 @@ TEST(PrioritizeColorThatEnablesFutureSpell) {
   player.battlefield.lands.push_back(BasicLand(Color::Black));
 
   player.hand.lands.push_back(BasicLand(Color::White));
+  player.hand.lands.push_back(BasicLand(Color::White));
   player.hand.lands.push_back(BasicLand(Color::Red));
   player.hand.lands.push_back(BasicLand(Color::Black));
 
   Spell s1 = MakeSpell("BR2");
-  Spell s2 = MakeSpell("W4");
+  Spell s2 = MakeSpell("WW2");
   Spell s3 = MakeSpell("R3");
   Spell s4 = MakeSpell("R4");
   Spell s5 = MakeSpell("R5");
@@ -755,6 +774,70 @@ TEST(PlayFetchLandForLandThatEnablesFutureSpell) {
     EXPECT_EQ(ToString(next_turn.mana_pool), "WBR");
   }
 }
+
+// TODO - implement solution such that these tests pass.
+/*
+TEST(PlayFetchLandWhenHasLeftoverMana) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  player.library.lands.push_back(BasicLand(Color::Black));
+  player.library.lands.push_back(BasicLand(Color::Black));
+  player.hand.lands.push_back(BasicLand(Color::Black));
+  player.hand.lands.push_back(FetchLand());
+
+  Spell s1 = MakeSpell("B4");
+  Spell s2 = MakeSpell("B1");
+  Spell s3 = MakeSpell("B5");
+
+  player.hand.spells.push_back(s1);
+  player.hand.spells.push_back(s2);
+  player.hand.spells.push_back(s3);
+  // Wouldn't be able to use 3 mana anyway, so should play fetchland.
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+  TurnState state;
+  AggregateCosts(player, &state.agg_spell_cost);
+  ProduceMana(lib, &player, &state);
+  EXPECT_EQ(ToString(state.mana_pool), "BB");
+
+  // Uses fetch land to play Swamp.
+  EXPECT_TRUE(IsSwamp(*PlayLand(&player, &state)));
+  // Fetched land is already tapped.
+  EXPECT_EQ(ToString(state.mana_pool), "BB");
+}
+
+TEST(PlayBasicLandWhenNeedsManaNow) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  player.library.lands.push_back(BasicLand(Color::Black));
+  player.library.lands.push_back(BasicLand(Color::Black));
+  player.hand.lands.push_back(BasicLand(Color::Black));
+  player.hand.lands.push_back(FetchLand());
+
+  Spell s1 = MakeSpell("B4");
+  Spell s2 = MakeSpell("B2");
+  Spell s3 = MakeSpell("B5");
+
+  player.hand.spells.push_back(s1);
+  player.hand.spells.push_back(s2);
+  player.hand.spells.push_back(s3);
+  // Wouldn't be able to use 3 mana anyway, so should play fetchland.
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+  TurnState state;
+  AggregateCosts(player, &state.agg_spell_cost);
+  ProduceMana(lib, &player, &state);
+  EXPECT_EQ(ToString(state.mana_pool), "BB");
+
+  EXPECT_TRUE(IsSwamp(*PlayLand(&player, &state)));
+  // Play basic land, not fetch land.
+  EXPECT_EQ(ToString(state.mana_pool), "BBB");
+}
+*/
 
 TEST(PlayTurnSimple) {
   ThreadsafeRandom rand;
