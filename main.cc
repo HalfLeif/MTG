@@ -98,8 +98,8 @@ int main(int argc, char *argv[]) {
   std::unique_ptr<SealedDeck> sealed = std::make_unique<Snc>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
-  // GenerateDeck(all_cards, sealed.get());
-  OptimizeDeck(all_cards, sealed.get());
+  GenerateDeck(all_cards, sealed.get());
+  // OptimizeDeck(all_cards, sealed.get());
 
   return 0;
 }
