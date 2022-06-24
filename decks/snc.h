@@ -132,36 +132,38 @@ public:
 
   std::vector<std::string_view> forced_cards() const override {
     return {
-        "Freelance Muscle", "Jaxis, the Troublemaker", "Strangle",
-        // "Knockout Blow",
+        "Freelance Muscle",
+        "Jaxis, the Troublemaker",
+        "Strangle",
+        "Mayhem Patrol",
     };
   }
 
   std::vector<std::string_view> chosen_deck() const override {
     return {
-        "Strangle", // <- "Ready to Rumble",
         "Strangle",
-        "For the Family",
+        "Fake Your Own Death",
+        "Fake Your Own Death",
         "Suspicious Bookcase",
-        "Sky Crier",            // <- "Hold for Ransom",
-        "Park Heights Pegasus", // <- "Sky Crier",
-        "Mayhem Patrol",
+        "Tenacious Underdog",
+        "Corrupt Court Official",
         "Riveteers Requisitioner",
-        "Giada, Font of Hope",
-        "Antagonize",
+        "Mayhem Patrol",
         "Jewel Thief",
-        "Inspiring Overseer",
-        "Witty Roastmaster", // <- "Quick-Draw Dagger",
-        "Knockout Blow",
-        "High-Rise Sawjack", // <- "Celebrity Fencer",
-        "Sizzling Soloist",
-        "Elegant Entourage",
+        "Midnight Assassin",
+        "Witty Roastmaster",
+        "Witty Roastmaster",
+        "Rogues' Gallery",
+        "Murder",
+        "Murder",
         "Jaxis, the Troublemaker",
-        "Wrecking Crew", // <- "Rhox Pummeler",
-        "Pugnacious Pugilist",
+        "Elegant Entourage",
+        "Sizzling Soloist",
+        "Deal Gone Bad",
         "Freelance Muscle",
-        "Rocco, Cabaretti Caterer",
-        "Rhox Pummeler", // <- Forest <- "Illuminator Virtuoso",
+        "Girder Goons",
+        "Pugnacious Pugilist",
+        "Masked Bandits",
     };
   }
 };
