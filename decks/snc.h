@@ -112,6 +112,21 @@ public:
         "Involuntary Employment",
         "Graveyard Shift",
         "Stimulus Package",
+        // p8 - Round 3
+        "Knockout Blow",
+        "Raffine's Guidance",
+        "Riveteers Initiate",
+        "Witty Roastmaster",
+        "Maestros Initiate",
+        "Murder",
+        "Crew Captain",
+        "Sleep with the Fishes",
+        "Majestic Metamorphosis",
+        "Obscura Interceptor",
+        "Spara's Adjudicators",
+        "Attended Socialite",
+        "Ominous Parcel",
+        "Light 'Em Up",
     };
   }
 
@@ -146,7 +161,7 @@ public:
         "Pugnacious Pugilist",
         "Freelance Muscle",
         "Rocco, Cabaretti Caterer",
-        // "Rhox Pummeler", // <- Forest <- "Illuminator Virtuoso",
+        "Rhox Pummeler", // <- Forest <- "Illuminator Virtuoso",
     };
   }
 };
