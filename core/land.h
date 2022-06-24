@@ -80,7 +80,9 @@ Land Shore() {
   };
 }
 
-bool IsBasicLand(const Land &land) { return land.type == LandType::basic; }
+inline bool IsBasicLand(const Land &land) {
+  return land.type == LandType::basic;
+}
 bool IsSwamp(const Land &land) {
   return IsBasicLand(land) && land.colors.contains(Color::Black);
 }
