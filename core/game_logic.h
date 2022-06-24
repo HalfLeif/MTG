@@ -329,11 +329,11 @@ void AddMissingColors(const ManaCost &spell_cost, const ManaCost &mana_pool,
       missing_colors->emplace_back(importance, color);
     }
   }
-  if (sum_missing_colors == 1 && need_mana_now != nullptr) {
-    // Need exactly one more mana to play this spell.
-    // Note: this can be misleading if we can play another spell at the same
-    // time for exactly the same mana cost... Ideally, we would take this into
-    // account.
+  if (sum_missing_colors == 1 && mana_diff <= 0 && need_mana_now != nullptr) {
+    // Need exactly one more colored mana to play this spell, can otherwise
+    // afford it already. Note: this can be misleading if we can play another
+    // spell at the same time for exactly the same mana cost... Ideally, we
+    // would take this into account.
     *need_mana_now = true;
   }
 }
@@ -395,6 +395,9 @@ std::vector<Color> ManaNeeds(const Player &player, const TurnState &state,
 int ChooseLand(const std::vector<Color> &needs, const Player &player,
                const Deck &hand, bool need_mana_now, bool basic_only,
                TurnState *state) {
+  // It turns out that always playing basic land gets higher score than trying
+  // to smartly decide when to play fetch land...
+  need_mana_now = true;
   if (hand.lands.empty()) {
     return -1;
   }
@@ -813,6 +816,7 @@ TEST(PlayFetchLandForLandThatEnablesFutureSpell) {
   }
 }
 
+/*
 TEST(PlayFetchLandWhenHasLeftoverMana) {
   Player player;
   player.battlefield.lands.push_back(BasicLand(Color::Black));
@@ -873,6 +877,7 @@ TEST(PlayFetchLandWhenCouldntPlayAnyway) {
   // Fetched land is already tapped.
   EXPECT_EQ(ToString(state.mana_pool), "");
 }
+*/
 
 TEST(PlayBasicLandWhenNeedsManaNow) {
   Player player;
