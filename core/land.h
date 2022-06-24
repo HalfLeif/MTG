@@ -87,6 +87,9 @@ bool IsSwamp(const Land &land) {
 bool IsPlains(const Land &land) {
   return IsBasicLand(land) && land.colors.contains(Color::White);
 }
+bool IsMountain(const Land &land) {
+  return IsBasicLand(land) && land.colors.contains(Color::Red);
+}
 bool IsFetchLand(const Land &land) { return land.type == LandType::fetch; }
 
 std::string ToString(const Land &land) {

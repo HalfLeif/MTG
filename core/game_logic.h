@@ -265,6 +265,7 @@ void AggregateCosts(const Player &player, ManaCost *aggregate) {
   }
 }
 
+// Returns greatest need first.
 std::vector<std::pair<float, Color>> SortNeeds(const ManaCost &agg_spell_cost,
                                                const ManaCost &mana_pool) {
   std::vector<std::pair<float, Color>> scores;
@@ -357,6 +358,9 @@ int MaxPointsLand(const Player &player) {
 // Chooses which land to play. If plays fetch land, choose the color needed.
 int ChooseLand(const std::vector<Color> &needs, const Player &player,
                const Deck &hand, bool basic_only, TurnState *state) {
+  if (hand.lands.empty()) {
+    return -1;
+  }
   if (const int max_land = MaxPointsLand(player); max_land >= 0) {
     return max_land;
   }
@@ -389,51 +393,46 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
   return 0;
 }
 
-// Returns points from played lands.
-double PlayLand(Player *player, TurnState *state,
-                CardContributions *contributions) {
-  const auto &lands = player->hand.lands;
-  if (lands.empty()) {
-    INFO << "No lands in hand.\n";
-    return 0;
-  }
-
+const Land *PlayLand(Player *player, TurnState *state) {
   const std::vector<Color> needs = ManaNeeds(*player, *state);
   const int i = ChooseLand(needs, *player, player->hand, false, state);
-  const Land *played = nullptr;
+  if (i < 0) {
+    return nullptr;
+  }
 
-  if (lands[i].type == LandType::fetch) {
+  const auto &lands = player->hand.lands;
+  switch (lands[i].type) {
+  case LandType::basic:
+  case LandType::shore: {
+    const Land *played = MoveLand(i, player->hand, player->battlefield);
+    if (played) {
+      TapLand(*played, state->mana_pool);
+    }
+    return played;
+  }
+  case LandType::dual: {
+    return MoveLand(i, player->hand, player->battlefield);
+  }
+  case LandType::fetch: {
     // Sacrifice the land, and search for another land instead.
     // The searched land cannot be tapped this turn.
     MoveLand(i, player->hand, player->graveyard);
     const int search = ChooseLand(needs, *player, player->library, true, state);
-    played = MoveLand(search, player->library, player->battlefield);
-    if (played) {
-      INFO << "Fetched and played " << *played << "\n";
-    } else {
-      INFO << "Attempted fetch but could not play any land.\n";
-    }
-  } else if (lands[i].type == LandType::dual) {
-    played = MoveLand(i, player->hand, player->battlefield);
-    if (played) {
-      INFO << "Played double land " << *played << "\n";
-    } else {
-      INFO << "Could not play any land.\n";
-    }
-  } else { // Not a fetch land.
-    played = MoveLand(i, player->hand, player->battlefield);
-    if (played) {
-      TapLand(*played, state->mana_pool);
-      INFO << "Played and tapped " << *played << "\n";
-    } else {
-      INFO << "Could not play any land.\n";
-    }
+    return MoveLand(search, player->library, player->battlefield);
   }
+  }
+  return nullptr;
+}
 
-  if (played != nullptr) {
+// Returns points from played lands.
+double PlayLand(Player *player, TurnState *state,
+                CardContributions *contributions) {
+  if (const Land *played = PlayLand(player, state); played != nullptr) {
+    INFO << "Played Land " << *played << "\n";
     return PointsFromPlayedLand(*played, *player, contributions);
+  } else {
+    INFO << "Could not play any land.\n";
   }
-
   return 0;
 }
 
@@ -648,8 +647,7 @@ TEST(ChoseLandSimpleNeed) {
   EXPECT_EQ(ToString(state.agg_spell_cost), "BBB4");
   EXPECT_EQ(ToString(state.mana_pool), "B");
 
-  std::vector<Color> needs = ManaNeeds(player, state);
-  EXPECT_EQ(ChooseLand(needs, player, player.hand, false, &state), 1);
+  EXPECT_TRUE(IsSwamp(*PlayLand(&player, &state)));
 }
 
 TEST(PrioritizeColorThatEnablesSpell) {
@@ -677,8 +675,75 @@ TEST(PrioritizeColorThatEnablesSpell) {
   AggregateCosts(player, &state.agg_spell_cost);
   ProduceMana(lib, &player, &state);
 
-  std::vector<Color> needs = ManaNeeds(player, state);
-  EXPECT_EQ(ChooseLand(needs, player, player.hand, false, &state), 1);
+  EXPECT_TRUE(IsMountain(*PlayLand(&player, &state)));
+  EXPECT_EQ(ToString(state.mana_pool), "WBR");
+}
+
+TEST(PrioritizeColorThatEnablesFutureSpell) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Red));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  player.hand.lands.push_back(BasicLand(Color::White));
+  player.hand.lands.push_back(BasicLand(Color::Red));
+  player.hand.lands.push_back(BasicLand(Color::Black));
+
+  Spell s1 = MakeSpell("BR2");
+  Spell s2 = MakeSpell("W4");
+  Spell s3 = MakeSpell("R3");
+  Spell s4 = MakeSpell("R4");
+  Spell s5 = MakeSpell("R5");
+
+  player.hand.spells.push_back(s1);
+  player.hand.spells.push_back(s2);
+  player.hand.spells.push_back(s3);
+  player.hand.spells.push_back(s4);
+  player.hand.spells.push_back(s5);
+  // Has many more red spells, but should prioritize enabling W before
+  // playing R.
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+  TurnState state;
+  AggregateCosts(player, &state.agg_spell_cost);
+  ProduceMana(lib, &player, &state);
+
+  EXPECT_TRUE(IsPlains(*PlayLand(&player, &state)));
+  EXPECT_EQ(ToString(state.mana_pool), "WBR");
+}
+
+TEST(PlayFetchLandForLandThatEnablesFutureSpell) {
+  Player player;
+  player.battlefield.lands.push_back(BasicLand(Color::Red));
+  player.battlefield.lands.push_back(BasicLand(Color::Black));
+
+  player.library.lands.push_back(BasicLand(Color::White));
+  player.library.lands.push_back(BasicLand(Color::Red));
+  player.library.lands.push_back(BasicLand(Color::Black));
+  player.hand.lands.push_back(FetchLand());
+
+  Spell s1 = MakeSpell("BR2");
+  Spell s2 = MakeSpell("W4");
+  Spell s3 = MakeSpell("R3");
+  Spell s4 = MakeSpell("R4");
+  Spell s5 = MakeSpell("R5");
+
+  player.hand.spells.push_back(s1);
+  player.hand.spells.push_back(s2);
+  player.hand.spells.push_back(s3);
+  player.hand.spells.push_back(s4);
+  player.hand.spells.push_back(s5);
+  // Has many more red spells, but should prioritize enabling W before
+  // playing R.
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+  TurnState state;
+  AggregateCosts(player, &state.agg_spell_cost);
+  ProduceMana(lib, &player, &state);
+
+  // Uses fetch land to play plains.
+  EXPECT_TRUE(IsPlains(*PlayLand(&player, &state)));
+  // Fetched land is already tapped.
+  EXPECT_EQ(ToString(state.mana_pool), "BR");
 }
 
 TEST(PlayTurnSimple) {

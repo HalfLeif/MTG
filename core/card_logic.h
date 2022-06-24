@@ -25,6 +25,10 @@ int DrawFromPlayedSpell(const SpellView spell, const Player &player) {
 
 double PointsFromPlayedLand(const Land &land, const Player &player,
                             CardContributions *contributions) {
+  if (IsFetchLand(land)) {
+    // Gain 1 life
+    return 0.5;
+  }
   if (IsSwamp(land) && Contains<SpellView>(player.battlefield.spells,
                                            IsSpellName("DreadPresence"))) {
     INFO << "Played Swamp with DreadPresence in play!\n";
