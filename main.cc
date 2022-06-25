@@ -47,29 +47,14 @@ void GenerateDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
 void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
   std::vector<Spell> chosen_cards =
       FilterCards(all_cards, sealed->chosen_deck());
-  std::vector<Spell> base_cards =
-      FilterCards(all_cards, {
-                                 // "Ready to Rumble",
-                                 // "Wrecking Crew",
-                                 // "Sky Crier",
-                                 // "Quick-Draw Dagger",
-                                 // "Rhox Pummeler",
-                             });
+  std::vector<Spell> base_cards = FilterCards(all_cards, {
+                                                             "Masked Bandits",
+                                                         });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
-
-                                 // "High-Rise Sawjack",
-                                 // "Wrecking Crew",
-                                 // "Sky Crier",
-                                 // "Illuminator Virtuoso",
-                                 // "Jetmir's Fixer",
-                                 // "Backup Agent",
-                                 // "Goldhound",
-                                 // "Jetmir's Fixer",
-                                 // "Quick-Draw Dagger",
-                                 // "Celebrity Fencer",
-                                 // "Rhox Pummeler",
-                                 // "Soul of Emancipation",
+                                 "Crew Captain", // <-
+                                                 // "High-Rise Sawjack",
+                                                 // "Wrecking Crew",
 
                              });
 
@@ -82,7 +67,7 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
                     .AddLand(FetchLand(0.5))
                     .AddLand(FetchLand(0.5))
                     .AddLand(FetchLand(0.5))
-                    .AddLand(FetchLand(0.5), Experiment::exp)
+                    .AddLand(FetchLand(0.5))
                     // .AddLand(FetchLand(), Experiment::exp)
                     .Build();
 
