@@ -118,7 +118,10 @@ void PayCost(const ManaCost &spell_cost, ManaCost *mana_pool) {
 }
 
 double PointsFromSpell(const SpellView spell) {
-  return TotalCost(spell->cost) + spell->point_bonus;
+  // 1 point for using a card.
+  // X points for spending mana.
+  // Additionally bonus for playing a good card.
+  return 1 + TotalCost(spell->cost) + spell->point_bonus;
 }
 
 // Returns number of points from playing this spell.
@@ -1013,8 +1016,8 @@ TEST(PlayTurnSimple) {
       player.battlefield.spells.front().name() != "Foo") {
     Fail("Expected Spell to be played");
   }
-  EXPECT_NEAR(points, 2);
-  EXPECT_EQ(GetContribution("Foo", &contributions), 2);
+  EXPECT_NEAR(points, 3);
+  EXPECT_EQ(GetContribution("Foo", &contributions), 3);
 }
 
 TEST(PlayTurnExistingCreature) {
@@ -1029,8 +1032,8 @@ TEST(PlayTurnExistingCreature) {
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, rand, &contributions);
-  EXPECT_NEAR(points, 2 - 0.5);
-  EXPECT_EQ(GetContribution("Foo", &contributions), 2);
+  EXPECT_NEAR(points, 2.5 - 0.5);
+  EXPECT_EQ(GetContribution("Foo", &contributions), 2.5);
 }
 
 TEST(PlayTurnNotEnoughMana) {
@@ -1081,8 +1084,8 @@ TEST(PlayBestSpell) {
 
   EXPECT_EQ(player.battlefield.spells.size(), 1);
   EXPECT_EQ(player.battlefield.spells.front().name(), "Big");
-  EXPECT_NEAR(points, 4);
-  EXPECT_EQ(GetContribution("Big", &contributions), 4);
+  EXPECT_NEAR(points, 5);
+  EXPECT_EQ(GetContribution("Big", &contributions), 5);
 }
 
 TEST(PlayBestSpellRespectPriority) {
@@ -1106,8 +1109,8 @@ TEST(PlayBestSpellRespectPriority) {
   EXPECT_EQ(player.battlefield.spells.size(), 1);
   EXPECT_EQ(player.battlefield.spells.front().name(), "Important");
 
-  // 2 points for important spell, -1 point for mana not spent.
-  EXPECT_NEAR(points, 2 - 1);
+  // 1+2 points for important spell, -1 point for mana not spent.
+  EXPECT_NEAR(points, 3 - 1);
 }
 
 TEST(PlaySeveralSpells) {
@@ -1143,7 +1146,7 @@ TEST(PlaySeveralSpells) {
       player.hand.spells.front().name() != "Tiny") {
     Fail("Expected Tiny Spell to not be played");
   }
-  EXPECT_NEAR(points, 4);
+  EXPECT_NEAR(points, 3 + 3);
 }
 
 TEST(PlayAbilities) {
@@ -1167,10 +1170,10 @@ TEST(PlayAbilities) {
   CardContributions contributions =
       MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, rand, &contributions);
-  // + 1/2 points for existing creature
+  // + 1 points for existing creature
   // + 6/3 = 2 points for playing the same ability twice.
-  EXPECT_NEAR(points, 2.5);
-  EXPECT_NEAR(GetContribution("Foo", &contributions), 2.5);
+  EXPECT_NEAR(points, 3);
+  EXPECT_NEAR(GetContribution("Foo", &contributions), 3);
 }
 
 TEST(PlayOnetimeAbilities) {
@@ -1194,9 +1197,9 @@ TEST(PlayOnetimeAbilities) {
       MakeContributionMaps(player.battlefield.spells);
   double points = PlayTurn(lib, &player, rand, &contributions);
   // Points:
-  // + 1/2 points for existing creature
+  // + 1 points for existing creature
   // + 4/2 points for playing the onetime ability once.
   // - 1/2 points for too many lands.
-  EXPECT_NEAR(points, 2);
-  EXPECT_NEAR(GetContribution("Foo", &contributions), 2.5);
+  EXPECT_NEAR(points, 1 + 2 - 0.5);
+  EXPECT_NEAR(GetContribution("Foo", &contributions), 3);
 }
