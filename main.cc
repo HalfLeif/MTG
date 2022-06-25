@@ -79,9 +79,10 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
                     .AddSpells(base_cards, Experiment::base)
                     .AddSpells(exp_cards, Experiment::exp)
                     // .AddLand(TapLand("WG"))
-                    .AddLand(FetchLand())
-                    .AddLand(FetchLand())
-                    .AddLand(FetchLand(), Experiment::exp)
+                    .AddLand(FetchLand(0.5))
+                    .AddLand(FetchLand(0.5))
+                    .AddLand(FetchLand(0.5))
+                    .AddLand(FetchLand(0.5), Experiment::exp)
                     // .AddLand(FetchLand(), Experiment::exp)
                     .Build();
 

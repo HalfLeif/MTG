@@ -488,7 +488,8 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
   return 0;
 }
 
-const Land *PlayLand(Player *player, TurnState *state) {
+const Land *PlayLand(Player *player, TurnState *state,
+                     double *points = nullptr) {
   bool need_mana_now = false;
   const std::vector<Color> needs = ManaNeeds(*player, *state, &need_mana_now);
   const int i =
@@ -513,6 +514,11 @@ const Land *PlayLand(Player *player, TurnState *state) {
   case LandType::fetch: {
     // Sacrifice the land, and search for another land instead.
     // The searched land cannot be tapped this turn.
+    if (points != nullptr) {
+      // Need to gather fetch points here since returns replaced land.
+      *points +=
+          PointsFromPlayedLand(lands[i], *player, /*contributions=*/nullptr);
+    }
     MoveLand(i, player->hand, player->graveyard);
 
     // Calculate future available mana when choosing land to fetch.
@@ -532,13 +538,15 @@ const Land *PlayLand(Player *player, TurnState *state) {
 // Returns points from played lands.
 double PlayLand(Player *player, TurnState *state,
                 CardContributions *contributions) {
-  if (const Land *played = PlayLand(player, state); played != nullptr) {
+  double points = 0.0;
+  if (const Land *played = PlayLand(player, state, &points);
+      played != nullptr) {
     INFO << "Played Land " << *played << "\n";
-    return PointsFromPlayedLand(*played, *player, contributions);
+    points += PointsFromPlayedLand(*played, *player, contributions);
   } else {
     INFO << "Could not play any land.\n";
   }
-  return 0;
+  return points;
 }
 
 double PointsFromBattlefield(const Player &player,

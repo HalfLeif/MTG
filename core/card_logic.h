@@ -25,17 +25,13 @@ int DrawFromPlayedSpell(const SpellView spell, const Player &player) {
 
 double PointsFromPlayedLand(const Land &land, const Player &player,
                             CardContributions *contributions) {
-  if (IsFetchLand(land)) {
-    // Gain 1 life
-    return 0.5;
-  }
   if (IsSwamp(land) && Contains<SpellView>(player.battlefield.spells,
                                            IsSpellName("DreadPresence"))) {
     INFO << "Played Swamp with DreadPresence in play!\n";
     AddDelta(2, "DreadPresence", contributions);
     return 2;
   }
-  return 0;
+  return land.bonus;
 }
 
 void TapManaCreatures(const Deck &battlefield, ManaCost *mana_pool) {

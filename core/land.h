@@ -14,6 +14,9 @@ enum class LandType {
 struct Land {
   LandType type;
   ManaCost colors;
+
+  // E.g. 0.5 for gaining one life.
+  double bonus = 0.0;
   // Color color;
   // std::optional<Color> secondary = std::nullopt;
 
@@ -64,9 +67,10 @@ Land DualLand(Color c, Color secondary) {
   };
 }
 
-Land FetchLand() {
-  return {
+Land FetchLand(double bonus = 0.0) {
+  return Land{
       .type = LandType::fetch,
+      .bonus = bonus,
   };
 }
 
