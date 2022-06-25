@@ -52,6 +52,7 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
                                                          });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
+                                 // "Strangle",
                                  // "Crew Captain",
                                  // "High-Rise Sawjack",
                                  // "Wrecking Crew",
@@ -66,12 +67,12 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
                     // .AddLand(TapLand("WG"))
                     .AddLand(FetchLand(0.5))
                     .AddLand(FetchLand(0.5))
-                    .AddLand(FetchLand(0.5))
-                    .AddLand(FetchLand(0.5))
-                    // .AddLand(FetchLand(), Experiment::exp)
+                    // .AddLand(FetchLand(0.5))
+                    // .AddLand(FetchLand(0.5))
+                    // .AddLand(FetchLand(0.5), Experiment::exp)
                     .Build();
 
-  ThreadsafeRandom random;
+  ThreadsafeRandom random(/*seed=*/5);
   CompareParams(lib, random, 2000);
 }
 
@@ -84,8 +85,8 @@ int main(int argc, char *argv[]) {
   std::unique_ptr<SealedDeck> sealed = std::make_unique<Snc>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
-  GenerateDeck(all_cards, sealed.get());
-  // OptimizeDeck(all_cards, sealed.get());
+  // GenerateDeck(all_cards, sealed.get());
+  OptimizeDeck(all_cards, sealed.get());
 
   return 0;
 }

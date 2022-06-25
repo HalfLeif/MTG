@@ -144,26 +144,31 @@ public:
         "Strangle",
         "Fake Your Own Death",
         "Fake Your Own Death",
-        "Suspicious Bookcase",
         "Tenacious Underdog",
         "Corrupt Court Official",
         "Riveteers Requisitioner",
         "Mayhem Patrol",
-        "Jewel Thief",
+        "Body Dropper",
+        "Light 'Em Up",
+        "Light 'Em Up",
+
+        "Maestros Initiate", // <- "Graveyard Shift",
         "Midnight Assassin",
         "Witty Roastmaster",
         "Witty Roastmaster",
         "Rogues' Gallery",
         "Murder",
         "Murder",
+
         "Jaxis, the Troublemaker",
-        "Elegant Entourage",
         "Sizzling Soloist",
         "Deal Gone Bad",
-        "Freelance Muscle",
+        "Involuntary Employment",
+
+        "Wrecking Crew",
         "Girder Goons",
         "Pugnacious Pugilist",
-        "Masked Bandits",
+
     };
   }
 };
