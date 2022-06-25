@@ -47,18 +47,18 @@ void TapLand(const Land &land, ManaCost &mana_pool) {
   mana_pool += land.colors;
 }
 
-bool IsColorStarved(const Library &lib, const ManaCost &mana_pool) {
-  if (mana_pool.FindValue(lib.PrimaryColor()) < 1) {
-    return true;
-  }
-  if (mana_pool.FindValue(lib.SecondaryColor()) < 1) {
-    return true;
-  }
+inline bool IsColorStarved(const ManaCost &mana_pool) {
   return false;
+  // if (mana_pool.FindValue(lib.PrimaryColor()) < 1) {
+  //   return true;
+  // }
+  // if (mana_pool.FindValue(lib.SecondaryColor()) < 1) {
+  //   return true;
+  // }
+  // return false;
 }
 
-void ProduceMana(const Library &lib, const Deck &battlefield,
-                 ManaCost *mana_pool) {
+void ProduceMana(const Deck &battlefield, ManaCost *mana_pool) {
   auto &lands = battlefield.lands;
   int shores = 0;
   for (int i = 0; i < lands.size(); ++i) {
@@ -77,7 +77,8 @@ void ProduceMana(const Library &lib, const Deck &battlefield,
   TapManaCreatures(battlefield, mana_pool);
 
   for (int i = 0; i < shores; ++i) {
-    if (IsColorStarved(lib, *mana_pool)) {
+    // TODO: Use ManaNeeds to determine this instead.
+    if (IsColorStarved(*mana_pool)) {
       // Either 1. Add colorless mana, OR
       ++(*mana_pool)[Color::Colorless];
       ++(*mana_pool)[Color::Total];
@@ -89,7 +90,8 @@ void ProduceMana(const Library &lib, const Deck &battlefield,
 }
 
 void ProduceMana(const Library &lib, Player *player, TurnState *state) {
-  return ProduceMana(lib, player->battlefield, &state->mana_pool);
+  // TODO delete unused param lib.
+  return ProduceMana(player->battlefield, &state->mana_pool);
 }
 
 // Idea for color optimization: accumulate grey mana debt! Must be paid before
@@ -372,10 +374,13 @@ std::vector<Color> ManaNeeds(const Player &player,
   std::vector<Color> priorities;
   for (const auto [priority, color] :
        FindMissingColors(player, mana_pool, need_mana_now)) {
+    INFO << "Need " << color << " with priority " << priority << std::endl;
     priorities.push_back(color);
   }
   if (priorities.empty()) {
     for (const auto [priority, color] : SortNeeds(agg_spell_cost, mana_pool)) {
+      INFO << "Future want " << color << " with priority " << priority
+           << std::endl;
       priorities.push_back(color);
     }
   }
@@ -397,55 +402,89 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
                TurnState *state) {
   // It turns out that always playing basic land gets higher score than trying
   // to smartly decide when to play fetch land...
-  need_mana_now = true;
+  // need_mana_now = true;
+  // Simplification to play fetch land on first turn.
+  need_mana_now = !player.battlefield.lands.empty();
+  if (basic_only) {
+    need_mana_now = true;
+  }
+
   if (hand.lands.empty()) {
     return -1;
   }
 
+  int ideal_basic_land = -1;
+  int ideal_tap_land = -1;
   int any_basic_land = -1;
   int any_tap_land = -1;
   const auto &lands = hand.lands;
   for (Color color : needs) {
-    int perfect_basic_land = -1;
-    int perfect_tap_land = -1;
+    INFO << "Need " << color << (need_mana_now ? " urgently" : " for future")
+         << std::endl;
     for (int i = 0; i < lands.size(); ++i) {
-      if (lands[i].type == LandType::basic && lands[i].colors.contains(color)) {
-        perfect_basic_land = i;
-        any_basic_land = i;
-      } else if (lands[i].type == LandType::dual &&
-                 lands[i].colors.contains(color)) {
-        perfect_tap_land = i;
-        any_tap_land = i;
-      } else if (lands[i].type == LandType::fetch) {
-        perfect_tap_land = i;
-        any_tap_land = i;
-      } else if (lands[i].type == LandType::basic ||
-                 lands[i].type == LandType::shore) {
+      if (lands[i].type == LandType::basic ||
+          lands[i].type == LandType::shore) {
         // Found some basic land even though it was not the color we wanted.
         any_basic_land = i;
+      } else {
+        any_tap_land = i;
+      }
+
+      // Only update best land if not already present.
+      if (lands[i].type == LandType::basic && lands[i].colors.contains(color) &&
+          ideal_basic_land < 0) {
+        if (need_mana_now) {
+          // If needs mana urgently, play basic land of correct color;
+          INFO << "Return ideal_basic_land " << lands[i] << std::endl;
+          return i;
+        }
+        ideal_basic_land = i;
+      } else if (lands[i].type == LandType::dual &&
+                 lands[i].colors.contains(color) && ideal_tap_land < 0) {
+        if (!need_mana_now && !basic_only) {
+          // No need to rush mana, better to play tap land during the slack.
+          INFO << "Return ideal_tap_land " << lands[i] << std::endl;
+          return i;
+        }
+        ideal_tap_land = i;
+      } else if (lands[i].type == LandType::fetch && ideal_tap_land < 0) {
+        if (!need_mana_now && !basic_only) {
+          INFO << "Return ideal_tap_land " << lands[i] << std::endl;
+          return i;
+        }
+        ideal_tap_land = i;
       }
     }
-    if (need_mana_now && perfect_basic_land >= 0) {
-      // If needs mana urgently, play basic land of correct color;
-      return perfect_basic_land;
-    }
-    if (!need_mana_now && perfect_tap_land >= 0 && !basic_only) {
-      // No need to rush mana, better to play tap land during the slack.
-      return perfect_tap_land;
-    }
   }
 
-  if (need_mana_now && any_basic_land >= 0) {
-    // If cannot fulfill specific needs, but needs mana now the play any basic
-    // land.
-    return any_basic_land;
+  // We didn't find exactly what we need. Fallback to other options:
+  if (need_mana_now) {
+    // 1. need_mana_now
+    //   a. any basic land
+    //   b. ideal tap land
+    if (any_basic_land >= 0) {
+      // If cannot fulfill specific needs, but needs mana now the play any basic
+      // land.
+      return any_basic_land;
+    }
+    if (ideal_tap_land >= 0 && !basic_only) {
+      // Tiebreak between taplands when cannot play mana now.
+      return ideal_tap_land;
+    }
+  } else {
+    // 2. don't need mana now
+    //   a. any tap land
+    //   b. ideal basic land
+    if (any_tap_land >= 0 && !basic_only) {
+      // If don't need mana now, try to play any tapland.
+      return any_tap_land;
+    }
+    if (ideal_basic_land >= 0) {
+      // Needed for tiebreak between colors when don't need mana now.
+      return ideal_basic_land;
+    }
   }
-  if (any_tap_land >= 0 && !basic_only) {
-    // If could not find any basic land, try to play any tapland.
-    return any_tap_land;
-  }
-
-  // Fallback to play any land.
+  // 3. any land
   return 0;
 }
 
@@ -475,8 +514,15 @@ const Land *PlayLand(Player *player, TurnState *state) {
     // Sacrifice the land, and search for another land instead.
     // The searched land cannot be tapped this turn.
     MoveLand(i, player->hand, player->graveyard);
+
+    // Calculate future available mana when choosing land to fetch.
+    ManaCost future_mana = state->mana_pool;
+    ProduceMana(player->hand, &future_mana);
+
+    std::vector<Color> future_needs =
+        ManaNeeds(*player, state->agg_spell_cost, future_mana, nullptr);
     const int search =
-        ChooseLand(needs, *player, player->library, false, true, state);
+        ChooseLand(future_needs, *player, player->library, false, true, state);
     return MoveLand(search, player->library, player->battlefield);
   }
   }
@@ -573,7 +619,7 @@ bool SimpleStrategy(const Deck &hand, int n) {
 
 void BottomOne(const Library &lib, Player *player) {
   ManaCost hand_pool;
-  ProduceMana(lib, player->hand, &hand_pool);
+  ProduceMana(player->hand, &hand_pool);
   ManaCost hand_cost;
   AggregateCosts(*player, &hand_cost);
 
@@ -706,7 +752,8 @@ TEST(ChoseLandSimpleNeed) {
   EXPECT_EQ(ToString(state.agg_spell_cost), "BBB4");
   EXPECT_EQ(ToString(state.mana_pool), "B");
 
-  EXPECT_TRUE(IsSwamp(*PlayLand(&player, &state)));
+  const Land *land = PlayLand(&player, &state);
+  EXPECT_TRUE(IsSwamp(*land)) << *land;
 }
 
 TEST(PrioritizeColorThatEnablesSpell) {
@@ -878,6 +925,37 @@ TEST(PlayFetchLandWhenCouldntPlayAnyway) {
   EXPECT_EQ(ToString(state.mana_pool), "");
 }
 */
+
+TEST(FetchFutureNeedConsideringLandsInHand) {
+  Player player;
+
+  player.library.lands.push_back(BasicLand(Color::Black));
+  player.library.lands.push_back(BasicLand(Color::White));
+  player.hand.lands.push_back(BasicLand(Color::Black));
+  player.hand.lands.push_back(BasicLand(Color::Black));
+  player.hand.lands.push_back(FetchLand());
+
+  Spell s1 = MakeSpell("BB1");
+  Spell s2 = MakeSpell("W2");
+  Spell s3 = MakeSpell("B5");
+
+  player.hand.spells.push_back(s1);
+  player.hand.spells.push_back(s2);
+  player.hand.spells.push_back(s3);
+  // Even though Black is in more need, we should fetch the White land since we
+  // already have 2 black lands in the hand.
+
+  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+  TurnState state;
+  AggregateCosts(player, &state.agg_spell_cost);
+  ProduceMana(lib, &player, &state);
+  EXPECT_EQ(ToString(state.mana_pool), "");
+
+  // Uses fetch land to play Plains.
+  EXPECT_TRUE(IsPlains(*PlayLand(&player, &state)));
+  // Fetched land is already tapped.
+  EXPECT_EQ(ToString(state.mana_pool), "");
+}
 
 TEST(PlayBasicLandWhenNeedsManaNow) {
   Player player;
