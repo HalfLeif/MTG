@@ -48,13 +48,13 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
   std::vector<Spell> chosen_cards =
       FilterCards(all_cards, sealed->chosen_deck());
   std::vector<Spell> base_cards = FilterCards(all_cards, {
-                                                             "Masked Bandits",
+
                                                          });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
-                                 "Crew Captain", // <-
-                                                 // "High-Rise Sawjack",
-                                                 // "Wrecking Crew",
+                                 // "Crew Captain",
+                                 // "High-Rise Sawjack",
+                                 // "Wrecking Crew",
 
                              });
 
@@ -84,8 +84,8 @@ int main(int argc, char *argv[]) {
   std::unique_ptr<SealedDeck> sealed = std::make_unique<Snc>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
-  // GenerateDeck(all_cards, sealed.get());
-  OptimizeDeck(all_cards, sealed.get());
+  GenerateDeck(all_cards, sealed.get());
+  // OptimizeDeck(all_cards, sealed.get());
 
   return 0;
 }

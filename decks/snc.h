@@ -132,10 +132,10 @@ public:
 
   std::vector<std::string_view> forced_cards() const override {
     return {
-        "Freelance Muscle",
-        "Jaxis, the Troublemaker",
-        "Strangle",
-        "Mayhem Patrol",
+        // "Freelance Muscle",
+        // "Jaxis, the Troublemaker",
+        // "Strangle",
+        // "Mayhem Patrol",
     };
   }
 
@@ -169,6 +169,195 @@ public:
 };
 
 /*
+
+Score: 58.3393
+Iteration: 148
+Lands { B=9 R=9 }
+1474.33 Mayhem Patrol (R1)
+1531.47 Strangle (R)
+1609.65 Body Dropper (BR)
+1939.77 Light 'Em Up (R1)
+2255.2 Sizzling Soloist (R3)
+2269.06 Graveyard Shift (B4)
+2354.56 Riveteers Requisitioner (R1)
+2376.78 Corrupt Court Official (B1)
+2389.15 Witty Roastmaster (R2)
+2389.15 Witty Roastmaster (R2)
+2554.16 Ready to Rumble (R4)
+2698.58 Wrecking Crew (R4)
+2859.37 Deal Gone Bad (B3)
+2902 Midnight Assassin (B2)
+3167.79 Murder (BB1)
+3167.79 Murder (BB1)
+3168.77 Rogues' Gallery (B2)
+3169.01 Tenacious Underdog (B1)
+3382.47 Involuntary Employment (R3)
+3830.11 Girder Goons (B4)
+4498.27 Pugnacious Pugilist (RR3)
+4952.34 Jaxis, the Troublemaker (R3)
+
+Score: 58.2634
+Iteration: 115
+Lands { B=8 R=8 }
+1052.48 Gilded Pinions (2)
+1337.88 Fake Your Own Death (B1)
+1606.45 Light 'Em Up (R1)
+1606.45 Light 'Em Up (R1)
+1716.62 Quick-Draw Dagger (3)
+1857.67 Body Dropper (BR)
+2089.16 Maestros Initiate (B2)
+2108.41 Ready to Rumble (R4)
+2194.12 Sizzling Soloist (R3)
+2263.03 Riveteers Requisitioner (R1)
+2340.26 Witty Roastmaster (R2)
+2340.26 Witty Roastmaster (R2)
+2418.82 Wrecking Crew (R4)
+2450.79 Corrupt Court Official (B1)
+2806.67 Midnight Assassin (B2)
+2868.25 Murder (BB1)
+2868.25 Murder (BB1)
+3020.89 Deal Gone Bad (B3)
+3102.21 Tenacious Underdog (B1)
+3187.6 Girder Goons (B4)
+3289.95 Involuntary Employment (R3)
+3365.4 Rogues' Gallery (B2)
+3484.11 Pugnacious Pugilist (RR3)
+4854.2 Jaxis, the Troublemaker (R3)
+
+Score: 58.0949
+Iteration: 43
+Lands { B=8 R=8 }
+1393.68 Strangle (R)
+1393.68 Strangle (R)
+1442.85 Chrome Cat (3)
+1450.98 Mayhem Patrol (R1)
+1569.2 Fake Your Own Death (B1)
+1569.2 Fake Your Own Death (B1)
+1897.84 Quick-Draw Dagger (3)
+1942.06 Light 'Em Up (R1)
+2090.14 Graveyard Shift (B4)
+2167.36 Corrupt Court Official (B1)
+2216.33 Ready to Rumble (R4)
+2220.87 Riveteers Requisitioner (R1)
+2369.65 Maestros Initiate (B2)
+2459.99 Witty Roastmaster (R2)
+2765.42 Deal Gone Bad (B3)
+2824.15 Midnight Assassin (B2)
+3198.38 Murder (BB1)
+3198.38 Murder (BB1)
+3263.05 Involuntary Employment (R3)
+3297.54 Tenacious Underdog (B1)
+3444.5 Rogues' Gallery (B2)
+3555.42 Girder Goons (B4)
+3725.24 Pugnacious Pugilist (RR3)
+4977 Jaxis, the Troublemaker (R3)
+
+Score: 57.6608
+Iteration: 109
+Lands { B=10 R=8 }
+1058.04 Incriminate (B1)
+1412.08 Strangle (R)
+1600.54 Mayhem Patrol (R1)
+1750.07 Quick-Draw Dagger (3)
+1787.62 Fake Your Own Death (B1)
+2061.84 Light 'Em Up (R1)
+2284.15 Riveteers Requisitioner (R1)
+2304.86 Maestros Initiate (B2)
+2412.14 Ready to Rumble (R4)
+2570.83 Witty Roastmaster (R2)
+2608.44 Wrecking Crew (R4)
+2616.81 Corrupt Court Official (B1)
+2762.08 Midnight Assassin (B2)
+3203.99 Deal Gone Bad (B3)
+3206.3 Involuntary Employment (R3)
+3352.09 Rogues' Gallery (B2)
+3367.21 Tenacious Underdog (B1)
+3583.32 Murder (BB1)
+3583.32 Murder (BB1)
+3940 Pugnacious Pugilist (RR3)
+4154.08 Girder Goons (B4)
+5267.01 Jaxis, the Troublemaker (R3)
+
+Score: 57.3313
+Iteration: 145
+Lands { B=8 R=8 }
+755.472 Goldhound (R)
+1221.74 Gilded Pinions (2)
+1290.71 Strangle (R)
+1365.79 Mayhem Patrol (R1)
+1690.97 Fake Your Own Death (B1)
+1896.2 Light 'Em Up (R1)
+1896.2 Light 'Em Up (R1)
+1949.16 Body Dropper (BR)
+2098.22 Graveyard Shift (B4)
+2222.91 Wrecking Crew (R4)
+2336.88 Riveteers Requisitioner (R1)
+2441.68 Witty Roastmaster (R2)
+2441.68 Witty Roastmaster (R2)
+2574.83 Corrupt Court Official (B1)
+2923.94 Midnight Assassin (B2)
+3004.79 Deal Gone Bad (B3)
+3012.85 Tenacious Underdog (B1)
+3017 Murder (BB1)
+3017 Murder (BB1)
+3041.56 Involuntary Employment (R3)
+3429.23 Rogues' Gallery (B2)
+3534.96 Girder Goons (B4)
+3901.34 Pugnacious Pugilist (RR3)
+4838.22 Jaxis, the Troublemaker (R3)
+
+Score: 57.1496
+Iteration: 124
+Lands { B=10 R=9 }
+1439.93 Strangle (R)
+1490.95 Mayhem Patrol (R1)
+1800.45 Light 'Em Up (R1)
+1864.65 Body Dropper (BR)
+2286.88 Riveteers Requisitioner (R1)
+2395.56 Witty Roastmaster (R2)
+2395.56 Witty Roastmaster (R2)
+2463.04 Corrupt Court Official (B1)
+2494.47 Sizzling Soloist (R3)
+2713.61 Graveyard Shift (B4)
+2819.33 Midnight Assassin (B2)
+2943.71 Wrecking Crew (R4)
+3153.42 Tenacious Underdog (B1)
+3337.45 Rogues' Gallery (B2)
+3348.8 Deal Gone Bad (B3)
+3448.67 Murder (BB1)
+3448.67 Murder (BB1)
+3522.87 Involuntary Employment (R3)
+3937.8 Girder Goons (B4)
+4583.15 Pugnacious Pugilist (RR3)
+4768.11 Jaxis, the Troublemaker (R3)
+
+Score: 57.0893
+Iteration: 118
+Lands { B=5 G=4 R=8 }
+1025.35 Venom Connoisseur (G1)
+1398.22 Strangle (R)
+1706.69 Mayhem Patrol (R1)
+1883.93 Light 'Em Up (R1)
+1883.93 Light 'Em Up (R1)
+1886.09 Quick-Draw Dagger (3)
+2200.87 Corrupt Court Official (B1)
+2344.21 Sizzling Soloist (R3)
+2360.17 Midnight Assassin (B2)
+2413.21 Ready to Rumble (R4)
+2466.03 Riveteers Requisitioner (R1)
+2469.47 Tenacious Underdog (B1)
+2472.32 Witty Roastmaster (R2)
+2472.32 Witty Roastmaster (R2)
+2585.39 Deal Gone Bad (B3)
+2897.19 Rogues' Gallery (B2)
+3035.93 Jewel Thief (G2)
+3122.31 Involuntary Employment (R3)
+3210.5 Freelance Muscle (G4)
+3330.21 Girder Goons (B4)
+3515.1 Elegant Entourage (G3)
+3649.65 Pugnacious Pugilist (RR3)
+4971.22 Jaxis, the Troublemaker (R3)
+
 Score: 57.0451
 Iteration: 97
 Lands { B=8 G=4 R=5 }
