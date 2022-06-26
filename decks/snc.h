@@ -141,7 +141,37 @@ public:
 
   std::vector<std::string_view> chosen_deck() const override {
     return {
+        /*
+        6663.28 Riveteers Requisitioner (R1)
+        4062.32 Mayhem Patrol (R1)
+        7347.3 Corrupt Court Official (B1)
+        8126.38 Tenacious Underdog (B1)
+        4005.88 Strangle (R)
+        5066.86 Fake Your Own Death (B1)
+        5066.86 Fake Your Own Death (B1)
 
+        5627.47 Witty Roastmaster (R2)
+        5627.47 Witty Roastmaster (R2)
+        7055.6 Midnight Assassin (B2)
+        7915.14 Rogues' Gallery (B2)
+        7316.94 Murder (BB1)
+        7316.94 Murder (BB1)
+
+        10704.3 Jaxis, the Troublemaker (R3)
+        4994.81 Sizzling Soloist (R3)
+        6777.77 Deal Gone Bad (B3)
+
+        6951.75 Girder Goons (B4)
+        6674.96 Pugnacious Pugilist (RR3)
+
+        4063.18 Gilded Pinions (2)
+        7623.16 Jewel Thief (G2)
+        7399.93 Elegant Entourage (G3)
+        6968.44 Freelance Muscle (G4)
+
+        4916.93 Body Dropper (BR)
+        7447.7 Involuntary Employment (R3)
+        */
         "Riveteers Requisitioner",
         "Mayhem Patrol",
         "Corrupt Court Official",
