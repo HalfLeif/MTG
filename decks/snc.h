@@ -141,21 +141,18 @@ public:
 
   std::vector<std::string_view> chosen_deck() const override {
     return {
+
+        "Riveteers Requisitioner",
+        "Mayhem Patrol",
+        "Corrupt Court Official",
+        "Tenacious Underdog",
         "Strangle",
         "Fake Your Own Death",
         "Fake Your Own Death",
-        "Tenacious Underdog",
-        "Corrupt Court Official",
-        "Riveteers Requisitioner",
-        "Mayhem Patrol",
-        "Body Dropper",
-        "Light 'Em Up",
-        "Light 'Em Up",
 
-        "Maestros Initiate", // <- "Graveyard Shift",
+        "Witty Roastmaster",
+        "Witty Roastmaster",
         "Midnight Assassin",
-        "Witty Roastmaster",
-        "Witty Roastmaster",
         "Rogues' Gallery",
         "Murder",
         "Murder",
@@ -163,11 +160,27 @@ public:
         "Jaxis, the Troublemaker",
         "Sizzling Soloist",
         "Deal Gone Bad",
-        "Involuntary Employment",
 
-        "Wrecking Crew",
         "Girder Goons",
         "Pugnacious Pugilist",
+
+        "Gilded Pinions",
+        "Jewel Thief",
+        "Elegant Entourage",
+        "Freelance Muscle",
+
+        "Body Dropper",
+        "Involuntary Employment",
+
+        /* Aggro BR deck w 16 lands
+        "Strangle",
+        "Light 'Em Up",
+        "Light 'Em Up",
+        "Body Dropper",
+        "Maestros Initiate", // <- "Graveyard Shift",
+        "Involuntary Employment",
+
+        */
 
     };
   }
