@@ -142,35 +142,53 @@ public:
   std::vector<std::string_view> chosen_deck() const override {
     return {
         /*
-        76.8383  Lands { B=6 G=3 R=4 Fetch=4 }
-        76.9451  Lands { B=6 G=2 R=5 Fetch=4 }
-         */
+        todo
+        */
+
+        "Strangle",
+        "Strangle",
+        "Fake Your Own Death",
+        "Fake Your Own Death",
+        "Light 'Em Up",
+        // "Gilded Pinions",
+
         "Riveteers Requisitioner",
         "Mayhem Patrol",
         "Corrupt Court Official",
         "Tenacious Underdog",
-        "Strangle",
-        "Fake Your Own Death",
-        "Fake Your Own Death",
-        "Gilded Pinions",
 
-        "Jewel Thief",
-        "Witty Roastmaster",
-        "Witty Roastmaster",
+        // "Witty Roastmaster",
+        "Exhibition Magician",
         "Midnight Assassin",
+        "Professional Face-Breaker",
         "Rogues' Gallery",
         "Murder",
         "Murder",
 
         "Jaxis, the Troublemaker",
-        "Sizzling Soloist",
-        "Elegant Entourage",
-        "Deal Gone Bad",
+        // "Sizzling Soloist",
+        // "Deal Gone Bad",
 
         "Girder Goons",
+        "Girder Goons",
         "Pugnacious Pugilist",
+        // "Wrecking Crew",
+
+        // Tricolor
+        // "Freelance Muscle",
+        // "For the Family",
+        //
+        // "Jewel Thief",
+        // "Crew Captain",
+        // "Elegant Entourage",
+
+        // Aggro
+        "Antagonize",
+        "Witty Roastmaster",
+        "Witty Roastmaster",
+
         "Wrecking Crew",
-        "Freelance Muscle",
+        "Body Dropper",
 
     };
   }
