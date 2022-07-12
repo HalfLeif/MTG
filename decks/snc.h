@@ -142,7 +142,8 @@ public:
   std::vector<std::string_view> chosen_deck() const override {
     return {
         /*
-        todo
+        79.245  exp Lands { B=7 R=6 Fetch=2 }
+        79.3386  exp Lands { B=6 R=7 Fetch=2 }
         */
 
         "Strangle",
@@ -172,7 +173,6 @@ public:
         "Girder Goons",
         "Girder Goons",
         "Pugnacious Pugilist",
-        // "Wrecking Crew",
 
         // Tricolor
         // "Freelance Muscle",
@@ -187,9 +187,10 @@ public:
         "Witty Roastmaster",
         "Witty Roastmaster",
 
-        "Wrecking Crew",
         "Body Dropper",
-
+        // "Wrecking Crew",
+        "Light 'Em Up",
+        "Involuntary Employment",
     };
   }
 };

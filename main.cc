@@ -50,7 +50,7 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
   std::vector<Spell> base_cards = FilterCards(all_cards, {
                                                              // "Strangle",
                                                              // "Crew Captain",
-
+                                                             "Wrecking Crew",
                                                          });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
@@ -58,7 +58,8 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
                                  // "Maestros Initiate",
                                  // "High-Rise Sawjack",
                                  // "Quick-Draw Dagger"
-
+                                 "Light 'Em Up",
+                                 "Involuntary Employment",
                              });
 
   Library lib = Library::Builder()
