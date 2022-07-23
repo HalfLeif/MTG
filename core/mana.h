@@ -33,7 +33,10 @@ public:
 
   class Iter {
   public:
-    Iter(size_t pos, const std::array<int, kEnd> *arr) : pos_(pos), arr_(arr) {}
+    // Finds the next valid position after this position.
+    Iter(size_t pos, const std::array<int, kEnd> *arr) : pos_(pos), arr_(arr) {
+      FindValidPosition();
+    }
 
     inline mapped_type value() const { return (*arr_)[pos_]; }
 
@@ -50,13 +53,17 @@ public:
     // Increments iterator to next valid position or kEnd.
     void operator++() {
       ++pos_;
-      // Must skip empty values on iteration.
+      FindValidPosition();
+    }
+
+  private:
+    // If not already at a valid position, then will move to the next valid
+    // position or end().
+    void FindValidPosition() {
       while (pos_ < kEnd && value() <= 0) {
         ++pos_;
       }
     }
-
-  private:
     size_t pos_;
     const std::array<int, kEnd> *arr_ = nullptr;
   };
@@ -73,6 +80,7 @@ public:
   }
 
   bool contains(Color key) const { return FindValue(key) > 0; }
+  bool empty() const { return begin() == end(); }
 
   Iter begin() const { return make_iter(static_cast<Color>(0)); }
   Iter end() const { return make_iter(Color::ENUM_SIZE); }
@@ -241,6 +249,22 @@ void GenerateAllColorCombinations(const std::vector<Color> &colors,
 }
 
 // -----------------------------------------------------------------------------
+
+TEST(ManaIteratorBeginEqualsEndWhenEmpty) {
+  ManaCost mana;
+  EXPECT_TRUE(mana.empty());
+  EXPECT_TRUE(mana.begin() == mana.end());
+}
+
+TEST(ManaIteratorLoop) {
+  ManaCost mana = ParseMana("RRRR");
+  int count = 0;
+  for (auto it : mana) {
+    count++;
+  }
+  // One for Red and one for Total.
+  EXPECT_EQ(count, 2);
+}
 
 TEST(ParseManaSimple) {
   EXPECT_EQ(ToString(ParseMana("B3")), "B3");

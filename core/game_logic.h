@@ -401,16 +401,14 @@ std::vector<Color> ManaNeeds(const Player &player, const TurnState &state,
 // Note: Ideally would also consider what other lands are in the hand when
 // playing fetch land.
 int ChooseLand(const std::vector<Color> &needs, const Player &player,
-               const Deck &hand, bool need_mana_now, bool basic_only,
+               const Deck &hand, bool need_mana_now, const Land *fetch_land,
                TurnState *state) {
   // It turns out that always playing basic land gets higher score than trying
   // to smartly decide when to play fetch land...
   // need_mana_now = true;
   // Simplification to play fetch land on first turn.
   need_mana_now = !player.battlefield.lands.empty();
-  if (basic_only) {
-    need_mana_now = true;
-  }
+  const bool basic_only = (fetch_land != nullptr);
 
   if (hand.lands.empty()) {
     return -1;
@@ -422,6 +420,14 @@ int ChooseLand(const std::vector<Color> &needs, const Player &player,
   int any_tap_land = -1;
   const auto &lands = hand.lands;
   for (Color color : needs) {
+    if (fetch_land != nullptr && !fetch_land->colors.empty() &&
+        !fetch_land->colors.contains(color)) {
+      // Has color restriction for fetch land. Only consider basic lands in
+      // allowed colors.
+      INFO << "Skipping " << color << " since not allowed be fetch_land for "
+           << fetch_land->colors << std::endl;
+      continue;
+    }
     INFO << "Need " << color << (need_mana_now ? " urgently" : " for future")
          << std::endl;
     for (int i = 0; i < lands.size(); ++i) {
@@ -496,7 +502,7 @@ const Land *PlayLand(Player *player, TurnState *state,
   bool need_mana_now = false;
   const std::vector<Color> needs = ManaNeeds(*player, *state, &need_mana_now);
   const int i =
-      ChooseLand(needs, *player, player->hand, need_mana_now, false, state);
+      ChooseLand(needs, *player, player->hand, need_mana_now, nullptr, state);
   if (i < 0) {
     return nullptr;
   }
@@ -522,7 +528,6 @@ const Land *PlayLand(Player *player, TurnState *state,
       *points +=
           PointsFromPlayedLand(lands[i], *player, /*contributions=*/nullptr);
     }
-    MoveLand(i, player->hand, player->graveyard);
 
     // Calculate future available mana when choosing land to fetch.
     ManaCost future_mana = state->mana_pool;
@@ -530,8 +535,9 @@ const Land *PlayLand(Player *player, TurnState *state,
 
     std::vector<Color> future_needs =
         ManaNeeds(*player, state->agg_spell_cost, future_mana, nullptr);
-    const int search =
-        ChooseLand(future_needs, *player, player->library, false, true, state);
+    const int search = ChooseLand(future_needs, *player, player->library, false,
+                                  &player->hand.lands[i], state);
+    MoveLand(i, player->hand, player->graveyard);
     return MoveLand(search, player->library, player->battlefield);
   }
   }
@@ -872,6 +878,31 @@ TEST(PlayFetchLandForLandThatEnablesFutureSpell) {
     ProduceMana(lib, &player, &next_turn);
     EXPECT_EQ(ToString(next_turn.mana_pool), "WBR");
   }
+}
+
+TEST(ColorRestrictedFetchLandOnlyPlaysAllowedColor) {
+  Player player;
+
+  // Has 3 colors in library.
+  player.library.lands.push_back(BasicLand(Color::White));
+  player.library.lands.push_back(BasicLand(Color::Red));
+  player.library.lands.push_back(BasicLand(Color::Black));
+
+  // FetchLand can only get white lands.
+  player.hand.lands.push_back(FetchLand(0, "WUG"));
+
+  // Needs Black mana.
+  Spell s1 = MakeSpell("B");
+  player.hand.spells.push_back(s1);
+
+  // Would be preferable to fetch Black, but fetch land can only get White.
+  Library lib = Library::Builder().AddSpell(MakeSpell("B")).Build();
+  TurnState state;
+  AggregateCosts(player, &state.agg_spell_cost);
+  ProduceMana(lib, &player, &state);
+
+  // Uses fetch land to play plains.
+  EXPECT_TRUE(IsPlains(*PlayLand(&player, &state)));
 }
 
 /*

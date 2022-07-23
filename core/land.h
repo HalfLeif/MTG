@@ -67,9 +67,11 @@ Land DualLand(Color c, Color secondary) {
   };
 }
 
-Land FetchLand(double bonus = 0.0) {
+// Empty means any color.
+Land FetchLand(double bonus = 0.0, std::string_view basic_land_colors = "") {
   return Land{
       .type = LandType::fetch,
+      .colors = ParseMana(basic_land_colors),
       .bonus = bonus,
   };
 }
