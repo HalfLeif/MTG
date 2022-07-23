@@ -48,9 +48,11 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
   std::vector<Spell> chosen_cards =
       FilterCards(all_cards, sealed->chosen_deck());
   std::vector<Spell> base_cards = FilterCards(all_cards, {
+
                                                              // "Strangle",
                                                              // "Crew Captain",
                                                              // "Wrecking Crew",
+                                                             // "Deal Gone Bad",
                                                          });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
@@ -58,6 +60,8 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
                                  // "Maestros Initiate",
                                  // "High-Rise Sawjack",
                                  // "Quick-Draw Dagger"
+                                 // "Light 'Em Up",
+                                 // "Involuntary Employment",
 
                              });
 
@@ -75,7 +79,7 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
                     // .AddLand(FetchLand(0.5), Experiment::base)
                     .Build();
 
-  ThreadsafeRandom random(/*seed=*/13);
+  ThreadsafeRandom random(/*seed=*/14);
   CompareParams(lib, random, 2000);
 }
 

@@ -142,8 +142,34 @@ public:
   std::vector<std::string_view> chosen_deck() const override {
     return {
         /*
-        79.245  exp Lands { B=7 R=6 Fetch=2 }
-        79.3386  exp Lands { B=6 R=7 Fetch=2 }
+78.489  Lands { B=6 R=8 Fetch=2 }
+
+78.8365  Lands { B=7 R=7 Fetch=2 }
+
+3352.87 Antagonize (R1)
+4362 Strangle (R)
+4362 Strangle (R)
+4453.53 Mayhem Patrol (R1)
+4950.02 Wrecking Crew (R4)
+4979.91 Fake Your Own Death (B1)
+4979.91 Fake Your Own Death (B1)
+5652.93 Light 'Em Up (R1)
+5708.7 Body Dropper (BR)
+6442.97 Witty Roastmaster (R2)
+6442.97 Witty Roastmaster (R2)
+6718.73 Riveteers Requisitioner (R1)
+6988.82 Exhibition Magician (R2)
+7183.61 Corrupt Court Official (B1)
+7366.39 Girder Goons (B4)
+7366.39 Girder Goons (B4)
+7594 Midnight Assassin (B2)
+8003.91 Murder (BB1)
+8003.91 Murder (BB1)
+8298.56 Rogues' Gallery (B2)
+8444.5 Tenacious Underdog (B1)
+8539.25 Pugnacious Pugilist (RR3)
+10838.8 Professional Face-Breaker (R2)
+11252.7 Jaxis, the Troublemaker (R3)
         */
 
         "Strangle",
@@ -151,14 +177,17 @@ public:
         "Fake Your Own Death",
         "Fake Your Own Death",
         "Light 'Em Up",
+        "Antagonize",
         // "Gilded Pinions",
 
+        "Body Dropper",
         "Riveteers Requisitioner",
         "Mayhem Patrol",
         "Corrupt Court Official",
         "Tenacious Underdog",
 
-        // "Witty Roastmaster",
+        "Witty Roastmaster",
+        "Witty Roastmaster",
         "Exhibition Magician",
         "Midnight Assassin",
         "Professional Face-Breaker",
@@ -167,30 +196,12 @@ public:
         "Murder",
 
         "Jaxis, the Troublemaker",
-        // "Sizzling Soloist",
-        // "Deal Gone Bad",
 
         "Girder Goons",
         "Girder Goons",
         "Pugnacious Pugilist",
+        "Wrecking Crew",
 
-        // Tricolor
-        // "Freelance Muscle",
-        // "For the Family",
-        //
-        // "Jewel Thief",
-        // "Crew Captain",
-        // "Elegant Entourage",
-
-        // Aggro
-        "Antagonize",
-        "Witty Roastmaster",
-        "Witty Roastmaster",
-
-        "Body Dropper",
-        // "Wrecking Crew",
-        "Light 'Em Up",
-        "Involuntary Employment",
     };
   }
 };
