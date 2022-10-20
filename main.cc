@@ -17,6 +17,7 @@
 #include "decks/dmu.h"
 #include "decks/dnd.h"
 #include "decks/eld.h"
+#include "decks/fake.h"
 #include "decks/m20.h"
 #include "decks/mid.h"
 #include "decks/neo.h"
@@ -77,11 +78,12 @@ int main(int argc, char *argv[]) {
   std::cout << "\n -- Started program --\n";
   // RunAllBenchmarks();
 
-  // std::unique_ptr<SealedDeck> sealed = std::make_unique<Snc>();
+  auto sealed = std::make_unique<Fake>();
+  std::vector<Spell> all_cards = sealed->all_cards();
   // std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
-  // GenerateDeck(all_cards, sealed.get());
+  GenerateDeck(all_cards, sealed.get());
   // OptimizeDeck(all_cards, sealed.get());
-  OptimizeLands(kDMU);
+  // OptimizeLands(kDMU);
 
   return 0;
 }
