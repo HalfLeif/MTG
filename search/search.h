@@ -110,8 +110,7 @@ void PrintParamResult(const std::vector<ParamResult> &best_result,
 
 Metrics RunParam(const Library &lib, const Param &param, int games,
                  ThreadsafeRandom &rand, CardContributions *contributions) {
-  // Always evaluate using 8 turns. Seems to provide the most fair comparison.
-  constexpr int kTurns = 9;
+  constexpr int kTurns = 10;
 
   Deck deck = TournamentDeck(param);
   if (contributions->empty()) {

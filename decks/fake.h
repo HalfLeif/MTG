@@ -18,6 +18,9 @@ std::vector<Spell> MakeFakeCards() {
     CHECK(write_size >= 0 && write_size < kBuffSize);
     all_cards.push_back(MakeSpell(buffer, 1, buffer));
   }
+  all_cards.push_back(MakeSpell("W", 0, "SmallTrick"));
+  all_cards.push_back(MakeSpell("W1", 0, "Trick"));
+  all_cards.push_back(MakeSpell("WW1", 0, "BigTrick"));
   return all_cards;
 }
 
@@ -27,7 +30,7 @@ class Fake : public SealedDeck {
 public:
   Fake() {
     all_cards_ = MakeFakeCards();
-    constexpr int kCopies = 12;
+    constexpr int kCopies = 8;
     for (const Spell &spell : all_cards_) {
       for (int c = 0; c < kCopies; ++c) {
         all_copies_.push_back(spell.name);
@@ -39,6 +42,16 @@ public:
 
   // All cards that were opened in this SealedDeck tournament.
   std::vector<std::string_view> cards() const override { return all_copies_; }
+
+  // Cards among opened cards that are manually forced in the deck during deck
+  // generation.
+  std::vector<std::string_view> forced_cards() const {
+    return {
+        "Trick",
+        "Trick",
+        "BigTrick",
+    };
+  }
 
   std::string_view data_path() const override {
     FATAL << "Attempted to read fake card file.";
@@ -53,31 +66,33 @@ private:
 };
 
 /*
-Score: 78.2 (91.2 - 13.0)
-Iteration: 132
-Lands { W=16 }
-    2595 W0 (W)
-    3276 W1 (W1)
-    3276 W1 (W1)
-    3276 W1 (W1)
-    3276 W1 (W1)
-    3276 W1 (W1)
-    3276 W1 (W1)
-    3609 W5 (W5)
-    3609 W5 (W5)
-    4063 W2 (W2)
-    4063 W2 (W2)
-    4063 W2 (W2)
-    4063 W2 (W2)
-    4063 W2 (W2)
-    4063 W2 (W2)
-    4416 W3 (W3)
-    4416 W3 (W3)
-    4416 W3 (W3)
-    4416 W3 (W3)
-    4416 W3 (W3)
-    4416 W3 (W3)
-    4582 W4 (W4)
-    4582 W4 (W4)
-    4582 W4 (W4)
+10 turns
+
+Score: 93.1 (108.4 - 15.2)
+Iteration: 70
+Lands { W=17 }
+    3016 Trick (W1)
+    3016 Trick (W1)
+    3229 W0 (W)
+    3580 W6 (W6)
+    4114 W1 (W1)
+    4114 W1 (W1)
+    4114 W1 (W1)
+    4223 BigTrick (WW1)
+    4864 W2 (W2)
+    4864 W2 (W2)
+    4864 W2 (W2)
+    4864 W2 (W2)
+    4864 W2 (W2)
+    5916 W3 (W3)
+    5916 W3 (W3)
+    5916 W3 (W3)
+    5916 W3 (W3)
+    5916 W3 (W3)
+    5916 W3 (W3)
+    6017 W5 (W5)
+    6066 W4 (W4)
+    6066 W4 (W4)
+    6066 W4 (W4)
+
 */
