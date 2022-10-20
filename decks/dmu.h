@@ -11,7 +11,7 @@ inline Library kDMU =
         .AddSpell(MakeSpell("GG3", 1, "Baloth"))
         .AddSpell(MakeSpell("GG3", 1, "Baloth"))
         .AddSpell(MakeSpell("G3", 1, "Sojourner"))
-        .AddSpell(MakeSpell("W2", 1, "Sojourner").AddOnetimeAbility("R2"))
+        .AddSpell(MakeSpell("W2", 1, "FlashBird").AddOnetimeAbility("R2"))
         .AddSpell(MakeSpell("3", 1, "Librarian"))
         .AddSpell(MakeSpell("G2", 1, "Gardener"))
         .AddSpell(MakeSpell("G2", 1, "Greenwidow").AddOnetimeAbility("G3"))
