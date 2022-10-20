@@ -10,6 +10,5 @@
 - Parse spell abilities from html page. E.g. "RR" to +1/0.
 
 # Math
-- Calculate sample variance for score. Use (mean - stddev) instead of mean for a metric that is more risk sensitive. Want to avoid chance of an awful draw.
 
 # Implementation

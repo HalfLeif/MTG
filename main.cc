@@ -31,7 +31,7 @@ constexpr bool DEBUG_ON = false;
 constexpr bool PARANOIA = true;
 
 void OptimizeLands(const Library &lib) {
-  ThreadsafeRandom random(/*seed=*/15);
+  ThreadsafeRandom random(/*seed=*/19);
   CompareParams(lib, random, 2000);
 }
 

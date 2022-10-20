@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdio>
 #include <map>
+#include <ostream>
 #include <thread>
 
 #include "../common/random.h"
@@ -12,24 +13,61 @@
 #include "../core/library.h"
 #include "../core/param.h"
 
-double AverageScore(const Library &lib, const Deck &deck,
-                    const MulliganStrategy &strategy, int turns, int games,
-                    ThreadsafeRandom &rand,
-                    CardContributions *contributions = nullptr) {
-  double score = 0;
-  for (int i = 0; i < games; ++i) {
-    score += PlayGame(lib, deck, strategy, turns, rand, contributions);
+class Metrics {
+public:
+  Metrics(const std::vector<double> &scores) {
+    CHECK(scores.size() > 1);
+    double sum = 0;
+    for (double score : scores) {
+      sum += score;
+    }
+    mean_ = sum / scores.size();
+
+    // Sample variance = S_x (x - mean)^2 / (N - 1)
+    double variance = 0;
+    for (double score : scores) {
+      variance += std::pow(score - mean_, 2);
+    }
+    variance /= (scores.size() - 1);
+    stddev_ = sqrt(variance);
   }
-  return score / games;
+
+  double score() const { return mean_ - stddev_; }
+  double mean() const { return mean_; }
+  double stddev() const { return stddev_; }
+
+private:
+  double mean_;
+  double stddev_;
+};
+
+std::ostream &operator<<(std::ostream &s, const Metrics &metrics) {
+  // Not really printing to the stream but good enough for now.
+  printf("%.1f (%.1f - %.1f)", metrics.score(), metrics.mean(),
+         metrics.stddev());
+  return s;
+}
+
+Metrics AverageScore(const Library &lib, const Deck &deck,
+                     const MulliganStrategy &strategy, int turns, int games,
+                     ThreadsafeRandom &rand,
+                     CardContributions *contributions = nullptr) {
+  std::vector<double> scores;
+  scores.reserve(games);
+
+  for (int i = 0; i < games; ++i) {
+    scores.push_back(PlayGame(lib, deck, strategy, turns, rand, contributions));
+  }
+  return Metrics(scores);
 }
 
 struct ParamResult {
-  double score;
+  Metrics metrics;
   Param param;
   CardContributions contributions;
 
   bool operator<(const ParamResult &other) const {
-    return this->score < other.score;
+    return this->metrics.score() < other.metrics.score();
   }
 };
 
@@ -44,7 +82,7 @@ void PrintParamResult(const std::vector<ParamResult> &best_result,
     const auto &param = best_result[i].param;
     Deck deck = TournamentDeck(param);
 
-    printf("%6.1f ", best_result[i].score);
+    std::cout << best_result[i].metrics << " ";
     if (param.experiment != Experiment::always) {
       std::cout << param.experiment << " ";
     }
@@ -58,48 +96,19 @@ void PrintParamResult(const std::vector<ParamResult> &best_result,
   }
 }
 
-double RunParam(const Library &lib, const Param &param, int games,
-                ThreadsafeRandom &rand, CardContributions *contributions) {
-  // std::chrono::steady_clock::time_point begin =
-  //     std::chrono::steady_clock::now();
-
+Metrics RunParam(const Library &lib, const Param &param, int games,
+                 ThreadsafeRandom &rand, CardContributions *contributions) {
   // Always evaluate using 8 turns. Seems to provide the most fair comparison.
-  constexpr int kStart = 9;
-  constexpr int kEnd = 9;
-
-  struct Instance {
-    int turns = 0;
-    double score = 0;
-  };
-
-  std::vector<Instance> instances;
-  for (int turns = kStart; turns <= kEnd; ++turns) {
-    instances.push_back({.turns = turns});
-  }
+  constexpr int kTurns = 9;
 
   Deck deck = TournamentDeck(param);
   if (contributions->empty()) {
     // For mana eval.
     *contributions = MakeContributionMaps(deck.spells);
   }
-  for (Instance &instance : instances) {
-    instance.score = AverageScore(lib, deck, SimpleStrategy, instance.turns,
-                                  games, rand, contributions);
-  }
-  double score = 0;
-  for (const Instance &instance : instances) {
-    score += instance.score;
-  }
 
-  // std::chrono::steady_clock::time_point end =
-  //     std::chrono::steady_clock::now();
-  // std::cout << "Run Par = "
-  //      << std::chrono::duration_cast<std::chrono::milliseconds>(end -
-  //      begin)
-  //             .count()
-  //      << "[ms]" << std::endl;
-
-  return score;
+  return AverageScore(lib, deck, SimpleStrategy, kTurns, games, rand,
+                      contributions);
 }
 
 // Attempts to populate good parameters based on the Library format.
@@ -164,13 +173,13 @@ Param CompareParams(const Library &lib, ThreadsafeRandom &rand, int games = 450,
   std::vector<ParamResult> best_result;
   for (const Param &param : params) {
     CardContributions contributions;
-    double score = RunParam(lib, param, games, rand, &contributions);
+    Metrics metrics = RunParam(lib, param, games, rand, &contributions);
     if (print) {
-      std::cout << param << " score: " << score << "\n";
+      std::cout << param << " score: " << metrics << "\n";
     }
 
     best_result.push_back({
-        .score = score,
+        .metrics = metrics,
         .param = param,
         .contributions = std::move(contributions),
     });

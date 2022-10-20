@@ -380,7 +380,8 @@ GradientDescent(const std::vector<Spell> &available_cards,
     generated->contributions = MakeContributionMaps(
         available_cards, permutation, &permutation_to_contributions);
     generated->score = RunParam(*generated->lib, generated->param, kFastGames,
-                                rand, &generated->contributions);
+                                rand, &generated->contributions)
+                           .score();
 
     // 4. Replace bad cards for next iteration.
     generated->permutation = std::move(permutation);
@@ -420,7 +421,8 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
       generated->param = CompareParams(*generated->lib, rand, kDeepLandSearch,
                                        /*print=*/false);
       generated->score = RunParam(*generated->lib, generated->param, kDeepGames,
-                                  rand, &generated->contributions);
+                                  rand, &generated->contributions)
+                             .score();
 
       MutexLock lock(&mutex);
       re_evaluated.push_back(std::move(generated));
