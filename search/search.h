@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <cmath>
+#include <cstdio>
 #include <map>
 #include <thread>
 
@@ -43,15 +44,15 @@ void PrintParamResult(const std::vector<ParamResult> &best_result,
     const auto &param = best_result[i].param;
     Deck deck = TournamentDeck(param);
 
-    std::cout << best_result[i].score << "  ";
+    printf("%6.1f ", best_result[i].score);
     if (param.experiment != Experiment::always) {
       std::cout << param.experiment << " ";
     }
     PrintLands(deck);
-    std::cout << std::endl;
 
     if (i == best_result.size() - 1) {
       // The best result
+      std::cout << std::endl;
       PrintContributions(deck, best_result[i].contributions);
     }
   }
@@ -63,8 +64,8 @@ double RunParam(const Library &lib, const Param &param, int games,
   //     std::chrono::steady_clock::now();
 
   // Always evaluate using 8 turns. Seems to provide the most fair comparison.
-  constexpr int kStart = 8;
-  constexpr int kEnd = 8;
+  constexpr int kStart = 9;
+  constexpr int kEnd = 9;
 
   struct Instance {
     int turns = 0;

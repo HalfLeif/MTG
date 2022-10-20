@@ -9,4 +9,7 @@
 - Instead of replacing with a uniform random card, also keep track of past card contribution and topk sample based on contribution. Consider unknown cards as high contribution, but always update with latest simulation.
 - Parse spell abilities from html page. E.g. "RR" to +1/0.
 
+# Math
+- Calculate sample variance for score. Use (mean - stddev) instead of mean for a metric that is more risk sensitive. Want to avoid chance of an awful draw.
+
 # Implementation

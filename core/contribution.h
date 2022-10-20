@@ -127,8 +127,8 @@ void PrintContributions(const Deck &deck,
             [](const auto &a, const auto &b) { return a.first < b.first; });
 
   for (const auto &[score, named] : pairs) {
-    std::cout << named.contribution_ptr->GetContribution() << " "
-              << named.spell.name() << " (" << named.spell.cost() << ")"
+    printf("%8.0f ", named.contribution_ptr->GetContribution());
+    std::cout << named.spell.name() << " (" << named.spell.cost() << ")"
               << std::endl;
   }
 }

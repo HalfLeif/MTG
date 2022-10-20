@@ -67,6 +67,15 @@ Land DualLand(Color c, Color secondary) {
   };
 }
 
+Land DualLand(std::string_view basic_land_colors) {
+  ManaCost colors = ParseMana(basic_land_colors);
+  colors[Color::Total] = 1;
+  return {
+      .type = LandType::dual,
+      .colors = colors,
+  };
+}
+
 // Empty means any color.
 Land FetchLand(double bonus = 0.0, std::string_view basic_land_colors = "") {
   return Land{

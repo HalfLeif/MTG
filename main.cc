@@ -14,6 +14,7 @@
 #include "core/library.h"
 #include "core/sealed_deck.h"
 #include "decks/bolas.h"
+#include "decks/dmu.h"
 #include "decks/dnd.h"
 #include "decks/eld.h"
 #include "decks/m20.h"
@@ -26,17 +27,13 @@
 #include "search/generate.h"
 #include "search/task.h"
 
-const Library &GetMainLib() {
-  // return kELD;
-  // return kM20;
-  // return kTHB;
-  // return kBolas;
-  // return kDND;
-  return kMID;
-}
-
 constexpr bool DEBUG_ON = false;
 constexpr bool PARANOIA = true;
+
+void OptimizeLands(const Library &lib) {
+  ThreadsafeRandom random(/*seed=*/15);
+  CompareParams(lib, random, 2000);
+}
 
 void GenerateDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
   std::vector<Spell> available_cards = FilterCards(all_cards, sealed->cards());
@@ -44,25 +41,16 @@ void GenerateDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
   GenerateDeck(available_cards, forced_cards, sealed->ColorCombinations());
 }
 
-void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
+void OptimizeDeck(const std::vector<Spell> &all_cards,
+                  const SealedDeck *sealed) {
   std::vector<Spell> chosen_cards =
       FilterCards(all_cards, sealed->chosen_deck());
   std::vector<Spell> base_cards = FilterCards(all_cards, {
-
                                                              // "Strangle",
-                                                             // "Crew Captain",
-                                                             // "Wrecking Crew",
-                                                             // "Deal Gone Bad",
                                                          });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
                                  // "Dig Up the Body",
-                                 // "Maestros Initiate",
-                                 // "High-Rise Sawjack",
-                                 // "Quick-Draw Dagger"
-                                 // "Light 'Em Up",
-                                 // "Involuntary Employment",
-
                              });
 
   Library lib = Library::Builder()
@@ -80,8 +68,7 @@ void OptimizeDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
                     // .AddLand(FetchLand(0.5), Experiment::base)
                     .Build();
 
-  ThreadsafeRandom random(/*seed=*/14);
-  CompareParams(lib, random, 2000);
+  OptimizeLands(lib);
 }
 
 int main(int argc, char *argv[]) {
@@ -90,11 +77,11 @@ int main(int argc, char *argv[]) {
   std::cout << "\n -- Started program --\n";
   // RunAllBenchmarks();
 
-  std::unique_ptr<SealedDeck> sealed = std::make_unique<Snc>();
-  std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
-
+  // std::unique_ptr<SealedDeck> sealed = std::make_unique<Snc>();
+  // std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
   // GenerateDeck(all_cards, sealed.get());
-  OptimizeDeck(all_cards, sealed.get());
+  // OptimizeDeck(all_cards, sealed.get());
+  OptimizeLands(kDMU);
 
   return 0;
 }
