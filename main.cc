@@ -32,7 +32,7 @@ constexpr bool DEBUG_ON = false;
 constexpr bool PARANOIA = true;
 
 void OptimizeLands(const Library &lib) {
-  ThreadsafeRandom random(/*seed=*/19);
+  ThreadsafeRandom random(/*seed=*/21);
   CompareParams(lib, random, 2000);
 }
 

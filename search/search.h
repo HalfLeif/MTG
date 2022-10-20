@@ -15,6 +15,11 @@
 
 class Metrics {
 public:
+  Metrics() {
+    // Needs to support default construction.
+    mean_ = 0;
+    stddev_ = 0;
+  }
   Metrics(const std::vector<double> &scores) {
     CHECK(scores.size() > 1);
     double sum = 0;
@@ -35,6 +40,13 @@ public:
   double score() const { return mean_ - stddev_; }
   double mean() const { return mean_; }
   double stddev() const { return stddev_; }
+
+  bool operator<(const Metrics &other) const {
+    return this->score() < other.score();
+  }
+  bool operator>(const Metrics &other) const {
+    return this->score() > other.score();
+  }
 
 private:
   double mean_;

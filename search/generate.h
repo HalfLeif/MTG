@@ -334,7 +334,7 @@ struct GeneratedDeck {
   // Note: must keep lib here, since param has pointer to lib.
   std::unique_ptr<Library> lib;
   Param param;
-  double score;
+  Metrics score;
   CardContributions contributions;
   int iteration_nr = 0;
 };
@@ -380,8 +380,7 @@ GradientDescent(const std::vector<Spell> &available_cards,
     generated->contributions = MakeContributionMaps(
         available_cards, permutation, &permutation_to_contributions);
     generated->score = RunParam(*generated->lib, generated->param, kFastGames,
-                                rand, &generated->contributions)
-                           .score();
+                                rand, &generated->contributions);
 
     // 4. Replace bad cards for next iteration.
     generated->permutation = std::move(permutation);
@@ -421,8 +420,7 @@ EvaluateBestDecks(const std::vector<std::unique_ptr<GeneratedDeck>> &decks,
       generated->param = CompareParams(*generated->lib, rand, kDeepLandSearch,
                                        /*print=*/false);
       generated->score = RunParam(*generated->lib, generated->param, kDeepGames,
-                                  rand, &generated->contributions)
-                             .score();
+                                  rand, &generated->contributions);
 
       MutexLock lock(&mutex);
       re_evaluated.push_back(std::move(generated));
