@@ -14,6 +14,7 @@
 #include "core/library.h"
 #include "core/sealed_deck.h"
 #include "decks/bolas.h"
+#include "decks/bro.h"
 #include "decks/dmu.h"
 #include "decks/dnd.h"
 #include "decks/eld.h"
@@ -78,9 +79,9 @@ int main(int argc, char *argv[]) {
   std::cout << "\n -- Started program --\n";
   // RunAllBenchmarks();
 
-  auto sealed = std::make_unique<Fake>();
-  std::vector<Spell> all_cards = sealed->all_cards();
-  // std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
+  auto sealed = std::make_unique<Bro>();
+  // std::vector<Spell> all_cards = sealed->all_cards();
+  std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
   GenerateDeck(all_cards, sealed.get());
   // OptimizeDeck(all_cards, sealed.get());
   // OptimizeLands(kDMU);
