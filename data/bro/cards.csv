@@ -1,0 +1,302 @@
+mana;name;type;order
+W;Lay Down Arms;Sorcery;283
+W;Loran's Escape;Instant;136
+W;Meticulous Excavation;Enchantment;231
+W;Military Discipline;Enchantment;268
+W;Recruitment Officer;Creature;110
+W;Survivor of Korlis;Creature;301
+1W;Ambush Paratrooper;Creature;285
+1W;Calamity's Wake;Instant;330
+1W;Deadly Riposte;Instant;223
+1W;Disenchant;Instant;215
+1W;Phalanx Vanguard;Creature;160
+1W;Powerstone Engineer;Creature;256
+1W;Recommission;Sorcery;302
+1W;Soul Partition;Instant;214
+2W;Airlift Chaplain;Creature;161
+1WW;In the Trenches;Enchantment;15
+1WW;Kayla's Command;Sorcery;94
+2W;Loran of the Third Path;Legendary Creature;37
+2W;Prison Sentence;Enchantment;85
+2W;Siege Veteran;Creature;18
+2W;Tocasia's Welcome;Enchantment;109
+2W;Union of the Third Path;Instant;300
+2W;Warlord's Elite;Creature;213
+2W;Yotian Medic;Creature;282
+3W;Loran, Disciple of History;Legendary Creature;111
+3W;Myrel, Shield of Argive;Legendary Creature;19
+3W;Static Net;Enchantment;64
+3W;Thopter Architect;Creature;254
+4W;Aeronaut Cavalry;Creature;216
+5;Autonomous Assembler;Artifact Creature;
+1W;Autonomous Assembler;Artifact Creature;36
+4W;Great Desert Prospector;Creature;284
+3WW;Repair and Recharge;Sorcery;255
+3WW;Rescue Retriever;Creature;
+5W;Mass Production;Sorcery;257
+6;Steel Seraph;Artifact Creature;
+1WW;Steel Seraph;Artifact Creature;12
+7;Combat Thresher;Artifact Creature;
+2W;Combat Thresher;Artifact Creature;63
+XWWW;Kayla's Reconstruction;Sorcery;303
+U;Weakstone's Subjugation;Enchantment;155
+1U;Air Marshal;Creature;175
+1U;Curate;Instant;228
+1U;Defabricate;Instant;252
+1U;Drafna, Founder of Lat-Nam;Legendary Creature;62
+1U;Fallaji Archaeologist;Creature;158
+1U;Machine Over Matter;Instant;211
+1U;Scatter Ray;Instant;176
+1U;Thopter Mechanic;Creature;80
+1U;Zephyr Sentinel;Creature;79
+2U;Forging the Anchor;Sorcery;298
+1UU;Hurkyl, Master Wizard;Legendary Creature;61
+2U;Skystrike Officer;Creature;17
+2U;Splitting the Powerstone;Sorcery;329
+2U;Stern Lesson;Instant;129
+2U;Third Path Savant;Creature;210
+1UU;Urza's Rebuff;Instant;209
+2U;Urza, Powerstone Prodigy;Legendary Creature;156
+2U;Wing Commando;Creature;138
+3U;Involuntary Cooldown;Sorcery;227
+3U;Lat-Nam Adept;Creature;250
+3U;Mightstone's Animation;Enchantment;157
+3U;Retrieval Agent;Creature;269
+3U;Take Flight;Enchantment;249
+2UU;Urza's Command;Instant;44
+4U;Desynchronize;Instant;137
+4U;Flow of Knowledge;Instant;212
+3UU;Geology Enthusiast;Creature;
+4U;Keeper of the Cadence;Creature;281
+4U;Koilos Roc;Creature;251
+3UU;Teferi, Temporal Pilgrim;Legendary Planeswalker;2
+3UUU;The Temporal Anchor;Legendary Artifact;207
+7;Arcane Proxy;Artifact Creature;
+1UU;Arcane Proxy;Artifact Creature;52
+4UUU;Hurkyl's Final Meditation;Instant;321
+6UU;One with the Multiverse;Enchantment;280
+8;Spotter Thopter;Artifact Creature;
+3U;Spotter Thopter;Artifact Creature;128
+9;Depth Charge Colossus;Artifact Creature;
+4UU;Depth Charge Colossus;Artifact Creature;248
+9;Hulking Metamorph;Artifact Creature;
+2UU;Hulking Metamorph;Artifact Creature;208
+B;Ashnod's Intervention;Instant;279
+B;Ashnod, Flesh Mechanist;Legendary Creature;78
+B;Disfigure;Instant;107
+B;Dreams of Steel and Oil;Sorcery;127
+B;Gnawing Vermin;Creature;246
+1B;Diabolic Intent;Sorcery;247
+1B;Emergency Weld;Sorcery;118
+1B;Gixian Infiltrator;Creature;174
+1B;Go for the Throat;Instant;51
+1B;Misery's Shadow;Creature;35
+1B;Powerstone Fracture;Sorcery;204
+1B;Thran Vigil;Enchantment;277
+1B;Thraxodemon;Creature;171
+2B;Battlefield Butcher;Creature;152
+2B;Carrion Locust;Creature;229
+2B;Gix's Caress;Sorcery;151
+1BB;Gix, Yawgmoth Praetor;Legendary Creature;6
+2B;Gixian Skullflayer;Creature;222
+1BB;Gruesome Realization;Sorcery;106
+2B;Gurgling Anointer;Creature;92
+2B;Kill-Zone Acrobat;Creature;221
+2B;Moment of Defiance;Instant;178
+3B;Fateful Handoff;Sorcery;314
+3B;Gixian Puppeteer;Creature;26
+3B;Hostile Negotiations;Instant;99
+3B;Ravenous Gigamole;Creature;135
+3BB;Gix's Command;Sorcery;11
+4B;No One Left Behind;Sorcery;205
+4B;Overwhelming Remorse;Instant;77
+3BB;Painful Quandary;Enchantment;278
+4B;Trench Stalker;Creature;101
+5B;Corrupt;Sorcery;108
+4BB;Disciples of Gix;Creature;206
+6;Goring Warplow;Artifact Creature;
+1B;Goring Warplow;Artifact Creature;179
+7;Phyrexian Fleshgorger;Artifact Creature;
+1BB;Phyrexian Fleshgorger;Artifact Creature;7
+R;Goblin Blast-Runner;Creature;243
+R;Monastery Swiftspear;Creature;201
+1R;Bitter Reunion;Enchantment;202
+1R;Dwarven Forge-Chanter;Creature;230
+1R;Feldon, Ronom Excavator;Legendary Creature;60
+1R;Horned Stoneseeker;Creature;67
+1R;Mishra's Domination;Enchantment;276
+1R;Obliterating Bolt;Sorcery;59
+1R;Roc Hunter;Creature;181
+1R;Sardian Cliffstomper;Creature;241
+1R;Whirling Strike;Instant;169
+1RR;Brotherhood's End;Sorcery;150
+2R;Conscripted Infantry;Creature;180
+1RR;Draconic Destiny;Enchantment;33
+2R;Excavation Explosion;Sorcery;54
+2R;Giant Cindermaw;Creature;125
+1RR;Mechanized Warfare;Enchantment;296
+2R;Mishra, Excavation Prodigy;Legendary Creature;149
+2R;Penregon Strongbull;Creature;119
+2R;Raze to the Ground;Sorcery;148
+2R;Tomakul Scrapsmith;Creature;182
+3R;Arms Race;Enchantment;320
+3R;Fallaji Chaindancer;Creature;244
+3R;Mishra's Onslaught;Instant;275
+3R;Pyrrhic Blast;Instant;242
+3R;Sibling Rivalry;Sorcery;200
+2RR;Visions of Phyrexia;Enchantment;10
+3RR;Unleash Shell;Instant;170
+4RR;The Fall of Kroog;Sorcery;297
+4RR;Tyrant of Kher Ridges;Creature;3
+7;Blitz Automaton;Artifact Creature;
+2R;Blitz Automaton;Artifact Creature;139
+5RR;Over the Top;Sorcery;311
+8;Fallaji Dragon Engine;Artifact Creature;
+2R;Fallaji Dragon Engine;Artifact Creature;199
+9;Skitterbeam Battalion;Artifact Creature;
+3RR;Skitterbeam Battalion;Artifact Creature;43
+XR;Mishra's Command;Sorcery;76
+G;Alloy Animist;Creature;197
+G;Audacity;Enchantment;105
+G;Bushwhack;Sorcery;90
+G;Citanul Stalwart;Creature;226
+G;Giant Growth;Instant;196
+G;Teething Wurmlet;Creature;49
+1G;Argothian Sprite;Creature;147
+1G;Blanchwood Prowler;Creature;116
+1G;Epic Confrontation;Sorcery;123
+1G;Fauna Shaman;Creature;104
+1G;Gaea's Gift;Instant;146
+1G;Sarinth Steelseeker;Creature;88
+1G;Tomakul Honor Guard;Creature;172
+2G;Argothian Opportunist;Creature;124
+2G;Blanchwood Armor;Enchantment;274
+2G;Burrowing Razormaw;Creature;183
+2G;Fog of War;Instant;313
+2G;Gwenna, Eyes of Gaea;Legendary Creature;122
+2G;Perimeter Patrol;Creature;168
+1GG;Titania, Voice of Gaea;Legendary Creature;73
+;Titania, Gaea Incarnate;Legendary Creature;
+2G;Wasteful Harvest;Instant;273
+2GG;Fade from History;Sorcery;239
+3G;Hoarding Recluse;Creature;225
+2GG;Obstinate Baloth;Creature;74
+3G;Shoot Down;Sorcery;134
+3G;Tawnos's Tinkering;Instant;294
+3GG;Fallaji Excavation;Sorcery;295
+4G;Gaea's Courser;Creature;89
+5;Rootwire Amalgam;Artifact Creature;
+1G;Rootwire Amalgam;Artifact Creature;32
+6;Cradle Clearcutter;Artifact Creature;
+2G;Cradle Clearcutter;Artifact Creature;224
+4GG;Gnarlroot Pallbearer;Creature;173
+4GG;Titania's Command;Sorcery;5
+7;Boulderbranch Golem;Artifact Creature;
+3G;Boulderbranch Golem;Artifact Creature;100
+7;Iron-Craw Crusher;Artifact Creature;
+2GG;Iron-Craw Crusher;Artifact Creature;103
+1;Rust Goliath;Artifact Creature;
+3GG;Rust Goliath;Artifact Creature;144
+1;Woodcaller Automaton;Artifact Creature;
+2GG;Woodcaller Automaton;Artifact Creature;
+XGG;Awaken the Woods;Sorcery;91
+WU;Harbin, Vanguard Aviator;Legendary Creature;47
+1WU;Urza, Lord Protector;Legendary Creature;102
+;Urza, Planeswalker;Legendary Planeswalker;
+2WU;Urza, Prince of Kroog;Legendary Creature;29
+2WU;Yotian Tactician;Creature;68
+1WB;Legions to Ashes;Sorcery;42
+3WB;Hero of the Dunes;Creature;56
+UB;Evangel of Synthesis;Creature;57
+UR;Third Path Iconoclast;Creature;70
+2UR;Saheeli, Filigree Master;Legendary Planeswalker;20
+1BR;Junkyard Genius;Creature;55
+2BR;Mishra, Claimed by Gix;Legendary Creature;31
+;Mishra, Lost to Phyrexia;Legendary Artifact Creature;
+3BR;Mishra, Tamer of Mak Fawa;Legendary Creature;71
+2BG;Skyfisher Spider;Creature;30
+3BG;Deathbloom Ritualist;Creature;121
+RG;Hajar, Loyal Bodyguard;Legendary Creature;72
+1RG;Arbalest Engineers;Creature;87
+4RG;Sarinth Greatwurm;Creature;23
+1RW;Queen Kayla bin-Kroog;Legendary Creature;46
+2RW;Fallaji Vanguard;Creature;48
+GW;Yotian Dissident;Creature;86
+2GU;Battery Bearer;Creature;58
+3GU;Tawnos, the Toymaker;Legendary Creature;272
+1GWU;Tocasia, Dig Site Mentor;Legendary Creature;41
+1;Clay Revenant;Artifact Creature;245
+1;Combat Courier;Artifact Creature;154
+1;Goblin Firebomb;Artifact;271
+1;Haywire Mite;Artifact Creature;238
+1;Mishra's Research Desk;Artifact;75
+1;Spectrum Sentinel;Artifact Creature;319
+1;Yotian Frontliner;Artifact Creature;299
+2;Aeronaut's Wings;Artifact;270
+2;Ashnod's Harvester;Artifact Creature;126
+2;Coastal Bulwark;Artifact Creature;177
+2;Dredging Claw;Artifact;267
+2;Energy Refractor;Artifact;140
+2;Levitating Statue;Artifact;193
+2;Mask of the Jadecrafter;Artifact;145
+2;Mine Worker;Artifact Creature;237
+2;Razorlash Transmogrant;Artifact Creature;50
+2;Scrapwork Mutt;Artifact Creature;98
+2;Surge Engine;Artifact Creature;16
+2;The Stone Brain;Legendary Artifact;327
+2;Thran Power Suit;Artifact;293
+2;Transmogrant's Crown;Artifact;34
+3;Liberator, Urza's Battlethopter;Legendary Artifact Creature;22
+3;Phyrexian Dragon Engine;Artifact Creature;25
+;Mishra, Lost to Phyrexia;Legendary Artifact Creature;
+3;Reconstructed Thopter;Artifact Creature;191
+3;Simian Simulacrum;Artifact Creature;24
+3;Supply Drop;Artifact;291
+3;The Stasis Coffin;Legendary Artifact;328
+3;Thran Spider;Artifact Creature;69
+3;Tower Worker;Artifact Creature;233
+3;Transmogrant Altar;Artifact;203
+3;Urza's Sylex;Legendary Artifact;93
+3;Veteran's Powerblade;Artifact;315
+4;Scrapwork Cohort;Artifact Creature;159
+4;Scrapwork Rager;Artifact Creature;117
+4;Slagstone Refinery;Artifact;312
+4;Stone Retrieval Unit;Artifact Creature;232
+4;Symmetry Matrix;Artifact;235
+5;Mishra's Juggernaut;Artifact Creature;198
+5;Perennial Behemoth;Artifact Creature;195
+5;Platoon Dispenser;Artifact Creature;4
+5;Power Plant Worker;Artifact Creature;192
+5;Steel Exemplar;Artifact Creature;190
+5;Swiftgear Drake;Artifact Creature;292
+5;The Mightstone and Weakstone;Legendary Artifact;40
+;Urza, Planeswalker;Legendary Planeswalker;
+5;Tocasia's Onulet;Artifact Creature;253
+6;Argivian Avenger;Artifact Creature;194
+6;Artificer's Dragon;Artifact Creature;
+7;Heavyweight Demolisher;Artifact Creature;240
+7;Terisian Mindbreaker;Artifact Creature;153
+7;Terror Ballista;Artifact Creature;
+8;Cityscape Leveler;Artifact Creature;14
+8;Su-Chi Cave Guard;Artifact Creature;236
+9;Portal to Phyrexia;Artifact;13
+X4;Clay Champion;Artifact Creature;8
+X6;Bladecoil Serpent;Artifact Creature;9
+;Argoth, Sanctum of Nature;Land;189
+;Titania, Gaea Incarnate;Legendary Creature;
+;Battlefield Forge;Land;188
+;Blast Zone;Land;120
+;Brushland;Land;187
+;Demolition Field;Land;326
+;Evolving Wilds;Land;141
+;Forest;Basic Land;
+;Fortified Beachhead;Land;143
+;Hall of Tagsin;Land;186
+;Island;Basic Land;
+;Llanowar Wastes;Land;185
+;Mishra's Foundry;Land;142
+;Mountain;Basic Land;
+;Plains;Basic Land;
+;Swamp;Basic Land;
+;Tocasia's Dig Site;Land;234
+;Underground River;Land;184
