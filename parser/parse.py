@@ -11,7 +11,8 @@ def join_cards(cards, ordinals):
     for c in cards:
         d[c.name] = c
 
-    for name, ordinal in ordinals:
+    for uname, ordinal in ordinals:
+        name = cardlist.normalize_name(uname)
         if name not in d:
             print(f'ERROR: Ordinal card not found in card list: {name}')
         else:

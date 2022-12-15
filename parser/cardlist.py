@@ -1,5 +1,8 @@
 import re
 
+def normalize_name(name):
+    return name.replace(' ', '').replace('\'', '').replace(',', '').replace('-', '')
+
 def _read_card_rows(filename):
     with open(filename) as f:
         table_raw = []
@@ -48,7 +51,7 @@ def _parse_card(row):
     result = Card()
     for field in row.split('</td>'):
         if field.find('class="name"') >= 0:
-            result.name = _strip_html_tags(field)
+            result.name = normalize_name(_strip_html_tags(field))
         elif field.find('class="type"') >= 0:
             result.type = _strip_html_tags(field)
         elif field.find('class="mana"') >= 0:
