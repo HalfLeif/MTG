@@ -7,7 +7,7 @@
 void FillLands(const Param &param, Deck *deck) {
   AddN(deck->lands, param.primary, BasicLand(param.lib->PrimaryColor()));
   AddN(deck->lands, param.secondary, BasicLand(param.lib->SecondaryColor()));
-  AddN(deck->lands, param.ternary, BasicLand(param.lib->TernaryColor()));
+  AddN(deck->lands, param.tertiary, BasicLand(param.lib->TertiaryColor()));
 }
 
 Deck TournamentDeck(const Param &param) {
@@ -24,11 +24,11 @@ Deck TournamentDeck(const Param &param) {
 }
 
 Deck TournamentDeck(const Library &lib, Experiment experiment, int secondary,
-                    int ternary = 0) {
+                    int tertiary = 0) {
   return TournamentDeck({.lib = &lib,
                          .experiment = experiment,
                          .secondary = secondary,
-                         .ternary = ternary});
+                         .tertiary = tertiary});
 }
 
 Library TestLibrary() {

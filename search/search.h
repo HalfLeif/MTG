@@ -6,6 +6,7 @@
 #include <map>
 #include <ostream>
 #include <thread>
+#include <unordered_set>
 
 #include "../common/random.h"
 #include "../core/contribution.h"
@@ -133,26 +134,26 @@ std::vector<Param> GoodParams(const Library &lib) {
     const int remaining_lands = TotalCards(lib.GetDeckSize()) - existing_cards;
 
     int wanted_lands = remaining_lands;
-    int max_ternary_lands = 1 + wanted_lands / 3;
-    if (lib.TernaryColor() == Color::Colorless) {
-      max_ternary_lands = 0;
-    }
-    wanted_lands -= max_ternary_lands;
     int max_secondary_lands = 1 + wanted_lands / 2;
     if (lib.SecondaryColor() == Color::Colorless) {
       max_secondary_lands = 0;
     }
+    wanted_lands -= max_secondary_lands;
+    int max_tertiary_lands = 2 + wanted_lands / 3;
+    if (lib.TertiaryColor() == Color::Colorless) {
+      max_tertiary_lands = 0;
+    }
 
     for (int secondary = 0; secondary <= max_secondary_lands; ++secondary) {
-      for (int ternary = 0; ternary <= max_ternary_lands; ++ternary) {
-        int primary = remaining_lands - secondary - ternary;
-        INFO << secondary << " " << ternary << "\n";
+      for (int tertiary = 0; tertiary <= max_tertiary_lands; ++tertiary) {
+        int primary = remaining_lands - secondary - tertiary;
+        INFO << secondary << " " << tertiary << "\n";
         solutions.push_back(Param{
             .lib = &lib,
             .experiment = exp,
             .primary = primary,
             .secondary = secondary,
-            .ternary = ternary,
+            .tertiary = tertiary,
             .deck_size = lib.GetDeckSize(),
         });
       }
@@ -221,6 +222,32 @@ TEST(GoodParamsWithStandardDeck) {
   for (Param p : params) {
     EXPECT_EQ(p.primary + p.secondary, TotalLands(DeckSize::limited));
   }
+}
+
+TEST(GoodParamsWithTripleColorDeck) {
+  Library::Builder builder;
+  for (int i = 0; i < TotalSpells(DeckSize::limited); ++i) {
+    if (i < 7) {
+      builder.AddSpell(MakeSpell("B2"));
+    } else if (i < 20) {
+      builder.AddSpell(MakeSpell("W3"));
+    } else {
+      builder.AddSpell(MakeSpell("G4"));
+    }
+  }
+  Library lib = builder.AddLand(TapLand("WG")).Build();
+  std::vector<Param> params = GoodParams(lib);
+  EXPECT_LT(0, params.size());
+
+  std::unordered_set<std::string> param_strings;
+  for (Param p : params) {
+    EXPECT_EQ(p.primary + p.secondary + p.tertiary,
+              TotalLands(DeckSize::limited) - 1);
+    param_strings.insert(ToString(p));
+    // std::cout << p << std::endl;
+  }
+  EXPECT_TRUE(param_strings.count("Param experiment:   W=8  B=6  G=2"));
+  EXPECT_TRUE(param_strings.count("Param experiment:   W=7  B=7  G=2"));
 }
 
 TEST(GoodParamsWithFewerSpells) {

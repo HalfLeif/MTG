@@ -79,7 +79,7 @@ public:
     return Color::Colorless;
   }
 
-  Color TernaryColor() const {
+  Color TertiaryColor() const {
     if (colors_.size() > 2) {
       return colors_[2];
     }

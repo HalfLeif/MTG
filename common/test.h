@@ -102,8 +102,9 @@ public:
                   const char *right_desc) {
     pass_ = (left == right);
     if (!pass_) {
-      Stream() << "Expected " << left_desc << " to be equal to " << right_desc
-               << " but " << left << " != " << right << std::endl;
+      Stream() << "Expected `" << left_desc << "` to be equal to `"
+               << right_desc << "` but `" << left << "` != `" << right << "`"
+               << std::endl;
     }
     return pass_;
   }
@@ -124,8 +125,9 @@ public:
                   const char *right_desc) {
     pass_ = (left < right);
     if (!pass_) {
-      Stream() << "Expected " << left_desc << " to be equal to " << right_desc
-               << " but " << left << " != " << right << std::endl;
+      Stream() << "Expected `" << left_desc << "` to be less than `"
+               << right_desc << "` but `" << left << "` >= `" << right << "`"
+               << std::endl;
     }
     return pass_;
   }
@@ -135,8 +137,8 @@ public:
                     const char *right_desc) {
     pass_ = (std::abs(left - right) < 0.01);
     if (!pass_) {
-      Stream() << "Expected " << left_desc << " to be near " << right_desc
-               << " but " << left << " != " << right << std::endl;
+      Stream() << "Expected `" << left_desc << "` to be near `" << right_desc
+               << "` but `" << left << "` != `" << right << "`" << std::endl;
     }
     return pass_;
   }

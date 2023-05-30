@@ -79,7 +79,7 @@ void PrintLands(const Deck &deck) {
 
   // Want lands to be sorted:
   // basic lands < non-basic lands
-  // primary < secondary < ternary
+  // primary < secondary < tertiary
   std::sort(land_counts.begin(), land_counts.end(),
             [](const auto &a, const auto &b) {
               if (a.first.type != b.first.type) {

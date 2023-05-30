@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
   // std::vector<Spell> all_cards = sealed->all_cards();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
   // GenerateDeck(all_cards, sealed.get());
-  OptimizeDeck(all_cards, sealed.get());
+  // OptimizeDeck(all_cards, sealed.get());
   // OptimizeLands(kDMU);
 
   return 0;
