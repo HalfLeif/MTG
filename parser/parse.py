@@ -4,7 +4,7 @@ import save
 import sys
 
 DEBUG = True
-SEASON = 'bro'
+SEASON = 'mom'
 
 def join_cards(cards, ordinals):
     d = {}
