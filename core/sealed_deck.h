@@ -11,14 +11,14 @@ public:
   virtual std::string_view data_path() const = 0;
 
   // All cards that were opened in this SealedDeck tournament.
-  virtual std::vector<std::string_view> cards() const = 0;
+  virtual std::vector<std::string_view> cards() const { return chosen_deck(); }
 
   // Cards among opened cards that are manually forced in the deck during deck
   // generation.
   virtual std::vector<std::string_view> forced_cards() const { return {}; }
 
   // Resulting deck (for analysis purposes).
-  virtual std::vector<std::string_view> chosen_deck() const { return {}; };
+  virtual std::vector<std::string_view> chosen_deck() const { return {}; }
 
   // Minimum number of colors in generated deck.
   virtual int MinColors() const { return 1; }

@@ -21,6 +21,7 @@
 #include "decks/fake.h"
 #include "decks/m20.h"
 #include "decks/mid.h"
+#include "decks/mom.h"
 #include "decks/neo.h"
 #include "decks/snc.h"
 #include "decks/thb.h"
@@ -50,24 +51,17 @@ void OptimizeDeck(const std::vector<Spell> &all_cards,
   std::vector<Spell> base_cards = FilterCards(all_cards, {
                                                              // "Strangle",
                                                          });
-  std::vector<Spell> exp_cards =
-      FilterCards(all_cards, {
-                                 // "Dig Up the Body",
-                             });
+  std::vector<Spell> exp_cards = FilterCards(all_cards, {
+                                                            // "Daxos",
+                                                        });
 
   Library lib = Library::Builder()
                     .SetLimited()
                     .AddSpells(chosen_cards)
                     .AddSpells(base_cards, Experiment::base)
                     .AddSpells(exp_cards, Experiment::exp)
-                    // .AddLand(TapLand("WG"))
-                    .AddLand(FetchLand(0.5))
-                    .AddLand(FetchLand(0.5))
-                    // .AddLand(FetchLand(0.5, "WRG"), Experiment::exp)
-                    // .AddLand(FetchLand(0.5))
-                    // .AddLand(FetchLand(0.5))
-                    // .AddLand(FetchLand(0.5))
-                    // .AddLand(FetchLand(0.5), Experiment::base)
+                    .AddLand(TapLand("WG"))
+                    // .AddLand(TapLand(0.5, "UG"), Experiment::exp)
                     .Build();
 
   OptimizeLands(lib);
@@ -79,11 +73,11 @@ int main(int argc, char *argv[]) {
   std::cout << "\n -- Started program --\n";
   // RunAllBenchmarks();
 
-  auto sealed = std::make_unique<Bro>();
+  auto sealed = std::make_unique<Mom>();
   // std::vector<Spell> all_cards = sealed->all_cards();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
-  GenerateDeck(all_cards, sealed.get());
-  // OptimizeDeck(all_cards, sealed.get());
+  // GenerateDeck(all_cards, sealed.get());
+  OptimizeDeck(all_cards, sealed.get());
   // OptimizeLands(kDMU);
 
   return 0;
