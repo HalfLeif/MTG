@@ -7,16 +7,20 @@ W;TarkirDuneshaper;Creature;247
 ;BurnishedDunestomper;Creature;
 1W;AerialBoost;Instant;293
 1W;AlabasterHostSanctifier;Creature;274
+WW;AnafenzaKinTreeSpirit;Legendary Creature;94
 1W;AngelicIntervention;Instant;284
+WW;DaxosBlessedbytheSun;Legendary Enchantment Creature;169
 1W;DuskLegionDuelist;Creature;83
 1W;InvasionofGobakhan;Battle;114
 ;LightshieldArray;Enchantment;
 1W;NornsInquisitor;Creature;87
 1W;RealmbreakersGrasp;Enchantment;136
+1W;SramSeniorEdificer;Legendary Creature;255
 1W;SunBlessedGuardian;Creature;101
 ;FurnaceBlessedConqueror;Creature;
 1W;SundertheGateway;Sorcery;261
 1W;SwordswornCavalier;Creature;171
+1W;ThaliaGuardianofThraben;Legendary Creature;242
 2W;AttentiveSkywarden;Creature;266
 2W;CutShort;Instant;283
 2W;GuardianofGhirapur;Creature;53
@@ -46,19 +50,23 @@ W;TarkirDuneshaper;Creature;247
 ;HeliodtheWarpedEclipse;Legendary Enchantment Creature;
 2WW;InspiredCharge;Instant;315
 3W;KnightoftheNewCoalition;Creature;174
+3W;KwendePrideofFemeref;Legendary Creature;243
 3W;TillerofFlesh;Creature;122
 3WW;BoonBringerValkyrie;Creature;6
 3WW;EssenceofOrthodoxy;Creature;
 4W;GoldenScaleAeronaut;Creature;282
 4W;InfectedDefector;Creature;281
+4W;KenriththeReturnedKing;Legendary Creature;16
 4W;KnightErrantofEos;Creature;231
 3WW;Sunfall;Sorcery;2
 5W;AlabasterHostIntercessor;Creature;187
+5WW;EleshNornGrandCenobite;Legendary Creature;1
 XXW;ProgenitorExarch;Creature;47
 U;CaptiveWeird;Creature;201
 ;CompleatedConjurer;Creature;
 U;OmenHawker;Creature;230
 1U;AssimilateEssence;Instant;290
+1U;BaralChiefofCompliance;Legendary Creature;309
 1U;ChangetheEquation;Instant;331
 1U;DisturbingConversion;Enchantment;313
 1U;ExpeditionLookout;Creature;312
@@ -74,9 +82,11 @@ U;OmenHawker;Creature;230
 1U;SkyclaveAerialist;Creature;100
 ;SkyclaveInvader;Creature;
 1U;StasisField;Enchantment;280
+1U;TetsukoUmezawaFugitive;Legendary Creature;185
 1U;ZephyrWinder;Creature;
 1U;ZhalfirinShapecraft;Instant;260
 2U;ChromeHostSeedshark;Creature;26
+2U;EmryLurkeroftheLoch;Legendary Creature;241
 2U;EpharasDispersal;Instant;153
 2U;EyesofGitaxias;Sorcery;152
 2U;FurtiveAnalyst;Creature;311
@@ -85,6 +95,7 @@ U;OmenHawker;Creature;230
 2U;PreeningChampion;Creature;135
 2U;RefereeSquad;Creature;
 2U;XerexStrobeKnight;Creature;140
+3U;IngaRuneEyes;Legendary Creature;240
 3U;InvasionofKamigawa;Battle;127
 ;RooftopSaboteurs;Creature;
 3U;InvasionofVryn;Battle;165
@@ -108,6 +119,7 @@ U;OmenHawker;Creature;230
 5U;ThunderheadSquadron;Creature;301
 4UU;TidalTerror;Creature;217
 6UU;InterdisciplinaryMascot;Creature;
+8UU;JinGitaxiasCoreAugur;Legendary Creature;335
 XUUUU;TranscendentMessage;Instant;56
 B;CorruptedConviction;Instant;225
 B;IchorDrinker;Creature;172
@@ -124,6 +136,8 @@ B;ScornBladeBerserker;Creature;149
 1B;GraftedButcher;Creature;50
 1B;NezumiInformant;Creature;215
 1B;TraumaticRevelation;Sorcery;180
+BB;TymaretChosenfromDeath;Legendary Enchantment Creature;214
+BBB;AyaraFirstofLocthwain;Legendary Creature;63
 1BB;AyaraWidowoftheRealm;Legendary Creature;72
 ;AyaraFurnaceQueen;Legendary Creature;
 2B;BloatedProcessor;Creature;80
@@ -139,6 +153,7 @@ B;ScornBladeBerserker;Creature;149
 2B;VanquishtheWeak;Instant;150
 3B;ConsumingAetherborn;Creature;279
 2BB;DeadlyDerision;Instant;160
+2BB;HorobiDeathsWail;Legendary Creature;133
 3B;InvasionofEldraine;Battle;206
 ;PrickleFaeries;Creature;
 2BB;InvasionofInnistrad;Battle;31
@@ -153,8 +168,11 @@ B;ScornBladeBerserker;Creature;149
 4B;FailedConversion;Enchantment;245
 4B;InvasionofUlgrotha;Battle;208
 ;GrandmotherRaviSengir;Legendary Creature;
+3BB;SeizanPerverterofTruth;Legendary Creature;308
 3BB;Sheoldred;Legendary Creature;12
 ;TheTrueScriptures;Enchantment;
+3BB;SkithiryxtheBlightDragon;Legendary Creature;24
+4B;YargleGluttonofUrborg;Legendary Creature;307
 4BB;InjectorCrocodile;Creature;
 4BB;InvasionofFiora;Battle;34
 ;MarchesaResoluteMonarch;Legendary Creature;
@@ -162,12 +180,14 @@ B;ScornBladeBerserker;Creature;149
 4BB;PhyrexianGargantua;Creature;124
 5BB;BreachtheMultiverse;Sorcery;29
 5BB;GloomfangMauler;Creature;267
+5BB;SheoldredWhisperingOne;Legendary Creature;4
 5BBB;HoardingBroodlord;Creature;18
 R;AkkiScrapchomper;Creature;310
 R;BeamtownBeatstick;Artifact;178
 R;ComingInHot;Instant;316
 R;LithomanticBarrage;Sorcery;228
 R;MirranBanesplitter;Artifact;318
+R;RagavanNimblePilferer;Legendary Creature;46
 1R;AxgardArtisan;Creature;
 1R;BloodfeatherPhoenix;Creature;232
 1R;BurningSunsFury;Instant;288
@@ -185,6 +205,7 @@ R;MirranBanesplitter;Artifact;318
 1R;TrailblazingHistorian;Creature;319
 1R;VolcanicSpite;Instant;119
 1R;WrennsResolve;Sorcery;336
+2R;CaptainLanneryStorm;Legendary Creature;93
 2R;FurnaceReins;Sorcery;268
 2R;HangarScrounger;Creature;303
 2R;HarriedArtisan;Creature;73
@@ -196,6 +217,8 @@ R;MirranBanesplitter;Artifact;318
 2R;MaraudingDreadship;Artifact;226
 1RR;NahirisWarcrafting;Sorcery;121
 2R;SearingBarb;Sorcery;219
+1RR;SqueetheImmortal;Legendary Creature;148
+2R;ValdukKeeperoftheFlame;Legendary Creature;213
 2R;VoldarenThrillseeker;Creature;51
 3R;InvasionofKaldheim;Battle;116
 ;PyreoftheWorldTree;Enchantment;
@@ -209,9 +232,11 @@ R;MirranBanesplitter;Artifact;318
 2RR;Urabrask;Legendary Creature;13
 ;TheGreatWork;Enchantment;
 3R;WarTrainedSlasher;Creature;299
+3R;ZadaHedronGrinder;Legendary Creature;254
 4R;FearlessSkald;Creature;272
 4R;OnakkeJavelineer;Creature;295
 4R;RamosianGreatsword;Artifact;233
+3RR;UrabrasktheHidden;Legendary Creature;77
 4RR;ChandraHopesBeacon;Legendary Planeswalker;55
 4RR;CragsmasherYeti;Creature;
 5R;FurnaceHostCharger;Creature;294
@@ -226,6 +251,7 @@ G;SeedofHope;Instant;227
 1G;AtraxasFall;Sorcery;329
 1G;CosmicHunger;Instant;154
 1G;DeeprootWayfinder;Creature;139
+1G;FynntheFangbearer;Legendary Creature;147
 1G;HerbologyInstructor;Creature;144
 ;MaladyInvoker;Creature;
 1G;InvasionofIxalan;Battle;204
@@ -257,8 +283,10 @@ GGG;TributetotheWorldTree;Enchantment;177
 2GG;GlisteningDawn;Sorcery;37
 3G;GnottvoldHermit;Creature;109
 ;ChromeHostHulk;Creature;
+3G;GoreclawTerrorofQalSisma;Legendary Creature;92
 3G;InvasionofZendikar;Battle;128
 ;AwakenedSkyclave;Creature;
+2GG;RenataCalledtotheHunt;Legendary Enchantment Creature;212
 2GG;StormtheSeedcore;Sorcery;273
 4G;BondedHerdbeast;Creature;275
 ;PlatedKilnbeast;Creature;
@@ -271,65 +299,102 @@ GGG;TributetotheWorldTree;Enchantment;177
 3GG;Vorinclex;Legendary Creature;8
 ;TheGrandEvolution;Enchantment;
 4G;WildwoodEscort;Creature;221
+4G;YedoraGraveGardener;Legendary Creature;132
 4GG;SurrakandGoreclaw;Legendary Creature;
 4GG;TimberlandAncient;Creature;246
 5GG;AncientImperiosaur;Creature;17
 6GG;CopperHostCrusher;Creature;333
+6GG;VorinclexVoiceofHunger;Legendary Creature;184
 XGG;InvasionofIkoria;Battle;112
 ;ZilorthaApexofIkoria;Legendary Creature;
 WU;MarshalofZhalfir;Creature;48
+WU;RaffWeatherlightStalwart;Legendary Creature;118
 1WU;ErrantandGiada;Legendary Creature;66
 2WU;InvasionofXerex;Battle;129
 ;VertexPaladin;Creature;
+2WU;TaigamOjutaiMaster;Legendary Creature;75
+3WW;YorionSkyNomad;Legendary Creature;10
 XWU;InvasionofNewPhyrexia;Battle;3
 ;TeferiAkosaofZhalfir;Legendary Planeswalker;
 WB;InvasionofNewCapenna;Battle;113
 ;HolyFrazzleCannon;Artifact;
+1WW;LurrusoftheDreamDen;Legendary Creature;103
 1WWB;DranaandLinvala;Legendary Creature;44
 2WB;SculptedPerfection;Enchantment;161
+2WB;TeysaKarlov;Legendary Creature;166
+2WBB;FirjaJudgeofValor;Legendary Creature;76
 3WB;InvasionofTolvada;Battle;32
 ;TheBrokenSky;Enchantment;
 1UB;HaloForager;Creature;69
 1UB;InvasionofAmonkhet;Battle;117
 ;LazotepConvert;Creature;
+2UB;AtrisOracleofHalfTruths;Legendary Creature;91
+1UBB;RonaSheoldredsFaithful;Legendary Creature;209
+3UB;GrimgrinCorpseBorn;Legendary Creature;22
 2UUB;HidetsuguandKairi;Legendary Creature;67
+4UU;GyrudaDoomofDepths;Legendary Creature;36
 UR;InvasionofKaladesh;Battle;102
 ;AetherwingGoldenScaleFlagship;Legendary Artifact;
+1UR;AegartheFreezingFlame;Legendary Creature;211
 1UR;BaralandKariZev;Legendary Creature;52
+1UU;LutritheSpellchaser;Legendary Creature;14
 3UR;JoyfulStormsculptor;Creature;236
+4UR;BrudicladTelchorEngineer;Legendary Artifact Creature;23
 BR;InvasionofAzgol;Battle;126
 ;AshenReaper;Creature;
+BR;JuriMasteroftheRevue;Legendary Creature;239
+BR;KroxaTitanofDeathsHunger;Legendary Creature;59
+1BR;JudiththeScourgeDiva;Legendary Creature;61
 1BR;StormclawRager;Creature;95
+3BB;OboshthePreypiercer;Legendary Creature;35
 1BBRR;RankleandTorbran;Legendary Creature;64
+BG;DinaSoulSteeper;Legendary Creature;253
 1BG;ElvishVatkeeper;Creature;78
+2BB;UmoritheCollector;Legendary Creature;90
 3BG;GlissaHeraldofPredation;Legendary Creature;5
 4BG;InvasionofLorwyn;Battle;164
 ;WinnowingForces;Creature;
 3BBG;YargleandMultani;Legendary Creature;141
 RG;InvasionofErgamon;Battle;162
 ;TrugaCliffcharger;Creature;
+2RG;RadhaCoalitionWarlord;Legendary Creature;305
 2RG;RampagingGeoderm;Creature;96
+4R;JeganthatheWellspring;Legendary Creature;104
 2RRGG;KoglaandYidaro;Legendary Creature;49
 RW;MirrorShieldHoplite;Creature;176
+RW;ReyavMasterSmith;Legendary Creature;251
+1RR;ZirdatheDawnwaker;Legendary Creature;89
 2RW;InvasionofKylem;Battle;207
 ;ValorsReachTagTeam;Sorcery;
 2RRW;DjeruandHazoret;Legendary Creature;81
 3RW;QuintoriusLoremaster;Legendary Creature;20
+2RRWW;AureliatheWarleader;Legendary Creature;15
+4RW;FiresongandSunspeaker;Legendary Creature;210
 GW;BotanicalBrawler;Creature;54
+GW;ShannaSisaysLegacy;Legendary Creature;146
+1GG;KaheeratheOrphanguard;Legendary Creature;252
 2GW;InvasionofMoag;Battle;58
 ;BloomwielderDryads;Creature;
+2GW;LathieltheBounteousDawn;Legendary Creature;183
 3GGWW;GhaltaandMavren;Legendary Creature;43
 GU;InvasionofPyrulea;Battle;125
 ;GargantuanSlabhorn;Creature;
 1GU;MutagenConnoisseur;Creature;158
+2GU;ArixmethesSlumberingIsle;Legendary Creature;168
+2GU;EzuriClawofProgress;Legendary Creature;131
 2GU;IngaandEsika;Legendary Creature;65
+3GU;ImotiCelebrantofBounty;Legendary Creature;167
+3GG;KerugatheMacrosage;Legendary Creature;60
 3RWB;KroxaandKunoros;Legendary Creature;25
 2GUR;BorborygmosandFblthp;Legendary Creature;45
 1WBG;ThaliaandTheGitrogMonster;Legendary Creature;27
 2URW;ZurgoandOjutai;Legendary Creature;19
 BGU;ZimoneandDina;Legendary Creature;97
+2BGU;YaroktheDesecrated;Legendary Creature;11
+GWUB;AtraxaPraetorsVoice;Legendary Creature;62
 WUBRG;InvasionofAlara;Battle;328
 ;AwakentheMaelstrom;Sorcery;
+WUBRG;NivMizzetReborn;Legendary Creature;306
 WUBRG;OmnathLocusofAll;Legendary Creature;286
 1;UrnofGodfire;Artifact;323
 2;FlywheelRacer;Artifact;222
