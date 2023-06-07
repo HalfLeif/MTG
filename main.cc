@@ -49,11 +49,11 @@ void OptimizeDeck(const std::vector<Spell> &all_cards,
   std::vector<Spell> chosen_cards =
       FilterCards(all_cards, sealed->chosen_deck());
   std::vector<Spell> base_cards = FilterCards(all_cards, {
-                                                             "InvasionofLorwyn",
+                                                             "TarkirDuneshaper",
                                                          });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
-                                 "AtraxaPraetorsVoice",
+                                 "DaxosBlessedbytheSun",
                              });
 
   Library lib = Library::Builder()
@@ -62,7 +62,7 @@ void OptimizeDeck(const std::vector<Spell> &all_cards,
                     .AddSpells(base_cards, Experiment::base)
                     .AddSpells(exp_cards, Experiment::exp)
                     .AddLand(TapLand("WG"))
-                    .AddLand(TapLand("UG"), Experiment::exp)
+                    // .AddLand(TapLand("UG"), Experiment::exp)
                     .Build();
 
   OptimizeLands(lib);
