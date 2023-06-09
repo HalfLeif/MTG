@@ -50,8 +50,6 @@ constexpr int kDeepGames = 1000;
 // constexpr int kDeepLandSearch = 7;
 // constexpr int kDeepGames = 50;
 
-constexpr int kMaxColors = 3;
-
 // Uniformly samples `wanted` cards from [0,total). Any `forced_cards` are
 // automatically picked.
 std::vector<int> GeneratePermutation(const std::vector<int> &available_ids,

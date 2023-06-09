@@ -77,8 +77,8 @@ int main(int argc, char *argv[]) {
   auto sealed = std::make_unique<Mom>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
-  // GenerateDeck(all_cards, sealed.get());
-  OptimizeDeck(all_cards, sealed.get());
+  GenerateDeck(all_cards, sealed.get());
+  // OptimizeDeck(all_cards, sealed.get());
   // OptimizeLands(kDMU);
 
   return 0;

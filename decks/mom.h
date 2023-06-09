@@ -10,6 +10,18 @@ class Mom : public SealedDeck {
 public:
   std::string_view data_path() const override { return "data/mom/cards.csv"; }
 
+  int MinColors() const override { return 3; }
+  int MaxColors() const override { return 3; }
+
+  std::vector<Color> AvailableColors() const override {
+    return {
+        Color::Black, Color::White, Color::Green,
+        // Color::Blue,
+        // Color::Red,
+        // Color::White,
+    };
+  }
+
   virtual std::vector<std::string_view> cards() const {
     return {
         "SurgeofSalvation",
@@ -42,7 +54,6 @@ public:
         "KamiofWhisperedHopes",
         "NezumiFreewheeler",
         "InvasionofShandalar",
-        "InvasionofBelenon",
         "RenderInert",
         "KithkinBillyrider",
         "RonaSheoldredsFaithful",
@@ -219,5 +230,169 @@ public:
    11789 PhyrexianAwakening (W2)
    13046 InvasionofBelenon (W2)
    14852 DranaandLinvala (WWB1)
+
+Score: 88.2 (106.1 - 17.9)
+Iteration: 20
+Lands { R=8 U=9 }
+    2394 ShivanBranchBurner (RR5)
+    2634 MomentofTruth (U1)
+    2958 StasisField (U1)
+    3070 FearlessSkald (R4)
+    3109 WarTrainedSlasher (R3)
+    3242 BeamtownBeatstick (R)
+    3638 OrderoftheMirror (U1)
+    3641 InvasionofMercadia (R1)
+    4560 VolcanicSpite (R1)
+    4560 VolcanicSpite (R1)
+    5071 EyesofGitaxias (U2)
+    5216 KhenraSpellspear (R1)
+    5236 AstralWingspan (U4)
+    5478 HaloChargedSkaab (U4)
+    5478 HaloChargedSkaab (U4)
+    5896 InvasionofRegatha (R2)
+    5898 PreeningChampion (U2)
+    5898 PreeningChampion (U2)
+    6076 ArtisticRefusal (UU4)
+    6348 InvasionofSegovia (U2)
+    6460 CorruptionofTowashi (U4)
+    6606 HarriedArtisan (R2)
+    7961 JeganthatheWellspring (R4)
+
+Score: 86.4 (104.7 - 18.3)
+Iteration: 143
+Lands { U=9 W=9 }
+    2138 KithkinBillyrider (W2)
+    2680 StasisField (U1)
+    2748 OmenHawker (U)
+    2998 DaxosBlessedbytheSun (WW)
+    3795 KwendePrideofFemeref (W3)
+    3880 OrderoftheMirror (U1)
+    4109 RealmbreakersGrasp (W1)
+    4406 EyesofGitaxias (U2)
+    5154 MonasteryMentor (W2)
+    5178 PreeningChampion (U2)
+    5178 PreeningChampion (U2)
+    5201 NornsInquisitor (W1)
+    5532 AstralWingspan (U4)
+    5797 PhyrexianAwakening (W2)
+    6051 HaloChargedSkaab (U4)
+    6051 HaloChargedSkaab (U4)
+    6550 InvasionofBelenon (W2)
+    6550 InvasionofBelenon (W2)
+    6706 KnightoftheNewCoalition (W3)
+    6797 ArtisticRefusal (UU4)
+    7075 InvasionofSegovia (U2)
+    7264 CorruptionofTowashi (U4)
+
+Score: 86.1 (104.8 - 18.7)
+Iteration: 67
+Lands { B=8 U=9 }
+    2637 MomentofTruth (U1)
+    2696 OmenHawker (U)
+    2769 CorruptedConviction (B)
+    2843 EtchedHostDoombringer (B4)
+    2850 ConsumingAetherborn (B3)
+    3115 AssimilateEssence (U1)
+    3649 NezumiFreewheeler (B3)
+    3893 OrderoftheMirror (U1)
+    3951 AetherbladeAgent (B1)
+    4952 CompleatedHuntmaster (B2)
+    5040 AstralWingspan (U4)
+    5184 EyesofGitaxias (U2)
+    5483 HaloChargedSkaab (U4)
+    5483 HaloChargedSkaab (U4)
+    5615 DeadlyDerision (BB2)
+    5615 DeadlyDerision (BB2)
+    5644 PreeningChampion (U2)
+    5644 PreeningChampion (U2)
+    6191 ArtisticRefusal (UU4)
+    6495 HaloForager (UB1)
+    6495 CorruptionofTowashi (U4)
+    6514 InvasionofSegovia (U2)
+    7309 HidetsuguandKairi (UUB2)
+
+Score: 79.8 (97.7 - 17.9)
+Iteration: 68
+Lands { B=6 W=9 }
+    2140 KithkinBillyrider (W2)
+    2304 KorHalberd (W)
+    2369 CorruptedConviction (B)
+    2547 Scrollshift (W2)
+    2647 SurgeofSalvation (W)
+    2677 ConsumingAetherborn (B3)
+    2710 IchorDrinker (B)
+    2727 AngelicIntervention (W1)
+    3175 InfectedDefector (W4)
+    3230 DaxosBlessedbytheSun (WW)
+    3429 NezumiFreewheeler (B3)
+    3525 AetherbladeAgent (B1)
+    4237 FailedConversion (B4)
+    4301 DeadlyDerision (BB2)
+    4301 DeadlyDerision (BB2)
+    4599 RealmbreakersGrasp (W1)
+    4658 CompleatedHuntmaster (B2)
+    5307 MonasteryMentor (W2)
+    5356 NornsInquisitor (W1)
+    5673 KnightoftheNewCoalition (W3)
+    5690 SculptedPerfection (WB2)
+    5968 InvasionofBelenon (W2)
+    5968 InvasionofBelenon (W2)
+    6050 PhyrexianAwakening (W2)
+    7361 DranaandLinvala (WWB1)
+
+Score: 79.8 (96.5 - 16.7)
+Iteration: 67
+Lands { G=8 W=8 }
+    1872 KithkinBillyrider (W2)
+    2267 Kitesail (2)
+    2671 SurgeofSalvation (W)
+    2749 SerpentBladeAssailant (G2)
+    2767 InfectedDefector (W4)
+    2888 BlightedBurgeoning (G2)
+    2998 DaxosBlessedbytheSun (WW)
+    3224 WaryThespian (G1)
+    3452 BondedHerdbeast (G4)
+    3552 TimberlandAncient (GG4)
+    4084 FynntheFangbearer (G1)
+    4251 OvergrownPest (G2)
+    4398 KwendePrideofFemeref (W3)
+    4641 RealmbreakersGrasp (W1)
+    4731 InvasionofShandalar (GG3)
+    4953 SandstalkerMoloch (GG1)
+    4967 WildwoodEscort (G4)
+    5162 NornsInquisitor (W1)
+    5253 MonasteryMentor (W2)
+    5990 InvasionofBelenon (W2)
+    5990 InvasionofBelenon (W2)
+    6043 PhyrexianAwakening (W2)
+    6339 KnightoftheNewCoalition (W3)
+    6426 KamiofWhisperedHopes (G2)
+
+Score: 77.3 (95.5 - 18.2)
+Iteration: 146
+Lands { B=8 W=9 }
+    2260 KorHalberd (W)
+    2468 ConsumingAetherborn (B3)
+    2556 TarkirDuneshaper (W)
+    2673 SurgeofSalvation (W)
+    2812 CorruptedConviction (B)
+    2961 InfectedDefector (W4)
+    3051 IchorDrinker (B)
+    3389 KwendePrideofFemeref (W3)
+    3673 EtchedHostDoombringer (B4)
+    3673 EtchedHostDoombringer (B4)
+    3954 AetherbladeAgent (B1)
+    4333 FailedConversion (B4)
+    4501 RealmbreakersGrasp (W1)
+    4640 CompleatedHuntmaster (B2)
+    5150 NornsInquisitor (W1)
+    5425 MonasteryMentor (W2)
+    5835 DeadlyDerision (BB2)
+    5835 DeadlyDerision (BB2)
+    5939 KnightoftheNewCoalition (W3)
+    5961 PhyrexianAwakening (W2)
+    6129 SculptedPerfection (WB2)
+    6464 InvasionofBelenon (W2)
+    8086 DranaandLinvala (WWB1)
 
 */
