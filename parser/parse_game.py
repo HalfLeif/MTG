@@ -2,6 +2,8 @@ import collections
 import csv
 import sys
 
+import cardlist
+
 class Counts:
 
     def __init__(self):
@@ -22,29 +24,35 @@ class Counts:
                 if drawn < 1:
                     continue
 
-                cardname = k.removeprefix('drawn_')
+                cardname = cardlist.normalize_name(k.removeprefix('drawn_'))
                 self.total_played[cardname] += drawn
                 if won:
                     self.wins[cardname] += drawn
 
+
+def ReadCounts(filename):
+    counts = Counts()
+    with open(filename, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            counts.add_game(row)
+            if counts.num_games > 500: break
+
+        print(f'#games: {counts.num_games}')
+        for cardname in counts.total_played:
+            print(f'win rate: {cardname} {counts.wins[cardname]} / {counts.total_played[cardname]}')
+            break
+
+
 def main():
-    file='data/mom/TradSealed.csv'
+    filename='data/mom/TradSealed.csv'
     args = sys.argv[1:]
     if len(args) > 1:
       print(f'Got more arguments than expected: {len(args)}')
     if len(args) > 0:
       file = args[0]
 
-    counts = Counts()
-    with open(file, 'r') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            counts.add_game(row)
-            # if counts.num_games > 100: break
+    ReadCounts(filename)
 
-        print(f'#games: {counts.num_games}')
-        for cardname in counts.total_played:
-            print(f'win rate: {cardname} {counts.wins[cardname]} / {counts.total_played[cardname]}')
-            break
 
 main()
