@@ -140,16 +140,19 @@ public:
     return {
         "SurgeofSalvation",
         "AngelicIntervention",
-        // "TarkirDuneshaper",
+        "IchorDrinker",
+        // <- "TarkirDuneshaper",
         "AetherbladeAgent",
         "NornsInquisitor",
         "MonasteryMentor",
         "RealmbreakersGrasp",
         "ElvishVatkeeper",
         "CompleatedHuntmaster",
-        "InvasionofBelenon",
+        "KamiofWhisperedHopes",
+        // <- "InvasionofBelenon",
         "PhyrexianAwakening",
-        "KithkinBillyrider",
+        "NezumiFreewheeler",
+        // <- "KithkinBillyrider",
         "CutShort",
         //
         "DranaandLinvala",
@@ -226,6 +229,45 @@ Best cards
         spell U2 EyesofGitaxias #152
         spell U4 HaloChargedSkaab #156
         spell U4 HaloChargedSkaab #156
+
+# Round 2
+
+75.1 (97.1 - 22.0) Lands { B=9 G=2 W=5 WG=1 }
+75.3 (97.6 - 22.3) Lands { B=7 G=4 W=5 WG=1 }
+75.5 (98.0 - 22.5) Lands { B=6 G=3 W=7 WG=1 }
+75.7 (96.7 - 20.9) Lands { B=8 G=1 W=7 WG=1 }
+75.8 (97.8 - 21.9) Lands { B=7 G=3 W=6 WG=1 }
+76.8 (98.0 - 21.2) Lands { B=7 G=2 W=7 WG=1 }
+76.8 (97.0 - 20.2) Lands { B=7 G=1 W=8 WG=1 }
+76.9 (98.1 - 21.3) Lands { B=8 G=3 W=5 WG=1 }
+77.1 (97.5 - 20.4) Lands { B=9 G=1 W=6 WG=1 }
+78.5 (98.7 - 20.2) Lands { B=8 G=2 W=6 WG=1 }
+
+    4699 GloomfangMauler (BB5)
+    5032 SurgeofSalvation (W)
+    6080 IchorDrinker (B)
+    6191 AngelicIntervention (W1)
+    6437 CutShort (W2)
+    7640 KamiofWhisperedHopes (G2)
+    7685 InfectedDefector (W4)
+    7685 InfectedDefector (W4)
+    8355 NezumiFreewheeler (B3)
+    8416 AetherbladeAgent (B1)
+    8552 InvasionofLorwyn (BG4)
+    8591 RealmbreakersGrasp (W1)
+    8622 ElvishVatkeeper (BG1)
+    9266 EtchedHostDoombringer (B4)
+    9361 NornsInquisitor (W1)
+   10032 CompleatedHuntmaster (B2)
+   10876 MonasteryMentor (W2)
+   10909 FailedConversion (B4)
+   11699 PhyrexianAwakening (W2)
+   11785 SculptedPerfection (WB2)
+   11859 DeadlyDerision (BB2)
+   11859 DeadlyDerision (BB2)
+   13327 DranaandLinvala (WWB1)
+
+# Round 1
 
 70.1 (91.0 - 20.8) Lands { B=9 G=1 W=6 WG=1 }
 70.7 (90.1 - 19.4) Lands { B=7 W=9 WG=1 }
@@ -330,14 +372,14 @@ Score: 87.6 (110.2 - 22.6)
 Iteration: 133
 Lands { R=7 U=7 W=4 }
     2666 MomentofTruth (U1)
-    3228 ZhalfirinShapecraft (U1)
-    3288 OculusWhelp (U3)
+    3228 ZhalfirinShapecraft (U1) -> StasisField
+    3288 OculusWhelp (U3) -> ShivanBranchBurner
     3653 InvasionofMercadia (R1)
     4061 MonasteryMentor (W2)
     4389 VolcanicSpite (R1)
     4389 VolcanicSpite (R1)
     4488 EyesofGitaxias (U2)
-    4967 PhyrexianAwakening (W2)
+    4967 PhyrexianAwakening (W2) -> Cut short
     5148 KhenraSpellspear (R1)
     5380 AstralWingspan (U4)
     5645 InvasionofRegatha (R2)

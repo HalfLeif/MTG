@@ -49,12 +49,13 @@ void OptimizeDeck(const std::vector<Spell> &all_cards,
                   const SealedDeck *sealed) {
   std::vector<Spell> chosen_cards =
       FilterCards(all_cards, sealed->chosen_deck());
-  std::vector<Spell> base_cards = FilterCards(all_cards, {
-                                                             "TarkirDuneshaper",
-                                                         });
+  std::vector<Spell> base_cards =
+      FilterCards(all_cards, {
+                                 // "TarkirDuneshaper",
+                             });
   std::vector<Spell> exp_cards =
       FilterCards(all_cards, {
-                                 "DaxosBlessedbytheSun",
+                                 // "DaxosBlessedbytheSun",
                              });
 
   Library lib = Library::Builder()
@@ -79,8 +80,8 @@ int main(int argc, char *argv[]) {
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
   // ShowTop(all_cards, sealed.get());
-  GenerateDeck(all_cards, sealed.get());
-  // OptimizeDeck(all_cards, sealed.get());
+  // GenerateDeck(all_cards, sealed.get());
+  OptimizeDeck(all_cards, sealed.get());
   // OptimizeLands(kDMU);
 
   return 0;
