@@ -170,6 +170,65 @@ public:
 
 /**
 
+Summary
+
+W
+bonus: 4.51956
+num_above: 11
+num_below: 13
+
+U
+bonus: 7.83489
+num_above: 16
+num_below: 12
+
+B
+bonus: 4.87467
+num_above: 13
+num_below: 11
+
+R
+bonus: 5.56956
+num_above: 10
+num_below: 7
+
+G
+bonus: 2.632
+num_above: 8
+num_below: 11
+
+Best cards
+        spell WUR2 ZurgoandOjutai #19
+        spell WWB1 DranaandLinvala #44
+        spell WUBG AtraxaPraetorsVoice #62
+        spell BBRR1 RankleandTorbran #64
+        spell UUB2 HidetsuguandKairi #67
+        spell UB1 HaloForager #69
+        spell R1 KhenraSpellspear #71
+        spell R2 HarriedArtisan #73
+        spell BG1 ElvishVatkeeper #78
+        spell W1 NornsInquisitor #87
+        spell U2 InvasionofSegovia #88
+        spell R4 JeganthatheWellspring #104
+        spell UU4 ArtisticRefusal #107
+        spell G2 KamiofWhisperedHopes #108
+        spell W2 InvasionofBelenon #115
+        spell R1 VolcanicSpite #119
+        spell R1 VolcanicSpite #119
+        spell W2 PhyrexianAwakening #120
+        spell GG1 SandstalkerMoloch #123
+        spell UG InvasionofPyrulea #125
+        spell R2 InvasionofRegatha #130
+        spell U4 CorruptionofTowashi #134
+        spell U2 PreeningChampion #135
+        spell U2 PreeningChampion #135
+        spell W1 RealmbreakersGrasp #136
+        spell W2 MonasteryMentor #143
+        spell G1 FynntheFangbearer #147
+        spell U2 EyesofGitaxias #152
+        spell U4 HaloChargedSkaab #156
+        spell U4 HaloChargedSkaab #156
+
 70.1 (91.0 - 20.8) Lands { B=9 G=1 W=6 WG=1 }
 70.7 (90.1 - 19.4) Lands { B=7 W=9 WG=1 }
 71.2 (90.3 - 19.1) Lands { B=8 W=8 WG=1 }

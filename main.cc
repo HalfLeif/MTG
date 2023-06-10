@@ -28,6 +28,7 @@
 #include "decks/vow.h"
 #include "parser/parse_csv.h"
 #include "search/generate.h"
+#include "search/show_top.h"
 #include "search/task.h"
 
 constexpr bool DEBUG_ON = false;
@@ -76,6 +77,8 @@ int main(int argc, char *argv[]) {
 
   auto sealed = std::make_unique<Mom>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
+
+  ShowTop(all_cards, sealed.get());
 
   // GenerateDeck(all_cards, sealed.get());
   // OptimizeDeck(all_cards, sealed.get());
