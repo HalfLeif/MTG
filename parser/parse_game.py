@@ -2,6 +2,31 @@ import collections
 import csv
 import sys
 
+class Counts:
+
+    def __init__(self):
+        self.wins = collections.defaultdict(int)
+        self.total_played = collections.defaultdict(int)
+        self.num_games = 0
+        self.num_wins = 0
+
+    def add_game(self, row):
+        self.num_games += 1
+        won = row['won'] == 'True'
+        if won:
+            self.num_wins += 1
+
+        for k in row:
+            if k.startswith('drawn_'):
+                drawn = int(row[k])
+                if drawn < 1:
+                    continue
+
+                cardname = k.removeprefix('drawn_')
+                self.total_played[cardname] += drawn
+                if won:
+                    self.wins[cardname] += drawn
+
 def main():
     file='data/mom/TradSealed.csv'
     args = sys.argv[1:]
@@ -10,26 +35,16 @@ def main():
     if len(args) > 0:
       file = args[0]
 
+    counts = Counts()
     with open(file, 'r') as f:
         reader = csv.DictReader(f)
+        for row in reader:
+            counts.add_game(row)
+            # if counts.num_games > 100: break
 
-        wins = collections.defaultdict(int)
-        total_played = collections.defaultdict(int)
-        num_games = 0
-        for d in reader:
-            won = d['won']
-            for k in d:
-                if k.startswith('drawn_') and int(d[k]) > 0:
-                    cardname = k.removeprefix('drawn_')
-                    total_played[cardname] += int(d[k])
-                    if won == 'True':
-                        wins[cardname] += int(d[k])
-
-            num_games +=1
-
-        print(f'#games: {num_games}')
-        for cardname in total_played:
-            print(f'win rate: {cardname} {wins[cardname]} / {total_played[cardname]}')
+        print(f'#games: {counts.num_games}')
+        for cardname in counts.total_played:
+            print(f'win rate: {cardname} {counts.wins[cardname]} / {counts.total_played[cardname]}')
             break
 
 main()
