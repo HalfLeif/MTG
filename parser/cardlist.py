@@ -1,7 +1,7 @@
 import re
 
 def normalize_name(name):
-    return name.replace(' ', '').replace('\'', '').replace(',', '').replace('-', '')
+    return name.replace(' ', '').replace('\'', '').replace(',', '').replace('-', '').replace(';', '')
 
 def _read_card_rows(filename):
     with open(filename) as f:
