@@ -20,7 +20,7 @@ class Counts:
     def add_game(self, row, primary_card=None):
         self.num_games += 1
         if self.num_games % 1000 == 0:
-            print(f'Processed {self.num_games}...')
+            print(f'Processed {self.num_games}...', flush=True)
 
         won = row['won'] == 'True'
         if won:
@@ -41,7 +41,9 @@ class Counts:
                     joined_key = ''.join(['_2 ', cardname, ' && ', primary_card])
                 else:
                     # One level of recursion to capture Count(a & b)
-                    self.add_game(row, primary_card=cardname)
+                    # self.add_game(row, primary_card=cardname)
+                    # Quadratic counts are too inefficient...
+                    pass
 
                 self.total_played[joined_key] += drawn
                 if won:
@@ -89,8 +91,8 @@ def main():
       file = args[0]
 
     counts = Counts()
-    ReadCounts(counts, 'data/mom/Sealed.csv')
-    ReadCounts(counts, 'data/mom/TradSealed.csv')
+    ReadCounts(counts, 'data/mom/inputcsv/TradSealed.csv')
+    ReadCounts(counts, 'data/mom/inputcsv/Sealed.csv')
 
     SaveCounts(counts, 'data/mom/counts.csv')
 

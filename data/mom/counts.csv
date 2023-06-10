@@ -1,1203 +1,347 @@
 cardname;wins_when_played;num_played
-AerialBoost;0;1
-AetherbladeAgent;0;1
-AkkiScrapchomper;1;1
-AlabasterHostIntercessor;8;9
-AncientImperiosaur;1;2
-AngelicIntervention;6;9
-ArachnoidAdaptation;0;1
-ArtisticRefusal;2;2
-AttentiveSkywarden;2;4
-BaralChiefofCompliance;0;1
-BlightedBurgeoning;2;3
-BloodfellCaves;4;4
-BolaSlinger;2;2
-BondedHerdbeast;1;3
-BotanicalBrawler;4;9
-CaptainLanneryStorm;0;2
-ChandraHopesBeacon;1;1
-ChompingKavu;1;2
-CompleatedHuntmaster;1;1
-ConverterBeast;2;3
-CorruptionofTowashi;0;1
-CosmicHunger;1;2
-DaxosBlessedbytheSun;3;5
-DeadlyDerision;1;3
-DoomskarWarrior;2;2
-DranaandLinvala;3;3
-DuskLegionDuelist;4;6
-EleshNorn;3;3
-EnduringBondwarden;0;1
-EpharasDispersal;1;1
-EtchedFamiliar;1;3
-FlittingGuerrilla;0;1
-FlywheelRacer;0;1
-Forest;44;66
-FurnaceHostCharger;1;2
-FurtiveAnalyst;1;2
-FynntheFangbearer;3;4
-GlissaHeraldofPredation;1;1
-GlisteningDawn;1;1
-GloomfangMauler;2;2
-GnottvoldHermit;2;3
-GoldenScaleAeronaut;2;4
-GuardianofGhirapur;2;2
-HaloChargedSkaab;1;1
-HangarScrounger;0;2
-HeliodtheRadiantDawn;1;1
-HerbologyInstructor;4;7
-HorobiDeathsWail;0;1
-InfectedDefector;0;1
-IngaRuneEyes;1;1
-InvasionofGobakhan;2;2
-InvasionofKylem;2;2
-InvasionofLorwyn;0;1
-InvasionofMoag;4;5
-InvasionofMuraganda;2;2
-InvasionofNewPhyrexia;1;1
-InvasionofRavnica;1;2
-InvasionofShandalar;0;2
-InvasionofUlgrotha;1;1
-InvasionofVryn;2;2
-InvasionofZendikar;1;1
-Island;33;48
-JinGitaxias;1;1
-JinGitaxiasCoreAugur;1;1
-KamiofWhisperedHopes;3;5
-KarsusDepthguard;1;1
-KhenraSpellspear;1;1
-Kitesail;1;1
-KithkinBillyrider;1;2
-KnightErrantofEos;1;1
-KnightoftheNewCoalition;3;6
-KorHalberd;2;2
-KroxaandKunoros;1;1
-LurrusoftheDreamDen;1;1
-MarshalofZhalfir;5;8
-MeetingofMinds;1;1
-MercilessRepurposing;1;2
-MirrorShieldHoplite;1;1
-MonasteryMentor;1;2
-Mountain;11;14
-MutagenConnoisseur;1;2
-NivMizzetReborn;2;3
-NornsInquisitor;3;8
-OmnathLocusofAll;1;1
-OnakkeJavelineer;0;1
-OrderoftheMirror;1;1
-OvergrownPest;2;3
-OzoliththeShatteredSpire;2;2
-PhyrexianAwakening;0;3
-PhyrexianCensor;3;3
-PileOn;1;2
-PlacidRottentail;3;4
-Plains;51;77
-PortentTracker;1;1
-PreeningChampion;7;7
-ProgenitorExarch;3;5
-ProtocolKnight;3;5
-PyreticPrankster;1;1
-QuintoriusLoremaster;1;1
-RealmbreakersGrasp;2;2
-RedcapHeelslasher;2;4
-RenataCalledtotheHunt;0;1
-RonaHeraldofInvasion;3;4
-SaibaCryptomancer;1;1
-SandstalkerMoloch;3;5
-ScouredBarrens;2;3
-Scrollshift;0;2
-SealfromExistence;2;2
-SeeDouble;1;1
-SeraphofNewCapenna;2;3
-SerpentBladeAssailant;4;6
-ShannaSisaysLegacy;1;1
-ShivanBranchBurner;2;2
-SigiledSentinel;2;2
-SkitteringSurveyor;2;3
-StasisField;3;4
-StoketheFlames;3;3
-SunBlessedGuardian;1;1
-SundertheGateway;1;2
-Swamp;9;14
-SwiftwaterCliffs;1;1
-SwordswornCavalier;1;4
-TarkirDuneshaper;2;2
-ThaliaGuardianofThraben;3;3
-ThunderheadSquadron;0;1
-TidalTerror;2;2
-TimberlandAncient;0;1
-TrailblazingHistorian;2;2
-TranquilCove;1;2
-TributetotheWorldTree;0;1
-ValdukKeeperoftheFlame;1;2
-VanquishtheWeak;6;8
-VolcanicSpite;3;4
-WarHistorian;4;4
-WaryThespian;4;5
-WickedSlumber;2;2
-WindScarredCrag;3;3
-XerexStrobeKnight;2;2
-ZadaHedronGrinder;1;1
-ZhalfirinLancer;5;7
-_2 AlabasterHostIntercessor && AkkiScrapchomper;1;1
-_2 AngelicIntervention && AlabasterHostIntercessor;1;1
-_2 ArachnoidAdaptation && AetherbladeAgent;0;1
-_2 ArtisticRefusal && AngelicIntervention;1;1
-_2 AttentiveSkywarden && AlabasterHostIntercessor;1;1
-_2 BloodfellCaves && AkkiScrapchomper;1;1
-_2 BloodfellCaves && AlabasterHostIntercessor;1;1
-_2 BloodfellCaves && AngelicIntervention;1;1
-_2 BolaSlinger && AlabasterHostIntercessor;1;1
-_2 BondedHerdbeast && AetherbladeAgent;0;1
-_2 BondedHerdbeast && AlabasterHostIntercessor;0;1
-_2 BondedHerdbeast && ArachnoidAdaptation;0;1
-_2 BotanicalBrawler && AlabasterHostIntercessor;0;2
-_2 BotanicalBrawler && AncientImperiosaur;0;1
-_2 BotanicalBrawler && AttentiveSkywarden;0;2
-_2 BotanicalBrawler && BondedHerdbeast;0;2
-_2 CaptainLanneryStorm && AerialBoost;0;1
-_2 CaptainLanneryStorm && AttentiveSkywarden;0;1
-_2 ConverterBeast && BlightedBurgeoning;1;2
-_2 CosmicHunger && ChompingKavu;1;2
-_2 DaxosBlessedbytheSun && AngelicIntervention;1;2
-_2 DaxosBlessedbytheSun && ArtisticRefusal;1;1
-_2 DeadlyDerision && AetherbladeAgent;0;1
-_2 DeadlyDerision && ArachnoidAdaptation;0;1
-_2 DeadlyDerision && BlightedBurgeoning;0;1
-_2 DeadlyDerision && BondedHerdbeast;0;1
-_2 DeadlyDerision && ConverterBeast;1;2
-_2 DranaandLinvala && AngelicIntervention;1;1
-_2 DranaandLinvala && BloodfellCaves;2;2
-_2 DuskLegionDuelist && AngelicIntervention;2;4
-_2 DuskLegionDuelist && ArtisticRefusal;2;2
-_2 DuskLegionDuelist && DaxosBlessedbytheSun;2;2
-_2 EleshNorn && BloodfellCaves;2;2
-_2 EleshNorn && DranaandLinvala;2;2
-_2 EtchedFamiliar && AetherbladeAgent;0;1
-_2 EtchedFamiliar && ArachnoidAdaptation;0;1
-_2 EtchedFamiliar && BlightedBurgeoning;0;1
-_2 EtchedFamiliar && BondedHerdbeast;0;1
-_2 EtchedFamiliar && ConverterBeast;0;1
-_2 EtchedFamiliar && DeadlyDerision;0;2
-_2 FlittingGuerrilla && AetherbladeAgent;0;1
-_2 FlittingGuerrilla && ArachnoidAdaptation;0;1
-_2 FlittingGuerrilla && BondedHerdbeast;0;1
-_2 FlittingGuerrilla && DeadlyDerision;0;1
-_2 FlittingGuerrilla && EtchedFamiliar;0;1
-_2 Forest && AetherbladeAgent;0;2
-_2 Forest && AlabasterHostIntercessor;8;10
-_2 Forest && AncientImperiosaur;1;3
-_2 Forest && ArachnoidAdaptation;0;2
-_2 Forest && AttentiveSkywarden;2;3
-_2 Forest && BlightedBurgeoning;4;10
-_2 Forest && BolaSlinger;2;2
-_2 Forest && BondedHerdbeast;1;5
-_2 Forest && BotanicalBrawler;4;9
-_2 Forest && ChandraHopesBeacon;1;1
-_2 Forest && ChompingKavu;3;7
-_2 Forest && CompleatedHuntmaster;1;1
-_2 Forest && ConverterBeast;2;8
-_2 Forest && CorruptionofTowashi;0;2
-_2 Forest && CosmicHunger;3;7
-_2 Forest && DaxosBlessedbytheSun;0;1
-_2 Forest && DeadlyDerision;0;8
-_2 Forest && DoomskarWarrior;5;5
-_2 Forest && EnduringBondwarden;0;1
-_2 Forest && EtchedFamiliar;4;12
-_2 Forest && FlittingGuerrilla;0;2
-_2 Forest && FlywheelRacer;0;1
-_2 FurnaceHostCharger && AlabasterHostIntercessor;0;1
-_2 FurnaceHostCharger && AncientImperiosaur;1;1
-_2 FurnaceHostCharger && BondedHerdbeast;0;1
-_2 FurnaceHostCharger && BotanicalBrawler;0;1
-_2 FurnaceHostCharger && Forest;1;2
-_2 FurtiveAnalyst && CorruptionofTowashi;0;1
-_2 FurtiveAnalyst && Forest;1;2
-_2 FynntheFangbearer && BlightedBurgeoning;1;2
-_2 FynntheFangbearer && ChompingKavu;1;1
-_2 FynntheFangbearer && ConverterBeast;0;1
-_2 FynntheFangbearer && CosmicHunger;1;1
-_2 FynntheFangbearer && DeadlyDerision;0;1
-_2 FynntheFangbearer && EtchedFamiliar;0;1
-_2 FynntheFangbearer && Forest;3;4
-_2 GlissaHeraldofPredation && BlightedBurgeoning;1;1
-_2 GlissaHeraldofPredation && ConverterBeast;1;1
-_2 GlissaHeraldofPredation && Forest;1;1
-_2 GlisteningDawn && AlabasterHostIntercessor;1;1
-_2 GlisteningDawn && BolaSlinger;1;1
-_2 GlisteningDawn && Forest;1;1
-_2 GloomfangMauler && CompleatedHuntmaster;1;1
-_2 GloomfangMauler && Forest;2;2
-_2 GnottvoldHermit && AetherbladeAgent;0;1
-_2 GnottvoldHermit && AlabasterHostIntercessor;2;2
-_2 GnottvoldHermit && ArachnoidAdaptation;0;1
-_2 GnottvoldHermit && BolaSlinger;1;1
-_2 GnottvoldHermit && BondedHerdbeast;0;1
-_2 GnottvoldHermit && DeadlyDerision;0;1
-_2 GnottvoldHermit && EtchedFamiliar;0;1
-_2 GnottvoldHermit && FlittingGuerrilla;0;1
-_2 GnottvoldHermit && Forest;2;3
-_2 GnottvoldHermit && GlisteningDawn;1;1
-_2 GoldenScaleAeronaut && AlabasterHostIntercessor;0;1
-_2 GoldenScaleAeronaut && AncientImperiosaur;0;1
-_2 GoldenScaleAeronaut && BloodfellCaves;1;1
-_2 GoldenScaleAeronaut && BondedHerdbeast;0;1
-_2 GoldenScaleAeronaut && BotanicalBrawler;1;3
-_2 GoldenScaleAeronaut && DranaandLinvala;1;1
-_2 GoldenScaleAeronaut && EleshNorn;1;1
-_2 GoldenScaleAeronaut && Forest;1;3
-_2 GoldenScaleAeronaut && FurnaceHostCharger;0;1
-_2 GuardianofGhirapur && AlabasterHostIntercessor;2;2
-_2 GuardianofGhirapur && Forest;2;2
-_2 GuardianofGhirapur && GnottvoldHermit;1;1
-_2 HaloChargedSkaab && Forest;1;1
-_2 HaloChargedSkaab && FurtiveAnalyst;1;1
-_2 HangarScrounger && AerialBoost;0;1
-_2 HangarScrounger && CaptainLanneryStorm;0;1
-_2 HeliodtheRadiantDawn && AngelicIntervention;1;1
-_2 HeliodtheRadiantDawn && ArtisticRefusal;1;1
-_2 HeliodtheRadiantDawn && DuskLegionDuelist;1;1
-_2 HerbologyInstructor && AetherbladeAgent;0;1
-_2 HerbologyInstructor && AncientImperiosaur;0;1
-_2 HerbologyInstructor && ArachnoidAdaptation;0;1
-_2 HerbologyInstructor && BlightedBurgeoning;1;2
-_2 HerbologyInstructor && BondedHerdbeast;0;1
-_2 HerbologyInstructor && BotanicalBrawler;2;3
-_2 HerbologyInstructor && ConverterBeast;0;1
-_2 HerbologyInstructor && DeadlyDerision;0;2
-_2 HerbologyInstructor && EtchedFamiliar;1;3
-_2 HerbologyInstructor && FlittingGuerrilla;0;1
-_2 HerbologyInstructor && Forest;4;7
-_2 HerbologyInstructor && FynntheFangbearer;1;2
-_2 HerbologyInstructor && GnottvoldHermit;0;1
-_2 HerbologyInstructor && GoldenScaleAeronaut;1;2
-_2 HorobiDeathsWail && AetherbladeAgent;0;1
-_2 HorobiDeathsWail && ArachnoidAdaptation;0;1
-_2 HorobiDeathsWail && BondedHerdbeast;0;1
-_2 HorobiDeathsWail && DeadlyDerision;0;1
-_2 HorobiDeathsWail && EtchedFamiliar;0;1
-_2 HorobiDeathsWail && FlittingGuerrilla;0;1
-_2 HorobiDeathsWail && Forest;0;1
-_2 HorobiDeathsWail && GnottvoldHermit;0;1
-_2 HorobiDeathsWail && HerbologyInstructor;0;1
-_2 InfectedDefector && DaxosBlessedbytheSun;0;1
-_2 InfectedDefector && Forest;0;1
-_2 IngaRuneEyes && DaxosBlessedbytheSun;1;1
-_2 IngaRuneEyes && DuskLegionDuelist;1;1
-_2 InvasionofKylem && DranaandLinvala;1;1
-_2 InvasionofKylem && EleshNorn;1;1
-_2 InvasionofLorwyn && BlightedBurgeoning;0;1
-_2 InvasionofLorwyn && ConverterBeast;0;1
-_2 InvasionofLorwyn && DeadlyDerision;0;1
-_2 InvasionofLorwyn && EtchedFamiliar;0;1
-_2 InvasionofLorwyn && Forest;0;1
-_2 InvasionofLorwyn && FynntheFangbearer;0;1
-_2 InvasionofLorwyn && HerbologyInstructor;0;1
-_2 InvasionofMoag && AlabasterHostIntercessor;1;1
-_2 InvasionofMoag && DoomskarWarrior;2;2
-_2 InvasionofMoag && EnduringBondwarden;0;1
-_2 InvasionofMoag && Forest;4;5
-_2 InvasionofMoag && GuardianofGhirapur;1;1
-_2 InvasionofMuraganda && Forest;2;2
-_2 InvasionofMuraganda && FurtiveAnalyst;1;1
-_2 InvasionofMuraganda && FynntheFangbearer;1;1
-_2 InvasionofMuraganda && HaloChargedSkaab;1;1
-_2 InvasionofNewPhyrexia && DaxosBlessedbytheSun;1;1
-_2 InvasionofNewPhyrexia && DuskLegionDuelist;1;1
-_2 InvasionofNewPhyrexia && IngaRuneEyes;1;1
-_2 InvasionofRavnica && AngelicIntervention;1;2
-_2 InvasionofRavnica && ArtisticRefusal;1;1
-_2 InvasionofRavnica && DuskLegionDuelist;1;2
-_2 InvasionofRavnica && HeliodtheRadiantDawn;1;1
-_2 InvasionofShandalar && AlabasterHostIntercessor;0;1
-_2 InvasionofShandalar && AncientImperiosaur;0;1
-_2 InvasionofShandalar && BondedHerdbeast;0;1
-_2 InvasionofShandalar && BotanicalBrawler;0;2
-_2 InvasionofShandalar && Forest;0;2
-_2 InvasionofShandalar && FurnaceHostCharger;0;1
-_2 InvasionofShandalar && GoldenScaleAeronaut;0;2
-_2 InvasionofShandalar && HerbologyInstructor;0;1
-_2 InvasionofUlgrotha && DranaandLinvala;1;1
-_2 InvasionofUlgrotha && EleshNorn;1;1
-_2 InvasionofUlgrotha && InvasionofKylem;1;1
-_2 InvasionofVryn && AngelicIntervention;1;1
-_2 InvasionofVryn && ArtisticRefusal;1;1
-_2 InvasionofVryn && DaxosBlessedbytheSun;1;1
-_2 InvasionofVryn && DuskLegionDuelist;2;2
-_2 InvasionofVryn && HeliodtheRadiantDawn;1;1
-_2 InvasionofVryn && IngaRuneEyes;1;1
-_2 InvasionofVryn && InvasionofNewPhyrexia;1;1
-_2 InvasionofVryn && InvasionofRavnica;1;1
-_2 InvasionofZendikar && AlabasterHostIntercessor;1;1
-_2 InvasionofZendikar && Forest;1;1
-_2 Island && AlabasterHostIntercessor;7;8
-_2 Island && AncientImperiosaur;0;1
-_2 Island && AngelicIntervention;10;15
-_2 Island && ArtisticRefusal;3;3
-_2 Island && AttentiveSkywarden;0;1
-_2 Island && BaralChiefofCompliance;0;1
-_2 Island && BolaSlinger;3;3
-_2 Island && BondedHerdbeast;0;1
-_2 Island && BotanicalBrawler;2;5
-_2 Island && ChompingKavu;1;5
-_2 Island && CorruptionofTowashi;0;1
-_2 Island && CosmicHunger;1;5
-_2 Island && DaxosBlessedbytheSun;6;8
-_2 Island && DuskLegionDuelist;6;9
-_2 Island && EpharasDispersal;1;1
-_2 Island && Forest;10;18
-_2 Island && FurnaceHostCharger;0;1
-_2 Island && FurtiveAnalyst;2;3
-_2 Island && FynntheFangbearer;3;3
-_2 Island && GlisteningDawn;2;2
-_2 Island && GnottvoldHermit;2;2
-_2 Island && GoldenScaleAeronaut;1;3
-_2 Island && HaloChargedSkaab;2;2
-_2 Island && HeliodtheRadiantDawn;2;2
-_2 Island && HerbologyInstructor;2;3
-_2 Island && IngaRuneEyes;3;3
-_2 Island && InvasionofMuraganda;4;4
-_2 Island && InvasionofNewPhyrexia;3;3
-_2 Island && InvasionofRavnica;2;5
-_2 Island && InvasionofShandalar;0;2
-_2 Island && InvasionofVryn;5;5
-_2 JinGitaxias && InvasionofGobakhan;1;1
-_2 JinGitaxiasCoreAugur && ChompingKavu;1;1
-_2 JinGitaxiasCoreAugur && CosmicHunger;1;1
-_2 JinGitaxiasCoreAugur && Forest;1;1
-_2 JinGitaxiasCoreAugur && FynntheFangbearer;1;1
-_2 JinGitaxiasCoreAugur && Island;1;1
-_2 KamiofWhisperedHopes && AttentiveSkywarden;0;1
-_2 KamiofWhisperedHopes && BotanicalBrawler;1;2
-_2 KamiofWhisperedHopes && ChandraHopesBeacon;1;1
-_2 KamiofWhisperedHopes && DoomskarWarrior;1;1
-_2 KamiofWhisperedHopes && FlywheelRacer;0;1
-_2 KamiofWhisperedHopes && Forest;3;5
-_2 KamiofWhisperedHopes && GoldenScaleAeronaut;1;1
-_2 KamiofWhisperedHopes && HerbologyInstructor;1;1
-_2 KamiofWhisperedHopes && InvasionofMoag;1;1
-_2 KamiofWhisperedHopes && Island;1;2
-_2 KarsusDepthguard && ChandraHopesBeacon;1;1
-_2 KarsusDepthguard && Forest;1;1
-_2 KarsusDepthguard && KamiofWhisperedHopes;1;1
-_2 KhenraSpellspear && AlabasterHostIntercessor;1;1
-_2 KhenraSpellspear && AttentiveSkywarden;1;1
-_2 Kitesail && AlabasterHostIntercessor;1;1
-_2 Kitesail && AngelicIntervention;1;1
-_2 Kitesail && Island;1;1
-_2 KithkinBillyrider && Island;1;2
-_2 KnightErrantofEos && AlabasterHostIntercessor;1;1
-_2 KnightErrantofEos && Forest;1;1
-_2 KnightErrantofEos && GuardianofGhirapur;1;1
-_2 KnightErrantofEos && InvasionofMoag;1;1
-_2 KnightoftheNewCoalition && AlabasterHostIntercessor;2;2
-_2 KnightoftheNewCoalition && AngelicIntervention;1;2
-_2 KnightoftheNewCoalition && ArtisticRefusal;1;1
-_2 KnightoftheNewCoalition && AttentiveSkywarden;1;1
-_2 KnightoftheNewCoalition && DaxosBlessedbytheSun;0;1
-_2 KnightoftheNewCoalition && DuskLegionDuelist;1;2
-_2 KnightoftheNewCoalition && Forest;1;2
-_2 KnightoftheNewCoalition && GnottvoldHermit;1;1
-_2 KnightoftheNewCoalition && GuardianofGhirapur;1;1
-_2 KnightoftheNewCoalition && HangarScrounger;0;1
-_2 KnightoftheNewCoalition && HeliodtheRadiantDawn;1;1
-_2 KnightoftheNewCoalition && InfectedDefector;0;1
-_2 KnightoftheNewCoalition && InvasionofRavnica;1;2
-_2 KnightoftheNewCoalition && InvasionofVryn;1;1
-_2 KnightoftheNewCoalition && Island;1;2
-_2 KnightoftheNewCoalition && KhenraSpellspear;1;1
-_2 KorHalberd && AlabasterHostIntercessor;1;1
-_2 KorHalberd && AngelicIntervention;1;1
-_2 KorHalberd && EpharasDispersal;1;1
-_2 KorHalberd && Island;2;2
-_2 KorHalberd && Kitesail;1;1
-_2 KroxaandKunoros && BloodfellCaves;1;1
-_2 KroxaandKunoros && EleshNorn;1;1
-_2 LurrusoftheDreamDen && Island;1;1
-_2 LurrusoftheDreamDen && KithkinBillyrider;1;1
-_2 MarshalofZhalfir && AngelicIntervention;2;5
-_2 MarshalofZhalfir && DaxosBlessedbytheSun;1;3
-_2 MarshalofZhalfir && DuskLegionDuelist;1;2
-_2 MarshalofZhalfir && InvasionofGobakhan;1;1
-_2 MarshalofZhalfir && InvasionofRavnica;0;1
-_2 MarshalofZhalfir && Island;3;6
-_2 MarshalofZhalfir && KnightoftheNewCoalition;0;1
-_2 MeetingofMinds && AlabasterHostIntercessor;1;1
-_2 MeetingofMinds && AngelicIntervention;1;1
-_2 MeetingofMinds && Island;1;1
-_2 MeetingofMinds && Kitesail;1;1
-_2 MeetingofMinds && KorHalberd;1;1
-_2 MercilessRepurposing && BlightedBurgeoning;0;1
-_2 MercilessRepurposing && ConverterBeast;0;1
-_2 MercilessRepurposing && DeadlyDerision;0;1
-_2 MercilessRepurposing && EtchedFamiliar;0;1
-_2 MercilessRepurposing && Forest;1;2
-_2 MercilessRepurposing && FynntheFangbearer;0;1
-_2 MercilessRepurposing && GloomfangMauler;1;1
-_2 MercilessRepurposing && HerbologyInstructor;0;1
-_2 MercilessRepurposing && InvasionofLorwyn;0;1
-_2 MirrorShieldHoplite && AkkiScrapchomper;1;1
-_2 MirrorShieldHoplite && AlabasterHostIntercessor;1;1
-_2 MirrorShieldHoplite && BloodfellCaves;1;1
-_2 MonasteryMentor && AerialBoost;0;1
-_2 MonasteryMentor && AlabasterHostIntercessor;1;1
-_2 MonasteryMentor && AttentiveSkywarden;1;1
-_2 MonasteryMentor && CaptainLanneryStorm;0;1
-_2 MonasteryMentor && HangarScrounger;0;1
-_2 MonasteryMentor && KhenraSpellspear;1;1
-_2 MonasteryMentor && KnightoftheNewCoalition;1;1
-_2 Mountain && AkkiScrapchomper;2;2
-_2 Mountain && AlabasterHostIntercessor;3;3
-_2 Mountain && AngelicIntervention;1;1
-_2 Mountain && AttentiveSkywarden;1;2
-_2 Mountain && BloodfellCaves;6;6
-_2 Mountain && BotanicalBrawler;0;1
-_2 Mountain && ChandraHopesBeacon;2;2
-_2 Mountain && DranaandLinvala;4;4
-_2 Mountain && EleshNorn;4;4
-_2 Mountain && Forest;2;3
-_2 Mountain && GoldenScaleAeronaut;2;2
-_2 Mountain && HangarScrounger;0;2
-_2 Mountain && InvasionofKylem;1;1
-_2 Mountain && InvasionofUlgrotha;1;1
-_2 Mountain && Island;0;1
-_2 Mountain && KamiofWhisperedHopes;2;3
-_2 Mountain && KarsusDepthguard;2;2
-_2 Mountain && KhenraSpellspear;1;1
-_2 Mountain && KnightoftheNewCoalition;1;3
-_2 Mountain && KroxaandKunoros;1;1
-_2 Mountain && MirrorShieldHoplite;2;2
-_2 Mountain && MonasteryMentor;1;1
-_2 MutagenConnoisseur && ChompingKavu;1;1
-_2 MutagenConnoisseur && CorruptionofTowashi;0;1
-_2 MutagenConnoisseur && CosmicHunger;1;1
-_2 MutagenConnoisseur && Forest;1;2
-_2 MutagenConnoisseur && FurtiveAnalyst;0;1
-_2 MutagenConnoisseur && FynntheFangbearer;1;1
-_2 MutagenConnoisseur && Island;1;2
-_2 MutagenConnoisseur && JinGitaxiasCoreAugur;1;1
-_2 NivMizzetReborn && AncientImperiosaur;1;1
-_2 NivMizzetReborn && AttentiveSkywarden;0;1
-_2 NivMizzetReborn && BondedHerdbeast;1;1
-_2 NivMizzetReborn && BotanicalBrawler;0;1
-_2 NivMizzetReborn && Forest;2;3
-_2 NivMizzetReborn && FurnaceHostCharger;1;1
-_2 NivMizzetReborn && Island;0;1
-_2 NivMizzetReborn && KamiofWhisperedHopes;0;1
-_2 NivMizzetReborn && Mountain;0;1
-_2 NornsInquisitor && AlabasterHostIntercessor;0;1
-_2 NornsInquisitor && AngelicIntervention;1;2
-_2 NornsInquisitor && ArtisticRefusal;2;2
-_2 NornsInquisitor && AttentiveSkywarden;0;1
-_2 NornsInquisitor && BondedHerdbeast;0;1
-_2 NornsInquisitor && BotanicalBrawler;1;2
-_2 NornsInquisitor && CaptainLanneryStorm;0;1
-_2 NornsInquisitor && DaxosBlessedbytheSun;1;2
-_2 NornsInquisitor && DuskLegionDuelist;2;2
-_2 NornsInquisitor && Forest;1;2
-_2 NornsInquisitor && FurnaceHostCharger;0;1
-_2 NornsInquisitor && GoldenScaleAeronaut;1;2
-_2 NornsInquisitor && HangarScrounger;0;1
-_2 NornsInquisitor && HeliodtheRadiantDawn;1;1
-_2 NornsInquisitor && HerbologyInstructor;1;1
-_2 NornsInquisitor && InvasionofRavnica;1;1
-_2 NornsInquisitor && InvasionofShandalar;0;1
-_2 NornsInquisitor && InvasionofVryn;1;1
-_2 NornsInquisitor && Island;3;6
-_2 NornsInquisitor && KamiofWhisperedHopes;1;1
-_2 NornsInquisitor && KithkinBillyrider;0;1
-_2 NornsInquisitor && KnightoftheNewCoalition;1;2
-_2 NornsInquisitor && MarshalofZhalfir;0;1
-_2 NornsInquisitor && Mountain;0;1
-_2 OmnathLocusofAll && BotanicalBrawler;1;1
-_2 OmnathLocusofAll && Forest;1;1
-_2 OmnathLocusofAll && HerbologyInstructor;1;1
-_2 OmnathLocusofAll && Island;1;1
-_2 OnakkeJavelineer && FlywheelRacer;0;1
-_2 OnakkeJavelineer && Forest;0;1
-_2 OnakkeJavelineer && KamiofWhisperedHopes;0;1
-_2 OrderoftheMirror && AngelicIntervention;1;1
-_2 OrderoftheMirror && Island;1;1
-_2 OvergrownPest && AlabasterHostIntercessor;1;1
-_2 OvergrownPest && BlightedBurgeoning;1;2
-_2 OvergrownPest && ConverterBeast;0;1
-_2 OvergrownPest && DeadlyDerision;0;1
-_2 OvergrownPest && EtchedFamiliar;0;1
-_2 OvergrownPest && Forest;2;3
-_2 OvergrownPest && FynntheFangbearer;1;2
-_2 OvergrownPest && GnottvoldHermit;1;1
-_2 OvergrownPest && GuardianofGhirapur;1;1
-_2 OvergrownPest && HerbologyInstructor;1;2
-_2 OvergrownPest && InvasionofLorwyn;0;1
-_2 OvergrownPest && KnightoftheNewCoalition;1;1
-_2 OvergrownPest && MercilessRepurposing;0;1
-_2 OzoliththeShatteredSpire && BondedHerdbeast;1;1
-_2 OzoliththeShatteredSpire && Forest;2;2
-_2 OzoliththeShatteredSpire && Island;1;1
-_2 OzoliththeShatteredSpire && NivMizzetReborn;1;1
-_2 PhyrexianAwakening && AerialBoost;0;1
-_2 PhyrexianAwakening && AncientImperiosaur;0;1
-_2 PhyrexianAwakening && BotanicalBrawler;0;1
-_2 PhyrexianAwakening && CaptainLanneryStorm;0;1
-_2 PhyrexianAwakening && EnduringBondwarden;0;1
-_2 PhyrexianAwakening && Forest;0;2
-_2 PhyrexianAwakening && GoldenScaleAeronaut;0;1
-_2 PhyrexianAwakening && HangarScrounger;0;1
-_2 PhyrexianAwakening && HerbologyInstructor;0;1
-_2 PhyrexianAwakening && InvasionofMoag;0;1
-_2 PhyrexianAwakening && InvasionofShandalar;0;1
-_2 PhyrexianAwakening && Island;0;1
-_2 PhyrexianAwakening && MonasteryMentor;0;1
-_2 PhyrexianCensor && BloodfellCaves;2;2
-_2 PhyrexianCensor && DranaandLinvala;1;1
-_2 PhyrexianCensor && EleshNorn;2;2
-_2 PhyrexianCensor && GoldenScaleAeronaut;1;1
-_2 PhyrexianCensor && InvasionofKylem;1;1
-_2 PhyrexianCensor && KroxaandKunoros;1;1
-_2 PhyrexianCensor && Mountain;2;2
-_2 PileOn && AlabasterHostIntercessor;0;1
-_2 PileOn && BondedHerdbeast;1;2
-_2 PileOn && BotanicalBrawler;0;1
-_2 PileOn && Forest;1;2
-_2 PileOn && FurnaceHostCharger;0;1
-_2 PileOn && GoldenScaleAeronaut;0;1
-_2 PileOn && InvasionofShandalar;0;1
-_2 PileOn && Island;0;1
-_2 PileOn && NivMizzetReborn;1;1
-_2 PileOn && NornsInquisitor;0;1
-_2 PileOn && OzoliththeShatteredSpire;1;1
-_2 PlacidRottentail && BlightedBurgeoning;1;2
-_2 PlacidRottentail && ConverterBeast;1;2
-_2 PlacidRottentail && DeadlyDerision;0;1
-_2 PlacidRottentail && EtchedFamiliar;1;2
-_2 PlacidRottentail && Forest;3;4
-_2 PlacidRottentail && FynntheFangbearer;0;1
-_2 PlacidRottentail && GlissaHeraldofPredation;1;1
-_2 PlacidRottentail && GloomfangMauler;1;1
-_2 PlacidRottentail && HerbologyInstructor;1;2
-_2 PlacidRottentail && InvasionofLorwyn;0;1
-_2 PlacidRottentail && MercilessRepurposing;1;2
-_2 PlacidRottentail && OvergrownPest;0;1
-_2 Plains && AerialBoost;0;3
-_2 Plains && AkkiScrapchomper;1;1
-_2 Plains && AlabasterHostIntercessor;11;12
-_2 Plains && AncientImperiosaur;2;2
-_2 Plains && AngelicIntervention;12;17
-_2 Plains && ArtisticRefusal;5;5
-_2 Plains && AttentiveSkywarden;2;5
-_2 Plains && BaralChiefofCompliance;0;2
-_2 Plains && BloodfellCaves;3;3
-_2 Plains && BolaSlinger;2;2
-_2 Plains && BondedHerdbeast;3;4
-_2 Plains && BotanicalBrawler;3;5
-_2 Plains && CaptainLanneryStorm;0;5
-_2 Plains && DaxosBlessedbytheSun;4;11
-_2 Plains && DoomskarWarrior;1;1
-_2 Plains && DranaandLinvala;3;3
-_2 Plains && DuskLegionDuelist;8;9
-_2 Plains && EleshNorn;5;5
-_2 Plains && EpharasDispersal;2;2
-_2 Plains && Forest;15;20
-_2 Plains && FurnaceHostCharger;2;3
-_2 Plains && GlisteningDawn;1;1
-_2 Plains && GnottvoldHermit;2;2
-_2 Plains && GoldenScaleAeronaut;3;4
-_2 Plains && GuardianofGhirapur;3;3
-_2 Plains && HangarScrounger;0;7
-_2 Plains && HeliodtheRadiantDawn;5;5
-_2 Plains && HerbologyInstructor;3;3
-_2 Plains && InfectedDefector;0;3
-_2 Plains && IngaRuneEyes;2;2
-_2 Plains && InvasionofGobakhan;3;3
-_2 Plains && InvasionofKylem;5;5
-_2 Plains && InvasionofMoag;3;3
-_2 Plains && InvasionofNewPhyrexia;2;2
-_2 Plains && InvasionofRavnica;5;6
-_2 Plains && InvasionofShandalar;0;1
-_2 Plains && InvasionofUlgrotha;3;3
-_2 Plains && InvasionofVryn;7;7
-_2 Plains && InvasionofZendikar;1;1
-_2 Plains && Island;25;35
-_2 Plains && JinGitaxias;2;2
-_2 Plains && KamiofWhisperedHopes;3;4
-_2 Plains && KhenraSpellspear;1;1
-_2 Plains && Kitesail;2;2
-_2 Plains && KithkinBillyrider;1;2
-_2 Plains && KnightErrantofEos;2;2
-_2 Plains && KnightoftheNewCoalition;7;15
-_2 Plains && KorHalberd;4;4
-_2 Plains && KroxaandKunoros;2;2
-_2 Plains && LurrusoftheDreamDen;1;1
-_2 Plains && MarshalofZhalfir;6;11
-_2 Plains && MeetingofMinds;2;2
-_2 Plains && MirrorShieldHoplite;1;1
-_2 Plains && MonasteryMentor;1;4
-_2 Plains && Mountain;9;14
-_2 Plains && NivMizzetReborn;5;6
-_2 Plains && NornsInquisitor;8;20
-_2 Plains && OrderoftheMirror;2;2
-_2 Plains && OvergrownPest;1;1
-_2 Plains && OzoliththeShatteredSpire;3;3
-_2 Plains && PhyrexianAwakening;0;3
-_2 Plains && PhyrexianCensor;4;4
-_2 Plains && PileOn;3;4
-_2 PortentTracker && ConverterBeast;1;1
-_2 PortentTracker && DeadlyDerision;1;1
-_2 PreeningChampion && AlabasterHostIntercessor;2;2
-_2 PreeningChampion && AngelicIntervention;1;1
-_2 PreeningChampion && BolaSlinger;1;1
-_2 PreeningChampion && DaxosBlessedbytheSun;1;1
-_2 PreeningChampion && EpharasDispersal;1;1
-_2 PreeningChampion && Forest;1;1
-_2 PreeningChampion && GlisteningDawn;1;1
-_2 PreeningChampion && GnottvoldHermit;1;1
-_2 PreeningChampion && InvasionofGobakhan;1;1
-_2 PreeningChampion && Island;6;6
-_2 PreeningChampion && KithkinBillyrider;1;1
-_2 PreeningChampion && KorHalberd;1;1
-_2 PreeningChampion && LurrusoftheDreamDen;1;1
-_2 PreeningChampion && MarshalofZhalfir;3;3
-_2 PreeningChampion && Plains;7;7
-_2 ProgenitorExarch && AngelicIntervention;0;2
-_2 ProgenitorExarch && ArtisticRefusal;1;1
-_2 ProgenitorExarch && DaxosBlessedbytheSun;2;3
-_2 ProgenitorExarch && DuskLegionDuelist;2;3
-_2 ProgenitorExarch && IngaRuneEyes;1;1
-_2 ProgenitorExarch && InvasionofNewPhyrexia;1;1
-_2 ProgenitorExarch && InvasionofRavnica;0;1
-_2 ProgenitorExarch && InvasionofVryn;1;1
-_2 ProgenitorExarch && Island;3;5
-_2 ProgenitorExarch && KnightoftheNewCoalition;0;1
-_2 ProgenitorExarch && MarshalofZhalfir;1;3
-_2 ProgenitorExarch && NornsInquisitor;1;2
-_2 ProgenitorExarch && Plains;2;4
-_2 ProgenitorExarch && PreeningChampion;1;1
-_2 ProtocolKnight && AlabasterHostIntercessor;2;2
-_2 ProtocolKnight && AngelicIntervention;1;1
-_2 ProtocolKnight && BaralChiefofCompliance;0;1
-_2 ProtocolKnight && InvasionofGobakhan;1;1
-_2 ProtocolKnight && Island;2;4
-_2 ProtocolKnight && JinGitaxias;1;1
-_2 ProtocolKnight && Kitesail;1;1
-_2 ProtocolKnight && KithkinBillyrider;0;1
-_2 ProtocolKnight && KorHalberd;1;1
-_2 ProtocolKnight && MeetingofMinds;1;1
-_2 ProtocolKnight && NornsInquisitor;0;1
-_2 ProtocolKnight && Plains;3;5
-_2 ProtocolKnight && PreeningChampion;1;1
-_2 PyreticPrankster && AngelicIntervention;1;1
-_2 PyreticPrankster && BloodfellCaves;1;1
-_2 PyreticPrankster && DranaandLinvala;1;1
-_2 PyreticPrankster && Mountain;1;1
-_2 QuintoriusLoremaster && AngelicIntervention;1;1
-_2 QuintoriusLoremaster && BloodfellCaves;1;1
-_2 QuintoriusLoremaster && DranaandLinvala;1;1
-_2 QuintoriusLoremaster && Mountain;1;1
-_2 QuintoriusLoremaster && PyreticPrankster;1;1
-_2 RealmbreakersGrasp && AlabasterHostIntercessor;2;2
-_2 RealmbreakersGrasp && Forest;2;2
-_2 RealmbreakersGrasp && GnottvoldHermit;1;1
-_2 RealmbreakersGrasp && GuardianofGhirapur;2;2
-_2 RealmbreakersGrasp && InvasionofMoag;1;1
-_2 RealmbreakersGrasp && KnightErrantofEos;1;1
-_2 RealmbreakersGrasp && KnightoftheNewCoalition;1;1
-_2 RealmbreakersGrasp && OvergrownPest;1;1
-_2 RealmbreakersGrasp && Plains;2;2
-_2 RedcapHeelslasher && AerialBoost;0;1
-_2 RedcapHeelslasher && AkkiScrapchomper;1;1
-_2 RedcapHeelslasher && AlabasterHostIntercessor;1;1
-_2 RedcapHeelslasher && BloodfellCaves;1;1
-_2 RedcapHeelslasher && CaptainLanneryStorm;0;1
-_2 RedcapHeelslasher && DranaandLinvala;1;1
-_2 RedcapHeelslasher && EleshNorn;1;1
-_2 RedcapHeelslasher && HangarScrounger;0;2
-_2 RedcapHeelslasher && InvasionofKylem;1;1
-_2 RedcapHeelslasher && InvasionofUlgrotha;1;1
-_2 RedcapHeelslasher && KnightoftheNewCoalition;0;1
-_2 RedcapHeelslasher && MirrorShieldHoplite;1;1
-_2 RedcapHeelslasher && MonasteryMentor;0;1
-_2 RedcapHeelslasher && Mountain;2;3
-_2 RedcapHeelslasher && NornsInquisitor;0;1
-_2 RedcapHeelslasher && PhyrexianAwakening;0;1
-_2 RedcapHeelslasher && Plains;2;4
-_2 RenataCalledtotheHunt && ChompingKavu;0;1
-_2 RenataCalledtotheHunt && CosmicHunger;0;1
-_2 RenataCalledtotheHunt && Forest;0;1
-_2 RenataCalledtotheHunt && Island;0;1
-_2 RonaHeraldofInvasion && AlabasterHostIntercessor;1;1
-_2 RonaHeraldofInvasion && AngelicIntervention;1;1
-_2 RonaHeraldofInvasion && BolaSlinger;1;1
-_2 RonaHeraldofInvasion && Island;3;4
-_2 RonaHeraldofInvasion && Kitesail;1;1
-_2 RonaHeraldofInvasion && KithkinBillyrider;1;2
-_2 RonaHeraldofInvasion && KorHalberd;1;1
-_2 RonaHeraldofInvasion && LurrusoftheDreamDen;1;1
-_2 RonaHeraldofInvasion && MeetingofMinds;1;1
-_2 RonaHeraldofInvasion && NornsInquisitor;0;1
-_2 RonaHeraldofInvasion && Plains;3;4
-_2 RonaHeraldofInvasion && PreeningChampion;1;1
-_2 RonaHeraldofInvasion && ProtocolKnight;1;2
-_2 SaibaCryptomancer && AngelicIntervention;1;1
-_2 SaibaCryptomancer && ArtisticRefusal;1;1
-_2 SaibaCryptomancer && DuskLegionDuelist;1;1
-_2 SaibaCryptomancer && HeliodtheRadiantDawn;1;1
-_2 SaibaCryptomancer && InvasionofRavnica;1;1
-_2 SaibaCryptomancer && InvasionofVryn;1;1
-_2 SaibaCryptomancer && Island;1;1
-_2 SaibaCryptomancer && KnightoftheNewCoalition;1;1
-_2 SaibaCryptomancer && NornsInquisitor;1;1
-_2 SaibaCryptomancer && Plains;1;1
-_2 SandstalkerMoloch && AetherbladeAgent;0;1
-_2 SandstalkerMoloch && ArachnoidAdaptation;0;1
-_2 SandstalkerMoloch && BlightedBurgeoning;0;1
-_2 SandstalkerMoloch && BondedHerdbeast;0;1
-_2 SandstalkerMoloch && ConverterBeast;2;3
-_2 SandstalkerMoloch && DeadlyDerision;2;4
-_2 SandstalkerMoloch && DoomskarWarrior;1;1
-_2 SandstalkerMoloch && EtchedFamiliar;0;2
-_2 SandstalkerMoloch && FlittingGuerrilla;0;1
-_2 SandstalkerMoloch && Forest;1;3
-_2 SandstalkerMoloch && FynntheFangbearer;0;1
-_2 SandstalkerMoloch && GnottvoldHermit;0;1
-_2 SandstalkerMoloch && HerbologyInstructor;0;2
-_2 SandstalkerMoloch && HorobiDeathsWail;0;1
-_2 SandstalkerMoloch && InvasionofLorwyn;0;1
-_2 SandstalkerMoloch && InvasionofMoag;1;1
-_2 SandstalkerMoloch && KamiofWhisperedHopes;1;1
-_2 SandstalkerMoloch && MercilessRepurposing;0;1
-_2 SandstalkerMoloch && OvergrownPest;0;1
-_2 SandstalkerMoloch && PlacidRottentail;0;1
-_2 SandstalkerMoloch && PortentTracker;2;2
-_2 ScouredBarrens && AncientImperiosaur;1;1
-_2 ScouredBarrens && AttentiveSkywarden;0;1
-_2 ScouredBarrens && BotanicalBrawler;1;2
-_2 ScouredBarrens && Forest;2;3
-_2 ScouredBarrens && FurnaceHostCharger;1;1
-_2 ScouredBarrens && GoldenScaleAeronaut;1;1
-_2 ScouredBarrens && HerbologyInstructor;1;1
-_2 ScouredBarrens && Island;1;2
-_2 ScouredBarrens && KamiofWhisperedHopes;1;2
-_2 ScouredBarrens && Mountain;0;1
-_2 ScouredBarrens && NivMizzetReborn;1;2
-_2 ScouredBarrens && NornsInquisitor;1;1
-_2 ScouredBarrens && Plains;2;3
-_2 Scrollshift && BaralChiefofCompliance;0;1
-_2 Scrollshift && EnduringBondwarden;0;1
-_2 Scrollshift && Forest;0;1
-_2 Scrollshift && InvasionofMoag;0;1
-_2 Scrollshift && Island;0;1
-_2 Scrollshift && PhyrexianAwakening;0;1
-_2 Scrollshift && Plains;0;1
-_2 Scrollshift && ProtocolKnight;0;1
-_2 SealfromExistence && AlabasterHostIntercessor;1;1
-_2 SealfromExistence && DoomskarWarrior;1;1
-_2 SealfromExistence && Forest;2;2
-_2 SealfromExistence && GuardianofGhirapur;1;1
-_2 SealfromExistence && InvasionofMoag;2;2
-_2 SealfromExistence && KamiofWhisperedHopes;1;1
-_2 SealfromExistence && KnightErrantofEos;1;1
-_2 SealfromExistence && Plains;1;1
-_2 SealfromExistence && RealmbreakersGrasp;1;1
-_2 SealfromExistence && SandstalkerMoloch;1;1
-_2 SeeDouble && ChompingKavu;1;1
-_2 SeeDouble && CosmicHunger;1;1
-_2 SeeDouble && Forest;1;1
-_2 SeeDouble && FynntheFangbearer;1;1
-_2 SeeDouble && Island;1;1
-_2 SeeDouble && JinGitaxiasCoreAugur;1;1
-_2 SeeDouble && MutagenConnoisseur;1;1
-_2 SeraphofNewCapenna && AkkiScrapchomper;1;1
-_2 SeraphofNewCapenna && AlabasterHostIntercessor;1;1
-_2 SeraphofNewCapenna && BloodfellCaves;1;1
-_2 SeraphofNewCapenna && DaxosBlessedbytheSun;0;1
-_2 SeraphofNewCapenna && Forest;0;1
-_2 SeraphofNewCapenna && InfectedDefector;0;1
-_2 SeraphofNewCapenna && InvasionofKylem;1;1
-_2 SeraphofNewCapenna && KnightoftheNewCoalition;0;1
-_2 SeraphofNewCapenna && MirrorShieldHoplite;1;1
-_2 SeraphofNewCapenna && Mountain;1;1
-_2 SeraphofNewCapenna && PhyrexianCensor;1;1
-_2 SeraphofNewCapenna && Plains;2;3
-_2 SeraphofNewCapenna && RedcapHeelslasher;1;1
-_2 SerpentBladeAssailant && AlabasterHostIntercessor;1;1
-_2 SerpentBladeAssailant && AncientImperiosaur;0;1
-_2 SerpentBladeAssailant && BotanicalBrawler;2;3
-_2 SerpentBladeAssailant && ChandraHopesBeacon;1;1
-_2 SerpentBladeAssailant && FlywheelRacer;0;1
-_2 SerpentBladeAssailant && Forest;4;6
-_2 SerpentBladeAssailant && GoldenScaleAeronaut;1;2
-_2 SerpentBladeAssailant && HerbologyInstructor;2;3
-_2 SerpentBladeAssailant && InvasionofShandalar;0;1
-_2 SerpentBladeAssailant && InvasionofZendikar;1;1
-_2 SerpentBladeAssailant && Island;2;3
-_2 SerpentBladeAssailant && KamiofWhisperedHopes;2;3
-_2 SerpentBladeAssailant && KarsusDepthguard;1;1
-_2 SerpentBladeAssailant && Mountain;1;1
-_2 SerpentBladeAssailant && NornsInquisitor;1;1
-_2 SerpentBladeAssailant && OmnathLocusofAll;1;1
-_2 SerpentBladeAssailant && OnakkeJavelineer;0;1
-_2 SerpentBladeAssailant && PhyrexianAwakening;0;1
-_2 SerpentBladeAssailant && Plains;2;2
-_2 SerpentBladeAssailant && ScouredBarrens;1;1
-_2 ShannaSisaysLegacy && AlabasterHostIntercessor;1;1
-_2 ShannaSisaysLegacy && Forest;1;1
-_2 ShannaSisaysLegacy && InvasionofZendikar;1;1
-_2 ShannaSisaysLegacy && Plains;1;1
-_2 ShannaSisaysLegacy && SerpentBladeAssailant;1;1
-_2 ShivanBranchBurner && BloodfellCaves;1;1
-_2 ShivanBranchBurner && EleshNorn;1;1
-_2 ShivanBranchBurner && InvasionofKylem;1;1
-_2 ShivanBranchBurner && KroxaandKunoros;1;1
-_2 ShivanBranchBurner && Mountain;1;1
-_2 ShivanBranchBurner && PhyrexianCensor;2;2
-_2 ShivanBranchBurner && Plains;2;2
-_2 ShivanBranchBurner && SeraphofNewCapenna;1;1
-_2 SigiledSentinel && AngelicIntervention;2;2
-_2 SigiledSentinel && ArtisticRefusal;1;1
-_2 SigiledSentinel && DaxosBlessedbytheSun;1;1
-_2 SigiledSentinel && DuskLegionDuelist;1;1
-_2 SigiledSentinel && HeliodtheRadiantDawn;1;1
-_2 SigiledSentinel && InvasionofRavnica;1;1
-_2 SigiledSentinel && InvasionofVryn;1;1
-_2 SigiledSentinel && Island;2;2
-_2 SigiledSentinel && KnightoftheNewCoalition;1;1
-_2 SigiledSentinel && MarshalofZhalfir;1;1
-_2 SigiledSentinel && NornsInquisitor;1;1
-_2 SigiledSentinel && Plains;2;2
-_2 SigiledSentinel && PreeningChampion;1;1
-_2 SigiledSentinel && SaibaCryptomancer;1;1
-_2 SkitteringSurveyor && AttentiveSkywarden;0;1
-_2 SkitteringSurveyor && BondedHerdbeast;1;1
-_2 SkitteringSurveyor && BotanicalBrawler;1;2
-_2 SkitteringSurveyor && Forest;2;3
-_2 SkitteringSurveyor && GoldenScaleAeronaut;1;1
-_2 SkitteringSurveyor && HerbologyInstructor;1;1
-_2 SkitteringSurveyor && Island;1;2
-_2 SkitteringSurveyor && KamiofWhisperedHopes;1;2
-_2 SkitteringSurveyor && Mountain;0;1
-_2 SkitteringSurveyor && NivMizzetReborn;1;2
-_2 SkitteringSurveyor && NornsInquisitor;1;1
-_2 SkitteringSurveyor && OzoliththeShatteredSpire;1;1
-_2 SkitteringSurveyor && PileOn;1;1
-_2 SkitteringSurveyor && Plains;2;3
-_2 SkitteringSurveyor && ScouredBarrens;1;2
-_2 SkitteringSurveyor && SerpentBladeAssailant;1;1
-_2 StasisField && AlabasterHostIntercessor;2;2
-_2 StasisField && AngelicIntervention;1;1
-_2 StasisField && Island;3;4
-_2 StasisField && Kitesail;1;1
-_2 StasisField && KithkinBillyrider;1;2
-_2 StasisField && KorHalberd;1;1
-_2 StasisField && LurrusoftheDreamDen;1;1
-_2 StasisField && MeetingofMinds;1;1
-_2 StasisField && NornsInquisitor;0;1
-_2 StasisField && Plains;3;4
-_2 StasisField && PreeningChampion;2;2
-_2 StasisField && ProtocolKnight;2;3
-_2 StasisField && RonaHeraldofInvasion;2;3
-_2 StoketheFlames && AkkiScrapchomper;1;1
-_2 StoketheFlames && AlabasterHostIntercessor;1;1
-_2 StoketheFlames && AngelicIntervention;1;1
-_2 StoketheFlames && BloodfellCaves;2;2
-_2 StoketheFlames && DranaandLinvala;1;1
-_2 StoketheFlames && MirrorShieldHoplite;1;1
-_2 StoketheFlames && Mountain;3;3
-_2 StoketheFlames && Plains;2;2
-_2 StoketheFlames && PyreticPrankster;1;1
-_2 StoketheFlames && QuintoriusLoremaster;1;1
-_2 StoketheFlames && RedcapHeelslasher;1;1
-_2 StoketheFlames && SeraphofNewCapenna;1;1
-_2 SunBlessedGuardian && BotanicalBrawler;1;1
-_2 SunBlessedGuardian && Forest;1;1
-_2 SunBlessedGuardian && GoldenScaleAeronaut;1;1
-_2 SunBlessedGuardian && HerbologyInstructor;1;1
-_2 SunBlessedGuardian && Island;1;1
-_2 SunBlessedGuardian && KamiofWhisperedHopes;1;1
-_2 SunBlessedGuardian && NornsInquisitor;1;1
-_2 SunBlessedGuardian && Plains;1;1
-_2 SunBlessedGuardian && ScouredBarrens;1;1
-_2 SunBlessedGuardian && SerpentBladeAssailant;1;1
-_2 SunBlessedGuardian && SkitteringSurveyor;1;1
-_2 SundertheGateway && AncientImperiosaur;0;1
-_2 SundertheGateway && BondedHerdbeast;1;1
-_2 SundertheGateway && BotanicalBrawler;0;1
-_2 SundertheGateway && Forest;1;2
-_2 SundertheGateway && GoldenScaleAeronaut;0;1
-_2 SundertheGateway && HerbologyInstructor;0;1
-_2 SundertheGateway && InvasionofShandalar;0;1
-_2 SundertheGateway && Island;0;1
-_2 SundertheGateway && NivMizzetReborn;1;1
-_2 SundertheGateway && OzoliththeShatteredSpire;1;1
-_2 SundertheGateway && PhyrexianAwakening;0;1
-_2 SundertheGateway && PileOn;1;1
-_2 SundertheGateway && Plains;1;1
-_2 SundertheGateway && SerpentBladeAssailant;0;1
-_2 SundertheGateway && SkitteringSurveyor;1;1
-_2 Swamp && AncientImperiosaur;0;1
-_2 Swamp && BlightedBurgeoning;1;5
-_2 Swamp && BotanicalBrawler;0;1
-_2 Swamp && CompleatedHuntmaster;3;3
-_2 Swamp && ConverterBeast;3;7
-_2 Swamp && DeadlyDerision;3;7
-_2 Swamp && EtchedFamiliar;2;6
-_2 Swamp && Forest;6;11
-_2 Swamp && FynntheFangbearer;1;5
-_2 Swamp && GloomfangMauler;3;3
-_2 Swamp && GoldenScaleAeronaut;0;1
-_2 Swamp && HerbologyInstructor;3;8
-_2 Swamp && InvasionofLorwyn;0;4
-_2 Swamp && InvasionofShandalar;0;1
-_2 Swamp && Island;0;1
-_2 Swamp && MercilessRepurposing;0;4
-_2 Swamp && OvergrownPest;1;5
-_2 Swamp && PhyrexianAwakening;0;1
-_2 Swamp && PlacidRottentail;2;6
-_2 Swamp && PortentTracker;3;3
-_2 Swamp && SandstalkerMoloch;3;7
-_2 Swamp && SerpentBladeAssailant;0;1
-_2 Swamp && SundertheGateway;0;1
-_2 SwiftwaterCliffs && Forest;1;1
-_2 SwiftwaterCliffs && Island;1;1
-_2 SwiftwaterCliffs && OzoliththeShatteredSpire;1;1
-_2 SwordswornCavalier && AttentiveSkywarden;0;1
-_2 SwordswornCavalier && CaptainLanneryStorm;0;1
-_2 SwordswornCavalier && DaxosBlessedbytheSun;0;1
-_2 SwordswornCavalier && Forest;0;1
-_2 SwordswornCavalier && InfectedDefector;0;1
-_2 SwordswornCavalier && Island;1;1
-_2 SwordswornCavalier && KithkinBillyrider;1;1
-_2 SwordswornCavalier && KnightoftheNewCoalition;0;1
-_2 SwordswornCavalier && LurrusoftheDreamDen;1;1
-_2 SwordswornCavalier && NornsInquisitor;0;1
-_2 SwordswornCavalier && Plains;1;4
-_2 SwordswornCavalier && PreeningChampion;1;1
-_2 SwordswornCavalier && RonaHeraldofInvasion;1;1
-_2 SwordswornCavalier && SeraphofNewCapenna;0;1
-_2 SwordswornCavalier && StasisField;1;1
-_2 TarkirDuneshaper && AkkiScrapchomper;1;1
-_2 TarkirDuneshaper && AlabasterHostIntercessor;1;1
-_2 TarkirDuneshaper && BloodfellCaves;2;2
-_2 TarkirDuneshaper && DranaandLinvala;1;1
-_2 TarkirDuneshaper && EleshNorn;1;1
-_2 TarkirDuneshaper && GoldenScaleAeronaut;1;1
-_2 TarkirDuneshaper && MirrorShieldHoplite;1;1
-_2 TarkirDuneshaper && Mountain;2;2
-_2 TarkirDuneshaper && PhyrexianCensor;1;1
-_2 TarkirDuneshaper && Plains;1;1
-_2 TarkirDuneshaper && RedcapHeelslasher;1;1
-_2 TarkirDuneshaper && SeraphofNewCapenna;1;1
-_2 TarkirDuneshaper && StoketheFlames;1;1
-_2 ThaliaGuardianofThraben && AkkiScrapchomper;1;1
-_2 ThaliaGuardianofThraben && AlabasterHostIntercessor;1;1
-_2 ThaliaGuardianofThraben && BloodfellCaves;3;3
-_2 ThaliaGuardianofThraben && DranaandLinvala;1;1
-_2 ThaliaGuardianofThraben && EleshNorn;2;2
-_2 ThaliaGuardianofThraben && GoldenScaleAeronaut;1;1
-_2 ThaliaGuardianofThraben && KroxaandKunoros;1;1
-_2 ThaliaGuardianofThraben && MirrorShieldHoplite;1;1
-_2 ThaliaGuardianofThraben && Mountain;3;3
-_2 ThaliaGuardianofThraben && PhyrexianCensor;2;2
-_2 ThaliaGuardianofThraben && Plains;2;2
-_2 ThaliaGuardianofThraben && RedcapHeelslasher;1;1
-_2 ThaliaGuardianofThraben && SeraphofNewCapenna;1;1
-_2 ThaliaGuardianofThraben && ShivanBranchBurner;1;1
-_2 ThaliaGuardianofThraben && StoketheFlames;1;1
-_2 ThaliaGuardianofThraben && TarkirDuneshaper;2;2
-_2 ThunderheadSquadron && ChompingKavu;0;1
-_2 ThunderheadSquadron && CosmicHunger;0;1
-_2 ThunderheadSquadron && Forest;0;1
-_2 ThunderheadSquadron && Island;0;1
-_2 ThunderheadSquadron && RenataCalledtotheHunt;0;1
-_2 TidalTerror && ChompingKavu;1;1
-_2 TidalTerror && CosmicHunger;1;1
-_2 TidalTerror && Forest;2;2
-_2 TidalTerror && FynntheFangbearer;2;2
-_2 TidalTerror && InvasionofMuraganda;1;1
-_2 TidalTerror && Island;2;2
-_2 TidalTerror && JinGitaxiasCoreAugur;1;1
-_2 TidalTerror && MutagenConnoisseur;1;1
-_2 TidalTerror && SeeDouble;1;1
-_2 TimberlandAncient && AetherbladeAgent;0;1
-_2 TimberlandAncient && ArachnoidAdaptation;0;1
-_2 TimberlandAncient && BondedHerdbeast;0;1
-_2 TimberlandAncient && DeadlyDerision;0;1
-_2 TimberlandAncient && EtchedFamiliar;0;1
-_2 TimberlandAncient && FlittingGuerrilla;0;1
-_2 TimberlandAncient && Forest;0;1
-_2 TimberlandAncient && GnottvoldHermit;0;1
-_2 TimberlandAncient && HerbologyInstructor;0;1
-_2 TimberlandAncient && HorobiDeathsWail;0;1
-_2 TimberlandAncient && SandstalkerMoloch;0;1
-_2 TrailblazingHistorian && AngelicIntervention;1;1
-_2 TrailblazingHistorian && BloodfellCaves;1;1
-_2 TrailblazingHistorian && DranaandLinvala;1;1
-_2 TrailblazingHistorian && Mountain;2;2
-_2 TrailblazingHistorian && Plains;1;1
-_2 TrailblazingHistorian && PyreticPrankster;1;1
-_2 TrailblazingHistorian && QuintoriusLoremaster;1;1
-_2 TrailblazingHistorian && StoketheFlames;2;2
-_2 TranquilCove && AlabasterHostIntercessor;1;1
-_2 TranquilCove && AngelicIntervention;0;1
-_2 TranquilCove && BolaSlinger;1;1
-_2 TranquilCove && DaxosBlessedbytheSun;0;1
-_2 TranquilCove && Forest;1;1
-_2 TranquilCove && GlisteningDawn;1;1
-_2 TranquilCove && GnottvoldHermit;1;1
-_2 TranquilCove && Island;1;2
-_2 TranquilCove && MarshalofZhalfir;0;1
-_2 TranquilCove && NornsInquisitor;0;1
-_2 TranquilCove && Plains;1;2
-_2 TranquilCove && PreeningChampion;1;1
-_2 TranquilCove && ProgenitorExarch;0;1
-_2 TributetotheWorldTree && ChompingKavu;0;1
-_2 TributetotheWorldTree && CosmicHunger;0;1
-_2 TributetotheWorldTree && Forest;0;1
-_2 TributetotheWorldTree && Island;0;1
-_2 TributetotheWorldTree && RenataCalledtotheHunt;0;1
-_2 TributetotheWorldTree && ThunderheadSquadron;0;1
-_2 ValdukKeeperoftheFlame && AttentiveSkywarden;0;1
-_2 ValdukKeeperoftheFlame && CaptainLanneryStorm;0;1
-_2 ValdukKeeperoftheFlame && ChandraHopesBeacon;1;1
-_2 ValdukKeeperoftheFlame && Forest;1;1
-_2 ValdukKeeperoftheFlame && KamiofWhisperedHopes;1;1
-_2 ValdukKeeperoftheFlame && KarsusDepthguard;1;1
-_2 ValdukKeeperoftheFlame && Mountain;1;1
-_2 ValdukKeeperoftheFlame && NornsInquisitor;0;1
-_2 ValdukKeeperoftheFlame && Plains;0;1
-_2 ValdukKeeperoftheFlame && SerpentBladeAssailant;1;1
-_2 ValdukKeeperoftheFlame && SwordswornCavalier;0;1
-_2 VanquishtheWeak && BlightedBurgeoning;0;2
-_2 VanquishtheWeak && CompleatedHuntmaster;1;1
-_2 VanquishtheWeak && ConverterBeast;2;4
-_2 VanquishtheWeak && DeadlyDerision;2;4
-_2 VanquishtheWeak && EtchedFamiliar;2;4
-_2 VanquishtheWeak && Forest;4;6
-_2 VanquishtheWeak && FynntheFangbearer;0;2
-_2 VanquishtheWeak && GloomfangMauler;2;2
-_2 VanquishtheWeak && HerbologyInstructor;2;4
-_2 VanquishtheWeak && InvasionofLorwyn;0;2
-_2 VanquishtheWeak && MercilessRepurposing;1;3
-_2 VanquishtheWeak && OvergrownPest;0;2
-_2 VanquishtheWeak && PlacidRottentail;3;5
-_2 VanquishtheWeak && PortentTracker;2;2
-_2 VanquishtheWeak && SandstalkerMoloch;2;4
-_2 VanquishtheWeak && Swamp;5;7
-_2 VolcanicSpite && AttentiveSkywarden;0;1
-_2 VolcanicSpite && BondedHerdbeast;1;1
-_2 VolcanicSpite && BotanicalBrawler;1;2
-_2 VolcanicSpite && Forest;2;3
-_2 VolcanicSpite && GoldenScaleAeronaut;1;1
-_2 VolcanicSpite && HerbologyInstructor;1;1
-_2 VolcanicSpite && Island;1;2
-_2 VolcanicSpite && KamiofWhisperedHopes;1;2
-_2 VolcanicSpite && Mountain;1;2
-_2 VolcanicSpite && NivMizzetReborn;1;2
-_2 VolcanicSpite && NornsInquisitor;1;1
-_2 VolcanicSpite && OzoliththeShatteredSpire;1;1
-_2 VolcanicSpite && PileOn;1;1
-_2 VolcanicSpite && Plains;3;4
-_2 VolcanicSpite && ScouredBarrens;1;2
-_2 VolcanicSpite && SerpentBladeAssailant;1;1
-_2 VolcanicSpite && SkitteringSurveyor;2;3
-_2 VolcanicSpite && StoketheFlames;1;1
-_2 VolcanicSpite && SunBlessedGuardian;1;1
-_2 VolcanicSpite && SundertheGateway;1;1
-_2 VolcanicSpite && TrailblazingHistorian;1;1
-_2 WarHistorian && AlabasterHostIntercessor;1;1
-_2 WarHistorian && Forest;4;4
-_2 WarHistorian && FurtiveAnalyst;1;1
-_2 WarHistorian && FynntheFangbearer;1;1
-_2 WarHistorian && GuardianofGhirapur;1;1
-_2 WarHistorian && HaloChargedSkaab;1;1
-_2 WarHistorian && InvasionofMoag;2;2
-_2 WarHistorian && InvasionofMuraganda;2;2
-_2 WarHistorian && Island;2;2
-_2 WarHistorian && KnightErrantofEos;1;1
-_2 WarHistorian && Plains;1;1
-_2 WarHistorian && RealmbreakersGrasp;1;1
-_2 WarHistorian && SealfromExistence;1;1
-_2 WarHistorian && TidalTerror;1;1
-_2 WaryThespian && AlabasterHostIntercessor;1;1
-_2 WaryThespian && DoomskarWarrior;2;2
-_2 WaryThespian && Forest;4;4
-_2 WaryThespian && InvasionofMoag;3;3
-_2 WaryThespian && InvasionofZendikar;1;1
-_2 WaryThespian && KamiofWhisperedHopes;1;1
-_2 WaryThespian && Plains;2;3
-_2 WaryThespian && SandstalkerMoloch;1;1
-_2 WaryThespian && SealfromExistence;1;1
-_2 WaryThespian && SerpentBladeAssailant;1;1
-_2 WaryThespian && ShannaSisaysLegacy;1;1
-_2 WaryThespian && SwordswornCavalier;0;1
-_2 WaryThespian && WarHistorian;1;1
-_2 WickedSlumber && AngelicIntervention;1;1
-_2 WickedSlumber && Forest;1;1
-_2 WickedSlumber && FurtiveAnalyst;1;1
-_2 WickedSlumber && HaloChargedSkaab;1;1
-_2 WickedSlumber && InvasionofMuraganda;1;1
-_2 WickedSlumber && Island;2;2
-_2 WickedSlumber && OrderoftheMirror;1;1
-_2 WickedSlumber && Plains;1;1
-_2 WickedSlumber && WarHistorian;1;1
-_2 WindScarredCrag && AngelicIntervention;1;1
-_2 WindScarredCrag && BloodfellCaves;2;2
-_2 WindScarredCrag && DranaandLinvala;3;3
-_2 WindScarredCrag && EleshNorn;2;2
-_2 WindScarredCrag && GoldenScaleAeronaut;1;1
-_2 WindScarredCrag && InvasionofKylem;1;1
-_2 WindScarredCrag && InvasionofUlgrotha;1;1
-_2 WindScarredCrag && Mountain;3;3
-_2 WindScarredCrag && PhyrexianCensor;1;1
-_2 WindScarredCrag && Plains;1;1
-_2 WindScarredCrag && PyreticPrankster;1;1
-_2 WindScarredCrag && QuintoriusLoremaster;1;1
-_2 WindScarredCrag && RedcapHeelslasher;1;1
-_2 WindScarredCrag && StoketheFlames;1;1
-_2 WindScarredCrag && TarkirDuneshaper;1;1
-_2 WindScarredCrag && ThaliaGuardianofThraben;1;1
-_2 WindScarredCrag && TrailblazingHistorian;1;1
-_2 XerexStrobeKnight && BolaSlinger;1;1
-_2 XerexStrobeKnight && EpharasDispersal;1;1
-_2 XerexStrobeKnight && Island;2;2
-_2 XerexStrobeKnight && KorHalberd;1;1
-_2 XerexStrobeKnight && Plains;2;2
-_2 XerexStrobeKnight && PreeningChampion;1;1
-_2 XerexStrobeKnight && RonaHeraldofInvasion;1;1
-_2 ZadaHedronGrinder && BloodfellCaves;1;1
-_2 ZadaHedronGrinder && DranaandLinvala;1;1
-_2 ZadaHedronGrinder && EleshNorn;1;1
-_2 ZadaHedronGrinder && GoldenScaleAeronaut;1;1
-_2 ZadaHedronGrinder && Mountain;1;1
-_2 ZadaHedronGrinder && PhyrexianCensor;1;1
-_2 ZadaHedronGrinder && TarkirDuneshaper;1;1
-_2 ZadaHedronGrinder && ThaliaGuardianofThraben;1;1
-_2 ZadaHedronGrinder && WindScarredCrag;1;1
-_2 ZhalfirinLancer && AlabasterHostIntercessor;1;1
-_2 ZhalfirinLancer && AngelicIntervention;2;3
-_2 ZhalfirinLancer && ArtisticRefusal;1;1
-_2 ZhalfirinLancer && DaxosBlessedbytheSun;1;1
-_2 ZhalfirinLancer && DoomskarWarrior;1;1
-_2 ZhalfirinLancer && DuskLegionDuelist;1;2
-_2 ZhalfirinLancer && Forest;2;2
-_2 ZhalfirinLancer && GuardianofGhirapur;1;1
-_2 ZhalfirinLancer && HeliodtheRadiantDawn;1;1
-_2 ZhalfirinLancer && InvasionofMoag;2;2
-_2 ZhalfirinLancer && InvasionofRavnica;1;2
-_2 ZhalfirinLancer && InvasionofVryn;1;1
-_2 ZhalfirinLancer && Island;3;4
-_2 ZhalfirinLancer && KamiofWhisperedHopes;1;1
-_2 ZhalfirinLancer && KnightErrantofEos;1;1
-_2 ZhalfirinLancer && KnightoftheNewCoalition;1;2
-_2 ZhalfirinLancer && MarshalofZhalfir;2;3
-_2 ZhalfirinLancer && NornsInquisitor;1;1
-_2 ZhalfirinLancer && Plains;4;6
-_2 ZhalfirinLancer && PreeningChampion;2;2
-_2 ZhalfirinLancer && ProgenitorExarch;1;2
-_2 ZhalfirinLancer && RealmbreakersGrasp;1;1
-_2 ZhalfirinLancer && SaibaCryptomancer;1;1
-_2 ZhalfirinLancer && SandstalkerMoloch;1;1
-_2 ZhalfirinLancer && SealfromExistence;2;2
-_2 ZhalfirinLancer && SigiledSentinel;2;2
-_2 ZhalfirinLancer && SwordswornCavalier;0;1
-_2 ZhalfirinLancer && WarHistorian;1;1
-_2 ZhalfirinLancer && WaryThespian;1;2
+AegartheFreezingFlame;90;177
+AerialBoost;766;1328
+AetherbladeAgent;2702;4829
+AkkiScrapchomper;215;455
+AlabasterHostIntercessor;2406;4141
+AlabasterHostSanctifier;1531;2796
+AnafenzaKinTreeSpirit;267;496
+AncientImperiosaur;609;1035
+AngelicIntervention;1364;2412
+ArachnoidAdaptation;626;1072
+ArchangelElspeth;413;619
+ArchpriestofShadows;711;1163
+ArixmethesSlumberingIsle;87;158
+ArtisticRefusal;693;1145
+AssimilateEssence;854;1493
+AstralWingspan;468;784
+AtraxaPraetorsVoice;129;207
+AtraxasFall;629;1198
+AtrisOracleofHalfTruths;213;343
+AttentiveSkywarden;1074;2072
+AureliatheWarleader;70;132
+AyaraFirstofLocthwain;121;221
+AyaraWidowoftheRealm;532;954
+BaralChiefofCompliance;101;190
+BaralandKariZev;168;314
+BeamtownBeatstick;499;951
+BladedBattleFan;653;1126
+BlightedBurgeoning;1830;3305
+BlightreaperThallid;1435;2438
+BloatedProcessor;515;913
+BloodfeatherPhoenix;251;492
+BloodfellCaves;726;1364
+BlossomingSands;934;1718
+BolaSlinger;1218;2137
+BondedHerdbeast;851;1656
+BoonBringerValkyrie;816;1223
+BorborygmosandFblthp;193;308
+BotanicalBrawler;620;1186
+BreachtheMultiverse;770;1103
+BrudicladTelchorEngineer;182;321
+BurningSunsFury;82;179
+CaptainLanneryStorm;230;393
+CaptiveWeird;767;1337
+ChandraHopesBeacon;321;494
+ChangetheEquation;110;201
+ChompingKavu;1396;2476
+ChromeHostSeedshark;696;1126
+CityonFire;131;253
+CollectiveNightmare;1742;3002
+ComingInHot;218;395
+CompleatedHuntmaster;1083;1946
+CompletetheCircuit;15;52
+ConsumingAetherborn;799;1465
+ConverterBeast;1405;2458
+CopperHostCrusher;381;698
+CorruptedConviction;630;1147
+CorruptionofTowashi;701;1180
+CosmicHunger;2257;3853
+CrystalCarapace;92;183
+CutShort;1647;2944
+DaxosBlessedbytheSun;496;933
+DeadlyDerision;3300;5280
+DeeprootWayfinder;487;890
+DinaSoulSteeper;150;294
+DismalBackwater;1001;1711
+DisturbingConversion;331;619
+DjeruandHazoret;163;314
+DoomskarWarrior;618;1022
+DranaandLinvala;357;621
+DregRecycler;944;1709
+DuskLegionDuelist;377;680
+EleshNorn;381;602
+EleshNornGrandCenobite;308;442
+ElspethsSmite;998;1773
+ElvishVatkeeper;1085;1731
+EmryLurkeroftheLoch;15;36
+EnduringBondwarden;747;1392
+EpharasDispersal;1407;2295
+ErrantandGiada;147;280
+EtaliPrimalConqueror;711;1096
+EtchedFamiliar;1293;2368
+EtchedHostDoombringer;801;1411
+ExpeditionLookout;470;799
+EyesofGitaxias;1123;1879
+EzuriClawofProgress;79;148
+FaerieMastermind;474;766
+FailedConversion;1509;2695
+FearlessSkald;723;1271
+FertilidsFavor;1007;1816
+FinalFlourish;2782;4751
+FiresongandSunspeaker;30;58
+FirjaJudgeofValor;454;798
+FlittingGuerrilla;1170;2095
+FlywheelRacer;769;1394
+Forest;29189;53834
+FurnaceGremlin;513;1033
+FurnaceHostCharger;1077;2024
+FurnaceReins;285;478
+FurtiveAnalyst;245;464
+FynntheFangbearer;759;1392
+GhaltaandMavren;427;751
+GiftofCompleation;958;1702
+GlissaHeraldofPredation;858;1284
+GlisteningDawn;629;1015
+GlisteningDeluge;118;231
+GloomfangMauler;2020;3506
+GnottvoldHermit;962;1766
+GoldenScaleAeronaut;875;1590
+GoreclawTerrorofQalSisma;319;536
+GraftedButcher;607;1012
+GrimgrinCorpseBorn;188;268
+GuardianofGhirapur;584;977
+GyrudaDoomofDepths;396;636
+HaloChargedSkaab;406;712
+HaloForager;946;1573
+HaloHopper;217;421
+HangarScrounger;730;1376
+HarriedArtisan;626;1128
+HeliodtheRadiantDawn;354;692
+HerbologyInstructor;1237;2232
+HidetsuguandKairi;598;884
+HoardingBroodlord;657;1057
+HorobiDeathsWail;138;257
+IchorDrinker;1450;2542
+IchorShade;928;1799
+ImotiCelebrantofBounty;412;685
+InfectedDefector;689;1303
+IngaRuneEyes;511;865
+IngaandEsika;372;649
+InspiredCharge;157;309
+IntotheFire;221;418
+InvasionofAlara;107;206
+InvasionofAmonkhet;914;1478
+InvasionofArcavios;3;8
+InvasionofAzgol;390;711
+InvasionofBelenon;861;1636
+InvasionofDominaria;751;1323
+InvasionofEldraine;903;1618
+InvasionofErgamon;215;482
+InvasionofFiora;790;1207
+InvasionofGobakhan;412;764
+InvasionofIkoria;498;840
+InvasionofInnistrad;403;639
+InvasionofIxalan;536;899
+InvasionofKaladesh;67;134
+InvasionofKaldheim;247;470
+InvasionofKamigawa;465;896
+InvasionofKarsus;312;577
+InvasionofKylem;185;384
+InvasionofLorwyn;970;1759
+InvasionofMercadia;626;1100
+InvasionofMoag;558;1094
+InvasionofMuraganda;856;1561
+InvasionofNewCapenna;523;944
+InvasionofNewPhyrexia;401;596
+InvasionofPyrulea;278;525
+InvasionofRavnica;381;669
+InvasionofRegatha;492;934
+InvasionofSegovia;388;670
+InvasionofShandalar;209;413
+InvasionofTarkir;207;356
+InvasionofTheros;122;252
+InvasionofTolvada;577;940
+InvasionofUlgrotha;1254;2240
+InvasionofVryn;550;947
+InvasionofXerex;393;730
+InvasionofZendikar;1116;2028
+IridescentBlademaster;908;1668
+Island;20793;37164
+JeganthatheWellspring;150;292
+JinGitaxias;250;449
+JinGitaxiasCoreAugur;15;40
+JoyfulStormsculptor;205;380
+JudiththeScourgeDiva;165;283
+JungleHollow;1019;1888
+JuriMasteroftheRevue;205;397
+KaheeratheOrphanguard;117;210
+KamiofWhisperedHopes;1198;2192
+KarsusDepthguard;348;683
+KenriththeReturnedKing;227;368
+KerugatheMacrosage;341;569
+KhenraSpellspear;811;1559
+Kitesail;408;745
+KithkinBillyrider;877;1663
+KnightErrantofEos;411;780
+KnightoftheNewCoalition;1379;2457
+KoglaandYidaro;382;605
+KorHalberd;517;971
+KroxaTitanofDeathsHunger;92;158
+KroxaandKunoros;201;343
+KwendePrideofFemeref;256;498
+LathieltheBounteousDawn;125;249
+LithomanticBarrage;222;392
+LurrusoftheDreamDen;428;722
+LutritheSpellchaser;45;89
+MaraudingDreadship;662;1195
+MarshalofZhalfir;487;873
+MeetingofMinds;1216;2130
+MercilessRepurposing;1584;2587
+MirranBanesplitter;206;380
+MirrodinAvenged;552;1027
+MirrorShieldHoplite;201;415
+MomentofTruth;367;680
+MonasteryMentor;299;524
+Mountain;18680;35047
+MutagenConnoisseur;214;448
+NahirisWarcrafting;390;661
+Negate;252;433
+NezumiFreewheeler;1198;2101
+NezumiInformant;1973;3366
+NivMizzetReborn;24;43
+NornsInquisitor;1519;2477
+OboshthePreypiercer;268;453
+OculusWhelp;510;959
+OmenHawker;229;456
+OmnathLocusofAll;100;210
+OnakkeJavelineer;797;1504
+OracleofTragedy;591;1033
+OrderoftheMirror;1277;2310
+OvergrownPest;2170;3843
+OzoliththeShatteredSpire;533;915
+PhyrexianArchivist;47;105
+PhyrexianAwakening;1016;1774
+PhyrexianCensor;563;985
+PhyrexianGargantua;1198;2084
+PileOn;749;1128
+PlacidRottentail;572;1132
+Plains;28400;52510
+PolukranosReborn;625;1020
+PortentTracker;1705;3230
+PreeningChampion;1869;3180
+ProgenitorExarch;556;927
+ProtocolKnight;680;1227
+PyreticPrankster;1125;2178
+QuintoriusLoremaster;306;548
+RadhaCoalitionWarlord;126;260
+RaffWeatherlightStalwart;318;573
+RagavanNimblePilferer;113;231
+RalsReinforcements;782;1471
+RamosianGreatsword;195;399
+RampagingGeoderm;472;842
+RampagingRaptor;427;736
+RankleandTorbran;275;501
+RavenousSailback;748;1323
+RealmbreakersGrasp;2303;4032
+RealmbreakertheInvasionTree;159;304
+RedcapHeelslasher;676;1325
+RenataCalledtotheHunt;670;1238
+RenderInert;532;917
+ReyavMasterSmith;122;229
+RonaHeraldofInvasion;473;846
+RonaSheoldredsFaithful;157;278
+RuggedHighlands;628;1200
+SaibaCryptomancer;996;1681
+SandstalkerMoloch;989;1746
+ScornBladeBerserker;1013;1711
+ScouredBarrens;1106;2060
+ScrappyBruiser;233;473
+Scrollshift;487;926
+SculptedPerfection;584;1051
+SealfromExistence;1328;2230
+SearingBarb;638;1187
+SeeDouble;473;764
+SeedofHope;369;669
+SeizanPerverterofTruth;53;107
+SeraphofNewCapenna;852;1569
+SerpentBladeAssailant;1712;3020
+ShannaSisaysLegacy;282;574
+ShattertheSource;1006;1905
+Sheoldred;494;758
+SheoldredWhisperingOne;288;455
+ShivanBranchBurner;567;1072
+SigiledSentinel;1513;2785
+SkithiryxtheBlightDragon;210;325
+SkitteringSurveyor;2741;4787
+SkyclaveAerialist;955;1593
+SqueetheImmortal;98;182
+SramSeniorEdificer;112;203
+StasisField;1080;1792
+StoketheFlames;1025;1794
+StormclawRager;381;766
+StormtheSeedcore;649;1126
+StreetwiseNegotiator;1276;2217
+SunBlessedGuardian;757;1465
+SundertheGateway;1013;1827
+Sunfall;788;1126
+SurgeofSalvation;307;593
+Swamp;35204;62563
+SwiftwaterCliffs;487;930
+SwordofOnceandFuture;373;617
+SwordswornCavalier;1035;1939
+TaigamOjutaiMaster;74;160
+TandemTakedown;1334;2271
+TangledSkyline;984;1714
+TarkirDuneshaper;1143;2199
+TemporalCleansing;1220;2059
+TenuredOilcaster;473;867
+TetsukoUmezawaFugitive;357;654
+TeysaKarlov;106;209
+ThaliaGuardianofThraben;177;326
+ThaliaandTheGitrogMonster;242;435
+ThornwoodFalls;726;1340
+ThrashingFrontliner;666;1281
+ThunderheadSquadron;636;1218
+TidalTerror;1093;1893
+TillerofFlesh;602;1162
+TimberlandAncient;1847;3401
+TrailblazingHistorian;455;900
+TranquilCove;707;1346
+TranscendentMessage;106;213
+TraumaticRevelation;1116;1988
+TributetotheWorldTree;281;532
+TymaretChosenfromDeath;557;983
+UmoritheCollector;408;675
+UnsealtheNecropolis;1466;2439
+Urabrask;196;350
+UrabrasktheHidden;113;198
+UrnofGodfire;513;955
+ValdukKeeperoftheFlame;138;289
+VanquishtheWeak;2427;4362
+VengeantEarth;134;285
+VolcanicSpite;1882;3336
+VoldarenThrillseeker;378;647
+Vorinclex;395;620
+VorinclexVoiceofHunger;81;168
+WarHistorian;1261;2310
+WarTrainedSlasher;624;1222
+WaryThespian;1678;3050
+WickedSlumber;462;799
+WildwoodEscort;1206;2188
+WindScarredCrag;636;1221
+WrennandRealmbreaker;267;463
+WrennsResolve;426;806
+XerexStrobeKnight;1007;1750
+YargleGluttonofUrborg;94;168
+YargleandMultani;149;273
+YaroktheDesecrated;109;191
+YedoraGraveGardener;180;329
+YorionSkyNomad;329;505
+ZadaHedronGrinder;88;178
+ZephyrSinger;490;805
+ZhalfirinLancer;571;1092
+ZhalfirinShapecraft;551;982
+ZimoneandDina;126;252
+ZirdatheDawnwaker;174;341
+ZurgoandOjutai;166;283
