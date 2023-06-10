@@ -3,6 +3,7 @@ import csv
 import sys
 
 import cardlist
+import save
 
 class Counts:
 
@@ -36,23 +37,35 @@ def ReadCounts(filename):
         reader = csv.DictReader(f)
         for row in reader:
             counts.add_game(row)
-            if counts.num_games > 500: break
+            # if counts.num_games > 500: break
 
         print(f'#games: {counts.num_games}')
         for cardname in counts.total_played:
             print(f'win rate: {cardname} {counts.wins[cardname]} / {counts.total_played[cardname]}')
             break
+    return counts
+
+def SaveCounts(counts, filename):
+    num_written = 0
+    with open(filename, 'w') as f:
+        writer = csv.writer(f, dialect=save.SemiColonDialect())
+        writer.writerow(['cardname','wins_when_played','num_played'])
+        for cardname in counts.total_played:
+            writer.writerow([cardname, counts.wins[cardname], counts.total_played[cardname]])
+            num_written += 1
+    print('')
+    print(f'Successfully wrote {num_written} counts to {filename}')
 
 
 def main():
-    filename='data/mom/TradSealed.csv'
     args = sys.argv[1:]
     if len(args) > 1:
       print(f'Got more arguments than expected: {len(args)}')
     if len(args) > 0:
       file = args[0]
 
-    ReadCounts(filename)
+    counts = ReadCounts('data/mom/TradSealed.csv')
+    SaveCounts(counts, 'data/mom/counts.csv')
 
 
 main()
