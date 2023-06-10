@@ -11,22 +11,20 @@ public:
   std::string_view data_path() const override { return "data/mom/cards.csv"; }
 
   int MinColors() const override { return 3; }
-  int MaxColors() const override { return 3; }
+  int MaxColors() const override { return 4; }
 
   std::vector<Color> AvailableColors() const override {
     return {
-        Color::Black, Color::White, Color::Green,
-        // Color::Blue,
-        // Color::Red,
-        // Color::White,
+        Color::Black, Color::White, Color::Green, Color::Blue, Color::Red,
     };
   }
 
   std::vector<std::string_view> forced_cards() const override {
     return {
-        "MonasteryMentor",    "KamiofWhisperedHopes", "ElvishVatkeeper",
-        "PhyrexianAwakening", "SculptedPerfection",   "DeadlyDerision",
-        "DeadlyDerision",     "InvasionofLorwyn",
+        "ZurgoandOjutai",
+        // "MonasteryMentor",    "KamiofWhisperedHopes", "ElvishVatkeeper",
+        // "PhyrexianAwakening", "SculptedPerfection",   "DeadlyDerision",
+        // "DeadlyDerision",     "InvasionofLorwyn",
         // "InvasionofShandalar",
     };
   }
@@ -325,6 +323,36 @@ Lands { R=8 U=9 }
     6460 CorruptionofTowashi (U4)
     6606 HarriedArtisan (R2)
     7961 JeganthatheWellspring (R4)
+
+# Forcing Ojutai
+
+Score: 87.6 (110.2 - 22.6)
+Iteration: 133
+Lands { R=7 U=7 W=4 }
+    2666 MomentofTruth (U1)
+    3228 ZhalfirinShapecraft (U1)
+    3288 OculusWhelp (U3)
+    3653 InvasionofMercadia (R1)
+    4061 MonasteryMentor (W2)
+    4389 VolcanicSpite (R1)
+    4389 VolcanicSpite (R1)
+    4488 EyesofGitaxias (U2)
+    4967 PhyrexianAwakening (W2)
+    5148 KhenraSpellspear (R1)
+    5380 AstralWingspan (U4)
+    5645 InvasionofRegatha (R2)
+    5801 PreeningChampion (U2)
+    5801 PreeningChampion (U2)
+    5953 HaloChargedSkaab (U4)
+    5953 HaloChargedSkaab (U4)
+    6511 ArtisticRefusal (UU4)
+    6600 HarriedArtisan (R2)
+    6627 CorruptionofTowashi (U4)
+    6735 InvasionofSegovia (U2)
+    6959 JeganthatheWellspring (R4)
+    7602 ZurgoandOjutai (WUR2)
+
+# Others
 
 Score: 86.4 (104.7 - 18.3)
 Iteration: 143
