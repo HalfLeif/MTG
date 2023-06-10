@@ -194,6 +194,12 @@ private:
       !helper.EvaluateLt((a), (b), #a, #b))                                    \
   helper.Stream()
 
+#define EXPECT_LTT(a, b, c)                                                    \
+  if (TestExpectationHelper helper(this, __FILE__, __LINE__);                  \
+      !helper.EvaluateLt((a), (b), #a, #b) ||                                  \
+      !helper.EvaluateLt((b), (c), #b, #c))                                    \
+  helper.Stream()
+
 #define EXPECT_TRUE(a) EXPECT_EQ(a, true)
 #define EXPECT_FALSE(a) EXPECT_EQ(a, false)
 
@@ -210,6 +216,7 @@ TEST(SimpleTest) {
   EXPECT_LT(a, 5);
   EXPECT_LT(0, a);
   EXPECT_NE(1, 2);
+  EXPECT_LTT(1, 2, 3);
 
   EXPECT_TRUE(a < 2);
   EXPECT_FALSE(a > 2);

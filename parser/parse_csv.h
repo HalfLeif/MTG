@@ -35,7 +35,7 @@ char TypeToPriority(std::string_view type) {
 
 constexpr double kMaxBoost = 0.50;
 constexpr double kMinBoost = -0.30;
-constexpr double kMaxOrder = 260;
+constexpr double kMaxOrder = 300;
 
 double BonusFromOrder(int draft_order, int spell_cost) {
   double relative_bonus =
@@ -52,8 +52,9 @@ Spell ParseLine(const std::string_view line) {
     spell.cost = ParseMana(fields[0]);
     spell.name = fields[1];
     spell.priority = TypeToPriority(fields[2]);
+    spell.pick_order = std::atoi(fields[3].data());
     spell.point_bonus =
-        BonusFromOrder(std::atoi(fields[3].data()), spell.cost[Color::Total]);
+        BonusFromOrder(spell.pick_order, spell.cost[Color::Total]);
   } else {
     ERROR << "Failed to parse '" << line << "'\n";
   }
@@ -118,19 +119,16 @@ TEST(SplitLineKeepsEmptyElements) {
 
 TEST(BonusFromOrder) {
   EXPECT_NEAR(BonusFromOrder(0, 1), kMaxBoost);
-  EXPECT_NEAR(BonusFromOrder(260, 1), kMinBoost);
+  EXPECT_NEAR(BonusFromOrder(kMaxOrder, 1), kMinBoost);
 
   double normal = BonusFromOrder(150, 1);
-  EXPECT_LT(-0.10, normal);
-  EXPECT_LT(normal, 0.10);
+  EXPECT_LTT(-0.10, normal, 0.10);
 }
 
 TEST(BonusFromOrderScalesWithMana) {
   double good = BonusFromOrder(2, 4);
-  EXPECT_LT(0, good);
-  EXPECT_LT(good, kMaxBoost * 4);
+  EXPECT_LTT(0, good, 2);
 
   double bad = BonusFromOrder(230, 4);
-  EXPECT_LT(kMinBoost * 4, bad);
-  EXPECT_LT(bad, 0);
+  EXPECT_LTT(-2, bad, 0);
 }

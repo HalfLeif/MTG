@@ -13,6 +13,7 @@ struct Spell {
 
   char priority = 0;
   double point_bonus = 0;
+  int pick_order = 0;
   std::string name = "";
 
   Spell &AddAbility(std::string mana_cost) {

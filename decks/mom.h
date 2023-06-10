@@ -22,7 +22,16 @@ public:
     };
   }
 
-  virtual std::vector<std::string_view> cards() const {
+  std::vector<std::string_view> forced_cards() const override {
+    return {
+        "MonasteryMentor",    "KamiofWhisperedHopes", "ElvishVatkeeper",
+        "PhyrexianAwakening", "SculptedPerfection",   "DeadlyDerision",
+        "DeadlyDerision",     "InvasionofLorwyn",
+        // "InvasionofShandalar",
+    };
+  }
+
+  std::vector<std::string_view> cards() const override {
     return {
         "SurgeofSalvation",
         "AngelicIntervention",
@@ -394,5 +403,35 @@ Lands { B=8 W=9 }
     6129 SculptedPerfection (WB2)
     6464 InvasionofBelenon (W2)
     8086 DranaandLinvala (WWB1)
+
+When forcing Shandalar + Phyrexian:
+
+Score: 74.8 (96.2 - 21.4)
+Iteration: 103
+Lands { B=6 G=4 W=6 }
+    1996 InvasionofShandalar (GG3)
+    2110 DaxosBlessedbytheSun (WW)
+    2465 CorruptedConviction (B)
+    2937 IchorDrinker (B)
+    3072 OvergrownPest (G2)
+    3172 NezumiFreewheeler (B3)
+    3379 AetherbladeAgent (B1)
+    3622 FynntheFangbearer (G1)
+    4232 RealmbreakersGrasp (W1)
+    4234 FailedConversion (B4)
+    4324 InvasionofLorwyn (BG4)
+    4374 CompleatedHuntmaster (B2)
+    4401 DeadlyDerision (BB2)
+    4401 DeadlyDerision (BB2)
+    4417 MonasteryMentor (W2)
+    4444 WildwoodEscort (G4)
+    4757 NornsInquisitor (W1)
+    4902 KamiofWhisperedHopes (G2)
+    5082 InvasionofBelenon (W2)
+    5254 ElvishVatkeeper (BG1)
+    5323 KnightoftheNewCoalition (W3)
+    5381 SculptedPerfection (WB2)
+    5520 PhyrexianAwakening (W2)
+    5654 DranaandLinvala (WWB1)
 
 */
