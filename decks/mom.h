@@ -137,6 +137,44 @@ public:
   }
 
   std::vector<std::string_view> chosen_deck() const override {
+    return RUW_chosen_deck();
+  }
+
+  std::vector<std::string_view> RUW_chosen_deck() const {
+    // Lands: R7 U7 W3
+    return {
+        "VolcanicSpite",
+        "VolcanicSpite",
+        "StasisField",
+        "CutShort",
+        "Negate",
+        "ArtisticRefusal",
+
+        "KhenraSpellspear",
+        "InvasionofMercadia",
+        "OrderoftheMirror",
+
+        "EyesofGitaxias",
+        "InvasionofRegatha",
+        "PreeningChampion",
+        "PreeningChampion",
+        "HarriedArtisan",
+        "InvasionofSegovia",
+
+        "FearlessSkald",
+        "HaloChargedSkaab",
+        "ZurgoandOjutai",
+        "ShivanBranchBurner",
+
+        //
+        "BeamtownBeatstick",
+        "AstralWingspan",
+        "CorruptionofTowashi",
+        "CityonFire",
+    };
+  }
+
+  std::vector<std::string_view> WBG_chosen_deck() const {
     return {
         "SurgeofSalvation",
         "AngelicIntervention",
