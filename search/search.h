@@ -15,7 +15,7 @@
 #include "../core/param.h"
 #include "../search/metrics.h"
 
-constexpr int kTurns = 10;
+constexpr int kTurns = 8;
 
 Metrics AverageScore(const Library &lib, const Deck &deck,
                      const MulliganStrategy &strategy, int turns, int games,

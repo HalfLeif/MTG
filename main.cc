@@ -35,7 +35,7 @@ constexpr bool DEBUG_ON = false;
 constexpr bool PARANOIA = true;
 
 void OptimizeLands(const Library &lib) {
-  ThreadsafeRandom random(/*seed=*/21);
+  ThreadsafeRandom random(/*seed=*/24);
   CompareParams(lib, random, 2000);
 }
 
@@ -53,14 +53,13 @@ void OptimizeDeck(const std::vector<Spell> &all_cards,
       FilterCards(all_cards, {
                                  // "MonasteryMentor",
                                  // "HaloChargedSkaab",
-                                 // "ThrashingFrontliner",
+                                 "ThrashingFrontliner",
+                                 // "OculusWhelp",
                                  // "FurtiveAnalyst",
                              });
-  std::vector<Spell> exp_cards =
-      FilterCards(all_cards, {
-
-                                 // "ThrashingFrontliner",
-                             });
+  std::vector<Spell> exp_cards = FilterCards(all_cards, {
+                                                            // "CutShort", //
+                                                        });
 
   Library lib = Library::Builder()
                     .SetLimited()

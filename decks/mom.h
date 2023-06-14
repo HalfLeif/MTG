@@ -141,36 +141,38 @@ public:
   }
 
   std::vector<std::string_view> RUW_chosen_deck() const {
-    // Lands: R7 U7 W3
+    // Lands: R8 U7 W2
     return {
-        "VolcanicSpite",
-        "VolcanicSpite",
-        "StasisField",
-        "CutShort",
-        "Negate",
-        "ArtisticRefusal",
+        "VolcanicSpite",     //
+        "VolcanicSpite",     //
+        "StasisField",       //
+        "AssimilateEssence", // <- "Negate",
+        "ArtisticRefusal",   //
+        // "CutShort", //
 
-        "KhenraSpellspear",
-        "InvasionofMercadia",
-        "OrderoftheMirror",
+        // "MomentofTruth",     // <- "CityonFire",
+        "BeamtownBeatstick", //
+        "AstralWingspan",    //
 
-        "EyesofGitaxias",
-        "InvasionofRegatha",
-        "PreeningChampion",
-        "PreeningChampion",
-        "HarriedArtisan",
-        "InvasionofSegovia",
+        // "ThrashingFrontliner",
+        "KhenraSpellspear",   //
+        "InvasionofMercadia", //
+        "OrderoftheMirror",   //
 
-        "FearlessSkald",
-        "HaloChargedSkaab",
-        "ZurgoandOjutai",
-        "ShivanBranchBurner",
+        "EyesofGitaxias",    //
+        "InvasionofRegatha", //
+        "PreeningChampion",  //
+        "PreeningChampion",  //
+        "HarriedArtisan",    //
+        "InvasionofSegovia", //
+        "WarTrainedSlasher", //
 
-        //
-        "BeamtownBeatstick",
-        "AstralWingspan",
-        "CorruptionofTowashi",
-        "CityonFire",
+        "FearlessSkald",      //
+        "HaloChargedSkaab",   // <- "CorruptionofTowashi",
+        "HaloChargedSkaab",   //
+        "ZurgoandOjutai",     //
+        "ShivanBranchBurner", //
+
     };
   }
 
