@@ -140,6 +140,19 @@ public:
     return colors;
   }
 
+  std::vector<ManaCost> MonoColors() const {
+    std::vector<ManaCost> monos;
+    for (auto [color, value] : *this) {
+      if (color != Color::Total && color != Color::Colorless) {
+        ManaCost colors;
+        colors[color] = 1;
+        colors[Color::Total] = 1;
+        monos.push_back(colors);
+      }
+    }
+    return monos;
+  }
+
 private:
   Iter make_iter(key_type key) const {
     CHECK(key <= Color::ENUM_SIZE);
