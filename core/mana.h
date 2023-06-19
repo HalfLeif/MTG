@@ -38,6 +38,8 @@ public:
       FindValidPosition();
     }
 
+    inline key_type key() const { return static_cast<key_type>(pos_); };
+
     inline mapped_type value() const { return (*arr_)[pos_]; }
 
     std::pair<key_type, mapped_type> operator*() const {
@@ -101,6 +103,23 @@ public:
   }
 
   bool operator==(const ManaCost &other) const { return cost_ == other.cost_; }
+
+  bool operator<(const ManaCost &other) const {
+    if (this->Total() != other.Total()) {
+      this->Total() < other.Total();
+    }
+    auto i = this->begin();
+    for (auto j = other.begin(); i != this->end() && j != other.end();
+         ++i, ++j) {
+      if (i.key() < j.key()) {
+        return true;
+      }
+    }
+    if (i == this->end()) {
+      return true;
+    }
+    return false;
+  }
 
 private:
   Iter make_iter(key_type key) const {
@@ -316,4 +335,27 @@ TEST(RecursivelyAddColorsMinMaxDifferent) {
   EXPECT_TRUE(ContainsKey(mana_readable, "RG"));
 
   EXPECT_FALSE(ContainsKey(mana_readable, "WBR"));
+}
+
+TEST(ManaCostLessThanPrioritizesSize) {
+  EXPECT_LT(ParseMana("R1"), ParseMana("R3"));
+  EXPECT_LT(ParseMana("R1"), ParseMana("W3"));
+  EXPECT_LT(ParseMana("BR"), ParseMana("WBR"));
+}
+
+TEST(ManaCostLessThanRespectsColor) {
+  EXPECT_LT(ParseMana("1"), ParseMana("W"));
+  EXPECT_LT(ParseMana("W"), ParseMana("U"));
+  EXPECT_LT(ParseMana("U"), ParseMana("B"));
+  EXPECT_LT(ParseMana("B"), ParseMana("R"));
+  EXPECT_LT(ParseMana("R"), ParseMana("G"));
+}
+
+TEST(ManaCostLessThanRespectsMulticolor) {
+  EXPECT_LT(ParseMana("WU"), ParseMana("UB"));
+  EXPECT_LT(ParseMana("UB"), ParseMana("UR"));
+  EXPECT_LT(ParseMana("BR"), ParseMana("RG"));
+  EXPECT_LT(ParseMana("WG"), ParseMana("BR"));
+
+  EXPECT_LT(ParseMana("WUG"), ParseMana("BRG"));
 }
