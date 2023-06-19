@@ -158,6 +158,7 @@ public:
         "KhenraSpellspear",   //
         "InvasionofMercadia", //
         "OrderoftheMirror",   //
+        "ThrashingFrontliner",
 
         "EyesofGitaxias",    //
         "InvasionofRegatha", //
@@ -165,11 +166,12 @@ public:
         "PreeningChampion",  //
         "HarriedArtisan",    //
         "InvasionofSegovia", //
-        "WarTrainedSlasher", //
 
-        "FearlessSkald",      //
-        "HaloChargedSkaab",   // <- "CorruptionofTowashi",
-        "HaloChargedSkaab",   //
+        "WarTrainedSlasher", //
+        "OculusWhelp",       // <- "HaloChargedSkaab",   //
+        "FearlessSkald",     //
+        "HaloChargedSkaab",  // <- "CorruptionofTowashi",
+
         "ZurgoandOjutai",     //
         "ShivanBranchBurner", //
 

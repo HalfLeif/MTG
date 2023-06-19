@@ -53,8 +53,7 @@ void OptimizeDeck(const std::vector<Spell> &all_cards,
       FilterCards(all_cards, {
                                  // "MonasteryMentor",
                                  // "HaloChargedSkaab",
-                                 "ThrashingFrontliner",
-                                 // "OculusWhelp",
+
                                  // "FurtiveAnalyst",
                              });
   std::vector<Spell> exp_cards = FilterCards(all_cards, {
