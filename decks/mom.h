@@ -175,17 +175,17 @@ public:
         "OrderoftheMirror",   //
         "ThrashingFrontliner",
 
-        "EyesofGitaxias",    //
         "InvasionofRegatha", //
         "PreeningChampion",  //
         "PreeningChampion",  //
         "HarriedArtisan",    //
         "InvasionofSegovia", //
 
-        "WarTrainedSlasher", //
-        "OculusWhelp",       // <- "HaloChargedSkaab",   //
-        "FearlessSkald",     //
-        "HaloChargedSkaab",  // <- "CorruptionofTowashi",
+        "InvasionofKamigawa", //<- "EyesofGitaxias",    //
+        "WarTrainedSlasher",  //
+        "OculusWhelp",        // <- "HaloChargedSkaab",   //
+        "FearlessSkald",      //
+        "HaloChargedSkaab",   // <- "CorruptionofTowashi",
 
         "ZurgoandOjutai",     //
         "ShivanBranchBurner", //

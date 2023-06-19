@@ -53,12 +53,15 @@ void OptimizeDeck(const std::vector<Spell> &all_cards,
       FilterCards(all_cards, {
                                  // "MonasteryMentor",
                                  // "HaloChargedSkaab",
-
+                                 // "MeetingofMinds",
                                  // "FurtiveAnalyst",
+
                              });
-  std::vector<Spell> exp_cards = FilterCards(all_cards, {
-                                                            // "CutShort", //
-                                                        });
+  std::vector<Spell> exp_cards =
+      FilterCards(all_cards, {
+                                 // "CutShort",
+                                 // "AegartheFreezingFlame",
+                             });
 
   Library lib = Library::Builder()
                     .SetLimited()
@@ -81,9 +84,9 @@ int main(int argc, char *argv[]) {
   auto sealed = std::make_unique<Mom>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
-  ShowTop(all_cards, sealed.get());
+  // ShowTop(all_cards, sealed.get());
   // GenerateDeck(all_cards, sealed.get());
-  // OptimizeDeck(all_cards, sealed.get());
+  OptimizeDeck(all_cards, sealed.get());
   // OptimizeLands(kDMU);
 
   return 0;
