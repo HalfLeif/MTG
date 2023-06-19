@@ -133,6 +133,21 @@ public:
         "EyesofGitaxias",
         "InvasionofSegovia",
         "OculusWhelp",
+        // Round 3
+        "WrennsResolve",
+        "MeetingofMinds",
+        "EnduringBondwarden",
+        "AtraxasFall",
+        "VengeantEarth",
+        "FlywheelRacer",
+        "FinalFlourish",
+        "InspiredCharge",
+        "ScrappyBruiser",
+        "MirrorShieldHoplite",
+        "PolukranosReborn",
+        "InvasionofKamigawa",
+        "AegartheFreezingFlame",
+        "TangledSkyline",
     };
   }
 
