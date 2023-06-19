@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include <map>
 #include <string_view>
 
 #include "../common/container.h"
@@ -43,8 +44,7 @@ public:
     inline mapped_type value() const { return (*arr_)[pos_]; }
 
     std::pair<key_type, mapped_type> operator*() const {
-      const Color color = static_cast<Color>(pos_);
-      return {color, value()};
+      return {key(), value()};
     }
 
     bool operator==(const Iter &other) const {
@@ -70,6 +70,7 @@ public:
     const std::array<int, kEnd> *arr_ = nullptr;
   };
 
+  // Total amount of mana.
   mapped_type Total() const {
     size_t pos = static_cast<size_t>(Color::Total);
     return cost_[pos];
@@ -104,21 +105,39 @@ public:
 
   bool operator==(const ManaCost &other) const { return cost_ == other.cost_; }
 
+  bool operator!=(const ManaCost &other) const { return !(*this == other); }
+
   bool operator<(const ManaCost &other) const {
     if (this->Total() != other.Total()) {
-      this->Total() < other.Total();
+      return this->Total() < other.Total();
     }
     auto i = this->begin();
-    for (auto j = other.begin(); i != this->end() && j != other.end();
-         ++i, ++j) {
-      if (i.key() < j.key()) {
-        return true;
+    auto j = other.begin();
+    for (; i != this->end() && j != other.end(); ++i, ++j) {
+      if (i.key() != j.key()) {
+        return i.key() < j.key();
       }
     }
-    if (i == this->end()) {
+    if (i == this->end() && j != other.end()) {
+      // left side finished, but right side did not.
+      // hence left has more types of color.
       return true;
     }
     return false;
+  }
+
+  // Unique colors
+  ManaCost GetColors() const {
+    size_t count = 0;
+    ManaCost colors;
+    for (auto [color, value] : *this) {
+      if (color != Color::Total && color != Color::Colorless) {
+        ++count;
+        colors[color] = 1;
+      }
+    }
+    colors[Color::Total] = count;
+    return colors;
   }
 
 private:
@@ -291,6 +310,11 @@ TEST(ParseManaSimple) {
   EXPECT_EQ(ToString(ParseMana("BBG2")), "BBG2");
 }
 
+TEST(ManaCostEq) {
+  EXPECT_EQ(ParseMana("B3"), ParseMana("B3"));
+  EXPECT_NE(ParseMana("W3"), ParseMana("B3"));
+}
+
 TEST(ManaAddition) {
   ManaCost a = ParseMana("BB1");
   ManaCost b = ParseMana("R3");
@@ -343,12 +367,22 @@ TEST(ManaCostLessThanPrioritizesSize) {
   EXPECT_LT(ParseMana("BR"), ParseMana("WBR"));
 }
 
+TEST(ManaCostLessThanIdentity) {
+  EXPECT_FALSE(ParseMana("W") < ParseMana("W"));
+}
+
 TEST(ManaCostLessThanRespectsColor) {
   EXPECT_LT(ParseMana("1"), ParseMana("W"));
   EXPECT_LT(ParseMana("W"), ParseMana("U"));
   EXPECT_LT(ParseMana("U"), ParseMana("B"));
   EXPECT_LT(ParseMana("B"), ParseMana("R"));
   EXPECT_LT(ParseMana("R"), ParseMana("G"));
+
+  EXPECT_FALSE(ParseMana("W") < ParseMana("1"));
+  EXPECT_FALSE(ParseMana("U") < ParseMana("W"));
+  EXPECT_FALSE(ParseMana("B") < ParseMana("U"));
+  EXPECT_FALSE(ParseMana("R") < ParseMana("B"));
+  EXPECT_FALSE(ParseMana("G") < ParseMana("R"));
 }
 
 TEST(ManaCostLessThanRespectsMulticolor) {
@@ -356,6 +390,32 @@ TEST(ManaCostLessThanRespectsMulticolor) {
   EXPECT_LT(ParseMana("UB"), ParseMana("UR"));
   EXPECT_LT(ParseMana("BR"), ParseMana("RG"));
   EXPECT_LT(ParseMana("WG"), ParseMana("BR"));
-
   EXPECT_LT(ParseMana("WUG"), ParseMana("BRG"));
+
+  EXPECT_FALSE(ParseMana("UB") < ParseMana("WU"));
+  EXPECT_FALSE(ParseMana("UR") < ParseMana("UB"));
+  EXPECT_FALSE(ParseMana("RG") < ParseMana("BR"));
+  EXPECT_FALSE(ParseMana("BR") < ParseMana("WG"));
+  EXPECT_FALSE(ParseMana("BRG") < ParseMana("WUG"));
+}
+
+TEST(ManaCostNumColors) {
+  EXPECT_EQ(ParseMana("3").GetColors(), ParseMana(""));
+  EXPECT_EQ(ParseMana("W1").GetColors(), ParseMana("W"));
+  EXPECT_EQ(ParseMana("WWW").GetColors(), ParseMana("W"));
+  EXPECT_EQ(ParseMana("WWU").GetColors(), ParseMana("WU"));
+  EXPECT_EQ(ParseMana("BRG1").GetColors(), ParseMana("BRG"));
+}
+
+TEST(ManaCostSet) {
+  ManaCost w1 = ParseMana("W1").GetColors();
+  ManaCost w2 = ParseMana("W2").GetColors();
+  EXPECT_EQ(w1, w2);
+  EXPECT_FALSE(w1 < w2);
+  EXPECT_FALSE(w2 < w1);
+
+  std::map<ManaCost, int> map;
+  map[w1] = 5;
+  EXPECT_EQ(map[w1], 5);
+  EXPECT_EQ(map[w2], 5);
 }
