@@ -2,4 +2,5 @@ __pycache__
 
 data/*/input*
 data/*/output*
+data/*/*.html
 .vs/
