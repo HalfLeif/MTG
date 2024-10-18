@@ -45,7 +45,7 @@ public:
 
   // Cards among opened cards that are manually forced in the deck during deck
   // generation.
-  std::vector<std::string_view> forced_cards() const {
+  std::vector<std::string_view> forced_cards() const override {
     return {
         "Trick",
         "Trick",

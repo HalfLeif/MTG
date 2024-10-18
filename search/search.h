@@ -31,6 +31,13 @@ Metrics AverageScore(const Library &lib, const Deck &deck,
 }
 
 struct ParamResult {
+  // For some reason, this was not generated implicitly by clang++.
+  ParamResult(ParamResult&&) = default;
+  ParamResult(const ParamResult&) = delete;
+
+  ParamResult& operator=(ParamResult&&) = default;
+  ParamResult& operator=(const ParamResult&) = delete;
+
   Metrics metrics;
   Param param;
   CardContributions contributions;

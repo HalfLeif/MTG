@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstdint>
 #include <iostream>
 #include <map>
@@ -160,7 +161,7 @@ private:
   }
 
   // Consider 0 values to not be present.
-  std::array<int, kEnd> cost_;
+  std::array<int, kEnd> cost_{};
 };
 
 void AddUniversalColor(ManaCost *mana_pool) {
