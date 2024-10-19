@@ -36,7 +36,8 @@ double PointsFromPlayedLand(const Land &land, const Player &player,
 
 void TapManaCreatures(const Deck &battlefield, ManaCost *mana_pool) {
   for (const SpellView spell : battlefield.spells) {
-    if (spell.name() == "Caryatid") {
+    if (spell.name() == "Caryatid" ||
+        spell.name() == "PatchworkBanner") {
       AddUniversalColor(mana_pool);
       ++(*mana_pool)[Color::Total];
     }
