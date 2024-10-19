@@ -14,6 +14,7 @@
 #include "core/library.h"
 #include "core/sealed_deck.h"
 #include "decks/bolas.h"
+#include "decks/bmb.h"
 #include "decks/bro.h"
 #include "decks/dmu.h"
 #include "decks/dnd.h"
@@ -35,8 +36,8 @@ constexpr bool DEBUG_ON = false;
 constexpr bool PARANOIA = true;
 
 void OptimizeLands(const Library &lib) {
-  ThreadsafeRandom random(/*seed=*/24);
-  CompareParams(lib, random, 2000);
+  ThreadsafeRandom random(/*seed=*/36);
+  CompareParams(lib, random, 5000);
 }
 
 void GenerateDeck(const std::vector<Spell> &all_cards, SealedDeck *sealed) {
@@ -75,19 +76,27 @@ void OptimizeDeck(const std::vector<Spell> &all_cards,
   OptimizeLands(lib);
 }
 
-int main(int argc, char *argv[]) {
-  std::cout << "\n -- Running tests --\n";
-  RunAllTests();
-  std::cout << "\n -- Started program --\n";
-  // RunAllBenchmarks();
-
+void RunSealedDeck() {
   auto sealed = std::make_unique<Mom>();
   std::vector<Spell> all_cards = ReadCards(std::string(sealed->data_path()));
 
   // ShowTop(all_cards, sealed.get());
   // GenerateDeck(all_cards, sealed.get());
   OptimizeDeck(all_cards, sealed.get());
-  // OptimizeLands(kDMU);
+}
+
+void RunLibrary() {
+  OptimizeLands(kBMB);
+}
+
+int main(int argc, char *argv[]) {
+  std::cout << "\n -- Running tests --\n";
+  RunAllTests();
+  std::cout << "\n -- Started program --\n";
+  // RunAllBenchmarks();
+
+  // RunSealedDeck();
+  RunLibrary();
 
   return 0;
 }

@@ -30,6 +30,8 @@ struct Spell {
     point_bonus = bonus;
     return *this;
   }
+
+  // TODO add mana ability - tap for mana
 };
 
 struct SpellView {

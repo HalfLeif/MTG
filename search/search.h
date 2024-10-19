@@ -15,7 +15,7 @@
 #include "../core/param.h"
 #include "../search/metrics.h"
 
-constexpr int kTurns = 8;
+constexpr int kTurns = 7;
 
 Metrics AverageScore(const Library &lib, const Deck &deck,
                      const MulliganStrategy &strategy, int turns, int games,
@@ -136,10 +136,6 @@ std::vector<Param> ManualParams(const Library &lib) {
 
 Param CompareParams(const Library &lib, ThreadsafeRandom &rand, int games = 450,
                     bool print = true) {
-  // constexpr int kGames = 100;
-  // constexpr int kGames = 450;
-  // constexpr int kGames = 1000;
-  // constexpr int kGames = 2000;
 
   // std::vector<Param> params = ManualParams(lib);
   std::vector<Param> params = GoodParams(lib);
