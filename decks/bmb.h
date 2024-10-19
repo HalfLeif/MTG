@@ -16,7 +16,9 @@ inline Library kBMB =
         .AddSpell(MakeSpell("WB1", 1, "Zoraline").AddOnetimeAbility("WB").AddBonus(1))
         .AddSpell(MakeSpell("W2", 1, "Rabbit3/3"))
         .AddSpell(MakeSpell("W2", 1, "HopToIt"))
-        .AddSpell(MakeSpell("B2", 1, "DeathRat"), Experiment::base)
+
+        // DeathSquirrel is more useful to keep than DeathRat.
+        // .AddSpell(MakeSpell("B2", 1, "DeathRat"), Experiment::exp)
 
         .AddSpell(MakeSpell("W3", 1, "IntrepidRabbit+1"))
         .AddSpell(MakeSpell("W3", 1, "IntrepidRabbit+1"))
@@ -24,6 +26,8 @@ inline Library kBMB =
         .AddSpell(MakeSpell("W3", 1, "StarCharterBat"))
         .AddSpell(MakeSpell("W3", 1, "VigilanceBat"))
 
+        // Keeping Hamster, and DeathRat -> ShortBow seems useful
+        .AddSpell(MakeSpell("2", 0, "ShortBow").AddOnetimeAbility("1"))
         .AddSpell(MakeSpell("3", 2, "PatchworkBanner").AddBonus(-0.5))
         .AddSpell(MakeSpell("B3", 1, "LifestealArtifact"))
 
@@ -35,8 +39,7 @@ inline Library kBMB =
 
         // Apparently not worth going to 16 lands...
         // Even with mana from PatchworkBanner
-        // However keeping Hamster, and DeathRat -> ShortBow seems useful?
-        .AddSpell(MakeSpell("2", 0, "ShortBow").AddOnetimeAbility("1"), Experiment::exp)
+
 
         .AddLand(Shore())
 
