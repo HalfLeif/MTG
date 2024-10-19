@@ -16,6 +16,7 @@ inline Library kBMB =
         .AddSpell(MakeSpell("WB1", 1, "Zoraline").AddOnetimeAbility("WB").AddBonus(1))
         .AddSpell(MakeSpell("W2", 1, "Rabbit3/3"))
         .AddSpell(MakeSpell("W2", 1, "HopToIt"))
+        .AddSpell(MakeSpell("B2", 1, "DeathRat"))
 
         .AddSpell(MakeSpell("W3", 1, "IntrepidRabbit+1"))
         .AddSpell(MakeSpell("W3", 1, "IntrepidRabbit+1"))
@@ -29,7 +30,6 @@ inline Library kBMB =
         .AddSpell(MakeSpell("W", 0, "CombatTrick+2/2"))
         .AddSpell(MakeSpell("W1", 0, "BatSonar"))
         .AddSpell(MakeSpell("W1", 0, "BatSonar"))
-        .AddSpell(MakeSpell("W1", 0, "BatSonar"))
         .AddSpell(MakeSpell("B2", 0, "DestroyCreature"))
         .AddSpell(MakeSpell("WW2", 0, "RabbitResponse"))
 
@@ -41,39 +41,40 @@ inline Library kBMB =
 
         .Build();
 
-/* exp=ShortBow 16 lands
-39.5 (50.0 - 10.5) exp Lands { B=4 W=11 Shore=1 }
-39.5 (49.5 - 9.9) Lands { B=3 W=13 Shore=1 }
-39.6 (50.5 - 10.9) exp Lands { B=7 W=8 Shore=1 }
-40.4 (50.8 - 10.4) exp Lands { B=5 W=10 Shore=1 }
-40.5 (50.9 - 10.4) Lands { B=8 W=8 Shore=1 }
-40.5 (50.3 - 9.8) Lands { B=4 W=12 Shore=1 }
-40.7 (51.0 - 10.3) exp Lands { B=6 W=9 Shore=1 }
-41.2 (51.3 - 10.1) Lands { B=7 W=9 Shore=1 }
-41.2 (51.0 - 9.8) Lands { B=5 W=11 Shore=1 }
-41.3 (51.1 - 9.9) Lands { B=6 W=10 Shore=1 }
+/* exp=ShortBow
+39.6 (50.2 - 10.6) exp Lands { B=9 W=7 Shore=1 }
+40.1 (50.4 - 10.4) exp Lands { B=8 W=8 Shore=1 }
+40.1 (50.0 - 9.8) exp Lands { B=5 W=11 Shore=1 }
+40.5 (50.4 - 9.9) base Lands { B=4 W=12 Shore=1 }
+40.7 (50.6 - 9.9) exp Lands { B=6 W=10 Shore=1 }
+40.8 (50.7 - 9.9) exp Lands { B=7 W=9 Shore=1 }
+41.2 (51.3 - 10.1) base Lands { B=8 W=8 Shore=1 }
+41.2 (51.0 - 9.8) base Lands { B=5 W=11 Shore=1 }
+41.6 (51.3 - 9.8) base Lands { B=6 W=10 Shore=1 }
+41.7 (51.6 - 9.9) base Lands { B=7 W=9 Shore=1 }
 
-    5263 CombatTrick+2/2 (W)
-    5588 BatSonar (W1)
-    5588 BatSonar (W1)
-    5588 BatSonar (W1)
-    8614 DestroyCreature (B2)
-   10393 RabbitResponse (WW2)
-   10759 DeathSquirrel (B1)
-   10929 BatBird (W1)
-   10934 AwesomeClericBatGrower (W1)
-   11821 MrHamster (W1)
-   12160 PumpRabbit (W1)
-   12162 LifeBat (3)
-   12162 LifeBat (3)
-   12169 PatchworkBanner (3)
-   12569 HopToIt (W2)
-   12587 Rabbit3/3 (W2)
-   13189 LifestealArtifact (B3)
-   13228 VigilanceBat (W3)
-   13612 StarCharterBat (W3)
-   13657 IntrepidRabbit+1 (W3)
-   13657 IntrepidRabbit+1 (W3)
-   14524 DarkAugur+1 (BB2)
-   19693 Zoraline (WB1)
+    5026 BatSonar (W1)
+    5026 BatSonar (W1)
+    5268 CombatTrick+2/2 (W)
+    8501 DestroyCreature (B2)
+   10089 RabbitResponse (WW2)
+   10396 DeathSquirrel (B1)
+   11132 BatBird (W1)
+   11136 AwesomeClericBatGrower (W1)
+   11174 LifeBat (3)
+   11174 LifeBat (3)
+   11294 PatchworkBanner (3)
+   11310 DeathRat (B2)
+   11385 Rabbit3/3 (W2)
+   11440 HopToIt (W2)
+   11726 MrHamster (W1)
+   11795 PumpRabbit (W1)
+   13626 LifestealArtifact (B3)
+   13683 IntrepidRabbit+1 (W3)
+   13683 IntrepidRabbit+1 (W3)
+   13688 StarCharterBat (W3)
+   14183 VigilanceBat (W3)
+   16082 DarkAugur+1 (BB2)
+   19783 Zoraline (WB1)
+
 */
