@@ -6,9 +6,9 @@ inline Library kBMB =
     Library::Builder()
         .SetLimited()
         .AddSpell(MakeSpell("W1", 1, "PumpRabbit").AddAbility("W3"))
-        .AddSpell(MakeSpell("W1", 1, "MrHamster"))
+        .AddSpell(MakeSpell("W1", 1, "MrHamster"), Experiment::base)
         .AddSpell(MakeSpell("W1", 1, "BatBird"))
-        .AddSpell(MakeSpell("B1", 1, "DeathSquirrel"))
+        .AddSpell(MakeSpell("B1", 1, "DeathSquirrel").AddOnetimeAbility("WB2"))
         .AddSpell(MakeSpell("W1", 0, "AwesomeClericBatGrower").AddBonus(1))
 
         .AddSpell(MakeSpell("3", 1, "LifeBat"))
@@ -18,7 +18,9 @@ inline Library kBMB =
         .AddSpell(MakeSpell("W2", 1, "HopToIt"))
 
         // DeathSquirrel is more useful to keep than DeathRat.
-        // .AddSpell(MakeSpell("B2", 1, "DeathRat"), Experiment::exp)
+        // Hamster is more useful to keep than DeathRat.
+        // ShortBow is more useful to keep than DeathRat.
+        .AddSpell(MakeSpell("B2", 1, "DeathRat"), Experiment::exp)
 
         .AddSpell(MakeSpell("W3", 1, "IntrepidRabbit+1"))
         .AddSpell(MakeSpell("W3", 1, "IntrepidRabbit+1"))
